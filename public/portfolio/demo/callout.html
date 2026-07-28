@@ -1,0 +1,243 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--w:#fff;--g1:#f4f4f4;--g2:#e6e6e6;--g3:#ccc;--g4:#999;--g5:#666;--g6:#333;--g7:#111;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--g7);background:var(--g1);font-size:14px;line-height:1.45}
+  .titlebar{background:var(--g7);color:var(--w);padding:10px 20px;font-size:13px;letter-spacing:.02em}
+  .titlebar .crumb{color:var(--g3)} .titlebar b{color:var(--w);font-weight:600}
+  .split{display:grid;grid-template-columns:360px 1fr;gap:0;min-height:calc(100vh - 39px)}
+  @media(max-width:900px){.split{grid-template-columns:1fr}}
+  /* editor */
+  .editor{background:var(--w);border-right:1px solid var(--g2);padding:22px 20px}
+  .editor h2{font-size:16px;margin:0 0 3px} .editor .esub{margin:0 0 20px;color:var(--g5);font-size:12px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:12px;color:var(--g6);font-weight:600;margin-bottom:6px}
+  .field input[type=text],.field textarea{width:100%;font:inherit;border:1px solid var(--g3);
+    border-radius:6px;padding:9px 11px;background:var(--w);color:var(--g7)}
+  .field textarea{resize:vertical;min-height:70px}
+  .field input:focus,.field textarea:focus{outline:0;border-color:var(--g5);box-shadow:0 0 0 3px var(--g1)}
+  .seg-label{font-size:12px;color:var(--g6);font-weight:600;margin-bottom:6px;display:block}
+  .segmented{display:flex;border:1px solid var(--g3);border-radius:6px;overflow:hidden;margin-bottom:16px}
+  .segmented button{flex:1;font:inherit;font-size:12px;border:0;background:var(--w);padding:8px;cursor:pointer;color:var(--g6);border-right:1px solid var(--g2)}
+  .segmented button:last-child{border-right:0}
+  .segmented button.sel{background:var(--g6);color:var(--w);font-weight:600}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--g1)}
+  .toggle-row .t-lab{font-size:13px;color:var(--g6)}
+  .switch{width:38px;height:22px;border-radius:11px;background:var(--g3);position:relative;cursor:pointer;flex:none}
+  .switch.on{background:var(--g6)}
+  .switch::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--w);top:3px;left:3px;transition:.15s}
+  .switch.on::after{left:19px}
+  .imgswap{display:flex;gap:8px;margin-top:8px}
+  .imgswap button{flex:1;font:inherit;font-size:11px;border:1px solid var(--g3);background:var(--w);border-radius:6px;padding:8px 4px;cursor:pointer;color:var(--g6)}
+  .imgswap button.sel{border-color:var(--g6);background:var(--g1);font-weight:600;color:var(--g7)}
+  .tip{margin-top:8px;font-size:11px;color:var(--g4);line-height:1.5}
+  /* preview stage */
+  .stage{padding:28px 24px;display:flex;flex-direction:column;align-items:center}
+  .stagehead{width:100%;max-width:760px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .stagehead .pill{font-size:11px;color:var(--g5);border:1px solid var(--g3);border-radius:20px;padding:3px 11px;background:var(--w)}
+  .stagehead .live{display:inline-flex;align-items:center;gap:6px}
+  .stagehead .live .rec{width:8px;height:8px;border-radius:50%;background:var(--g6);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .browser{width:100%;max-width:760px;background:var(--w);border:1px solid var(--g3);border-radius:10px;
+    overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.10)}
+  .chrome{background:var(--g1);border-bottom:1px solid var(--g2);display:flex;align-items:center;gap:7px;padding:9px 12px}
+  .chrome .dot{width:10px;height:10px;border-radius:50%;background:var(--g3)}
+  .chrome .url{flex:1;margin-left:8px;background:var(--w);border:1px solid var(--g2);border-radius:5px;
+    font-size:11px;color:var(--g5);padding:4px 10px}
+  /* fake article behind */
+  .site{padding:26px 30px 30px;background:var(--w)}
+  .fake{color:var(--g3);user-select:none}
+  .fake .kicker{width:120px;height:9px;background:var(--g2);border-radius:3px;margin-bottom:12px}
+  .fake .h{height:20px;background:var(--g2);border-radius:4px;margin-bottom:9px}
+  .fake .h.w1{width:88%} .fake .h.w2{width:66%}
+  .fake .meta{width:180px;height:8px;background:var(--g1);border-radius:3px;margin:14px 0 20px}
+  .fake .p{height:8px;background:var(--g1);border-radius:3px;margin-bottom:9px}
+  .fake .p.w1{width:100%}.fake .p.w2{width:97%}.fake .p.w3{width:92%}.fake .p.w4{width:80%}
+  /* THE UNIT */
+  .unit{margin:22px 0;border:1px solid var(--g3);border-radius:12px;padding:22px 24px;background:var(--g1);
+    text-align:center;transition:.18s}
+  .unit.sq{border-radius:2px}
+  .unit.dark{background:var(--g7);border-color:var(--g7)}
+  .unit.dark .u-head,.unit.dark .u-body{color:var(--w)}
+  .unit .u-media{height:96px;border-radius:8px;margin-bottom:16px;
+    background:repeating-linear-gradient(45deg,var(--g2),var(--g2)8px,var(--g1)8px,var(--g1)16px);
+    display:flex;align-items:center;justify-content:center;color:var(--g5);font-size:11px;border:1px solid var(--g2)}
+  .unit.dark .u-media{background:repeating-linear-gradient(45deg,var(--g6),var(--g6)8px,var(--g5)8px,var(--g5)16px);color:var(--g2);border-color:var(--g6)}
+  .unit .u-media[hidden]{display:none}
+  .u-head{font-size:22px;font-weight:600;color:var(--g7);margin:0 0 8px;line-height:1.25}
+  .u-head.bold{font-weight:800}
+  .u-head.condensed{letter-spacing:-.02em;font-weight:700}
+  .u-divider{height:1px;background:var(--g3);width:60px;margin:10px auto 12px}
+  .unit.dark .u-divider{background:var(--g5)}
+  .u-body{font-size:14px;color:var(--g5);margin:0 auto 18px;max-width:420px;line-height:1.5}
+  .u-btn{display:inline-block;font:inherit;font-weight:600;font-size:14px;border:0;border-radius:8px;
+    padding:11px 26px;cursor:pointer;background:var(--g6);color:var(--w);transition:.18s}
+  .unit.sq .u-btn{border-radius:2px}
+  .u-btn.outline{background:var(--w);color:var(--g7);border:1px solid var(--g5)}
+  .unit.dark .u-btn.outline{background:transparent;color:var(--w);border-color:var(--g3)}
+  .u-align-left{text-align:left} .u-align-left .u-divider{margin-left:0}
+  .u-align-right{text-align:right} .u-align-right .u-divider{margin-right:0;margin-left:auto}
+  .caption{max-width:760px;margin:14px auto 0;text-align:center;color:var(--g5);font-size:12px;font-style:italic}
+  .pagefoot{margin:26px auto 8px;color:var(--g4);font-size:11px;text-align:center;max-width:760px;line-height:1.6}
+</style>
+
+<div class="titlebar"><span class="crumb"><b>Callout Admin</b></span> <span class="crumb">·</span> <span class="crumb">Preview · Summer Newsletter Signup</span></div>
+
+<div class="split">
+  <!-- LEFT: editor -->
+  <div class="editor">
+    <h2>Compose &amp; preview</h2>
+    <p class="esub">Edit here — the unit on the right updates as you type.</p>
+
+    <div class="field">
+      <label>Headline</label>
+      <input type="text" id="in-head" value="Get the Acme Weekly in your inbox">
+    </div>
+    <div class="field">
+      <label>Body copy</label>
+      <textarea id="in-body">The best of Acme Media, hand-picked every Friday. No spam, unsubscribe anytime.</textarea>
+    </div>
+    <div class="field">
+      <label>Button label</label>
+      <input type="text" id="in-btn" value="Subscribe free">
+    </div>
+
+    <span class="seg-label">Headline style</span>
+    <div class="segmented" id="seg-style">
+      <button data-v="" class="sel">Regular</button>
+      <button data-v="bold">Bold</button>
+      <button data-v="condensed">Condensed</button>
+    </div>
+
+    <span class="seg-label">Button style</span>
+    <div class="segmented" id="seg-btn">
+      <button data-v="" class="sel">Solid</button>
+      <button data-v="outline">Outline</button>
+    </div>
+
+    <span class="seg-label">Alignment</span>
+    <div class="segmented" id="seg-align">
+      <button data-v="">Left</button>
+      <button data-v="" class="sel">Center</button>
+      <button data-v="">Right</button>
+    </div>
+
+    <div class="toggle-row"><span class="t-lab">High-contrast theme</span><span class="switch" id="sw-dark"></span></div>
+    <div class="toggle-row"><span class="t-lab">Rounded corners</span><span class="switch on" id="sw-round"></span></div>
+    <div class="toggle-row"><span class="t-lab">Divider rule</span><span class="switch on" id="sw-div"></span></div>
+    <div class="toggle-row"><span class="t-lab">Show image</span><span class="switch on" id="sw-img"></span></div>
+
+    <span class="seg-label" style="margin-top:16px">Image</span>
+    <div class="imgswap" id="imgswap">
+      <button class="sel" data-l="Header photo">Header</button>
+      <button data-l="Product shot">Product</button>
+      <button data-l="Illustration">Illustration</button>
+    </div>
+    <div class="tip">Every keystroke and toggle re-renders the unit on the right with the production renderer — no publish needed to see the truth.</div>
+  </div>
+
+  <!-- RIGHT: preview stage -->
+  <div class="stage">
+    <div class="stagehead">
+      <span class="pill live"><span class="rec"></span> Live preview</span>
+      <span class="pill">Desktop · acmemedia.example</span>
+    </div>
+
+    <div class="browser">
+      <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="url">https://www.acmemedia.example/culture/the-long-read</span></div>
+      <div class="site">
+        <div class="fake">
+          <div class="kicker"></div>
+          <div class="h w1"></div><div class="h w2"></div>
+          <div class="meta"></div>
+          <div class="p w1"></div><div class="p w2"></div><div class="p w3"></div>
+        </div>
+
+        <!-- the live unit -->
+        <div class="unit" id="unit">
+          <div class="u-media" id="u-media">Header photo</div>
+          <h3 class="u-head" id="u-head">Get the Acme Weekly in your inbox</h3>
+          <div class="u-divider" id="u-div"></div>
+          <p class="u-body" id="u-body">The best of Acme Media, hand-picked every Friday. No spam, unsubscribe anytime.</p>
+          <button class="u-btn" id="u-btn">Subscribe free</button>
+        </div>
+
+        <div class="fake">
+          <div class="p w1"></div><div class="p w3"></div><div class="p w2"></div><div class="p w4"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="caption">Live preview rendered by the same engine that serves the unit to readers.</div>
+    <div class="pagefoot">Illustrative reconstruction from memory for portfolio purposes. Not a BuzzFeed work product. All data fictional.</div>
+  </div>
+</div>
+
+<script>
+  var head = document.getElementById('u-head');
+  var body = document.getElementById('u-body');
+  var btn  = document.getElementById('u-btn');
+  var unit = document.getElementById('unit');
+  var media= document.getElementById('u-media');
+  var divi = document.getElementById('u-div');
+
+  // live text binding
+  document.getElementById('in-head').addEventListener('input', function(e){
+    head.textContent = e.target.value || 'Headline goes here';
+  });
+  document.getElementById('in-body').addEventListener('input', function(e){
+    body.textContent = e.target.value || 'Supporting body copy appears here.';
+  });
+  document.getElementById('in-btn').addEventListener('input', function(e){
+    btn.textContent = e.target.value || 'Button';
+  });
+
+  // segmented control helper
+  function seg(id, apply){
+    var g = document.getElementById(id);
+    g.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){
+        g.querySelectorAll('button').forEach(function(x){x.classList.remove('sel');});
+        b.classList.add('sel');
+        apply(b.getAttribute('data-v'), b);
+      });
+    });
+  }
+  seg('seg-style', function(v){
+    head.classList.remove('bold','condensed');
+    if(v) head.classList.add(v);
+  });
+  seg('seg-btn', function(v){
+    btn.classList.toggle('outline', v === 'outline');
+  });
+  seg('seg-align', function(v, b){
+    unit.classList.remove('u-align-left','u-align-right');
+    var lab = b.textContent.trim();
+    if(lab === 'Left') unit.classList.add('u-align-left');
+    if(lab === 'Right') unit.classList.add('u-align-right');
+  });
+
+  // switches
+  function sw(id, fn){
+    var s = document.getElementById(id);
+    s.addEventListener('click', function(){ s.classList.toggle('on'); fn(s.classList.contains('on')); });
+  }
+  sw('sw-dark',  function(on){ unit.classList.toggle('dark', on); });
+  sw('sw-round', function(on){ unit.classList.toggle('sq', !on); });
+  sw('sw-div',   function(on){ divi.style.display = on ? '' : 'none'; });
+  sw('sw-img',   function(on){ media.hidden = !on; });
+
+  // image swap
+  var iw = document.getElementById('imgswap');
+  iw.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      iw.querySelectorAll('button').forEach(function(x){x.classList.remove('sel');});
+      b.classList.add('sel');
+      media.textContent = b.getAttribute('data-l');
+    });
+  });
+</script>
