@@ -1,0 +1,124 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Support Triage — system architecture (illustrative)</title>
+<style>
+  /* Clean-room diagram: grayscale, system font, fictional context — matches the
+     wireframe set's conventions (see PLAN-clean-room-wireframes.md). */
+  *{box-sizing:border-box;margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:#f5f5f5;color:#1a1a1a;padding:40px 48px 28px}
+  h1{font-size:15px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#444;margin-bottom:6px}
+  .sub{font-size:12.5px;color:#777;margin-bottom:18px;max-width:820px;line-height:1.45}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+  .chip{font-size:11px;font-weight:600;letter-spacing:.3px;color:#555;background:#ececec;
+        border:1px solid #d2d2d2;border-radius:999px;padding:4px 11px}
+  .chip .dot{color:#999}
+  .lanes{display:flex;align-items:stretch;gap:0}
+  .lane{flex:1;display:flex;flex-direction:column;min-width:0}
+  .lane .hdr{font-size:11px;font-weight:700;letter-spacing:.7px;color:#8a8a8a;text-transform:uppercase;
+             padding:0 4px 9px;border-bottom:2px solid #d7d7d7;margin-bottom:14px}
+  .lane .hdr .ln{color:#bcbcbc;margin-right:6px}
+  .stack{display:flex;flex-direction:column;gap:12px}
+  .box{background:#fff;border:1.5px solid #c9c9c9;border-radius:8px;padding:14px 14px}
+  .box.accent{border-color:#a9a9a9;border-width:2px}
+  .box .t{font-size:13.5px;font-weight:700;margin-bottom:5px}
+  .box .d{font-size:11.5px;color:#666;line-height:1.45}
+  .verdicts{display:flex;flex-direction:column;gap:6px;margin-top:9px}
+  .v{display:flex;align-items:center;justify-content:space-between;gap:8px;
+     background:#f4f4f4;border:1px solid #dcdcdc;border-radius:5px;padding:5px 8px}
+  .v .vl{font-size:11px;font-weight:600;color:#444}
+  .v .vd{font-size:11px;color:#777}
+  .v .score{font-size:11px;font-weight:700;color:#333;background:#e2e2e2;border-radius:4px;padding:2px 7px;white-space:nowrap}
+  .note{font-size:11px;color:#7d7d7d;font-style:italic;line-height:1.4;padding:2px 2px 0}
+  .gate{font-size:11px;color:#666;line-height:1.4}
+  .sources{display:flex;flex-direction:column;gap:5px;margin-top:8px}
+  .src{font-size:11.5px;color:#555;background:#f4f4f4;border:1px solid #dcdcdc;border-radius:5px;padding:5px 8px}
+  .src b{color:#333;font-weight:600}
+  .colarrow{align-self:center;padding:0 12px;color:#a2a2a2;font-size:26px;flex:none}
+  .downarrow{align-self:center;color:#b3b3b3;font-size:17px;line-height:1;padding:1px 0}
+  .caption{margin-top:24px;font-size:12px;font-style:italic;color:#777;max-width:900px;line-height:1.5}
+  .disclaimer{margin-top:14px;font-size:10.5px;color:#9a9a9a}
+</style>
+<h1>AI Support Triage — system architecture</h1>
+<div class="sub">An always-on agent that runs the recurring first-pass triage on incoming support tickets end to end — understood, answered, and routed on arrival, with a human owning every write.</div>
+<div class="chips">
+  <span class="chip">golden-set evals</span>
+  <span class="chip">human at the controls</span>
+  <span class="chip">production</span>
+</div>
+
+<div class="lanes">
+
+  <!-- LANE A -->
+  <div class="lane">
+    <div class="hdr"><span class="ln">A</span>Intake</div>
+    <div class="stack">
+      <div class="box">
+        <div class="t">Ticket source</div>
+        <div class="d">A support ticket arrives — summary, description, labels, reporter, priority.</div>
+      </div>
+      <div class="downarrow">↓</div>
+      <div class="box accent">
+        <div class="t">Two-call classifier</div>
+        <div class="d">One pass, two independent calls — each with its own confidence score.</div>
+        <div class="verdicts">
+          <div class="v"><span class="vl">Handling</span><span class="vd">answer-now · code-fix · backlog</span><span class="score">83.5%</span></div>
+          <div class="v"><span class="vl">Routing</span><span class="vd">which system owns it</span><span class="score">76%</span></div>
+        </div>
+      </div>
+      <div class="note">Trained on 2 yrs of resolved tickets — and it learns from every human correction.</div>
+    </div>
+  </div>
+
+  <div class="colarrow">→</div>
+
+  <!-- LANE B -->
+  <div class="lane">
+    <div class="hdr"><span class="ln">B</span>Investigation</div>
+    <div class="stack">
+      <div class="box accent">
+        <div class="t">Evidence-gathering agent</div>
+        <div class="d">Gated — fires only when confidence is low. Runs a live analysis instead of reasoning from the ticket text alone.</div>
+        <div class="sources">
+          <div class="src"><b>Live system</b> — running-service telemetry &amp; state</div>
+          <div class="src"><b>Code index</b> — service ownership &amp; boundaries</div>
+          <div class="src"><b>Telemetry</b> — fleet-wide error rates</div>
+          <div class="src"><b>Internal docs</b> — prior resolutions &amp; runbooks</div>
+        </div>
+      </div>
+      <div class="downarrow">↓</div>
+      <div class="box">
+        <div class="t">Drafts fix + user reply</div>
+        <div class="d">Synthesizes findings into an evidence-cited draft fix spec and a draft reply for the end user — both marked DRAFT.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="colarrow">→</div>
+
+  <!-- LANE C -->
+  <div class="lane">
+    <div class="hdr"><span class="ln">C</span>Human gate</div>
+    <div class="stack">
+      <div class="box accent">
+        <div class="t">Reviewer approves</div>
+        <div class="d gate">A human reviews the draft and approves. The approval is the gate — nothing auto-sends. Incidents: the agent flags on-call and stops.</div>
+      </div>
+      <div class="downarrow">↓</div>
+      <div class="box">
+        <div class="t">Posts to chat + ticketing</div>
+        <div class="d">On approval, the update posts to the support thread and the ticket — work happening in the open.</div>
+      </div>
+      <div class="downarrow">↺</div>
+      <div class="box">
+        <div class="t">Correction → training label</div>
+        <div class="d">Every human confirm or correction becomes a fresh training example — the flywheel that keeps sharpening where production shows it's weak.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="caption">A two-phase model with confidence gating: fast pattern-recognition on every ticket, a deeper evidence pass only when it's unsure — right on what matters, honest about its confidence, and gated where it's weak.</div>
+<div class="disclaimer">Illustrative reconstruction from memory. All data fictional.</div>

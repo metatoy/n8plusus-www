@@ -1,0 +1,96 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamic image-template platform — render flow (illustrative)</title>
+<style>
+  /* Clean-room diagram: grayscale, system font, fictional context — matches the
+     wireframe set's conventions (see PLAN-clean-room-wireframes.md). */
+  *{box-sizing:border-box;margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:#f5f5f5;color:#1a1a1a;padding:40px 48px 28px}
+  h1{font-size:15px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#444;margin-bottom:6px}
+  .sub{font-size:12.5px;color:#777;margin-bottom:18px;max-width:820px;line-height:1.45}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+  .chip{font-size:11px;font-weight:600;letter-spacing:.3px;color:#555;background:#ececec;
+        border:1px solid #d2d2d2;border-radius:999px;padding:4px 11px}
+  .pipe{display:flex;align-items:stretch;gap:0}
+  .step{flex:1;background:#fff;border:1.5px solid #c9c9c9;border-radius:8px;padding:15px 14px;min-width:0}
+  .step.core{border-color:#a9a9a9;border-width:2px}
+  .step .n{font-size:10.5px;font-weight:700;color:#a5a5a5;letter-spacing:.6px;margin-bottom:7px}
+  .step .t{font-size:13.5px;font-weight:700;margin-bottom:5px}
+  .step .d{font-size:11.5px;color:#666;line-height:1.45}
+  .arrow{align-self:center;padding:0 9px;color:#a2a2a2;font-size:22px;flex:none}
+  .fanlabel{font-size:11px;font-weight:700;letter-spacing:.7px;color:#8a8a8a;text-transform:uppercase;
+            margin:30px 0 14px;padding-bottom:8px;border-bottom:2px solid #d7d7d7}
+  .fan{display:flex;gap:16px}
+  .surface{flex:1;background:#fff;border:1.5px solid #c9c9c9;border-radius:8px;padding:15px 15px}
+  .surface .st{font-size:13px;font-weight:700;margin-bottom:6px}
+  .surface .sd{font-size:11.5px;color:#666;line-height:1.45}
+  .steps-inline{margin-top:9px;display:flex;flex-direction:column;gap:5px}
+  .si{font-size:11px;color:#555;background:#f4f4f4;border:1px solid #dcdcdc;border-radius:5px;padding:5px 8px}
+  .si b{color:#333;font-weight:600}
+  .caption{margin-top:24px;font-size:12px;font-style:italic;color:#777;max-width:900px;line-height:1.5}
+  .disclaimer{margin-top:14px;font-size:10.5px;color:#9a9a9a}
+</style>
+<h1>Dynamic image-template platform — render flow</h1>
+<div class="sub">Server-rendered React composited to shareable images at scale — every result gets a personalized, on-brand image generated on the fly, then fanned out to the surfaces that need it.</div>
+<div class="chips">
+  <span class="chip">+176% desktop / +82% mobile share engagement (A/B)</span>
+  <span class="chip">59% → 69% return via shares</span>
+</div>
+
+<div class="pipe">
+  <div class="step">
+    <div class="n">1 · INPUT</div>
+    <div class="t">Content / data</div>
+    <div class="d">The result, its variables, and any dynamic inputs — governed by an upload security model that decides what may be rendered.</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step">
+    <div class="n">2 · TEMPLATE</div>
+    <div class="t">Template registry</div>
+    <div class="d">A library of React templates — the on-brand layouts each output is composed from.</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step core">
+    <div class="n">3 · RENDER</div>
+    <div class="t">Server-side render</div>
+    <div class="d">A headless browser renders the chosen template with its data — React composited to a pixel-perfect image.</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step">
+    <div class="n">4 · IMAGE</div>
+    <div class="t">Composited share image</div>
+    <div class="d">Output at OG / social sizes — the personalized artifact worth showing off.</div>
+  </div>
+  <div class="arrow">→</div>
+  <div class="step">
+    <div class="n">5 · DELIVERY</div>
+    <div class="t">CDN</div>
+    <div class="d">Cached and served at scale — fast to load in any feed or preview card.</div>
+  </div>
+</div>
+
+<div class="fanlabel">Surfaces the image serves</div>
+<div class="fan">
+  <div class="surface">
+    <div class="st">a · Automated social posts</div>
+    <div class="sd">Generated images post on schedule to social channels — no manual asset production per post.</div>
+  </div>
+  <div class="surface">
+    <div class="st">b · Personalized quiz share cards</div>
+    <div class="sd">Each quiz taker's result becomes a personalized card — the share moment that pulls a friend back into the quiz.</div>
+  </div>
+  <div class="surface">
+    <div class="st">c · Turnkey integration path</div>
+    <div class="sd">Any team can adopt the platform through a self-serve path:</div>
+    <div class="steps-inline">
+      <div class="si"><b>Qualifier</b> — is this a fit for templated images?</div>
+      <div class="si"><b>Contract</b> — agree the input &amp; output shape</div>
+      <div class="si"><b>Self-serve</b> — register a template, ship</div>
+    </div>
+  </div>
+</div>
+
+<div class="caption">The redesigned share flow won its A/B test: +176% desktop and +82% mobile-web share engagement, and lifted return-through-shared-links from 59% to 69%.</div>
+<div class="disclaimer">Illustrative reconstruction from memory. All data fictional.</div>
