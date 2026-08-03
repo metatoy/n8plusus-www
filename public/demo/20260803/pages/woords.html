@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>woords — an infinite crossword (iOS) — Nathan O'Brien</title>
+<link rel="stylesheet" href="../assets/page.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← All demos &amp; case studies</a>
+  <header><h1>(h) woords — an infinite crossword (iOS) <span class="tag gm">GEN MEDIA</span></h1>
+     <p class="sub">"A crossword with no edge."</p></header>
+  <section><h2>Teaser</h2>
+    <video playsinline muted loop autoplay controls preload="metadata"
+           poster="../assets/portfolio/h-woords/quanta-teaser-poster.jpg"
+           aria-label="A phone playthrough: today's board opens, THUD is solved, and its letter carries across the seam to unlock the neighbouring board."
+           style="max-width:340px;width:100%;border:1px solid var(--line);border-radius:14px;display:block">
+      <source src="../assets/portfolio/h-woords/quanta-teaser.mp4" type="video/mp4">
+    </video>
+  </section>
+  <section><h2>App Store screenshots</h2>
+    <div class="shots tall">
+      <img src="../assets/portfolio/h-woords/1-map.png" alt="Map">
+      <img src="../assets/portfolio/h-woords/2-board-solving.png" alt="Board solving">
+      <img src="../assets/portfolio/h-woords/3-carry-across.png" alt="Carry-across mechanic">
+      <img src="../assets/portfolio/h-woords/4-story-the-letter.png" alt="Story — the letter">
+      <img src="../assets/portfolio/h-woords/5-settings.png" alt="Settings">
+    </div>
+  </section>
+  <section><h2>Overview</h2><p>"A crossword with no edge." SwiftUI, 564 automated tests, TestFlight beta; season storytelling with generated art direction. Core mechanic is patent-pending (happy to discuss under the hood in person).</p></section>
+  <section><h2>What I built</h2><p>I designed, built, tested, and shipped woords solo: an infinite crossword for iOS in SwiftUI. The board grows across seasons with generated art direction, and the core mechanic is patent-pending.</p></section>
+  <section><h2>How it works</h2><p>The app is native SwiftUI backed by a content pipeline that generates puzzles and season art. An AI-assisted pipeline handles content generation and QA, and the build is covered by roughly 564 automated tests.</p></section>
+  <section><h2>Results &amp; impact</h2><p>The app is in TestFlight beta with roughly 564 automated tests covering the build. The core mechanic is patent-pending.</p></section>
+  <section><h2>Talking points</h2><ul><li>An infinite board that grows from your neighborhood to an alternate reality across seasons.</li><li>Shipping a solo iOS app with roughly 564 automated tests and an AI-assisted content pipeline.</li><li>The patent-pending core mechanic (happy to go under the hood in person).</li></ul></section>
+  <section><h2>Links</h2><div class="links"><a href="https://woords.io" target="_blank" rel="noopener">woords.io ↗</a><a href="https://testflight.apple.com/join/xCDxUy27" target="_blank" rel="noopener">TestFlight beta (test kit) ↗</a></div></section>
+  <footer style="margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--faint);font-size:12.5px"><a href="../index.html">← All demos</a> · Nathan O'Brien · <a href="https://n8plusus.com">n8plusus.com</a></footer>
+</div>
+<script>
+  // wrap each content image in a real link that opens it full-size in a new tab
+  document.querySelectorAll('.wrap section img').forEach(function(img){
+    if(img.closest('a')) return;
+    var a=document.createElement('a');
+    a.href=img.currentSrc||img.src; a.target='_blank'; a.rel='noopener';
+    a.title='Open full size'; a.style.display='contents';
+    img.parentNode.insertBefore(a,img); a.appendChild(img);
+    img.style.cursor='zoom-in';
+  });
+</script>
+</body>
+</html>

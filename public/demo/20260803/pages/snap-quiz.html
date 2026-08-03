@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Snap Quiz — async party trivia — Nathan O'Brien</title>
+<link rel="stylesheet" href="../assets/page.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← All demos &amp; case studies</a>
+  <header><h1>(i) Snap Quiz — async party trivia <span class="tag gm">GEN MEDIA</span></h1>
+     <p class="sub">A personal rapid prototype: player-authored "did you fool your friends?" trivia loop with generated burn cards — concept, design, and build in days.</p></header>
+  <div class="chips"><span class="chip">vibe-coded prototype → playable</span></div>
+  <section><h2>Screens</h2>
+    <div class="shots tall">
+      <img src="../assets/portfolio/i-snap-quiz/snapquiz-home.png" alt="Home screen">
+      <img src="../assets/portfolio/i-snap-quiz/0a-start-party.png" alt="Start a party">
+      <img src="../assets/portfolio/i-snap-quiz/0b-join-party.png" alt="Join a party">
+      <img src="../assets/portfolio/i-snap-quiz/1-build-1.png" alt="Build a quiz (1)">
+      <img src="../assets/portfolio/i-snap-quiz/2-build-2.png" alt="Build a quiz (2)">
+      <img src="../assets/portfolio/i-snap-quiz/3-play-answering.png" alt="Playing / answering">
+      <img src="../assets/portfolio/i-snap-quiz/4-scores.png" alt="Scores">
+      <img src="../assets/portfolio/i-snap-quiz/5-sharing.png" alt="Sharing">
+      <img src="../assets/portfolio/i-snap-quiz/6-share-artifact.png" alt="Generated share artifact / burn card">
+    </div>
+  </section>
+  <section><h2>Ghost Writer — the authoring tool</h2>
+    <p>The back-office for turning a published quiz into a playable pack — import a source, qualify it, generate questions, review/refine, and publish, no CLI. Built as a zero-dependency Node sidecar that reuses the real offline pack pipeline (deterministic <code>is-eligible-check.js</code> qualification, no AI, no network).</p>
+    <div class="shots tall">
+      <img src="../assets/portfolio/i-snap-quiz/ghost-writer-library.png" alt="Ghost Writer editor — Pack Library with published packs">
+      <img src="../assets/portfolio/i-snap-quiz/ghost-writer-import.png" alt="Ghost Writer editor — Import & Qualify stage">
+    </div>
+    <p style="margin-top:14px"><strong>Design direction</strong> — a fuller "SnapQuiz Studio" concept for the same tool <span class="tag gm" style="font-size:10px;vertical-align:middle">CONCEPT</span>:</p>
+    <img src="../assets/portfolio/i-snap-quiz/ghost-writer-studio.png" alt="SnapQuiz Studio authoring tool — design concept" style="max-width:100%;border:1px solid var(--line);border-radius:10px">
+  </section>
+  <section><h2>Full demo</h2>
+    <p>End-to-end walkthrough of the loop — start a party, build, play, score, and share the generated burn card:</p>
+    <img src="../assets/portfolio/i-snap-quiz/full-demo.gif" alt="Snap Quiz full demo" style="max-width:100%;border:1px solid var(--line);border-radius:10px">
+  </section>
+  <section><h2>Overview</h2><p>A personal rapid prototype: player-authored "did you fool your friends?" trivia loop with generated burn cards — concept, design, and build in days. Discussed on request.</p></section>
+  <section><h2>What I built</h2><p>I built Snap Quiz as a personal rapid prototype: an async party trivia loop where players write the questions and try to fool their friends. Concept, design, and build in days.</p></section>
+  <section><h2>How it works</h2><p>Players author trivia, others guess, and the game reveals who got fooled. It generates burn cards to share the result. I vibe-coded it from concept to a playable build.</p></section>
+  <section><h2>Results &amp; impact</h2><p>The prototype went from concept to a playable build in days. It was an exploration of the did-you-fool-your-friends loop and how generated burn cards make a result worth sharing.</p></section>
+  <section><h2>Talking points</h2><ul><li>The did-you-fool-your-friends loop, and why player-authored questions make it work.</li><li>Generated burn cards as the shareable payoff.</li><li>Going from concept to playable in days as a vibe-coded prototype.</li></ul></section>
+  <footer style="margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--faint);font-size:12.5px"><a href="../index.html">← All demos</a> · Nathan O'Brien · <a href="https://n8plusus.com">n8plusus.com</a></footer>
+</div>
+<script>
+  // wrap each content image in a real link that opens it full-size in a new tab
+  document.querySelectorAll('.wrap section img').forEach(function(img){
+    if(img.closest('a')) return;
+    var a=document.createElement('a');
+    a.href=img.currentSrc||img.src; a.target='_blank'; a.rel='noopener';
+    a.title='Open full size'; a.style.display='contents';
+    img.parentNode.insertBefore(a,img); a.appendChild(img);
+    img.style.cursor='zoom-in';
+  });
+</script>
+</body>
+</html>

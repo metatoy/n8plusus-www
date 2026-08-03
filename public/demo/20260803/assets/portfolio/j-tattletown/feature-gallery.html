@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #0B0B0C; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; color: #F5F0EC; }
+  ::selection { background: #D50308; color: #fff; }
+  a { color: #3B9EFF; text-decoration: none; }
+</style>
+</helmet>
+
+<div style="max-width:1280px; margin:0 auto; padding:0 28px 120px;">
+
+  <!-- HERO -->
+  <header style="position:relative; padding:80px 0 34px;">
+    <div style="position:absolute; inset:0 0 auto 0; height:280px; background:radial-gradient(120% 100% at 26% 0%, #3A0106 0%, rgba(58,1,6,0.32) 36%, rgba(11,11,12,0) 70%); pointer-events:none;"></div>
+    <div style="position:relative;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.42em; text-transform:uppercase; color:#8A8385;">TattleTown &middot; iOS &middot; rc-beta-4</div>
+      <h1 style="font-size:52px; font-weight:800; letter-spacing:-0.025em; margin:14px 0 14px; line-height:1;">Feature Catalog</h1>
+      <p style="max-width:680px; font-size:16.5px; line-height:1.6; color:#B9B4B0;">Reconciled against the shipped build (2026-07-03). Hover any feature to see it <strong style="color:#F5F0EC;">on the real screen</strong> &mdash; the app view on the right jumps to that surface and highlights where the feature lives. Verified from device screenshots + the live API, not memory.</p>
+    </div>
+  </header>
+
+  <!-- LEGEND -->
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:20px 0; border-top:1px solid #2A2A2D; border-bottom:1px solid #2A2A2D;">
+    <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
+      <div style="display:flex; align-items:center; gap:9px; background:#141416; border:1px solid #2A2A2D; border-radius:999px; padding:7px 15px 7px 11px;">
+        <span style="width:10px; height:10px; border-radius:999px; background:{{ l.color }}; box-shadow:0 0 8px {{ l.glow }};"></span>
+        <span style="font-size:13px; font-weight:700;">{{ l.label }}</span>
+        <span style="font-size:12px; color:#8A8385;">{{ l.note }}</span>
+      </div>
+    </sc-for>
+    <span style="font-size:12.5px; color:#5A5557; margin-left:auto;">{{ counts }}</span>
+  </div>
+
+  <!-- TWO-COLUMN: features (left) + sticky device (right) -->
+  <div style="display:flex; gap:36px; align-items:flex-start; margin-top:8px;">
+
+    <!-- LEFT: domains -->
+    <div style="flex:1; min-width:0;">
+      <sc-for list="{{ domains }}" as="d" hint-placeholder-count="9">
+        <section style="padding:32px 0 6px;">
+          <div style="display:flex; align-items:baseline; gap:13px; margin-bottom:5px;">
+            <span style="font-size:13px; font-weight:800; color:#D50308; font-variant-numeric:tabular-nums;">{{ d.num }}</span>
+            <h2 style="font-size:24px; font-weight:800; letter-spacing:-0.015em;">{{ d.title }}</h2>
+          </div>
+          <p style="font-size:14px; line-height:1.5; color:#8A8385; margin-bottom:18px;">{{ d.blurb }}</p>
+          <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px;">
+            <sc-for list="{{ d.features }}" as="f" hint-placeholder-count="4">
+              <div onMouseEnter="{{ f.hover }}" onClick="{{ f.hover }}" style="background:#141416; border:1px solid #2A2A2D; border-left:3px solid {{ f.bar }}; border-radius:10px; padding:13px 15px; display:flex; flex-direction:column; gap:6px; cursor:pointer; transition:background .15s, border-color .15s;" style-hover="background:#1A1A1D; border-color:{{ f.bar }};">
+                <div style="display:flex; align-items:center; gap:9px;">
+                  <span style="width:8px; height:8px; border-radius:999px; background:{{ f.bar }}; flex:none; box-shadow:0 0 7px {{ f.glow }};"></span>
+                  <span style="font-size:14.5px; font-weight:700; line-height:1.2; flex:1;">{{ f.name }}</span>
+                  <span style="font-size:10.5px; font-weight:700; font-family:monospace; color:{{ f.chipColor }}; background:{{ f.chipBg }}; border-radius:5px; padding:2px 6px; flex:none;">{{ f.chip }}</span>
+                </div>
+                <p style="font-size:12.5px; line-height:1.45; color:#B9B4B0;">{{ f.desc }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+    </div>
+
+    <!-- RIGHT: sticky device -->
+    <div style="width:346px; flex:none; position:sticky; top:24px;">
+      <div style="background:#141416; border:1px solid #2A2A2D; border-radius:18px; padding:18px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+          <span style="width:9px; height:9px; border-radius:999px; background:{{ activeBar }}; box-shadow:0 0 8px {{ activeGlow }};"></span>
+          <span style="font-size:14px; font-weight:800;">{{ activeName }}</span>
+        </div>
+        <!-- phone (device img + highlight built in renderVals so no literal {{}} src streams) -->
+        <div onClick="{{ advance }}" style="position:relative; width:308px; margin:0 auto; border-radius:34px; overflow:hidden; border:1px solid #2A2A2D; background:#000; aspect-ratio:1179 / 2556; cursor:pointer;">{{ device }}</div>
+        <div style="display:flex; gap:8px; align-items:baseline; margin-top:14px;">
+          <span style="font-family:monospace; font-size:11px; color:#D50308; font-weight:700;">{{ activeChip }}</span>
+          <p style="font-size:12.5px; line-height:1.45; color:#8A8385; flex:1;">{{ activeCaption }}</p>
+        </div>
+      </div>
+      <div style="font-size:11.5px; color:#5A5557; text-align:center; margin-top:12px;">Hover a feature to highlight it &middot; tap the phone to step through screens &middot; overlay clears after 8s</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:56px; padding-top:22px; border-top:1px solid #2A2A2D; text-align:center; color:#5A5557; font-size:13px;">TattleTown Feature Catalog &middot; reconciled with <span style="font-family:monospace; color:#8A8385;">FEATURES-HANDOFF.md</span> (2026-07-03) &middot; <span style="color:#8A8385;">Every place has a secret.</span></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 900 }
+}">
+class Component extends DCLogic {
+  state = { active: 'launch', cleared: false };
+
+  componentDidMount() { this.arm(); }
+  componentWillUnmount() { clearTimeout(this._timer); }
+
+  // select a feature and (re)arm the 15s auto-clear so the plain screen shows
+  select(key) {
+    clearTimeout(this._timer);
+    this.setState({ active: key, cleared: false });
+    this.arm();
+  }
+  arm() {
+    clearTimeout(this._timer);
+    this._timer = setTimeout(() => this.setState({ cleared: true }), 8000);
+  }
+  // click-through: step to the next feature that has a screen hotspot
+  advance() {
+    const keys = this._hotKeys || [];
+    if (!keys.length) return;
+    const i = keys.indexOf(this.state.active);
+    this.select(keys[(i + 1) % keys.length]);
+  }
+
+  S(n) { return `assets/screens/${n}`; }
+
+  // status → colors + chip
+  statusDef() {
+    return {
+      live:    { bar: '#1F8A5B', glow: 'rgba(31,138,91,0.6)',  chip: 'LIVE',    chipColor: '#7BE0AE', chipBg: 'rgba(31,138,91,0.16)', label: 'Live', note: 'shipped in rc-beta-4' },
+      build:   { bar: '#F5A623', glow: 'rgba(245,166,35,0.55)', chip: 'OPEN',    chipColor: '#F5C877', chipBg: 'rgba(245,166,35,0.16)', label: 'Open / revised', note: 'partial or P3 polish' },
+      planned: { bar: '#8A5CF6', glow: 'rgba(138,92,246,0.5)',  chip: 'PLANNED', chipColor: '#C3A6FF', chipBg: 'rgba(138,92,246,0.17)', label: 'Planned', note: 'designed, not built' },
+    };
+  }
+
+  // Every feature: [key, name, status, desc, screen, [top,left,w,h]%, chip, caption]
+  data() {
+    return [
+      { title: 'Onboarding & Identity', blurb: 'Anonymous-first. A glitchy noir launch, an optional pen-name, and a late-binding real identity.', f: [
+        ['launch','Glitch launch','live','Metal layer-effect glitch over the wordmark band — always on, static fallback for Reduce Motion.','02-launch-landing.png',[26,14,72,18],'Launch','The animated icon-tile wall + glitching wordmark on cold start.'],
+        ['browse','Browse without account','live','Skim the map + feed with zero signup — posting is what prompts identity.','02-launch-landing.png',[85,18,64,5],'Launch','“Browse without an account” drops straight into the map.'],
+        ['signature','Pick a signature','live','A pseudonym (e.g. midnight_mapmaker) is the only public identity.','03-signup-signature.png',[39,5,90,8],'Signup','The one field that matters — your pen-name.'],
+        ['agegate','Age + ToS gate','live','17+ maturity attestation and ToS/Privacy consent before first post.','03-signup-signature.png',[49,5,90,17],'Signup','Two required toggles with linked legal.'],
+        ['apple','Sign up with Apple','live','Optional claim/recovery — ties the anon row to an Apple sub so it survives reinstall.','03-signup-signature.png',[73,5,90,8],'Signup','Late-binding identity; never shown to others.'],
+        ['account','Sign out & delete account','live','Local sign-out keeps server data; delete cascades account + all Tattles (Apple 5.1.1(v)).','06-settings-admin-city-picker.png',[87,4,92,7],'Settings','Destructive account controls at the bottom of Settings.'],
+      ]},
+      { title: 'Discover & Browse', blurb: 'The map is the stage; a bottom sheet carries the browsable feed, filters, tabs, and the place-card carousel.', f: [
+        ['sheet','Map + browse sheet','live','BrowseSheet over the map, .medium/.large detents — the browse surface the app once lacked.','05-map-home-latest-petty-mischief.png',[37,0,100,62],'Home','Draggable feed sheet layered over the dark map.'],
+        ['tabs','Latest · Nearby · Saved · Mine','live','Four browse modes; Mine carries pending / “Under review” states.','05-map-home-latest-petty-mischief.png',[42,3,94,7],'Home','The segmented control — exceeds the 2011 rail.'],
+        ['chips','Corner filter chips','live','All + 6 Corners; filters the list AND which pins draw on the map.','05-map-home-latest-petty-mischief.png',[47,0,100,8],'Home','Active “Petty Mischief” chip in Siren.'],
+        ['saved','Saved (server-synced)','live','Bookmark from rows or detail; Saved tab syncs via /saved and survives reinstall.','04-map-home-saved.png',[56,2,96,26],'Home','Red bookmarks mark saved rows in the Saved tab.'],
+        ['carousel','Place-card carousel','live','Swipeable venue cards at the peek state; swiping pans the map + pulses the pin.','01-map-home-carousel.png',[56,2,96,14],'Home','Venue cards that drive the map as you swipe.'],
+        ['search','Keyword search','live','Full-text search across approved Tattles from the sheet’s magnifier.','07-search-tattles.png',[16,3,94,8],'Search','Live keyword results with Corner + time.'],
+        ['city','Default city (Settings)','build','The header city-switcher was removed; a Settings “Default city” now seeds the region when GPS is unavailable.','06-settings-admin-city-picker.png',[38,28,66,46],'Settings','Metro picker — MSP default, used as GPS fallback.'],
+      ]},
+      { title: 'Compose — “Drop a Tattle”', blurb: 'Post an anonymous, place-anchored story with real confidence about where it lands.', f: [
+        ['editor','Story editor','live','“What happened here?” free-text with guardrail copy: past-tense, no naming real people.','08-compose-tattle.png',[27,3,94,23],'Compose','The story field with voice guidance beneath.'],
+        ['counter','Character counter','live','Live count toward the 1000-char limit.','08-compose-tattle.png',[47,58,40,5],'Compose','“54 / 1000” ticks as you type.'],
+        ['cornerpick','Corner picker','live','Choose one of the 6 Corners; selected chip fills Siren.','08-compose-tattle.png',[55,3,94,9],'Compose','“Which Corner?” chip row.'],
+        ['placesearch','Place search','live','MKLocalSearchCompleter “Find a spot…” drops the pin on a named venue.','09-compose-pin-location.png',[22,3,94,6],'Compose','Type-ahead venue search above the pin map.'],
+        ['pinmap','Pin map + long-press','live','Drag / long-press the map to place the story at an exact spot.','09-compose-pin-location.png',[27,3,94,20],'Compose','“Long-press to adjust location” on the mini map.'],
+        ['geocode','Reverse-geocoded caption','live','The pin resolves to a live address caption — confidence without hand-typing.','09-compose-pin-location.png',[47,3,82,5],'Compose','“Placing at Quarry Shopping Center, Minneapolis.”'],
+        ['photo','Photo attach','live','Optional camera/library photo, EXIF/GPS-stripped, JPEG-only.','09-compose-pin-location.png',[53,3,94,7],'Compose','Take photo / Choose photo.'],
+      ]},
+      { title: 'Tattle Detail & Place', blurb: 'The venue is the connective tissue — every story leads with its Spot and aggregates there.', f: [
+        ['venue','Venue identity block','live','Detail leads with venue name + address atop the story.','10-tattle-detail.png',[39,3,94,11],'Detail','“Target · 2500 E Lake St” venue card.'],
+        ['ntattles','N Tattles here → place list','live','Aggregate count opens PlaceListView scoped to that spot.','10-tattle-detail.png',[49,5,90,8],'Detail','“2 Tattles at this spot →” count row.'],
+        ['actions','Directions + Share','live','Apple Maps deep link + spoiler-safe ShareLink; Call parked (no venue-phone data).','10-tattle-detail.png',[59,3,94,9],'Detail','Bookmark · Directions · Share · QR action row.'],
+        ['rate','Rate (per-Corner)','live','5 stars; the label adapts per Corner (“Rate the mischief”).','11-tattle-detail-rate-report.png',[76,3,62,10],'Detail','Per-Corner rate prompt + star row.'],
+        ['reportblock','Report + Block','live','Amber safety actions kept distinct from brand red.','11-tattle-detail-rate-report.png',[89,3,94,8],'Detail','Report / Block at the base of detail.'],
+        ['detailmap','Detail keeps map context','live','Detail rises as a sheet detent; the map stays behind (pin-grow → pan → sheet-rise).','10-tattle-detail.png',[0,0,100,38],'Detail','Map remains live above the raised sheet.'],
+      ]},
+      { title: 'Compass & Proximity', blurb: 'Hunt the nearest story — a real-world treasure hunt via Live Activity + Dynamic Island.', f: [
+        ['guideme','Guide me','live','Start turn-by-distance guidance to a Tattle from its detail.','10-tattle-detail.png',[71,3,94,7],'Detail','“Guide me” launches the compass.'],
+        ['guidingmap','Guiding map + pin','live','The target pin glows amber with a north line; distance updates live.','13-guiding-map-live-activity.png',[38,28,44,20],'Guiding','Glowing “Petty Mischief” target on the map.'],
+        ['distpill','Distance compass pill','live','Header pill shows heading + live distance to the closest Tattle, left-aligned.','13-guiding-map-live-activity.png',[8,17,44,7],'Guiding','“3.5 mi” compass pill in the header.'],
+        ['island','Dynamic Island pill','live','Compass + distance ride the Island on the Home Screen.','14-dynamic-island-pill-home.png',[3,28,46,15],'Island','Nearest-Tattle distance in the collapsed Island.'],
+        ['islandexp','Island expanded compass','live','Expanded Live Activity: needle, distance, cardinal, “Getting warmer” + red→amber proximity.','15-dynamic-island-expanded-compass.png',[3,3,94,16],'Island','Full compass with proximity progress bar.'],
+      ]},
+      { title: 'Moderation & Safety', blurb: 'Nothing goes public unreviewed. A Claude-Haiku classifier gates every post ahead of a human.', f: [
+        ['queue','Pre-approval queue','live','Every post enters pending; public only when approved.','18-moderation-console-pending.png',[21,3,42,6],'Console','“PENDING” items awaiting a verdict.'],
+        ['aimod','AI classifier (Haiku)','live','Layer-0 denylist → structured verdict → fail-safe-to-human; runtime Manual/AI/Auto toggle.','18-moderation-console-pending.png',[22,3,52,6],'Console','“AI: REJECT 0.95” verdict on a pending post.'],
+        ['verdictbadge','AI-verdict badges','live','Console shows the AI label + score + reason on every item.','18-moderation-console-pending.png',[62,3,52,6],'Console','“AI: REVIEW 0.85 · defamation” flag.'],
+        ['approve','Approve / Remove','live','In-app admin queue with one-tap approve/remove, appeals, ban, rename.','18-moderation-console-pending.png',[29,3,94,7],'Console','Approve (red) / Remove (amber) actions.'],
+        ['humangate','Photos + defamation → human','live','High-risk classes always route to a human regardless of AI mode.','18-moderation-console-pending.png',[62,3,94,11],'Console','A defamation case held for human review.'],
+      ]},
+      { title: 'Notifications', blurb: 'Bring people back for the moments that matter — R6-safe payloads, deep-linked.', f: [
+        ['push','Push: approved / removed / rated','live','APNs pushes on moderation outcome + new ratings; tap deep-links to the Tattle.','17-notification-rated-tattle.png',[3,3,94,11],'Push','A “someone rated your Tattle” banner.'],
+        ['notiftoggles','Per-type toggles','live','Settings switches for Verdicts and Ratings; JIT permission prompt.','06-settings-admin-city-picker.png',[49,3,94,11],'Settings','Notification type switches.'],
+      ]},
+      { title: 'Rewards & Achievements', blurb: 'Twelve private, cosmetic badges across four categories — server-computed so they can’t be spoofed.', f: [
+        ['ring','6 of 12 earned','live','Progress ring + count summarize your badge case (private to you).','16-achievements-seeded.png',[17,3,62,9],'Badges','The earned-count ring at the top.'],
+        ['bigmouth','Big Mouth','live','First Spill → Loose Lips → Town Crier (Tattles written).','16-achievements-seeded.png',[27,3,94,16],'Badges','The Tattles tier row with earned glyphs.'],
+        ['streetcred','Street Cred','live','Word’s Out → Talk of the Town → Living Legend (ratings received).','16-achievements-seeded.png',[44,3,94,16],'Badges','Ratings tier row with an in-progress ring.'],
+        ['hometurf','Home Turf','live','New in Town → Regular → Every Corner (distinct spots).','16-achievements-seeded.png',[61,3,94,15],'Badges','Locations tier row (12/25 in progress).'],
+        ['skeletons','Skeletons in the Closet','planned','Snoop → Dirt Digger → Skeleton Key — tied to the unbuilt discovery feature.','16-achievements-seeded.png',[80,3,94,14],'Badges','The “Coming soon” fourth category.'],
+        ['crown','Tier-III crown + unlock toast','live','Top tier gets an amber crown + glow; unlocking fires a celebration toast + NEW dot.','16-achievements-seeded.png',[29,58,40,14],'Badges','Town Crier at Tier III with its crown.'],
+      ]},
+      { title: 'Places, QR & Sharing', blurb: 'Anchor stories to the real world and pull people from the street into the app.', f: [
+        ['qrscan','QR scanner','live','Scan a Marker to open its Spot + approved Tattles.','19-qr-scanner.png',[28,10,80,42],'Scanner','The in-app QR scanner frame.'],
+        ['marker','Leave a Marker','live','Generate a printable QR anchored to a spot.','20-marker-generated.png',[33,10,80,30],'Marker','A freshly generated Marker QR.'],
+        ['markercode','Marker code','live','Human-readable short code printed with the QR.','20-marker-generated.png',[65,10,80,7],'Marker','“77RN5MV7” — the shareable Marker code.'],
+        ['slug','Web share pages','live','Every Tattle has a /t/:slug page; hosted ToS/privacy round it out.','10-tattle-detail.png',[59,48,26,9],'Detail','Share opens the web /t/:slug page.'],
+      ]},
+      { title: 'Planned Next', blurb: 'Design-relevant items on the roadmap — worth catalog space as “coming.”', f: [
+        ['points','Internet points & star tiers','planned','1★ free / Bronze / Gold — research-hardened plan (internet-points-awards-plan.md).',null,null,'Roadmap','No shipped surface yet — reputation economy.'],
+        ['tour','Guided tour','planned','First-run walkthrough of the map / compose / compass loop.',null,null,'Roadmap','Onboarding coach marks — planned.'],
+        ['ar','Skeleton AR','planned','Bury/dig at real-world artifacts — unlocks the Skeletons badges.',null,null,'Roadmap','AR discovery — future release.'],
+        ['cornercopy','Corner-label copy pass','build','Punchier Corner displayNames (badge voice proves it); copy-only, ids stay locked.','08-compose-tattle.png',[55,3,94,9],'Compose','Corners still read neutral (“Petty Mischief”).'],
+        ['scopedsearch','Filter-scoped search','planned','Add Corner + city scoping to keyword search.','07-search-tattles.png',[16,3,94,8],'Search','Search is keyword-only today.'],
+      ]},
+    ];
+  }
+
+  renderVals() {
+    const SD = this.statusDef();
+    const legend = ['live','build','planned'].map(k => ({ label: SD[k].label, note: SD[k].note, color: SD[k].bar, glow: SD[k].glow }));
+
+    const all = this.data();
+    const flat = {};
+    const hotKeys = [];
+    let n = 0; const tally = { live: 0, build: 0, planned: 0 };
+
+    const domains = all.map((d, i) => ({
+      num: String(i + 1).padStart(2, '0'),
+      title: d.title,
+      blurb: d.blurb,
+      features: d.f.map(row => {
+        const [key, name, status, desc, screen, hot, chip, caption] = row;
+        n++; tally[status]++;
+        flat[key] = { name, status, screen, hot, chip, caption };
+        if (Array.isArray(hot)) hotKeys.push(key);
+        const s = SD[status];
+        return { name, desc, key, bar: s.bar, glow: s.glow, chip: s.chip, chipColor: s.chipColor, chipBg: s.chipBg,
+          hover: () => this.select(key) };
+      }),
+    }));
+
+    const counts = `${n} features · ${tally.live} live · ${tally.build} open · ${tally.planned} planned`;
+    this._hotKeys = hotKeys;
+
+    // active device state — `shown` is false once the 15s auto-clear fires
+    const a = flat[this.state.active] || flat.launch;
+    const SDa = SD[a.status];
+    const shown = Array.isArray(a.hot) && !this.state.cleared;
+    const hasHot = shown;
+    const hot = Array.isArray(a.hot) ? a.hot : [0, 0, 0, 0];
+
+    const src = a.screen ? this.S(a.screen) : this.S('02-launch-landing.png');
+    const device = React.createElement(React.Fragment, null,
+      React.createElement('img', { src, alt: '', style: { width: '100%', display: 'block' } }),
+      React.createElement('div', { style: {
+        position: 'absolute', top: hot[0] + '%', left: hot[1] + '%',
+        width: (hot[2] - hot[1]) + '%', height: hot[3] + '%',
+        border: '2.5px solid #D50308', borderRadius: '12px', background: 'rgba(213,3,8,0.14)',
+        boxShadow: `0 0 0 2000px rgba(5,5,6,${hasHot ? 0.5 : 0}), 0 0 22px rgba(213,3,8,0.7)`,
+        opacity: hasHot ? 1 : 0, transition: 'all .35s cubic-bezier(.2,.7,.2,1)', pointerEvents: 'none',
+      } })
+    );
+
+    return {
+      legend, domains, counts,
+      activeName: a.name,
+      activeBar: SDa.bar, activeGlow: SDa.glow,
+      activeChip: a.chip,
+      activeCaption: a.caption,
+      device,
+      advance: () => this.advance(),
+    };
+  }
+}
+</script>
+</body>
+</html>

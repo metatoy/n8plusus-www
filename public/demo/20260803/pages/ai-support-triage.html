@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>AI support triage — agentic, human-gated — Nathan O'Brien</title>
+<link rel="stylesheet" href="../assets/page.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← All demos &amp; case studies</a>
+  <header><h1>(d) AI support triage — agentic, human-gated <span class="tag both">BOTH</span></h1>
+     <p class="sub">An agent that took over support-ticket triage: classifies handling + routing, then a gated investigator agent reads the live system, code, telemetry and docs to draft the fix and reply — a human approves every call.</p></header>
+  <div class="chips"><span class="chip metric">83.5% handling accuracy</span><span class="chip metric">routing 54%→76%</span><span class="chip">golden-set evals</span><span class="chip">human at the controls</span></div>
+  <section><h2>Overview</h2><p>An agent that took over support-ticket triage: classifies handling + routing, then a gated investigator agent reads the live system, code, telemetry and docs to draft the fix and reply — a human approves every call.</p></section>
+  <section><h2>What I built</h2><p>I spearheaded an AI agent to take over support-ticket triage, work that was consuming roughly one in seven hours of the team's time. It runs the full loop in production: classify the ticket, investigate the live system, then draft the fix and the reply, with a human signing off on every action.</p></section>
+  <section><h2>How it works</h2><p>A classifier handles and routes each ticket, then a gated investigator agent reads the live system, code, telemetry, and docs to draft a fix and a reply. A human approves every call before anything goes out. It was trained on two years of resolved history and improves with every correction. See the <a href="../assets/rr-triage-architecture.html">Architecture diagram</a> for the shape.</p></section>
+  <section><h2>Claim → triage → spec flow</h2>
+    <p>A concept design for how a claimed ticket moves end to end: intake fills the queue, claiming labels the ticket and reacts in the channel, the triage agent runs against the rulebook, and a structured spec is written back to the ticket — with a human gate on every write.</p>
+    <div class="shots full"><img src="../assets/portfolio/d-ai-triage/claim-to-spec-flow.png" alt="RR-Triage claim to triage to spec flow"></div>
+  </section>
+  <section><h2>Results &amp; impact</h2><p>It reached a team-wide, month-long beta running the full loop in production, trained on two years of resolved tickets and improving with every correction.</p>
+    <ul>
+      <li>83.5% handling accuracy</li>
+      <li>routing 54%→76%</li>
+    </ul>
+  </section>
+  <section><h2>Talking points</h2><ul><li>Running the full loop (classify, investigate, draft the fix and reply) in production with a human sign-off on every action.</li><li>Training on two years of resolved tickets and improving with every correction.</li><li>Reclaiming roughly one in seven hours of the team's time without giving up human control.</li></ul></section>
+  <section><h2>Links</h2><div class="links"><a href="../assets/rr-triage-architecture.html">Architecture diagram →</a></div></section>
+  <footer style="margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--faint);font-size:12.5px"><a href="../index.html">← All demos</a> · Nathan O'Brien · <a href="https://n8plusus.com">n8plusus.com</a></footer>
+</div>
+</body>
+</html>

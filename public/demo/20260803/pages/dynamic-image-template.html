@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dynamic image-template platform — Nathan O'Brien</title>
+<link rel="stylesheet" href="../assets/page.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← All demos &amp; case studies</a>
+  <header><h1>(a) Dynamic image-template platform <span class="tag gm">GEN MEDIA</span></h1>
+     <p class="sub">Server-side React templates rendered headlessly into composited share images at scale — the engine behind automated social posts and personalized quiz share cards at a major digital-media company.</p></header>
+  <div class="shots full"><img src="../assets/portfolio/a-pubhub-templates/3.png" alt="Generated HuffPost share card"><img src="../assets/portfolio/a-pubhub-templates/1.png" alt="Posted to the HuffPost channel"></div>
+  <section><h2>Overview</h2><p>Server-side React templates rendered headlessly into composited share images at scale — the engine behind automated social posts and personalized quiz share cards at a major digital-media company.</p></section>
+  <section><h2>What I built</h2><p>I architected and shipped a dynamic image-template platform that powers automated social posts and personalized share artifacts. I owned it end to end, from the rendering engine to the template authoring model, then made it a turnkey, self-service path any team could adopt.</p></section>
+  <section><h2>How it works</h2><p>The platform server-renders React templates headlessly, composites each one into a share image, and serves the result at scale. Templates are data-driven, so a single template produces a personalized artifact per post or per quiz taker. See the <a href="../assets/template-image-api-flow.html">Render-flow diagram</a> for the shape.</p></section>
+  <section><h2>The admin / preview tool</h2><p>Operators pick a template, fill in the headline, sub-head, and source image, and preview the generated card before it ships. One interface previews the whole template catalog from the same shared engine. Interactive clean-room wireframe — edit the fields and watch the preview update:</p>
+    <iframe src="../assets/template-image-preview-tool.html" title="Template image preview tool (clean-room wireframe)"
+            style="width:100%;height:1180px;border:1px solid var(--line);border-radius:12px" loading="lazy"></iframe>
+    <p class="note" style="margin-top:6px"><a href="../assets/template-image-preview-tool.html" target="_blank">Open the interactive preview tool →</a></p>
+  </section>
+  <section><h2>Results &amp; impact</h2><p>The platform became the shared engine behind automated social posts and personalized share cards. Making it self-service meant teams could ship their own generated artifacts without routing through my team.</p></section>
+  <section><h2>Talking points</h2><ul><li>How server-rendered React composites into an image, and why templates stay data-driven so one template yields a personalized artifact per user.</li><li>The path from a bespoke feature to a turnkey platform other teams could self-serve.</li><li>Where generation happens headlessly and how the output is served at scale.</li></ul></section>
+  <section><h2>Links</h2><div class="links"><a href="../assets/template-image-api-flow.html">Render-flow diagram →</a><a href="https://www.instagram.com/huffpost/" target="_blank" rel="noopener">Live on Instagram ↗</a></div></section>
+  <footer style="margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--faint);font-size:12.5px"><a href="../index.html">← All demos</a> · Nathan O'Brien · <a href="https://n8plusus.com">n8plusus.com</a></footer>
+</div>
+</body>
+</html>

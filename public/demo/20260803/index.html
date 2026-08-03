@@ -18,11 +18,22 @@
   .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--dim);margin:10px 0 26px}
   .tag{display:inline-block;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;color:#fff}
   .tag.gm{background:var(--gm)} .tag.sp{background:var(--sp)} .tag.both{background:linear-gradient(90deg,var(--gm),var(--sp))}
+.role{display:inline-block;border-radius:20px;padding:1px 8px;font-size:10px;font-weight:700;letter-spacing:.02em;border:1px solid transparent}
+  .role-solo{background:#e6f3ec;color:#1a7f4b}
+  .role-lead{background:#e2eefb;color:#0b6bcb}
+  .role-design{background:#efeafe;color:#6b46d9}
+  .role-fullstack{background:#fbf1dc;color:#9a6a00}
+  .roles{display:inline-flex;gap:5px;flex-wrap:wrap;align-items:center}
   h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--faint);margin:34px 0 14px;
      border-bottom:1px solid var(--line);padding-bottom:8px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;
-        box-shadow:0 1px 3px rgba(20,24,30,.05);display:flex;flex-direction:column;gap:9px}
+        box-shadow:0 1px 3px rgba(20,24,30,.05);display:flex;flex-direction:column;gap:9px;
+        position:relative;transition:background .12s ease,border-color .12s ease,box-shadow .12s ease}
+  .card:hover{background:#f3f6fb;border-color:var(--sp);box-shadow:0 3px 10px rgba(11,107,203,.10)}
+  .card-cover{position:absolute;inset:0;z-index:1;border-radius:14px}
+  .card .links a{position:relative;z-index:2}
+  .card h3 a{position:relative;z-index:2}
   .card h3{margin:0;font-size:16px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
   .card p{margin:0;color:var(--dim);font-size:13.5px}
   .chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -31,6 +42,9 @@
   .links{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:auto;padding-top:4px}
   a{color:var(--sp);text-decoration:none;font-weight:600}
   a:hover{text-decoration:underline}
+  .dl{display:inline-flex;align-items:center;gap:7px;margin:4px 0 2px;border:1px solid var(--sp);
+      background:var(--sp);color:#fff;border-radius:9px;padding:7px 14px;font-size:13px;font-weight:700}
+  .dl:hover{background:#095aa8;border-color:#095aa8;color:#fff;text-decoration:none}
   .shots{display:flex;gap:8px;overflow-x:auto;padding:2px 0}
   .shots img{height:110px;border:1px solid var(--line);border-radius:8px;flex:0 0 auto}
   .shots.tall img{height:150px}
@@ -45,139 +59,139 @@
 <header>
   <h1>Nathan O'Brien — working demos &amp; case studies</h1>
   <p class="sub">Prepared for the Luxury Presence conversation · Aug 3, 2026 · Minneapolis, MN ·
-    <a href="https://www.linkedin.com/in/nathanhunsaker">linkedin.com/in/nathanhunsaker</a> · skills@metatoy.com</p>
+    <a href="https://www.linkedin.com/in/nathanhunsaker">linkedin.com/in/nathanhunsaker</a> · n8plusus@gmail.com</p>
+  <a class="dl" href="/assets/resume-slim-v4-gold.pdf" download>⬇ Download résumé (PDF)</a>
   <div class="legend">Maps to:
     <span class="tag gm">GEN MEDIA</span> Generative Media Engineer, AI Social ·
     <span class="tag sp">PLATFORM</span> Staff SWE, AI Marketing ·
     <span class="tag both">BOTH</span>
   </div>
+  <div class="legend" style="margin-top:-14px">My role: <span class="role role-solo">Solo</span> solo build · <span class="role role-lead">Lead</span> led a team · <span class="role role-design">Design/UX</span> design + UX · <span class="role role-fullstack">Fullstack</span> front &amp; back</div>
 </header>
 
 <h2>🎨 Generative media &amp; automated sharing</h2>
 <div class="grid">
   <div class="card">
-    <h3>Dynamic image-template platform <span class="tag gm">GEN MEDIA</span></h3>
+    <a class="card-cover" href="pages/dynamic-image-template.html" aria-label="Dynamic image-template platform — details"></a>
+    <h3>(a) Dynamic image-template platform <span class="tag gm">GEN MEDIA</span> <span class="roles"><span class="role role-lead">Lead</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>Server-side React templates rendered headlessly into composited share images at scale — the engine
        behind automated social posts and personalized quiz share cards at a major digital-media company.</p>
+    <div class="shots"><img src="/assets/portfolio/a-pubhub-templates/3.png" alt="Generated HuffPost share card"></div>
     <div class="chips"><span class="chip">React templates → headless render → CDN</span><span class="chip">OG + social sizes</span></div>
-    <div class="links"><a href="./assets/template-image-api-flow.html">Render-flow diagram →</a></div>
+    <div class="links"><a href="pages/dynamic-image-template.html">Details →</a><a href="./assets/template-image-api-flow.html">Render-flow diagram →</a><a href="https://www.instagram.com/huffpost/" target="_blank" rel="noopener">Live on Instagram ↗</a></div>
   </div>
-
   <div class="card">
-    <h3>Tag Yourself — personalized share cards <span class="tag gm">GEN MEDIA</span></h3>
+    <a class="card-cover" href="pages/tag-yourself.html" aria-label="Tag Yourself — personalized share cards — details"></a>
+    <h3>(b) Tag Yourself — personalized share cards <span class="tag gm">GEN MEDIA</span> <span class="roles"><span class="role role-lead">Lead</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>Shipped consumer feature: quiz results become personalized, generated share images. Won its A/B test decisively.</p>
     <div class="shots">
-      <img src="/assets/portfolio/tag-yourself/product-result-page.png" alt="Result page">
-      <img src="/assets/portfolio/tag-yourself/product-share-card.png" alt="Share card">
-      <img src="/assets/portfolio/tag-yourself/product-tag-friend.png" alt="Tag a friend">
+      <img src="/assets/portfolio/b-tag-yourself/product-result-page.png" alt="Result page">
+      <img src="/assets/portfolio/b-tag-yourself/product-share-card.png" alt="Share card">
+      <img src="/assets/portfolio/b-tag-yourself/product-tag-friend.png" alt="Tag a friend">
     </div>
     <div class="chips"><span class="chip metric">+176% desktop share engagement</span><span class="chip metric">+82% mobile web</span><span class="chip metric">59%→69% return via shares</span></div>
-    <div class="links"><a href="/portfolio#tag-yourself">Case study →</a><a href="/assets/portfolio/tag-yourself/share-flow.png">Share-flow diagram →</a></div>
+    <div class="links"><a href="pages/tag-yourself.html">Details →</a><a href="pages/tag-yourself-case-study.html">Case study →</a><a href="/assets/portfolio/b-tag-yourself/share-flow.png">Share-flow diagram →</a><a href="https://www.buzzfeed.com/gabrielsanchez/which-pokemon-are-you" target="_blank" rel="noopener">Take the quiz ↗</a></div>
   </div>
-
   <div class="card">
-    <h3>Turnkey sharing — self-serve integration <span class="tag both">BOTH</span></h3>
+    <a class="card-cover" href="pages/turnkey-sharing.html" aria-label="Turnkey sharing — self-serve integration — details"></a>
+    <h3>(c) Turnkey sharing — self-serve integration <span class="tag both">BOTH</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-design">Design/UX</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>Turned the proven share-artifact pattern into a paved road: an internal qualifier + contract so any
        team could integrate generated share artifacts into their own surface without my team in the loop.</p>
-    <div class="chips"><span class="chip">platform thinking applied to a gen-media win</span></div>
-  </div>
-
-  <div class="card">
-    <h3>Snap Quiz — async party trivia <span class="tag gm">GEN MEDIA</span></h3>
-    <p>A personal rapid prototype: player-authored "did you fool your friends?" trivia loop with generated
-       burn cards — concept, design, and build in days. Discussed on request.</p>
-    <div class="chips"><span class="chip">vibe-coded prototype → playable</span></div>
+    <div class="shots"><img src="/assets/portfolio/c-turn-key-sharing/word-chain-preview.png" alt="Word Chain share card (concept)"></div>
+    <div class="chips"><span class="chip">platform thinking applied to a gen-media win</span><span class="chip">concept</span></div>
+    <div class="links"><a href="pages/turnkey-sharing.html">Details →</a></div>
   </div>
 </div>
 
 <h2>🤖 AI systems in production</h2>
 <div class="grid">
   <div class="card">
-    <h3>AI support triage — agentic, human-gated <span class="tag both">BOTH</span></h3>
+    <a class="card-cover" href="pages/ai-support-triage.html" aria-label="AI support triage — agentic, human-gated — details"></a>
+    <h3>(d) AI support triage — agentic, human-gated <span class="tag both">BOTH</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>An agent that took over support-ticket triage: classifies handling + routing, then a gated investigator
        agent reads the live system, code, telemetry and docs to draft the fix and reply — a human approves every call.</p>
     <div class="chips"><span class="chip metric">83.5% handling accuracy</span><span class="chip metric">routing 54%→76%</span><span class="chip">golden-set evals</span><span class="chip">human at the controls</span></div>
-    <div class="links"><a href="./assets/rr-triage-architecture.html">Architecture diagram →</a></div>
+    <div class="links"><a href="pages/ai-support-triage.html">Details →</a><a href="./assets/rr-triage-architecture.html">Architecture diagram →</a></div>
   </div>
-
   <div class="card">
-    <h3>Agentic framework migration <span class="tag sp">PLATFORM</span></h3>
+    <a class="card-cover" href="pages/agentic-migration.html" aria-label="Agentic framework migration & modernization — details"></a>
+    <h3>(e) Agentic framework migration &amp; modernization <span class="tag sp">PLATFORM</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-design">Design/UX</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>Designed an agent loop that migrated a decade-old Python UI service to Next.js — self-verified every
        change, paused only at real blockers, every decision logged.</p>
+    <div class="shots"><img src="/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page"></div>
     <div class="chips"><span class="chip metric">~70,000 lines in ~8% of estimated eng time</span><span class="chip metric">test coverage 26%→97% first</span><span class="chip">reusable pattern for 12+ services</span></div>
+    <div class="links"><a href="pages/agentic-migration.html">Details →</a></div>
   </div>
 </div>
 
 <h2>🛠 Publishing-platform craft</h2>
 <div class="grid">
   <div class="card">
-    <h3>PubHub — social publishing platform <span class="tag sp">PLATFORM</span></h3>
+    <a class="card-cover" href="pages/pubhub.html" aria-label="PubHub — social publishing platform — details"></a>
+    <h3>(f) PubHub — social publishing platform <span class="tag sp">PLATFORM</span> <span class="roles"><span class="role role-lead">Lead</span><span class="role role-design">Design/UX (partial)</span></span></h3>
     <p>Owned the frontend for 8+ years: the internal platform a major media company's social team used to
        publish across six networks.</p>
     <div class="shots">
-      <img src="/assets/portfolio/pubhub/planner.png" alt="Planner">
-      <img src="/assets/portfolio/pubhub/composer.png" alt="Composer">
-      <img src="/assets/portfolio/pubhub/accounts.png" alt="Accounts">
+      <img src="/assets/portfolio/f-pubhub/planner.png" alt="Planner">
+      <img src="/assets/portfolio/f-pubhub/composer.png" alt="Composer">
+      <img src="/assets/portfolio/f-pubhub/accounts.png" alt="Accounts">
     </div>
     <div class="chips"><span class="chip metric">100+ channels · 40+ editors · hundreds of posts/day</span><span class="chip">15 post types · 6 platforms</span></div>
-    <div class="links"><a href="/portfolio#pubhub">Case study →</a></div>
+    <div class="links"><a href="pages/pubhub.html">Details →</a><a href="/portfolio#pubhub">Case study →</a><a href="https://pubhub.n8plusus.com" target="_blank" rel="noopener">🔒 Live demo ↗</a></div>
   </div>
-
   <div class="card">
-    <h3>Callout — WYSIWYG promotions admin <span class="tag sp">PLATFORM</span></h3>
+    <a class="card-cover" href="pages/callout.html" aria-label="Callout — WYSIWYG promotions admin — details"></a>
+    <h3>(g) Callout — WYSIWYG promotions admin <span class="tag sp">PLATFORM</span> <span class="roles"><span class="role role-lead">Lead</span><span class="role role-design">Design/UX (partial)</span></span></h3>
     <p>Built from scratch in Next.js: non-engineers compose audience-targeted promotions with a live preview
        driven by the same production renderer that serves readers.</p>
     <div class="shots">
-      <img src="/assets/portfolio/callout/preview.png" alt="Live preview">
-      <img src="/assets/portfolio/callout/wizard.png" alt="Wizard">
-      <img src="/assets/portfolio/callout/live.png" alt="Live on site">
+      <img src="/assets/portfolio/g-callout/preview.png" alt="Live preview">
+      <img src="/assets/portfolio/g-callout/wizard.png" alt="Wizard">
+      <img src="/assets/portfolio/g-callout/live.png" alt="Live on site">
     </div>
     <div class="chips"><span class="chip">what you see is what ships</span><span class="chip">undo/redo · autosave · server-side caching</span></div>
-    <div class="links"><a href="/portfolio/demo/callout">Interactive demo →</a><a href="https://www.buzzfeed.com/shopping?callout_campaign_id=147&amp;force_callout">Live on BuzzFeed →</a></div>
+    <div class="links"><a href="pages/callout.html">Details →</a><a href="/portfolio/demo/callout">Interactive demo →</a><a href="https://callout.n8plusus.com" target="_blank" rel="noopener">🔒 Live demo ↗</a><a href="https://www.buzzfeed.com/shopping?callout_campaign_id=147&amp;force_callout" target="_blank" rel="noopener">Live on BuzzFeed ↗</a></div>
+  </div>
+</div>
+
+<h2>🎮 Games built with Agentic Workflow process</h2>
+<div class="grid">
+  <div class="card">
+    <a class="card-cover" href="pages/woords.html" aria-label="woords — an infinite crossword (iOS) — details"></a>
+    <h3>(h) woords — an infinite crossword (iOS) <span class="tag gm">GEN MEDIA</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-design">Design/UX</span><span class="role role-fullstack">Fullstack</span></span></h3>
+    <p>"A crossword with no edge." SwiftUI, 564 automated tests, TestFlight beta; season storytelling with
+       generated art direction. Core mechanic is patent-pending (happy to discuss under the hood in person).</p>
+    <div class="shots"><img src="./assets/portfolio/h-woords/2-board-solving.png" alt="woords board solving"></div>
+    <div class="links"><a href="pages/woords.html">Details →</a><a href="https://woords.io" target="_blank" rel="noopener">woords.io ↗</a></div>
+  </div>
+  <div class="card">
+    <a class="card-cover" href="pages/snap-quiz.html" aria-label="Snap Quiz — async party trivia — details"></a>
+    <h3>(i) Snap Quiz — async party trivia <span class="tag gm">GEN MEDIA</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-design">Design/UX</span><span class="role role-fullstack">Fullstack</span></span></h3>
+    <p>A personal rapid prototype: player-authored "did you fool your friends?" trivia loop with generated
+       burn cards — concept, design, and build in days. Discussed on request.</p>
+    <div class="shots"><img src="/assets/portfolio/i-snap-quiz/2-build-2.png" alt="Snap Quiz build"></div>
+    <div class="chips"><span class="chip">vibe-coded prototype → playable</span></div>
+    <div class="links"><a href="pages/snap-quiz.html">Details →</a></div>
   </div>
 </div>
 
 <h2>🏭 Metatoy — my AI-native studio (2026)</h2>
 <div class="grid">
   <div class="card">
-    <h3>Sorb — design-token bridge, live SaaS <span class="tag both">BOTH</span></h3>
-    <p>"Propose the change. See it live. Verify before you merge." A Figma-to-React token bridge: plugin +
-       multi-tenant SaaS control plane (Next.js, Clerk, Stripe, Postgres, Redis). Watch a real app re-skin live:</p>
-    <div class="shots">
-      <img src="./assets/sorb-before.png" alt="Before preview">
-      <img src="./assets/sorb-after.png" alt="After re-skin">
-    </div>
-    <div class="links"><a href="https://demo.sorbcloud.com">Live demo →</a><a href="https://demo-storybook.sorbcloud.com">Storybook →</a><a href="https://bootstrap-styled.metatoy.com">OSS component lib →</a></div>
-  </div>
-
-  <div class="card">
-    <h3>woords — an infinite crossword (iOS) <span class="tag gm">GEN MEDIA</span></h3>
-    <p>"A crossword with no edge." SwiftUI, 564 automated tests, TestFlight beta; season storytelling with
-       generated art direction. Core mechanic is patent-pending (happy to discuss under the hood in person).</p>
-    <div class="shots"><img src="./assets/woords-teaser-poster.jpg" alt="Quanta season teaser"></div>
-    <div class="links"><a href="https://woords.io">woords.io →</a></div>
-  </div>
-
-  <div class="card">
-    <h3>TattleTown — location-based UGC (iOS) <span class="tag both">BOTH</span></h3>
+    <a class="card-cover" href="pages/tattletown.html" aria-label="TattleTown — location-based UGC (iOS) — details"></a>
+    <h3>(j) TattleTown — location-based UGC (iOS) <span class="tag both">BOTH</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-design">Design/UX</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>Drop stories on real places. Live production API, AI moderation pipeline, push, web share pages,
        Dynamic Island compass. 20-screen live feature tour:</p>
-    <div class="links"><a href="https://tt-api.woords.io/features">Feature gallery →</a></div>
+    <div class="shots"><img src="/assets/portfolio/j-tattletown/assets/screens/01-map-home-carousel.png" alt="TattleTown home screen"></div>
+    <div class="links"><a href="pages/tattletown.html">Details →</a><a href="https://tt-api.woords.io/features" target="_blank" rel="noopener">Feature gallery ↗</a></div>
   </div>
-
   <div class="card">
-    <h3>Ratings &amp; review systems KB <span class="tag sp">PLATFORM</span></h3>
-    <p>A research engine that systematically maps how humans rate things — 85 systems across 20 domains,
-       built by an autonomous collect→verify→synthesize agent loop. Method and breadth shown on request.</p>
-    <div class="chips"><span class="chip">85 systems · 20 domains</span><span class="chip">agent-built, source-verified</span></div>
-  </div>
-
-  <div class="card">
-    <h3>The software factory <span class="tag both">BOTH</span></h3>
+    <a class="card-cover" href="pages/software-factory.html" aria-label="The software factory — details"></a>
+    <h3>(k) The software factory <span class="tag both">BOTH</span> <span class="roles"><span class="role role-solo">Solo</span><span class="role role-fullstack">Fullstack</span></span></h3>
     <p>How one engineer ships 4 products across 6 repos: spec-first planning, persona-cast agent pods,
        model-tiered fan-out, screenshot/sim verification skills, and a measured ledger — humans own every gate.</p>
     <div class="chips"><span class="chip">11 reusable skills</span><span class="chip">tokens + wall-time measured per pod</span><span class="chip">Claude Code daily</span></div>
-    <div class="links"><a href="./assets/metatoy-factory-diagram.html">Factory diagram →</a></div>
+    <div class="links"><a href="pages/software-factory.html">Details →</a><a href="./assets/metatoy-factory-diagram.html">Factory diagram →</a></div>
   </div>
 </div>
 

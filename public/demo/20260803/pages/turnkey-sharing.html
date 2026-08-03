@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Turnkey sharing — self-serve integration — Nathan O'Brien</title>
+<link rel="stylesheet" href="../assets/page.css">
+<style>/* this page: flow images fill the full column width */
+.shots.full img{width:100%;height:auto}</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← All demos &amp; case studies</a>
+  <header><h1>(c) Turnkey sharing — self-serve integration <span class="tag both">BOTH</span></h1>
+     <p class="sub">A concept I designed to turn the proven personalized-share pattern into a paved road any game or team could adopt on its own.</p></header>
+  <div class="chips"><span class="chip">platform thinking applied to a gen-media win</span><span class="chip">concept proposal</span></div>
+  <p class="note" style="color:var(--faint);font-size:13px;margin:0 0 8px">My own concept and designs, explored for BuzzFeed's games. Never implemented internally or publicly; shown here as a proposal.</p>
+
+  <section><h2>Overview</h2><p>Tag Yourself proved that a personalized, generated share card drives real sharing. The obvious next move was to stop rebuilding that flow by hand for each surface. Turnkey sharing is the concept I designed to make it a paved road: one shared system, a small per-game config, and a self-service path so any game could add personalized sharing without a bespoke, multi-repo integration.</p></section>
+
+  <section><h2>The pattern: one system, applied to every game</h2>
+    <p>Everything below a game's own skin is shared infrastructure. A new experience supplies a stable <code>result.id</code> plus a small display config; the rest is turn-key: a Share button on the result, a share sheet (comments, native, social), a personalized card rendered by the image-template platform, and a friend-ready unfurl that pulls new players in. The nudge is how a game gets there: inside the vibe editor, an agent detects a shareable result and offers to wire the whole flow, no engineering ticket required.</p>
+    <div class="shots full"><img src="../assets/portfolio/c-turn-key-sharing/pattern.png" alt="The turn-key sharing pattern and the nudge moment"></div>
+  </section>
+
+  <section><h2>Discovery, qualification &amp; contract flow</h2>
+    <p>How a team — or an AI agent — finds and adopts a turnkey add-on, in three stages that each lower friction: manual tool-hunting today, then a standardized discovery layer, then proactive recommendation — a <strong>Project Qualifier → turnkey add-on catalog → contextual recommendation → build contract</strong> (no coding to add on; set up through config or API).</p>
+    <div class="shots full"><img src="../assets/portfolio/c-turn-key-sharing/discovery-flow.png" alt="Tool discovery and adoption: from manual hunting to recommended turnkey add-ons"></div>
+  </section>
+
+  <section><h2>Applied to three very different games</h2>
+    <p>The same drop-in system snapped onto three experiences. Each keeps its own skin; each gets a Share button, a personalized card, and a friend-side unfurl.</p>
+    <p><strong>Word Chain</strong> — the shareable artifact is your daily chain: a bragging-rights score built for the friend group. Before, the streak screen dead-ended with nothing to post; after, Share produces a personalized chain card and a friend taps in.</p>
+    <div class="shots full"><img src="../assets/portfolio/c-turn-key-sharing/word-chain.png" alt="Word Chain sharing flow: result, share sheet, card, unfurl"></div>
+    <p><strong>Soup of the Day</strong> — players already paste the green results grid into comments. The card promotes that self-invented share to an off-platform artifact with a link back.</p>
+    <div class="shots full"><img src="../assets/portfolio/c-turn-key-sharing/soup.png" alt="Soup of the Day sharing flow"></div>
+    <p><strong>The Group Chat (the "no-share" case)</strong> — a vibe-coded text game that ships with no Share button at all. The nudge is exactly what gets it there: it adds the button, registers the card template, and wires the unfurl.</p>
+    <div class="shots full"><img src="../assets/portfolio/c-turn-key-sharing/group-chat.png" alt="The Group Chat sharing flow, added by the nudge"></div>
+  </section>
+
+  <section><h2>Share-card directions</h2>
+    <p>Each game had a few directions, all rendered server-side from edition id + solve state (no free text, so they are defacement-proof by construction):</p>
+    <ul>
+      <li><strong>Word Chain</strong> — "The Chain" (the solved chain as the artifact, with a spoiler-safe locked middle as the curiosity gap), "Tri-meter scorecard" (the current card upgraded in place so it becomes a link), and "Beat my chains" (the stats reframed as a dare).</li>
+      <li><strong>Soup</strong> — "The Grid" (promote the vernacular green grid people already share), "Bowl fill" (a bowl that fills to your completion, collectible energy), and "Rank card" (the earned rank tier as an identity badge).</li>
+    </ul>
+  </section>
+
+  <section><h2>Roadmap ideas</h2>
+    <ul>
+      <li><strong>Return Bridge</strong> — a shared card's engagement becomes a push back to the original sharer ("someone beat your chain"), closing the loop.</li>
+      <li><strong>Daily cadence</strong> — streaks and friend groups layered on the same card slot, so the artifact upgrades without a redesign.</li>
+      <li><strong>Tiered investment</strong> — ship one game's card on the current system as an appetite test, then partial reuse, then the full self-serve builder, so spend follows proven demand.</li>
+    </ul>
+  </section>
+
+  <section><h2>Talking points</h2>
+    <ul>
+      <li>Turning a proven feature into a platform other teams can self-serve, with a config-and-contract instead of a gatekeeper.</li>
+      <li>The nudge: an agent in the authoring tool wiring the whole share flow with no ticket.</li>
+      <li>Designing share artifacts that are personalized and provocation-driven yet render safely from ids alone.</li>
+    </ul>
+  </section>
+
+  <footer style="margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--faint);font-size:12.5px"><a href="../index.html">← All demos</a> · Nathan O'Brien · <a href="https://n8plusus.com">n8plusus.com</a></footer>
+</div>
+</body>
+</html>

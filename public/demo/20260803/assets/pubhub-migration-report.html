@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html><head><style>
+    .sc-placeholder{background:color-mix(in srgb,currentColor 8%,transparent);
+      border:1px solid color-mix(in srgb,currentColor 50%,transparent);
+      border-radius:2px;box-sizing:border-box;overflow:hidden}
+    @keyframes sc-shine{0%{background-position:100% 50%}100%{background-position:0% 50%}}
+    html.sc-dc-streaming .sc-placeholder,
+    html.sc-dc-streaming .sc-interp.sc-missing{position:relative;
+      background:color-mix(in srgb,currentColor 5%,transparent);
+      border-color:transparent}
+    html.sc-dc-streaming .sc-placeholder::before,
+    html.sc-dc-streaming .sc-interp.sc-missing::before{content:'';
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(217,119,87,0) 25%,rgba(247,225,211,.95) 37%,rgba(217,119,87,0) 63%);
+      background-size:400% 100%;animation:sc-shine 1.4s ease infinite}
+    html.sc-dc-streaming .sc-placeholder:nth-child(n+9 of .sc-placeholder)::before,
+    html.sc-dc-streaming .sc-interp.sc-missing:nth-child(n+9 of .sc-interp.sc-missing)::before{animation:none;
+      background:color-mix(in srgb,currentColor 8%,transparent)}
+    .sc-placeholder-error{padding:4px 8px;font:11px/1.4 ui-monospace,monospace;
+      color:color-mix(in srgb,currentColor 70%,transparent);word-break:break-word}
+    .sc-interp.sc-missing{display:inline-block;width:2em;height:1em;overflow:hidden;
+      vertical-align:text-bottom;background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.5);
+      border-radius:2px;box-sizing:border-box;color:transparent;
+      user-select:none}
+    .sc-interp.sc-unresolved{font-family:ui-monospace,monospace;font-size:.85em;
+      color:color-mix(in srgb,currentColor 50%,transparent);
+      background:color-mix(in srgb,currentColor 10%,transparent);border-radius:3px;
+      padding:0 3px}
+    .sc-host.sc-has-error{position:relative}
+    .sc-logic-error{position:absolute;top:8px;left:8px;z-index:2147483647;max-width:60ch;
+      padding:6px 10px;background:#b00020;color:#fff;font:12px/1.4 ui-monospace,monospace;
+      border-radius:4px;white-space:pre-wrap;pointer-events:none}
+    /* Mirrors PRINT_BASELINE_CSS in apps/web deck-stage-export.ts — keep both
+       in sync until dc-runtime regains a build step. */
+    @media print {
+      @page { margin: 0.5cm; }
+      figure, table { break-inside: avoid; }
+      #dc-root, #dc-root > .sc-host { height: auto; }
+      *, *::before, *::after {
+        print-color-adjust: exact; -webkit-print-color-adjust: exact;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        animation-delay: -99s !important; animation-duration: .001s !important;
+        animation-iteration-count: 1 !important; animation-fill-mode: both !important;
+        animation-play-state: running !important; transition-duration: 0s !important;
+      }
+    }
+  </style>
+<style data-omelette-injected="">html,body{background:transparent}</style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>x-dc{display:none!important}</style>
+  <style id="__dc-atomics">.fx{display:flex}.col{display:flex;flex-direction:column}.grid{display:grid}.ac{align-items:center}.jc{justify-content:center}.jb{justify-content:space-between}.f1{flex:1}.noshrink{flex-shrink:0}.wrap{flex-wrap:wrap}.fw5{font-weight:500}.fw6{font-weight:600}.fw7{font-weight:700}.fw8{font-weight:800}.fs11{font-size:11px}.fs12{font-size:12px}.fs13{font-size:13px}.fs14{font-size:14px}.fs15{font-size:15px}.fs16{font-size:16px}.fs20{font-size:20px}.fs22{font-size:22px}.upper{text-transform:uppercase}.tc{text-align:center}.nowrap{white-space:nowrap}.gap8{gap:8px}.gap10{gap:10px}.gap12{gap:12px}.gap16{gap:16px}.gap24{gap:24px}.m0{margin:0}.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.mb12{margin-bottom:12px}.mb16{margin-bottom:16px}.posrel{position:relative}.posabs{position:absolute}.round{border-radius:50%}.ohide{overflow:hidden}.bbox{box-sizing:border-box}.pointer{cursor:pointer}.w100{width:100%}.b0{border:none}</style><link rel="preconnect" href="https://fonts.googleapis.com" data-dc-tpl="1"><link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet" data-dc-tpl="2"><style data-dc-tpl="3">
+          body{margin:0;background:#e9e7e3;font-family:'Libre Franklin',Helvetica,sans-serif;color:#1c1b19;-webkit-font-smoothing:antialiased;}
+          a{color:#b53324;text-decoration:none;}
+          a:hover{color:#8f2419;text-decoration:underline;}
+          .sheet{max-width:1060px;margin:32px auto;background:#fbfaf8;padding:64px 72px 48px;box-shadow:0 2px 24px rgba(28,27,25,0.14);}
+          .kicker{font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#b53324;}
+          .kickrule{width:34px;height:3px;background:#b53324;}
+          .title{font-size:40px;font-weight:800;line-height:1.12;letter-spacing:-0.015em;margin:0;max-width:900px;text-wrap:balance;}
+          .subtitle{font-size:17px;font-weight:400;color:#55524c;line-height:1.5;max-width:820px;}
+          .metaline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#77736b;letter-spacing:0.01em;}
+          .statgrid{display:grid;grid-template-columns:repeat(6,1fr);border-top:2px solid #1c1b19;border-bottom:1px solid #d8d5cf;}
+          .stat{padding:18px 14px 16px 0;}
+          .statnum{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;line-height:1;color:#1c1b19;}
+          .statnum small{font-size:15px;font-weight:500;color:#77736b;}
+          .statlbl{font-size:11.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#77736b;margin-top:7px;line-height:1.35;}
+          .accent{color:#b53324;}
+          .twocol{display:grid;grid-template-columns:1fr 1fr;gap:44px;}
+          .sechead{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid #d8d5cf;padding-bottom:8px;margin-bottom:14px;}
+          .secnum{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:#b53324;}
+          .sectitle{font-size:15px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;margin:0;}
+          .body{font-size:14px;line-height:1.6;color:#33312d;text-wrap:pretty;}
+          .body p{margin:0 0 10px;}
+          .li{display:flex;gap:10px;margin-bottom:9px;font-size:14px;line-height:1.55;color:#33312d;}
+          .tick{width:6px;height:6px;background:#b53324;margin-top:7px;flex-shrink:0;}
+          .li b{font-weight:700;color:#1c1b19;}
+          .mono{font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:#f0eeea;padding:1px 5px;color:#1c1b19;}
+          .findgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px 36px;}
+          .find{border-left:2px solid #d8d5cf;padding-left:16px;}
+          .find h4{font-size:14px;font-weight:700;margin:0 0 5px;}
+          .find p{font-size:13.5px;line-height:1.55;color:#44423d;margin:0;text-wrap:pretty;}
+          .svcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 14px;}
+          .svc{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#33312d;background:#f0eeea;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;overflow-wrap:anywhere;}
+          .svc.this{background:#b53324;color:#fbfaf8;font-weight:600;}
+          .svctag{font-family:'Libre Franklin',Helvetica,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#e2a89f;white-space:nowrap;flex-shrink:0;}
+          .barrow{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+          .barlbl{width:270px;font-size:13px;font-weight:600;color:#33312d;flex-shrink:0;line-height:1.35;}
+          .bartrack{flex:1;display:flex;height:26px;background:#f0eeea;}
+          .seg-est{background:#c9c5bd;height:26px;}
+          .seg-agent{background:#e2a89f;height:26px;}
+          .seg-human{background:#b53324;height:26px;}
+          .barval{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#55524c;white-space:nowrap;}
+          .legend{display:flex;gap:22px;margin-top:4px;}
+          .legitem{display:flex;align-items:center;gap:7px;font-size:12px;color:#55524c;}
+          .sw{width:11px;height:11px;flex-shrink:0;}
+          .ttable{width:100%;border-collapse:collapse;font-size:13.5px;}
+          .ttable th{text-align:left;font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#77736b;border-bottom:2px solid #1c1b19;padding:0 10px 7px 0;}
+          .ttable th.r{text-align:right;padding-right:0;padding-left:10px;}
+          .ttable td{border-bottom:1px solid #e3e0da;padding:9px 10px 9px 0;color:#33312d;vertical-align:top;}
+          .ttable td.r{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:13px;padding-right:0;padding-left:10px;white-space:nowrap;}
+          .ttable tr.total td{border-bottom:none;border-top:2px solid #1c1b19;font-weight:700;color:#1c1b19;}
+          .note{font-size:12px;line-height:1.55;color:#77736b;}
+          .foot{border-top:1px solid #d8d5cf;padding-top:14px;display:flex;justify-content:space-between;gap:24px;}
+          .gap56{gap:56px;}
+        </style><title>PubHub UI Migration Report — BF-17798</title></head>
+  <body>
+    
+    <div id="dc-root"><div class="sc-host" data-sc-name="Migration Report">
+      
+      <div data-dc-tpl="4" class="sheet fx col gap56" data-screen-label="Migration Report">
+
+        <div data-dc-tpl="5" class="fx col gap16">
+          <div data-dc-tpl="6" class="fx col gap8">
+            <div data-dc-tpl="7" class="kickrule"></div>
+            <div data-dc-tpl="8" class="kicker">Agentic Build Report · One-Page Summary</div>
+          </div>
+          <h1 data-dc-tpl="9" class="title">PubHub UI: Tornado → Next.js, built by agents under human direction</h1>
+          <div data-dc-tpl="10" class="subtitle">A full platform migration of BuzzFeed’s social publishing tool — 910 files, ~70k lines — executed by a spec-driven AI agent with every consequential decision human-gated and logged. The first Tornado&nbsp;→&nbsp;Next.js migration at BuzzFeed, and a reusable pattern for the 11 services behind it.</div>
+          <div data-dc-tpl="11" class="metaline">BF-17798 · buzzfeed/mono PR #109395 · Nathan O’Brien · build May 21–30, 2026 · prod test windows Jul 2026</div>
+        </div>
+
+        <div data-dc-tpl="12" class="statgrid">
+          <div data-dc-tpl="13" class="stat"><div data-dc-tpl="14" class="statnum">910</div><div data-dc-tpl="15" class="statlbl">Files changed</div></div>
+          <div data-dc-tpl="16" class="stat"><div data-dc-tpl="17" class="statnum">70<small data-dc-tpl="18">k</small></div><div data-dc-tpl="19" class="statlbl">Lines added · 22.7k removed</div></div>
+          <div data-dc-tpl="20" class="stat"><div data-dc-tpl="21" class="statnum accent">5.05<small data-dc-tpl="22">h</small></div><div data-dc-tpl="23" class="statlbl">Total human hours</div></div>
+          <div data-dc-tpl="24" class="stat"><div data-dc-tpl="25" class="statnum">19.6<small data-dc-tpl="26">h</small></div><div data-dc-tpl="27" class="statlbl">Agent runtime hours</div></div>
+          <div data-dc-tpl="28" class="stat"><div data-dc-tpl="29" class="statnum">71</div><div data-dc-tpl="30" class="statlbl">Logged &amp; gated decisions</div></div>
+          <div data-dc-tpl="31" class="stat"><div data-dc-tpl="32" class="statnum accent">≈97<small data-dc-tpl="33">%</small></div><div data-dc-tpl="34" class="statlbl">Build dev-time reduction</div></div>
+        </div>
+
+        <div data-dc-tpl="35" class="twocol">
+          <div data-dc-tpl="36">
+            <div data-dc-tpl="37" class="sechead"><span data-dc-tpl="38" class="secnum">01</span><h3 data-dc-tpl="39" class="sectitle">The agentic process</h3></div>
+            <div data-dc-tpl="40" class="li"><div data-dc-tpl="41" class="tick"></div><div data-dc-tpl="42"><b data-dc-tpl="43">Spec-first execution.</b> A human-written plan decomposed the migration into 13 tasks; a dedicated agent persona (<span data-dc-tpl="44" class="mono">Dev_Migration_Frontend</span>) executed them in small slices under a hard lift-and-shift rule: legacy code untouched.</div></div>
+            <div data-dc-tpl="45" class="li"><div data-dc-tpl="46" class="tick"></div><div data-dc-tpl="47"><b data-dc-tpl="48">Approval gates, not free rein.</b> Every consequential choice paused for a ~3-minute human approval — 71 gated decisions in total. The human steered; the agent typed.</div></div>
+            <div data-dc-tpl="49" class="li"><div data-dc-tpl="50" class="tick"></div><div data-dc-tpl="51"><b data-dc-tpl="52">Self-verifying agent.</b> Chrome DevTools (MCP) was made a hard prerequisite so the agent inspects the running UI itself — no copy-pasting browser state to the human.</div></div>
+            <div data-dc-tpl="53" class="li"><div data-dc-tpl="54" class="tick"></div><div data-dc-tpl="55"><b data-dc-tpl="56">Tests as the safety net.</b> The legacy unit-test corpus was rebased in: 2,285+ tests with enforced coverage thresholds (97/96/92/91) — green after every fix.</div></div>
+          </div>
+          <div data-dc-tpl="57">
+            <div data-dc-tpl="58" class="sechead"><span data-dc-tpl="59" class="secnum">02</span><h3 data-dc-tpl="60" class="sectitle">Logging &amp; auditability</h3></div>
+            <div data-dc-tpl="61" class="li"><div data-dc-tpl="62" class="tick"></div><div data-dc-tpl="63"><b data-dc-tpl="64">Decision log</b> (<span data-dc-tpl="65" class="mono">bf-17798-agent-decisions.csv</span>): all 71 gates recorded with options considered, choice, risk level, and outcome — graded outcomes overwhelmingly “worked,” 2 revisited, 0 abandoned. Its <i data-dc-tpl="66">recommend-default-next-time</i> column is a training set for the next migration.</div></div>
+            <div data-dc-tpl="67" class="li"><div data-dc-tpl="68" class="tick"></div><div data-dc-tpl="69"><b data-dc-tpl="70">Time log</b> (<span data-dc-tpl="71" class="mono">bf-17798-timelog.csv</span>): human vs. agent hours recorded per slice — the source of every number on this page.</div></div>
+            <div data-dc-tpl="72" class="li"><div data-dc-tpl="73" class="tick"></div><div data-dc-tpl="74"><b data-dc-tpl="75">Living status board</b> in the spec, with a codified rule: every slice rolls up to the board. Plus a route-by-route UX sweep log and a porting-gotchas README for the next team.</div></div>
+          </div>
+        </div>
+
+        <div data-dc-tpl="76">
+          <div data-dc-tpl="77" class="sechead"><span data-dc-tpl="78" class="secnum">03</span><h3 data-dc-tpl="79" class="sectitle">Key findings</h3></div>
+          <div data-dc-tpl="80" class="findgrid">
+            <div data-dc-tpl="81" class="find"><h4 data-dc-tpl="82">Pioneering work — no prior art existed</h4><p data-dc-tpl="83">Research confirmed no completed Tornado&nbsp;→&nbsp;Next.js migration at BuzzFeed. This project establishes the playbook, with 12 React+Tornado services as candidates to follow it (see §06).</p></div>
+            <div data-dc-tpl="84" class="find"><h4 data-dc-tpl="85">One root cause unified three publish bugs</h4><p data-dc-tpl="86">Two dropped <span data-dc-tpl="87" class="mono">config.yml</span> settings (<span data-dc-tpl="88" class="mono">img_cdn_url</span>, <span data-dc-tpl="89" class="mono">s3_bucket</span>) — injected only as deploy-time env vars — explained the Instagram, YouTube, and Twitter publish failures in a single forward fix.</p></div>
+            <div data-dc-tpl="90" class="find"><h4 data-dc-tpl="91">A regression class, not one-off bugs</h4><p data-dc-tpl="92">Server-side Tornado redirect handlers don’t port automatically: one was caught and ported (extension deep links); two more were identified and queued from the same pattern.</p></div>
+            <div data-dc-tpl="93" class="find"><h4 data-dc-tpl="94">Pre-existing observability gap surfaced</h4><p data-dc-tpl="95">Failed YouTube/Twitter publishes write no transaction record — in production today, predating the migration. Editors see a bare “Failed.” Now documented and ticket-ready.</p></div>
+          </div>
+        </div>
+
+        <div data-dc-tpl="96" class="twocol">
+          <div data-dc-tpl="97">
+            <div data-dc-tpl="98" class="sechead"><span data-dc-tpl="99" class="secnum">04</span><h3 data-dc-tpl="100" class="sectitle">The reusable migration pattern</h3></div>
+            <div data-dc-tpl="101" class="li"><div data-dc-tpl="102" class="tick"></div><div data-dc-tpl="103"><b data-dc-tpl="104"><span data-dc-tpl="105" class="mono">_migration_source/</span> strategy</b> — legacy code stays in-tree as the agent’s porting reference; nothing is lost mid-flight.</div></div>
+            <div data-dc-tpl="106" class="li"><div data-dc-tpl="107" class="tick"></div><div data-dc-tpl="108"><b data-dc-tpl="109">Platform-native rollout</b> — <span data-dc-tpl="110" class="mono">rig --deployment-type migration</span>, then a ramp: 10% → 50% → 100% with 24–48h monitored soaks, prod on timed 48h test windows in between.</div></div>
+            <div data-dc-tpl="111" class="li"><div data-dc-tpl="112" class="tick"></div><div data-dc-tpl="113"><b data-dc-tpl="114">A transferable kit</b> — the agent persona, decision defaults, platform reference, and migration README are service-agnostic: the next migration starts warm, not cold.</div></div>
+          </div>
+          <div data-dc-tpl="115">
+            <div data-dc-tpl="116" class="sechead"><span data-dc-tpl="117" class="secnum">05</span><h3 data-dc-tpl="118" class="sectitle">End result</h3></div>
+            <div data-dc-tpl="119" class="li"><div data-dc-tpl="120" class="tick"></div><div data-dc-tpl="121"><b data-dc-tpl="122">Feature-complete Next.js app</b> — SSR bootstrap state, SSO middleware, API-gateway proxy, imagebuilder proxy, static assets — behavior-matched to legacy.</div></div>
+            <div data-dc-tpl="123" class="li"><div data-dc-tpl="124" class="tick"></div><div data-dc-tpl="125"><b data-dc-tpl="126">Stage-validated beta</b> — all primary routes, API writes, and imagebuilder verified on stage; full jest suite green (2,306 tests).</div></div>
+            <div data-dc-tpl="127" class="li"><div data-dc-tpl="128" class="tick"></div><div data-dc-tpl="129"><b data-dc-tpl="130">In production test windows now</b> — first 48h window ran; every reported bug root-caused and fixed forward. Remaining: final QA soak, then the percentage ramp.</div></div>
+          </div>
+        </div>
+
+        <div data-dc-tpl="131">
+          <div data-dc-tpl="132" class="sechead"><span data-dc-tpl="133" class="secnum">06</span><h3 data-dc-tpl="134" class="sectitle">Where the pattern goes next — the 12 React+Tornado UI services</h3></div>
+          <div data-dc-tpl="135" class="svcgrid" style="margin-bottom: 12px;">
+            <div data-dc-tpl="136" class="svc this">pubhub_ui<span data-dc-tpl="137" class="svctag">this migration</span></div>
+            <div data-dc-tpl="138" class="svc">pubhub_channel_matcher_ui</div>
+            <div data-dc-tpl="139" class="svc">pubhub_draft_creator_ui</div>
+            <div data-dc-tpl="140" class="svc">pubhub_input_screener_ui</div>
+            <div data-dc-tpl="141" class="svc">pubhub_channel_candidates_ui</div>
+            <div data-dc-tpl="142" class="svc">pubhub_instagram_image_ui</div>
+            <div data-dc-tpl="143" class="svc">qr_content_updates_to_pubhub_router_ui</div>
+            <div data-dc-tpl="144" class="svc">content_updates_pubhub_router_ui</div>
+            <div data-dc-tpl="145" class="svc">social_scheduling_ui</div>
+            <div data-dc-tpl="146" class="svc">dashbird_ui</div>
+            <div data-dc-tpl="147" class="svc">cms_preview_ui</div>
+            <div data-dc-tpl="148" class="svc">buzzfeed_auth_ui</div>
+          </div>
+          <p data-dc-tpl="149" class="note" style="margin: 0px;">Landscape (mono, surveyed 2026-05-21): 113 UI services total — 53 already Next.js, 37 Python, of which these 12 are the React+Tornado subset this pattern targets. Eight of the twelve are PubHub-family services, so the first reuse wave stays in territory this team already owns; buzzfeed_auth_ui, cms_preview_ui, and dashbird_ui carry the pattern company-wide.</p>
+        </div>
+
+        <div data-dc-tpl="150">
+          <div data-dc-tpl="151" class="sechead"><span data-dc-tpl="152" class="secnum">07</span><h3 data-dc-tpl="153" class="sectitle">Time: AI-assisted vs. estimated human build</h3></div>
+          <div data-dc-tpl="154" class="fx col gap4" style="margin-bottom: 22px;">
+            <div data-dc-tpl="155" class="barrow">
+              <div data-dc-tpl="156" class="barlbl">Estimated human dev time, build only (Tasks 1–8)</div>
+              <div data-dc-tpl="157" class="bartrack"><div data-dc-tpl="158" class="seg-est" style="width: 100%;"></div></div>
+              <div data-dc-tpl="159" class="barval">39.0 h</div>
+            </div>
+            <div data-dc-tpl="160" class="barrow">
+              <div data-dc-tpl="161" class="barlbl">Actual build: agent runtime + human approvals</div>
+              <div data-dc-tpl="162" class="bartrack"><div data-dc-tpl="163" class="seg-agent" style="width: 26.7%;"></div><div data-dc-tpl="164" class="seg-human" style="width: 2.6%;"></div></div>
+              <div data-dc-tpl="165" class="barval">10.4 h + 1.0 h</div>
+            </div>
+            <div data-dc-tpl="166" class="legend">
+              <div data-dc-tpl="167" class="legitem"><div data-dc-tpl="168" class="sw" style="background: rgb(201, 197, 189);"></div>Human estimate (spec)</div>
+              <div data-dc-tpl="169" class="legitem"><div data-dc-tpl="170" class="sw" style="background: rgb(226, 168, 159);"></div>Agent runtime (unattended)</div>
+              <div data-dc-tpl="171" class="legitem"><div data-dc-tpl="172" class="sw" style="background: rgb(181, 51, 36);"></div>Human keyboard time</div>
+            </div>
+          </div>
+          <table data-dc-tpl="173" class="ttable">
+            <tbody data-dc-tpl="174">
+              <tr data-dc-tpl="175"><th data-dc-tpl="176">Phase</th><th data-dc-tpl="177" class="r">Est. human solo</th><th data-dc-tpl="178" class="r">Actual human</th><th data-dc-tpl="179" class="r">Agent runtime</th><th data-dc-tpl="180" class="r">Human time saved</th></tr>
+              <tr data-dc-tpl="181"><td data-dc-tpl="182">Planning &amp; spec (Task 0)</td><td data-dc-tpl="183" class="r">—</td><td data-dc-tpl="184" class="r">3.55 h</td><td data-dc-tpl="185" class="r">0.8 h</td><td data-dc-tpl="186" class="r">—</td></tr>
+              <tr data-dc-tpl="187"><td data-dc-tpl="188"><b data-dc-tpl="189">Build</b> — scaffold, mount, SSO, proxies, bootstrap state (Tasks 1–8)</td><td data-dc-tpl="190" class="r">39 h</td><td data-dc-tpl="191" class="r">1.0 h</td><td data-dc-tpl="192" class="r">10.4 h</td><td data-dc-tpl="193" class="r"><b data-dc-tpl="194">≈38 h (97%)</b></td></tr>
+              <tr data-dc-tpl="195"><td data-dc-tpl="196">Verification through stage — smoke, UX sweep, docs, deploy (Tasks 9–12)</td><td data-dc-tpl="197" class="r">22 h</td><td data-dc-tpl="198" class="r">0.5 h</td><td data-dc-tpl="199" class="r">8.4 h</td><td data-dc-tpl="200" class="r">≈21.5 h</td></tr>
+              <tr data-dc-tpl="201" class="total"><td data-dc-tpl="202">Through stage validation</td><td data-dc-tpl="203" class="r">61 h</td><td data-dc-tpl="204" class="r">5.05 h</td><td data-dc-tpl="205" class="r">19.6 h</td><td data-dc-tpl="206" class="r">≈56 h (92%)</td></tr>
+            </tbody>
+          </table>
+          <p data-dc-tpl="207" class="note" style="margin: 14px 0px 0px;">Method: “Est. human solo” = the spec’s own per-task engineering estimates, written at planning time. Human/agent actuals from the per-slice time log; agent hours are compute runtime, largely unattended and parallelizable. Human build attention was ~20 approval gates at ~3 minutes each. Excludes ongoing QA/soak and the production ramp (Task 13), per scope.</p>
+        </div>
+
+        <div data-dc-tpl="208" class="foot">
+          <div data-dc-tpl="209" class="note">Sources: <span data-dc-tpl="210" class="mono">pubhub_ui/spec/BF-17798_pubhub_nextjs_migration.md</span> · <span data-dc-tpl="211" class="mono">bf-17798-timelog.csv</span> · <span data-dc-tpl="212" class="mono">bf-17798-agent-decisions.csv</span> · <span data-dc-tpl="213" class="mono">tornado-nextjs-migration-landscape.md</span> · PR #109395 · 2026-07-21 fix handoff</div>
+          <div data-dc-tpl="214" class="note" style="white-space: nowrap;">Prepared 2026-07-23</div>
+        </div>
+
+      </div>
+    </div></div>
+    
+  
+
+</body></html>
