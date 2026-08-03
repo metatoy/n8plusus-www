@@ -12,16 +12,82 @@
   <a class="back" href="../index.html">← All demos &amp; case studies</a>
   <header><h1>(k) The software factory <span class="tag both">BOTH</span></h1>
      <p class="sub">How one engineer ships 4 products across 6 repos: spec-first planning, persona-cast agent pods, model-tiered fan-out, screenshot/sim verification skills, and a measured ledger — humans own every gate.</p></header>
-  <div class="chips"><span class="chip">11 reusable skills</span><span class="chip">tokens + wall-time measured per pod</span><span class="chip">Claude Code daily</span></div>
-  <section><h2>Overview</h2><p>How one engineer ships 4 products across 6 repos: spec-first planning, persona-cast agent pods, model-tiered fan-out, screenshot/sim verification skills, and a measured ledger — humans own every gate.</p></section>
-  <section><h2>What I built</h2><p>I built the operating model behind my independent work: an AI-native software factory that lets one engineer ship multiple products across separate repos. It runs on spec-first planning, persona-cast agent pods, model-tiered fan-out, and screenshot and simulation verification, with humans owning every gate.</p></section>
+  <div class="chips"><span class="chip">a dozen+ bespoke skills</span><span class="chip">deterministic multi-agent workflows</span><span class="chip">tokens + wall-time measured per pod</span><span class="chip">Coach OS operating layer</span><span class="chip">Claude Code daily</span></div>
+  <section><h2>Overview</h2><p>How one engineer ships 4 products across 6 repos: spec-first planning, persona-cast agent pods, model-tiered fan-out, screenshot/sim verification skills, and a measured ledger — humans own every gate. Everything below is <strong>bespoke tooling I designed and built</strong>, not off-the-shelf — the factory <em>is</em> the product behind the products.</p></section>
+  <section><h2>What I built</h2><p>An AI-native software factory that lets one engineer ship multiple products across separate repos with the discipline of a team: a spec-first planning system, custom orchestration and verification skills, deterministic multi-agent workflows, an economics ledger, a persistent memory system, and a private studio operating layer (Coach OS). Each capability is a reusable, purpose-built piece — invoked by name, composable, and human-gated.</p></section>
+
+  <section><h2>The bespoke feature set</h2>
+    <p>The factory is a library of custom capabilities I authored. Grouped by what they do:</p>
+    <h3>Planning &amp; orchestration</h3>
+    <ul>
+      <li><strong>Spec-first planning (<code>/metatoy-plan</code>)</strong> — nothing executes until an approved written spec exists; a persona-casting step assigns the right expert "seats" to each plan.</li>
+      <li><strong>Pod orchestration (<code>/orchestrate</code>)</strong> — before any fan-out, a "pod card" declares shape × model·effort, batching, the verify stage, a token budget, and the human gates — then executes.</li>
+      <li><strong>Model-tiered fan-out</strong> — price-aware routing: a flagship model on the hard reasoning, a workhorse on the bulk, a cheap model on mechanical volume.</li>
+      <li><strong>Deterministic multi-agent workflows</strong> — scripted pipelines that fan agents out and back (parallel/pipeline stages, adversarial verify, loop-until-done) with reproducible, cached runs.</li>
+    </ul>
+    <h3>Verification (proof before it lands)</h3>
+    <ul>
+      <li><strong>Headless UI screenshotting</strong> — a Playwright harness that captures any web surface for before/after layout proof.</li>
+      <li><strong>iOS simulator debug loop</strong> — boots a repro, drives it, screenshots, and A/B-isolates the suspect change instead of blind-patching.</li>
+      <li><strong>Live-plugin HID drive</strong> — synthetic clicks + region capture to verify an accessibility-opaque Figma plugin panel in the real app.</li>
+      <li><strong>App Store readiness gauntlet</strong> — a pre-submission pass that catches rejection-class mistakes before every release.</li>
+      <li><strong>End-to-end change verification</strong> — exercises the affected flow and observes behavior, not just tests.</li>
+    </ul>
+    <h3>Release &amp; operations</h3>
+    <ul>
+      <li><strong>Release ritual (<code>cut-release</code>)</strong> — build-bump → verify → gauntlet → strip dev hooks → handoff, stopping at the human archive/TestFlight gate.</li>
+      <li><strong>Session handoffs</strong> — a standard git-state / what-shipped / open-gates document generated at every close.</li>
+      <li><strong>One-command deploys</strong> — a Coolify deploy skill with health-check confirmation.</li>
+      <li><strong>Remote agent appliance</strong> — a Synology-hosted loop that runs event-driven studio tasks off my main machine.</li>
+    </ul>
+    <h3>Autonomous idle lanes</h3>
+    <ul>
+      <li><strong>Autonomous mode (<code>/away</code>)</strong> — when I step away, idle capacity runs an Experiment Engine (isolated git-worktree sandboxes, never touching main) and a Proposal Engine (draft feature specs, never shipped code).</li>
+      <li><strong>Council brainstorm</strong> — a multi-pod discovery/ideation funnel.</li>
+      <li><strong>Knowledge engines</strong> — scaling research loops that build verified, deduplicated knowledge bases (e.g. a ratings/review-systems corpus).</li>
+    </ul>
+    <h3>Economics, memory &amp; governance</h3>
+    <ul>
+      <li><strong>Pod ledger + rollup</strong> — tokens and wall-time measured per pod, reported as a share of a work block, so cost is visible per unit of work.</li>
+      <li><strong>Persistent file-based memory</strong> — durable facts, feedback, and project state with a standing hygiene protocol so the system doesn't rot.</li>
+      <li><strong>Studio dashboard network</strong> — an artifact hub with scheduled daily refresh across every project.</li>
+      <li><strong>Human gate at every risk edge</strong> — deploys, pushes, and spend always stop for a human; the spec is the source of truth.</li>
+    </ul>
+  </section>
+
   <section><h2>How it works</h2><p>Work starts as an approved spec, then agent pods execute it. Model-tiered fan-out routes cheaper models to bulk work and stronger models to the hard parts. Verification skills capture screenshots or run simulations to confirm a change before it lands, and a measured ledger tracks tokens and wall-time per pod. Humans own every gate. The factory diagram below shows the shape.</p></section>
   <section><h2>Factory diagram</h2>
     <iframe src="../assets/metatoy-factory-diagram.html" title="Metatoy software-factory diagram"
             style="width:100%;height:880px;border:1px solid var(--line);border-radius:12px" loading="lazy" scrolling="no"></iframe>
   </section>
-  <section><h2>Results &amp; impact</h2><p>The model makes solo delivery across six active repos possible, with token spend and wall-time measured per pod. It is how I ship products in parallel without a team.</p></section>
-  <section><h2>Talking points</h2><ul><li>Spec-first planning: nothing executes until an approved spec exists.</li><li>Model-tiered fan-out that routes bulk work to cheaper models and hard problems to stronger ones.</li><li>Measuring tokens and wall-time per pod, with a human gate at every step.</li></ul></section>
+
+  <section><h2>Sub-project: Coach OS — the studio's operating system</h2>
+    <p>Coach OS is a bespoke <code>/coach</code> operating layer I built on top of the factory — a private "operating system for a solo studio" that binds three traditionally-fragmented domains into one cybernetic loop. It is not compiled code: the whole OS is a set of agent-executed workflow specs and persona briefs.</p>
+    <h3>Three vectors</h3>
+    <ul>
+      <li><strong>Executive ingestion</strong> — zero-friction daily data dumps and a focus firewall (<code>/coach dump</code>, <code>/coach shield</code>, <code>/coach status</code>) so the day's inputs get captured without derailing deep work.</li>
+      <li><strong>Studio incubation</strong> — MVP velocity, validation, and ship/technical-debt tracking across the product portfolio (<code>/coach ship</code>, <code>/coach debt</code>).</li>
+      <li><strong>Financial allocation</strong> — runway awareness and advisory 50/50 routing of surplus (<code>/coach runway</code>, <code>/coach allocate</code>, <code>/coach advice</code>).</li>
+    </ul>
+    <h3>Features</h3>
+    <ul>
+      <li><strong><code>/coach</code> command suite</strong> — <code>setup · dump · shield · status · ship · debt · runway · allocate · advice</code>, plus on-demand data connectors (<code>mcp connect</code>).</li>
+      <li><strong>Autonomy layer</strong> — event hooks (on payment webhook, on repo sync) and a scheduled tick that surfaces what needs attention — but never auto-executes a gated action.</li>
+      <li><strong>Privacy-by-design invariants</strong> — finance is <em>read-live, never persisted</em> (no balances or revenue figures written to disk); the system is <em>advisory-only</em> and never moves money; data connectors are default-disconnected and project-scoped, so one project's session can't reach another's data.</li>
+      <li><strong>One north-star metric</strong> — contraction of the transitional-runway gap: buying back the founder's time over a defined roadmap.</li>
+    </ul>
+    <p>Coach OS is the clearest expression of the thesis: the same agentic factory that ships products also runs the business around them — as a safe, gated, measurable system.</p>
+  </section>
+
+  <section><h2>Results &amp; impact</h2><p>The model makes solo delivery across six active repos possible, with token spend and wall-time measured per pod. It is how I ship products in parallel without a team — and, via Coach OS, how I run the studio around them under the same gated, measurable discipline.</p></section>
+  <section><h2>Talking points</h2><ul>
+    <li>Every capability here is <strong>bespoke</strong> — I designed and built the planning, orchestration, verification, and operating layers, not assembled a toolchain.</li>
+    <li>Spec-first planning: nothing executes until an approved spec exists.</li>
+    <li>Model-tiered fan-out that routes bulk work to cheaper models and hard problems to stronger ones.</li>
+    <li>Deterministic multi-agent workflows with adversarial verification — parallelism you can trust.</li>
+    <li>Economics are first-class: tokens and wall-time measured per pod, with a human gate at every step.</li>
+    <li>Coach OS proves the factory generalizes from <em>building</em> products to <em>operating</em> a studio — with privacy-by-design (finance never persisted, advisory-only, isolated connectors).</li>
+  </ul></section>
   <section><h2>Links</h2><div class="links"><a href="../assets/metatoy-factory-diagram.html">Factory diagram →</a></div></section>
   <footer style="margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--faint);font-size:12.5px"><a href="../index.html">← All demos</a> · Nathan O'Brien · <a href="https://n8plusus.com">n8plusus.com</a></footer>
 </div>
