@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const {
   PORT = 3000,
   SMTP_HOST = 'smtp.migadu.com',
-  SMTP_PORT = 465,
+  SMTP_PORT = 587, // 587/STARTTLS: the Hetzner host blocks outbound 465 (implicit SSL); 587 is open.
   SMTP_USER,
   SMTP_PASS,
   CONTACT_TO = 'hello@n8plusus.com',
@@ -22,7 +22,7 @@ app.use(express.json({ limit: '32kb' }));
 
 const transporter =
   SMTP_USER && SMTP_PASS
-    ? nodemailer.createTransport({ host: SMTP_HOST, port: Number(SMTP_PORT), secure: true, auth: { user: SMTP_USER, pass: SMTP_PASS } })
+    ? nodemailer.createTransport({ host: SMTP_HOST, port: Number(SMTP_PORT), secure: Number(SMTP_PORT) === 465, auth: { user: SMTP_USER, pass: SMTP_PASS } })
     : null;
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
