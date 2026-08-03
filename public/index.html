@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>N8+US, Inc. — Nathan O'Brien · a technologist who understands creative</title>
-    <meta name="description" content="N8+US, Inc. — Nathan Hunsaker O'Brien. 30 years architecting rich interactive work for the world's biggest brands. Your solutions partner, not your agency." />
+    <meta name="description" content="N8+US, Inc. — Nathan O'Brien. 30 years driving creative imagination to real-world implementation. AI-native, agentic development — fractional CTO, AI architecture, and delivery." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://n8plusus.com/" />
     <meta property="og:title" content="N8+US — a technologist who understands creative" />
-    <meta property="og:description" content="30 years architecting rich interactive work for the world's biggest brands. Your solutions partner, not your agency." />
+    <meta property="og:description" content="30 years driving creative imagination to real-world implementation. Today that space is AI-native, agentic development." />
     <meta property="og:image" content="https://n8plusus.com/assets/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="N8+US — a technologist who understands creative" />
-    <meta name="twitter:description" content="30 years architecting rich interactive work for the world's biggest brands." />
+    <meta name="twitter:description" content="30 years driving creative imagination to real-world implementation — now AI-native and agentic." />
     <meta name="twitter:image" content="https://n8plusus.com/assets/og-image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -148,18 +148,14 @@
       .strip-hole{height:9px;border-radius:1px;background:rgba(141,198,63,0.08);}
       .strip-hole.on{background:var(--green);box-shadow:0 0 6px rgba(141,198,63,0.5);}
 
-      /* About + founder photo (green-duotone terminal treatment) */
+      /* About + founder photo (unfiltered — founder 2026-08-02; the old
+         green-duotone/scanline treatment was removed with the new headshot) */
       .about-grid{display:grid;grid-template-columns:300px 1fr;gap:44px;align-items:start;}
       .photo-frame{
         position:relative;border:1px solid rgba(141,198,63,0.32);border-radius:8px;overflow:hidden;
         background:var(--ink2);box-shadow:0 22px 54px -22px rgba(0,0,0,0.75);
       }
-      .photo-frame img{width:100%;display:block;filter:grayscale(1) contrast(1.06) brightness(0.96);}
-      .photo-frame::after{content:"";position:absolute;inset:0;background:var(--green);mix-blend-mode:overlay;opacity:.34;pointer-events:none;}
-      .photo-frame::before{
-        content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
-        background:repeating-linear-gradient(0deg,rgba(0,0,0,0.16) 0px,rgba(0,0,0,0.16) 1px,transparent 1px,transparent 3px);opacity:.5;
-      }
+      .photo-frame img{width:100%;display:block;}
       .photo-cap{
         position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;justify-content:space-between;
         padding:9px 12px;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;
@@ -170,6 +166,37 @@
       .about-body .green{color:var(--green);}
       .about-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
       .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);border:1px solid rgba(244,242,236,0.14);border-radius:4px;padding:5px 11px;}
+
+      /* Experience — leadership summary + grouped skill pills */
+      .lead-body{font-size:17px;line-height:1.6;color:#cdcac2;max-width:64ch;margin:0 0 14px;}
+      .lead-body b{color:var(--white);}
+      .lead-list{margin:0 0 30px;padding-left:20px;color:#b7b4ac;font-size:15px;line-height:1.7;max-width:64ch;}
+      .lead-list li::marker{color:var(--green);}
+      .sk-groups{display:flex;flex-direction:column;gap:14px;margin:0 0 36px;}
+      .sk-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+      .sk-label{
+        font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+        text-transform:uppercase;color:var(--green);min-width:120px;
+      }
+      .sk-sub{font-size:22px;font-weight:700;letter-spacing:-0.01em;margin:0 0 16px;color:var(--white);}
+
+      /* Services cards */
+      .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+      .svc-card{
+        display:flex;flex-direction:column;gap:10px;
+        border:1px solid rgba(141,198,63,0.24);border-radius:10px;padding:24px 22px;
+        background:linear-gradient(180deg,rgba(141,198,63,0.05),rgba(141,198,63,0.01));
+      }
+      .svc-card .svc-k{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);}
+      .svc-card .svc-t{font-size:20px;font-weight:700;color:var(--white);letter-spacing:-0.01em;}
+      .svc-card .svc-d{font-size:14.5px;line-height:1.55;color:#b7b4ac;}
+      @media (max-width:900px){.svc-grid{grid-template-columns:1fr;}}
+
+      /* Inline social icons (Phosphor, MIT) */
+      .icn{width:16px;height:16px;vertical-align:-3px;margin-right:6px;display:inline-block;}
+      .credits{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:10px;color:#57534b;letter-spacing:.04em;line-height:1.7;}
+      .credits a{color:#6f6a5f;text-decoration:none;}
+      .credits a:hover{color:var(--green);}
 
       .brandwall{
         border:1px solid rgba(141,198,63,0.16);border-radius:8px;
@@ -304,8 +331,9 @@
         <nav class="topnav">
           <a href="#about">About</a>
           <a href="#work">Experience</a>
-          <a href="#opensource">Open&nbsp;Source</a>
+          <a href="#services">Services</a>
           <a href="#portfolio">Portfolio</a>
+          <a href="#opensource">Open&nbsp;Source</a>
           <a href="#contact">Contact</a>
         </nav>
       </div>
@@ -318,10 +346,10 @@
                 <span>n8plusus:~$</span><span>whoami</span><span class="blink"></span>
               </div>
               <h1>A technologist who <span class="glow">understands creative.</span></h1>
-              <p class="sub"><b>30 years architecting rich interactive work</b> for the world's biggest brands — now your solutions partner, not your agency.</p>
+              <p class="sub"><b>30 years driving creative imagination to real-world implementation.</b> Today that space is AI-native, agentic development — where I push the limits daily.</p>
               <div class="cta-row">
                 <a class="btn" href="#contact">▸ Start a project</a>
-                <a class="btn-ghost mono" href="https://www.linkedin.com/in/nathanhunsaker/" target="_blank" rel="noopener">LinkedIn ↗</a>
+                <a class="btn-ghost mono" href="https://www.linkedin.com/in/nathanhunsaker/" target="_blank" rel="noopener"><svg class="icn" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" aria-hidden="true"><rect x="32" y="32" width="192" height="192" rx="8"/><line x1="120" y1="112" x2="120" y2="176"/><line x1="88" y1="112" x2="88" y2="176"/><path d="M120,140a28,28,0,0,1,56,0v36"/><circle cx="88" cy="84" r="12" fill="currentColor" stroke="none"/></svg>LinkedIn ↗</a>
               </div>
               <div class="chips">
                 <span class="chip mono">Quality<span class="dot">·</span></span>
@@ -339,7 +367,7 @@
                 <div class="pc-printed mono" id="pcPrinted"></div>
                 <div class="pc-rows" id="pcRows"></div>
                 <div class="pc-foot mono">
-                  <span>PUNCH: SOLUTIONS PARTNER</span>
+                  <span>PUNCH: IMAGINATION → IMPLEMENTATION</span>
                   <span>REV 2026</span>
                 </div>
               </div>
@@ -364,14 +392,8 @@
             </figure>
             <div>
               <p class="about-body">
-                A <b>senior technologist</b> with an agency lineage — <span class="green">Fallon, OLSON, Schematic, Martin·Williams</span> — who has spent three decades turning ambitious creative into shipped, resilient interactive work. Today he's building at <b>Metatoy</b>, his independent studio, and consulting as a solutions partner for teams who need the bridge between design and engineering. And yes, <b>he knows how to use a soldering iron.</b>
+                Nathan O'Brien is the founder of <b>Metatoy</b>, an independent product studio, and consults through <b>N8+US</b> as a fractional CTO and AI architect. Before going independent he spent 11 years at BuzzFeed as a Staff engineer — owner of its social-publishing frontend and the engineer who proved its first agentic-AI patterns in production. Before that, a decade of agency leadership: Director of Technology at <span class="green">Schematic</span> on Target.com, growing <span class="green">OLSON</span>'s interactive team from 4 to 36, and early web work at <span class="green">Fallon</span> and <span class="green">Martin·Williams</span> — BMWFilms, Bahamas.com — back to 1995. Every era has been the same job, done at the newest seam between design and engineering. <b>Today that seam is AI.</b>
               </p>
-              <div class="about-meta">
-                <span class="tag mono">architect</span>
-                <span class="tag mono">creative-technologist</span>
-                <span class="tag mono">solder + laser-cut</span>
-                <span class="tag mono">design↔code</span>
-              </div>
             </div>
           </div>
         </div>
@@ -379,8 +401,47 @@
 
       <section class="section" id="work">
         <div class="wrap">
-          <div class="section-label mono">Brand Experience<span class="num">02</span></div>
-          <h2 class="h2">Trusted by teams building for the world's biggest names.</h2>
+          <div class="section-label mono">Experience<span class="num">02</span></div>
+          <h2 class="h2">Leadership, proven at scale.</h2>
+          <p class="lead-body">Technical direction and team leadership across major-brand agency delivery, an 11-year Staff-engineer run at BuzzFeed, and now solo studio delivery — applied today as <b>fractional leadership through N8+US</b>.</p>
+          <ul class="lead-list">
+            <li>Built and led a <b style="color:#f4f2ec;">36-person</b> blended interactive team at OLSON (12 full-time + 24 contract) delivering across 100+ clients.</li>
+            <li>Director of Technology at Schematic — Target.com navigation redesign, delivery coordinated across New York, Los Angeles, and Costa Rica.</li>
+            <li>Client pitches and new business, mentoring and performance management, conference speaking on interactive and web technology.</li>
+          </ul>
+          <div class="sk-groups">
+            <div class="sk-row">
+              <span class="sk-label">AI / Agentic</span>
+              <span class="tag mono">LLM orchestration</span>
+              <span class="tag mono">multi-agent workflows</span>
+              <span class="tag mono">MCP servers</span>
+              <span class="tag mono">agentic migrations</span>
+              <span class="tag mono">Claude Code</span>
+            </div>
+            <div class="sk-row">
+              <span class="sk-label">Frontend</span>
+              <span class="tag mono">React</span>
+              <span class="tag mono">Next.js</span>
+              <span class="tag mono">TypeScript</span>
+              <span class="tag mono">design systems &amp; tokens</span>
+              <span class="tag mono">Playwright</span>
+            </div>
+            <div class="sk-row">
+              <span class="sk-label">Backend / Infra</span>
+              <span class="tag mono">Node.js</span>
+              <span class="tag mono">Python</span>
+              <span class="tag mono">PostgreSQL</span>
+              <span class="tag mono">Redis</span>
+              <span class="tag mono">Docker</span>
+              <span class="tag mono">GitHub Actions</span>
+            </div>
+            <div class="sk-row">
+              <span class="sk-label">Mobile</span>
+              <span class="tag mono">SwiftUI</span>
+              <span class="tag mono">two apps in TestFlight beta</span>
+            </div>
+          </div>
+          <h3 class="sk-sub">Trusted by teams building for the world's biggest names.</h3>
           <div class="brandwall">
             <div class="logo-wall" id="brandGrid"></div>
           </div>
@@ -388,83 +449,38 @@
         </div>
       </section>
 
-      <section class="section" id="opensource">
+      <section class="section" id="services">
         <div class="wrap">
-          <div class="section-label mono">Open Source<span class="num">03</span></div>
-          <div class="os-card">
-            <div class="os-term-bar mono">
-              <span class="os-dot" style="background:#ff5f56"></span>
-              <span class="os-dot" style="background:#ffbd2e"></span>
-              <span class="os-dot" style="background:#8dc63f"></span>
-              <span style="margin-left:8px;">~/metatoy — build in public</span>
+          <div class="section-label mono">Services<span class="num">03</span></div>
+          <h2 class="h2">What I take on.</h2>
+          <div class="svc-grid">
+            <div class="svc-card">
+              <span class="svc-k mono">Service 01</span>
+              <span class="svc-t">Fractional CTO / Technical Leadership</span>
+              <span class="svc-d">Technical direction, architecture, and team building — mentoring engineers, setting standards, and translating between business, creative, and engineering.</span>
             </div>
-            <div class="os-body">
-              <div class="os-pkg mono">@metatoy/bootstrap-styled</div>
-              <p class="os-desc">A Bootstrap-5 React + styled-components library. Full-suite parity, published to npm. <b style="color:#f4f2ec;">I build in the open</b> — the same way I'd build with you.</p>
-              <div class="os-install mono"><span class="p">$</span> npm install @metatoy/bootstrap-styled</div>
-              <a class="os-link mono" href="https://github.com/nhunsaker/bootstrap-styled" target="_blank" rel="noopener">github.com/nhunsaker/bootstrap-styled ↗</a>
+            <div class="svc-card">
+              <span class="svc-k mono">Service 02</span>
+              <span class="svc-t">AI-Native &amp; Agentic Delivery</span>
+              <span class="svc-d">Agentic migrations, LLM orchestration, and MCP integration — production AI features with measured outcomes, not demos.</span>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="divider">
-        <div class="divider-strip">
-          <div class="strip-row" id="strip2"></div>
-        </div>
-      </div>
-
-      <section class="section" id="contact">
-        <div class="wrap">
-          <div class="section-label mono">Contact<span class="num">04</span></div>
-          <div class="contact-grid">
-            <div class="contact-main">
-              <h2 class="h2">Start a project.</h2>
-              <p class="about-body" style="font-size:16px;max-width:44ch;">Tell me what you're building. I'll punch the card and get back to you.</p>
-              <form class="form" id="contactForm" action="/api/contact" method="post" novalidate>
-                <div class="hp" aria-hidden="true">
-                  <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
-                </div>
-                <div class="field">
-                  <label class="mono">Name</label>
-                  <input type="text" name="name" placeholder="Ada Lovelace" required />
-                </div>
-                <div class="field">
-                  <label class="mono">Email</label>
-                  <input type="email" name="email" placeholder="you@company.com" required />
-                </div>
-                <div class="field">
-                  <label class="mono">Message</label>
-                  <textarea name="message" placeholder="What are we building?" required></textarea>
-                </div>
-                <div class="form-foot">
-                  <button class="btn" type="submit" id="contactSubmit">▸ Send message</button>
-                  <span class="form-status mono" id="formStatus" role="status" aria-live="polite"></span>
-                </div>
-              </form>
+            <div class="svc-card">
+              <span class="svc-k mono">Service 03</span>
+              <span class="svc-t">Design ↔ Engineering Bridge</span>
+              <span class="svc-d">Design systems and tokens, Figma-to-code pipelines, and rich interactive builds that ship exactly as designed.</span>
             </div>
-
-            <aside class="contact-aside">
-              <div class="punchcard" id="contactCard">
-                <div class="pc-head mono">
-                  <span>MESSAGE CARD</span>
-                  <span>DECODE ///</span>
-                </div>
-                <div class="pc-printed mono" id="pcPrinted2"></div>
-                <div class="pc-rows" id="pcRows2"></div>
-                <div class="pc-foot mono">
-                  <span>DECODED: "LET'S BUILD"</span>
-                  <span>TRANSMIT →</span>
-                </div>
-              </div>
-            </aside>
+            <div class="svc-card">
+              <span class="svc-k mono">Service 04</span>
+              <span class="svc-t">Zero-to-Product Sprints</span>
+              <span class="svc-d">Spec-first, multi-agent delivery: idea to working software — npm packages, live SaaS, TestFlight apps — at solo-studio speed.</span>
+            </div>
           </div>
         </div>
       </section>
 
       <section class="section" id="portfolio">
         <div class="wrap">
-          <div class="section-label mono">Portfolio<span class="num">05</span></div>
+          <div class="section-label mono">Portfolio<span class="num">04</span></div>
           <h2 class="h2">Case studies — a decade of publishing, promotion &amp; sharing platforms.</h2>
           <div class="pf-grid">
             <a class="pf-card" href="/portfolio#pubhub">
@@ -493,6 +509,72 @@
         </div>
       </section>
 
+      <div class="divider">
+        <div class="divider-strip">
+          <div class="strip-row" id="strip2"></div>
+        </div>
+      </div>
+
+      <section class="section" id="contact">
+        <div class="wrap">
+          <div class="section-label mono">Contact<span class="num">05</span></div>
+          <div class="contact-grid">
+            <div class="contact-main">
+              <h2 class="h2">Start a project.</h2>
+              <p class="about-body" style="font-size:16px;max-width:44ch;">Tell me what you're building. I'll punch the card and get back to you.</p>
+              <form class="form" id="contactForm" action="/api/contact" method="post" novalidate>
+                <div class="hp" aria-hidden="true">
+                  <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+                </div>
+                <div class="field">
+                  <label class="mono">Name</label>
+                  <input type="text" name="name" placeholder="Ada Lovelace" required />
+                </div>
+                <div class="field">
+                  <label class="mono">Email</label>
+                  <input type="email" name="email" placeholder="you@company.com" required />
+                </div>
+                <div class="field">
+                  <label class="mono">Message</label>
+                  <textarea name="message" placeholder="What are we building?" required></textarea>
+                </div>
+                <div class="form-foot">
+                  <button class="btn" type="submit" id="contactSubmit">▸ Send message</button>
+                  <span class="form-status mono" id="formStatus" role="status" aria-live="polite"></span>
+                </div>
+              </form>
+            </div>
+
+            <aside class="contact-aside">
+              <figure class="photo-frame" style="margin:0;">
+                <img src="assets/contact-team.jpg" alt="A team working together around a table" width="720" loading="lazy" />
+                <figcaption class="photo-cap"><span>LET'S BUILD</span><span>TRANSMIT →</span></figcaption>
+              </figure>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="opensource">
+        <div class="wrap">
+          <div class="section-label mono">Open Source<span class="num">06</span></div>
+          <div class="os-card">
+            <div class="os-term-bar mono">
+              <span class="os-dot" style="background:#ff5f56"></span>
+              <span class="os-dot" style="background:#ffbd2e"></span>
+              <span class="os-dot" style="background:#8dc63f"></span>
+              <span style="margin-left:8px;">~/metatoy — build in public</span>
+            </div>
+            <div class="os-body">
+              <div class="os-pkg mono">@metatoy/bootstrap-styled</div>
+              <p class="os-desc">A Bootstrap-5 React + styled-components library. Full-suite parity, published to npm. <b style="color:#f4f2ec;">I build in the open</b> — the same way I'd build with you.</p>
+              <div class="os-install mono"><span class="p">$</span> npm install @metatoy/bootstrap-styled</div>
+              <a class="os-link mono" href="https://github.com/nhunsaker/bootstrap-styled" target="_blank" rel="noopener">github.com/nhunsaker/bootstrap-styled ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <footer class="footer">
         <div class="wrap">
           <div class="footer-grid">
@@ -508,7 +590,7 @@
                 </svg>
                 <div>
                   <div class="wordmark mono" style="font-weight:700;font-size:15px;">N8<span class="plus">+</span>US, Inc.</div>
-                  <div class="mono" style="font-size:11px;color:#6f6a5f;margin-top:4px;">Solutions partner, not an agency.</div>
+                  <div class="mono" style="font-size:11px;color:#6f6a5f;margin-top:4px;">From imagination to implementation.</div>
                 </div>
               </div>
             </div>
@@ -518,13 +600,16 @@
             </div>
             <div class="fcol">
               <span class="ftitle">Elsewhere</span>
-              <a href="https://github.com/nhunsaker" target="_blank" rel="noopener">GitHub ↗</a>
-              <a href="https://www.linkedin.com/in/nathanhunsaker/" target="_blank" rel="noopener">LinkedIn ↗</a>
+              <a href="https://github.com/nhunsaker" target="_blank" rel="noopener"><svg class="icn" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" aria-hidden="true"><path d="M119.83,56A52,52,0,0,0,76,32a51.92,51.92,0,0,0-3.49,44.7A49.28,49.28,0,0,0,64,104v8a48,48,0,0,0,48,48h48a48,48,0,0,0,48-48v-8a49.28,49.28,0,0,0-8.51-27.3A51.92,51.92,0,0,0,196,32a52,52,0,0,0-43.83,24Z"/><path d="M104,232V192a32,32,0,0,1,32-32h0a32,32,0,0,1,32,32v40"/><path d="M104,208H72a32,32,0,0,1-32-32A32,32,0,0,0,8,144"/></svg>GitHub ↗</a>
+              <a href="https://www.linkedin.com/in/nathanhunsaker/" target="_blank" rel="noopener"><svg class="icn" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" aria-hidden="true"><rect x="32" y="32" width="192" height="192" rx="8"/><line x1="120" y1="112" x2="120" y2="176"/><line x1="88" y1="112" x2="88" y2="176"/><path d="M120,140a28,28,0,0,1,56,0v36"/><circle cx="88" cy="84" r="12" fill="currentColor" stroke="none"/></svg>LinkedIn ↗</a>
             </div>
           </div>
           <div class="copy mono">
             <span>© 2026 N8+US, Inc. · Built in the open.</span>
             <span>Minneapolis · design ↔ code</span>
+          </div>
+          <div class="credits">
+            Credits: photo "Teamwork makes the dream work." by <a href="https://unsplash.com/@mainermedia" target="_blank" rel="noopener">Dylan Gillis</a> under the <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash license</a> · headshot by <a href="https://twincitiesheadshots.com" target="_blank" rel="noopener">twincitiesheadshots.com</a> · icons by <a href="https://phosphoricons.com" target="_blank" rel="noopener">Phosphor</a> (MIT)
           </div>
         </div>
       </footer>
@@ -601,7 +686,7 @@
         }
         function build() {
           buildCard(document.getElementById("pcRows"), document.getElementById("pcPrinted"), { seed: 4211, greenCols: [3, 8, 14, 19, 24], printed: "N8+US0123456789ABCDEFGH" });
-          buildCard(document.getElementById("pcRows2"), document.getElementById("pcPrinted2"), { seed: 9173, greenCols: [5, 11, 17, 22], printed: "LETSBUILD0123456789ABCD" });
+          // (contact punchcard replaced by the team photo — founder 2026-08-02)
           buildStrip(document.getElementById("strip1"), 1337);
           buildStrip(document.getElementById("strip2"), 8842);
           buildBrandWall();
