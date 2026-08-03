@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Résumé editor — N8+US</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root{ --ink:#231f20; --green:#8dc63f; --green-dim:#5f8a2a; --white:#f4f2ec; --muted:#9d9a92; --line:#3a3637; }
+      *{box-sizing:border-box;}
+      html,body{margin:0;padding:0;height:100%;}
+      body{background:var(--ink);color:var(--white);font-family:"Space Grotesk",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+      .mono{font-family:"JetBrains Mono",ui-monospace,monospace;}
+
+      .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--ink);z-index:5;}
+      .toolbar .t-title{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--green);margin-right:auto;}
+      .btn{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.02em;padding:8px 13px;border-radius:5px;cursor:pointer;
+        border:1px solid rgba(244,242,236,.28);color:var(--white);background:transparent;text-decoration:none;transition:border-color .15s,color .15s,background .15s;}
+      .btn:hover{border-color:var(--green);color:var(--green);}
+      .btn.primary{background:var(--green);color:var(--ink);border-color:var(--green);font-weight:700;}
+      .btn.primary:hover{color:var(--ink);box-shadow:0 0 20px rgba(141,198,63,.45);}
+      .save-state{font-size:11px;color:var(--muted);font-family:"JetBrains Mono",monospace;}
+
+      .cols{display:grid;grid-template-columns:1fr 1fr;gap:0;height:calc(100vh - 53px);}
+      .editor,.preview{overflow-y:auto;padding:22px 24px;}
+      .editor{border-right:1px solid var(--line);}
+      .preview{background:#fff;color:var(--ink);}
+
+      fieldset{border:1px solid var(--line);border-radius:8px;margin:0 0 16px;padding:14px 16px;}
+      legend{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.12em;color:var(--green-dim);text-transform:uppercase;padding:0 6px;}
+      label{display:block;font-size:11px;letter-spacing:.04em;color:var(--muted);margin:10px 0 4px;text-transform:uppercase;}
+      input,textarea{width:100%;background:#1a1718;border:1px solid var(--line);border-radius:5px;color:var(--white);
+        font-family:"Space Grotesk",sans-serif;font-size:13px;padding:8px 10px;resize:vertical;}
+      input:focus,textarea:focus{outline:none;border-color:var(--green);}
+      textarea{min-height:60px;line-height:1.45;}
+      .hint{font-size:10.5px;color:var(--muted);margin-top:3px;font-style:italic;}
+      .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+      .card{border:1px dashed var(--line);border-radius:7px;padding:12px;margin:12px 0;}
+      .card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+      .card-head b{font-size:12px;color:var(--green);font-family:"JetBrains Mono",monospace;}
+      .mini{font-size:11px;padding:5px 9px;}
+      .mini.del{border-color:rgba(255,120,120,.4);color:#e89;}
+      .mini.del:hover{border-color:#e66;color:#e66;}
+
+      /* preview reuses the print theme's class names */
+      .preview header.name{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:4px;}
+      .preview header.name h1{font-size:28px;margin:0;font-weight:700;}
+      .preview header.name .title{font-weight:600;font-size:13px;margin-top:6px;}
+      .preview header.name .contact{margin-top:9px;font-size:11px;color:#6f6a5f;display:flex;flex-wrap:wrap;gap:4px 10px;}
+      .preview .section-label{color:var(--green-dim);font-size:10px;letter-spacing:.16em;margin:22px 0 9px;padding-bottom:5px;border-bottom:1px solid #dcd7c9;}
+      .preview .summary{font-size:12.5px;margin:14px 0 0;}
+      .preview .job-head,.preview .role-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;}
+      .preview .job-head h3{font-size:15px;margin:14px 0 0;font-weight:700;}
+      .preview .job-meta,.preview .role-meta{color:#6f6a5f;font-size:10px;}
+      .preview .role{margin-top:10px;}
+      .preview .role-head h4{font-size:12.5px;margin:0;font-weight:600;}
+      .preview .role-intro{margin:5px 0;font-size:11.5px;}
+      .preview ul{margin:5px 0 0;padding-left:0;list-style:none;}
+      .preview li{position:relative;padding-left:15px;margin:4px 0;font-size:11.5px;}
+      .preview li::before{content:"▸";position:absolute;left:0;color:var(--green-dim);font-size:9px;top:1px;}
+      .preview strong{font-weight:700;}
+      .preview .job-note{margin-top:10px;font-style:italic;color:#555;font-size:11px;}
+      .preview .earlier-head{font-size:13px;margin:16px 0 0;font-weight:700;}
+      .preview .earlier li,.preview .earlier-note{font-size:11px;}
+      .preview .earlier-note{color:#6f6a5f;font-style:italic;margin-top:7px;padding-left:15px;}
+      .preview .skills p{margin:7px 0;font-size:11.5px;}
+      .preview .skill-group{font-weight:700;}
+      .preview .education p{margin:4px 0;font-size:11.5px;}
+
+      @media (max-width:860px){.cols{grid-template-columns:1fr;height:auto;}.editor{border-right:none;border-bottom:1px solid var(--line);}}
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <span class="t-title">resume-edit · source: resume.json</span>
+      <span id="saveState" class="save-state"></span>
+      <button class="btn" id="reload">Reload from server</button>
+      <label class="btn" style="margin:0;">Upload JSON<input id="upload" type="file" accept="application/json,.json" hidden /></label>
+      <button class="btn" id="copyJson">Copy JSON</button>
+      <button class="btn" id="dlMd">Download .md</button>
+      <button class="btn primary" id="dlJson">Download resume.json</button>
+    </div>
+
+    <div class="cols">
+      <div class="editor"><form id="form"></form></div>
+      <div class="preview"><div id="preview"></div></div>
+    </div>
+
+    <script type="module">
+      import { renderBody, contactLinks, esc, toMarkdown, loadResume } from './resume-render.js';
+
+      const DRAFT_KEY = 'n8us-resume-draft-v5';
+      let D = {};
+      const $ = s => document.querySelector(s);
+      const form = $('#form'), preview = $('#preview'), saveState = $('#saveState');
+
+      const getPath = (o, p) => p.split('.').reduce((x, k) => (x == null ? x : x[k]), o);
+      function setPath(o, p, v){ const ks = p.split('.'); let x = o;
+        for (let i=0;i<ks.length-1;i++){ const k=ks[i]; if (x[k]==null) x[k] = /^\d+$/.test(ks[i+1]) ? [] : {}; x = x[k]; }
+        x[ks[ks.length-1]] = v; }
+
+      // ---- form builder -------------------------------------------------
+      const field = (label, path, val, hint) =>
+        `<label>${label}</label><input data-path="${path}" value="${esc(val ?? '')}" />${hint?`<div class="hint">${hint}</div>`:''}`;
+      const area = (label, path, val, hint, arr) =>
+        `<label>${label}</label><textarea data-path="${path}"${arr?' data-array="lines"':''}>${esc(arr ? (val||[]).join('\n') : (val ?? ''))}</textarea>${hint?`<div class="hint">${hint}</div>`:''}`;
+
+      function buildForm(){
+        const P = [];
+        P.push(`<fieldset><legend>Header</legend>
+          ${field('Name','name',D.name)}
+          ${field('Title / tagline','title',D.title)}
+          ${field('Location','location',D.location)}
+          <div class="row2">${field('Email','contact.email',D.contact?.email)}${field('Phone','contact.phone',D.contact?.phone,'blank = hidden')}</div>
+          <div class="row2">${field('LinkedIn','contact.linkedin',D.contact?.linkedin)}${field('GitHub','contact.github',D.contact?.github)}</div>
+        </fieldset>`);
+
+        P.push(`<fieldset><legend>Summary</legend>${area('Summary','summary',D.summary,'**bold** and *italic* supported')}</fieldset>`);
+
+        P.push(`<fieldset><legend>Experience</legend>`);
+        (D.experience||[]).forEach((job, ji) => {
+          P.push(`<div class="card"><div class="card-head"><b>Company #${ji+1}</b>
+            <button type="button" class="btn mini del" data-action="delJob" data-i="${ji}">Remove company</button></div>
+            <div class="row2">${field('Company','experience.'+ji+'.company',job.company)}${field('Tenure','experience.'+ji+'.tenure',job.tenure)}</div>`);
+          (job.roles||[]).forEach((r, ri) => {
+            const base = 'experience.'+ji+'.roles.'+ri;
+            P.push(`<div class="card"><div class="card-head"><b>Role #${ri+1}</b>
+              <button type="button" class="btn mini del" data-action="delRole" data-i="${ji}" data-j="${ri}">Remove role</button></div>
+              ${field('Role title',base+'.title',r.title)}
+              <div class="row2">${field('Dates',base+'.dates',r.dates)}${field('Location',base+'.location',r.location)}</div>
+              ${area('Intro line',base+'.intro',r.intro)}
+              ${area('Bullets (one per line)',base+'.bullets',r.bullets,'one bullet per line; **bold** supported',true)}
+            </div>`);
+          });
+          P.push(`<button type="button" class="btn mini" data-action="addRole" data-i="${ji}">+ Add role</button>
+            ${field('Company note (italic)','experience.'+ji+'.note',job.note)}
+          </div>`);
+        });
+        P.push(`<button type="button" class="btn mini" data-action="addJob">+ Add company</button></fieldset>`);
+
+        P.push(`<fieldset><legend>Earlier</legend>
+          ${area('Entries (one per line)','earlier',D.earlier,'one role per line; **bold** supported',true)}
+          ${area('Earlier note','earlierNote',D.earlierNote)}</fieldset>`);
+
+        P.push(`<fieldset><legend>Skills</legend>`);
+        (D.skills||[]).forEach((s, si) => {
+          P.push(`<div class="card"><div class="card-head"><b>${esc(s.group||'Group '+(si+1))}</b>
+            <button type="button" class="btn mini del" data-action="delSkill" data-i="${si}">Remove</button></div>
+            ${field('Group','skills.'+si+'.group',s.group)}
+            ${area('Items','skills.'+si+'.items',s.items,'separate with " · "')}</div>`);
+        });
+        P.push(`<button type="button" class="btn mini" data-action="addSkill">+ Add skill group</button></fieldset>`);
+
+        P.push(`<fieldset><legend>Education</legend>${area('Entries (one per line)','education',D.education,null,true)}</fieldset>`);
+
+        form.innerHTML = P.join('');
+      }
+
+      // ---- render preview + persistence --------------------------------
+      function renderPreview(){
+        const links = contactLinks(D.contact).map(l => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join(' · ');
+        preview.innerHTML = `<header class="name"><h1>${esc(D.name)}</h1><div class="title">${esc(D.title)}</div>
+          <div class="contact">${esc(D.location)}${links?' · '+links:''}</div></header>${renderBody(D)}`;
+      }
+      let t; function autosave(){
+        clearTimeout(t);
+        t = setTimeout(() => { localStorage.setItem(DRAFT_KEY, JSON.stringify(D)); mark('draft saved in browser · Download to write the file'); }, 250);
+      }
+      function mark(msg){ saveState.textContent = msg; }
+
+      // ---- events -------------------------------------------------------
+      form.addEventListener('input', e => {
+        const el = e.target; const path = el.dataset.path; if (!path) return;
+        let v = el.value;
+        if (el.dataset.array === 'lines') v = v.split('\n').map(s => s.trim()).filter(Boolean);
+        setPath(D, path, v);
+        renderPreview(); autosave();
+      });
+      form.addEventListener('click', e => {
+        const b = e.target.closest('[data-action]'); if (!b) return;
+        const a = b.dataset.action, i = +b.dataset.i, j = +b.dataset.j;
+        if (a === 'addJob') (D.experience ||= []).push({ company:'', tenure:'', roles:[{title:'',dates:'',location:'',intro:'',bullets:[]}], note:'' });
+        if (a === 'delJob') D.experience.splice(i,1);
+        if (a === 'addRole') (D.experience[i].roles ||= []).push({ title:'',dates:'',location:'',intro:'',bullets:[] });
+        if (a === 'delRole') D.experience[i].roles.splice(j,1);
+        if (a === 'addSkill') (D.skills ||= []).push({ group:'', items:'' });
+        if (a === 'delSkill') D.skills.splice(i,1);
+        buildForm(); renderPreview(); autosave();
+      });
+
+      function refresh(){ buildForm(); renderPreview(); }
+      function download(name, text, type){
+        const blob = new Blob([text], { type }); const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
+      }
+      $('#dlJson').onclick = () => download('resume.json', JSON.stringify(D, null, 2) + '\n', 'application/json');
+      $('#dlMd').onclick   = () => download('resume.md', toMarkdown(D), 'text/markdown');
+      $('#copyJson').onclick = async () => { await navigator.clipboard.writeText(JSON.stringify(D, null, 2)); mark('JSON copied to clipboard'); };
+      $('#reload').onclick = async () => {
+        if (!confirm('Discard the browser draft and reload resume.json from the server?')) return;
+        localStorage.removeItem(DRAFT_KEY); D = await loadResume(); refresh(); mark('loaded from server resume.json');
+      };
+      $('#upload').onchange = async e => {
+        const f = e.target.files[0]; if (!f) return;
+        try { D = JSON.parse(await f.text()); refresh(); autosave(); mark('loaded from uploaded file'); }
+        catch (err) { alert('Not valid JSON: ' + err.message); }
+      };
+
+      // ---- boot: prefer the browser draft, else the server file --------
+      (async () => {
+        const draft = localStorage.getItem(DRAFT_KEY);
+        if (draft) { try { D = JSON.parse(draft); mark('restored unsaved browser draft · Reload from server to reset'); } catch {} }
+        if (!D || !D.name) {
+          try { D = await loadResume(); mark('loaded from server resume.json'); }
+          catch (e) { mark('could not load resume.json — Upload a file'); D = { name:'', title:'', location:'', contact:{}, experience:[], skills:[], education:[] }; }
+        }
+        refresh();
+      })();
+    </script>
+  </body>
+</html>
