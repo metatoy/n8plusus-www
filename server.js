@@ -1,6 +1,7 @@
 // N8+US site — serves the static site + POST /api/contact → Migadu SMTP → hello@n8plusus.com.
 // JS only, Node 20, ESM. Env: SMTP_USER, SMTP_PASS (required to send); CONTACT_TO, SMTP_HOST/PORT (optional).
 import express from 'express';
+import morgan from 'morgan';
 import nodemailer from 'nodemailer';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -17,6 +18,13 @@ const {
 
 const app = express();
 app.disable('x-powered-by');
+
+// Behind Coolify's Traefik proxy → trust X-Forwarded-For so req.ip is the real client IP.
+app.set('trust proxy', true);
+// HTTP access log (Apache "combined": IP, timestamp, method+path, status, size, referrer, user-agent)
+// → stdout → docker/Coolify logs. Skip the health-check pings so they don't flood the log.
+app.use(morgan('combined', { skip: (req) => req.path === '/health' }));
+
 app.use(express.urlencoded({ extended: true, limit: '32kb' }));
 app.use(express.json({ limit: '32kb' }));
 
