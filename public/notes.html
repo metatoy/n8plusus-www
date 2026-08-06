@@ -1,0 +1,383 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar Cycler</title>
+<style>
+  :root { --bg:#0f1216; --panel:#151a21; --line:#232a33; --fg:#e6e6e6; --dim:#8a95a2; --accent:#f26722; --trap:#e8b93e; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; height:100vh; display:flex; flex-direction:column; overflow:hidden; }
+  header { flex:0 0 auto; display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--panel); border-bottom:1px solid var(--line); }
+  header h1 { font-size:14px; margin:0; white-space:nowrap; }
+  header .dots { display:flex; gap:6px; flex:1; justify-content:center; flex-wrap:wrap; }
+  header .dots button { border:1px solid var(--line); background:transparent; color:var(--dim); font-size:11px; padding:3px 9px; border-radius:12px; cursor:pointer; }
+  header .dots button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  header .ctl { display:flex; gap:6px; align-items:center; }
+  header .ctl button, header .ctl select { background:#1d232b; color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:4px 10px; font-size:13px; cursor:pointer; }
+  header .ctl button:hover { border-color:var(--accent); }
+  #bar { flex:0 0 4px; background:var(--line); position:relative; }
+  #fill { position:absolute; inset:0 auto 0 0; width:0%; background:var(--accent); transition:width .1s linear; }
+  main { flex:1 1 auto; overflow-y:auto; padding:22px clamp(16px, 6vw, 90px) 60px; scroll-behavior:auto; }
+  main h2 { color:var(--accent); font-size:26px; margin:0 0 14px; }
+  main h3 { color:var(--fg); font-size:19px; margin:22px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px; }
+  main p { margin:9px 0; }
+  main li { margin:5px 0; }
+  main code { background:#1d232b; border:1px solid var(--line); border-radius:4px; padding:1px 5px; font-size:.92em; }
+  main blockquote { margin:12px 0; padding:10px 14px; background:#131a24; border-left:3px solid var(--accent); border-radius:0 8px 8px 0; }
+  main hr { border:0; border-top:1px solid var(--line); margin:18px 0; }
+  em { color:var(--trap); font-style:italic; }
+  strong { color:#fff; }
+  .traphl { color:var(--trap); font-weight:600; }
+  footer { flex:0 0 auto; padding:8px 16px; background:var(--panel); border-top:1px solid var(--line); color:var(--dim); font-size:12px; display:flex; justify-content:space-between; }
+  #paused { color:var(--trap); font-weight:600; display:none; }
+  @media (max-width:700px){ header{flex-wrap:wrap} header .dots{order:3; width:100%} }
+</style>
+
+<header>
+  <h1>📖 TR Glossary</h1>
+  <div class="dots" id="dots"></div>
+  <div class="ctl">
+    <button id="prev" title="previous (←)">←</button>
+    <button id="play" title="pause/resume (space)">⏸</button>
+    <button id="next" title="next (→)">→</button>
+    <select id="dur"><option value="15" selected>15s</option><option value="30">30s</option><option value="45">45s</option><option value="60">60s</option><option value="90">90s</option></select>
+  </div>
+</header>
+<div id="bar"><div id="fill"></div></div>
+<main id="view"></main>
+<footer><span id="pos"></span><span id="paused">⏸ PAUSED — space to resume</span><span>← → arrows · space pauses · click a chip to jump</span></footer>
+
+<script type="text/plain" id="md">
+## 1. 🔴 Machine Learning
+
+**Supervised learning** — learn a mapping from **labeled** examples to a target. Two kinds: *classification* (discrete label) and *regression* (continuous number).
+**Unsupervised learning** — no labels; find **structure**. Clustering (k-means), dimensionality reduction (PCA), anomaly detection.
+- *Trap:* "grouping with no predefined labels" = unsupervised; anything "predict X from features" = supervised. Semi-supervised = some labels; reinforcement = learn from reward.
+
+**Confusion matrix** — the 2×2 of **TP / FP / TN / FN** (true/false × positive/negative). Everything below is computed from it.
+
+**Precision** = TP / (TP + FP) — *of what I flagged positive, how much was right.* Punishes false alarms.
+**Recall** (a.k.a. sensitivity, TPR) = TP / (TP + FN) — *of what was actually positive, how much did I catch.* Punishes misses.
+- *Trap:* the two trade off. "Don't miss anything" domains (e-discovery, cancer screening) prioritize **recall**. "Don't cry wolf" domains prioritize precision.
+
+**F1 score** = 2 · P · R / (P + R) — the **harmonic mean** of precision and recall. Near the *lower* of the two, so it's only high when **both** are high.
+
+> **HOW TO CALCULATE — worked example.** Say: **TP = 40, FP = 10, FN = 20** (TN irrelevant to F1).
+> **Step 1 — Precision:** P = TP / (TP + FP) = 40/50 = **0.80**
+> **Step 2 — Recall:** R = TP / (TP + FN) = 40/60 = **0.667**
+> **Step 3 — F1:** 2 · (0.80 · 0.667) / (0.80 + 0.667) = 1.067 / 1.467 ≈ **0.73**
+> **Shortcut straight from counts:** **F1 = 2·TP / (2·TP + FP + FN)** = 80/110 ≈ **0.727** ✓ same answer.
+> **Mental example:** TP=30, FP=10, FN=10 → 60/80 = **0.75**. (P = R = 0.75 → F1 equals them: free sanity check.)
+> **Sanity rules:** F1 lands **between P and R, closer to the smaller**; P or R = 0 → F1 = 0.
+
+- *Trap:* use F1 (not accuracy) when **classes are imbalanced**.
+- *Trap:* F1 is **not** the average of P and R (P=1.0, R=0.1: average = 0.55, real F1 = 0.18). Distractors love the plain average.
+
+**Accuracy** = (TP + TN) / all — fraction correct.
+- *Trap:* **accuracy lies on imbalanced data.** 99% "not fraud" → always-negative scores 99% and catches zero fraud.
+
+**Train / validation / test:** **Train** fits **weights** · **Validation** tunes **hyperparameters**, model selection, early stopping (touched many times) · **Test** = the **one-time** final unbiased estimate.
+- *Trap:* peeking at the test set repeatedly turns it into a validation set.
+
+**k-fold cross-validation** — k folds; each is validation once; average.
+- *Trap:* the go-to when **data is small**.
+
+**Overfitting** — great on training, poor on new data. Fixes: **regularization, dropout, more data, simpler model, early stopping.**
+**Underfitting** — poor on both; too simple. Fix: more capacity.
+- *Trap:* big train-vs-val gap = overfitting; *adding parameters* makes it worse.
+
+**Regularization** — penalize complexity (L1/Lasso → sparsity; L2/Ridge → small weights). **Dropout** — randomly zero neurons during training.
+
+**Data leakage** — val/test (or future) info sneaks into training. Classic: normalizing on the **full** dataset before splitting.
+- *Trap:* fit preprocessing on **train only**.
+
+**Early stopping** — halt when **validation loss** starts rising.
+
+## 2. 🔴 NLP (classical / pre-transformer)
+
+**Bag of words** — vector of **word counts**, order ignored; length = **vocab size** (sparse).
+- *Trap:* BoW **discards order** — "plaintiff sued defendant" == "defendant sued plaintiff."
+
+**TF-IDF** — term freq × **inverse** doc freq. Upweights words rare across the corpus.
+- *Trap:* word in nearly every doc → IDF ≈ **0** ("court" in a legal corpus).
+
+**N-grams** — n consecutive tokens; recover **local order** ("New York", "not guilty"). Cost: vocab explodes.
+
+**Word embedding (word2vec/GloVe)** — **dense** vector; **similar words sit close**.
+- *Trap:* the win is **semantic similarity** — one-hot vectors are all equidistant.
+
+**Sequence labeling** — **one tag per token** (POS, NER) vs one label per document.
+**NER** — find and type entities (person/org/location/date/citation) — the legal-AI extraction use case.
+
+**BIO tagging** — **B**-egin, **I**-nside, **O**-utside.
+- *Trap:* **I-X must follow B-X**. "O, I-PER" is **invalid**.
+
+**RNN** — token-by-token with hidden state; **vanishing gradients** over long sequences.
+**LSTM** — RNN + **gates** (forget/input/output) + protected cell state → gradients survive.
+- *Trap:* gates fix **vanishing gradients / long-range memory**, not overfitting or speed.
+
+**BiLSTM** — one LSTM left→right + one right→left, concatenated per token → context from **both sides**.
+- *Trap:* why bidirectional: disambiguate by what comes *after* ("Washington" person vs place). Not speed, not fewer embeddings.
+
+**CRF layer** — on top of BiLSTM; scores the **whole tag sequence**, enforces **valid transitions** (forbids I-ORG after B-PER).
+- *Trap:* BiLSTM scores tokens independently; **CRF** adds sequence legality. Classic NER stack: **embeddings → BiLSTM → CRF → tags.**
+
+## 3. 🟢 LLMs / RAG
+
+**LLM** — large transformer predicting the next token.
+
+**RAG** — retrieve documents at query time, put them in the prompt, answer from **grounded evidence**.
+- **Order:** *(ingest)* **chunk → embed → store in vector DB**; *(query)* **embed query → retrieve top-k → augment prompt → generate.**
+- *Why:* cuts **hallucination** + **staleness**, **no retraining**.
+- *Trap:* memorize the order — wrong answers scramble it.
+
+**Embedding / vector store** — similar meaning → nearby vectors; vector DB does nearest-neighbor. **Cosine similarity** = the metric. **Hybrid** = dense + BM25 keyword. **Re-ranking** = second model re-orders top-k.
+- *Trap:* RAG matches by **cosine similarity**, not edit distance / regex.
+
+**Chunking** — too **large** → diluted, imprecise retrieval; too **small** → loses surrounding meaning.
+
+**Hallucination** — **fluent, confident, fabricated** (invented case citations).
+- *Mitigations:* RAG grounding, **verifiable citations**, human review, **lower temperature**, evals/golden sets, refusal patterns.
+- *Trap:* legal-assistant fix = **grounding + checkable citations**, not bigger model / bigger context / higher temp (higher temp is *worse*).
+
+**Temperature** — low = deterministic; high = diverse (and more fabrication-prone).
+
+**Bias** — inherited mainly from **training data**. Mitigate at: **data** (curation) · **training** (alignment, RLHF) · **deployment** (evals, red-teaming, guardrails).
+- *Trap:* root cause = **training data**, not tokenizer/hardware/temperature. TR's line: "trusted, **unbiased** information."
+
+**RLHF** — humans rank outputs → reward model → LLM optimized against it. Alignment/bias/safety lever.
+
+**Grounding** — constrain answers to supplied evidence; traceable claims (CoCounsel's pitch).
+
+**Evals** — systematic **measurement** of output quality, run repeatedly. Dimensions: accuracy, grounding, relevance, safety, bias.
+**Golden set** — the **curated, labeled reference dataset** evals score against; the yardstick that catches regressions.
+- *Trap:* golden set = **labeled ground truth**; evals = the **process** of scoring against it.
+
+**RAG shape:** **Index (offline):** docs → chunk → embed → vector DB. **Query (online):** embed → retrieve top-k → augment → generate grounded, cited answer.
+
+**MCP** — open standard connecting LLM apps to **tools and data**. "USB-C for AI."
+- **3 roles:** **Host** (LLM app) → **Client** (connector) → **Server** (capabilities).
+- **3 primitives:** **Tools** = model-controlled · **Resources** = app-controlled · **Prompts** = user-controlled.
+- **Transport:** JSON-RPC 2.0 over stdio or Streamable HTTP.
+- *Trap:* MCP standardizes **how a model reaches tools/data** — not a model, vector DB, or training method.
+
+## 4. 🟡 Python (intermediate)
+
+**Mutable default argument** — `def f(x, box=[])` — created **once**, **persists across calls**.
+- *Trap:* `f(1); f(2)` → `[1, 2]`. Fix: default `None`, create inside.
+
+**Generator / yield** — **lazy**, one value at a time, constant memory.
+- *Trap:* benefit = **laziness/memory**, not parallelism or speed.
+
+**Decorator** — takes a function, returns a wrapped replacement. `@deco` ⇒ `f = deco(f)`.
+
+**Context manager (with)** — `__enter__`/`__exit__`; **cleanup runs even on exception**.
+
+**== vs is** — value vs **identity**.
+- *Trap:* equal lists: `==` True, `is` False. Use `is` only for `None`.
+
+**Shallow vs deep copy** — shallow **shares nested** objects; deepcopy clones every level.
+- *Trap:* mutating a nested element of a shallow copy shows through.
+
+**GIL** — one thread runs Python bytecode at a time.
+- *Trap:* CPU-bound → **multiprocessing**; threads/asyncio fine for **I/O-bound**.
+
+**@classmethod** gets `cls` (alternate constructors); **@staticmethod** gets nothing implicit.
+
+**Set / dict membership is O(1)** (hash table).
+- *Trap:* `x in a_list` = **O(n)**; `x in a_set` = **O(1)**.
+
+## 5. 🟢 REST APIs
+
+**REST** — noun URLs + HTTP methods, **stateless**.
+**Statelessness** — server keeps no session → any instance serves any request → horizontal scaling.
+
+**Idempotency** — **GET, PUT, DELETE = idempotent**; **POST = NOT** (retries need an idempotency key); PATCH = depends.
+
+**Status codes:** 200 OK · **201 Created** · 204 No Content · 301/304 · 400 · **401 Unauthorized (authN)** · **403 Forbidden (authZ)** · 404 · 409 Conflict · **429 rate limit** · 500 · 503.
+- *Traps:* **401 = who are you?** vs **403 = you can't**. **429** = rate limit. Created → **201**, not 200.
+
+**Auth** — Bearer/OAuth 2.0, API keys; auth**entication** (identity) ≠ auth**orization** (permission).
+
+**API styles:**
+- **REST** — the default; simple, cacheable. Weakness: **over/under-fetching**, round-trips.
+- **GraphQL** — client picks **exact fields** (fixes over-fetch). Weakness: **caching harder**, N+1.
+- **gRPC** — **binary** protobuf over HTTP/2, typed, fast, **streaming**; best **internal**. Not browser-friendly.
+- **Webhooks** — **server pushes** events to a client URL; async, event-driven.
+- **WebSocket** — persistent **bidirectional** real-time.
+- **MCP** — the "API layer" for LLMs reaching tools.
+- *Trap:* GraphQL = pick fields / cache harder · gRPC = internal binary streaming · webhooks = server-initiated.
+
+## 6. 🟡 System design & indexes
+
+**Index** — speeds reads, costs **slower writes** + RAM/disk.
+- *Trap:* the main cost is **write overhead** — index what you query.
+
+**B-tree** — sorted; **equality, ranges, ordering, prefix** (`BETWEEN`, `ORDER BY`, `LIKE 'abc%'`). The default.
+**Hash index** — **equality only**.
+- *Trap:* range/sort → B-tree.
+
+**Composite index (a, b)** — **leftmost-prefix rule**: works for `a` or `a AND b`, **not `b` alone**.
+
+**Covering index** — has all needed columns → **index-only scan**.
+
+**Leading wildcard** — `LIKE '%term%'` can't use a B-tree.
+- *Trap:* substring search → **full-text / inverted index**.
+
+**Inverted index** — **term → documents** (posting list). Search engines' core (Westlaw's backbone).
+
+**EXPLAIN** — shows the plan; planner ignores an index for: functions on the column, low selectivity, leading wildcards.
+
+**Read-heavy scaling:** **cache (Redis) + read replicas** first.
+- *Trap:* **replicas scale reads; sharding scales writes.**
+
+**Quick terms** — load balancer · CDN · CAP (partition: C *or* A) · queue (async work).
+
+## 7. 🟡 Git · patterns · hashing · testing
+
+### Git
+**merge vs rebase** — merge keeps both histories + merge commit; rebase replays for **linear** history but **rewrites hashes**.
+- *Trap:* **never rebase shared branches.**
+**revert vs reset** — revert adds an **inverse commit** (safe when pushed); reset rewrites history.
+- *Trap:* undo a **pushed** commit → **revert**.
+Also: cherry-pick · stash · squash · fast-forward · HEAD.
+
+### Design patterns
+- **Singleton** — one instance. *Trap:* global state in disguise.
+- **Factory** — create without naming the concrete class.
+- **Strategy** — swap **interchangeable algorithms**.
+- **Observer** — **pub/sub** event notification.
+- **Adapter** — bridge **incompatible interfaces**.
+- **Decorator** — **wrap to extend**.
+- **Facade** — simple front over a complex subsystem. **MVC** — model/view/controller.
+- *Trap:* Strategy/Observer/Adapter/Decorator are the most-confused four.
+
+### Hashing
+**Hash function** — fixed-size output, deterministic, **avalanche**.
+**Collision** — unavoidable (pigeonhole). Resolution: **chaining** vs **open addressing**; load factor → resize. O(1) avg, O(n) worst.
+**SHA-256** — integrity/signatures. **Passwords** — **salted, slow** hash (bcrypt/argon2).
+- *Trap:* plain SHA-256 too fast for passwords; salt defeats rainbow tables; **Base64 is encoding, not security.**
+
+### Testing
+**Pyramid** — many unit · fewer integration · few e2e.
+- *Trap:* inverted pyramid = slow, flaky CI.
+**Stub** = canned data; **mock** = also **asserts how it was called**. **Fake** = working lightweight impl.
+**TDD** — red → green → refactor. **Coverage** — signal, not goal. **pytest** — the runner.
+
+## ⚡ The 12 most likely traps
+1. **F1 = harmonic mean**; use on **imbalanced** data (accuracy lies). Shortcut: **2·TP/(2·TP+FP+FN)**.
+2. **Recall** for "don't miss"; **precision** for "don't false-alarm."
+3. **Validation** tunes hyperparameters; **test** touched **once**.
+4. **BoW discards order**; **TF-IDF** zeroes corpus-wide words.
+5. **I-X must follow B-X** (BIO); **CRF** enforces valid transitions.
+6. **BiLSTM** = context from **both directions**.
+7. **RAG:** chunk → embed → store → retrieve → augment → generate; matches by **cosine**.
+8. Legal hallucination fix = **grounding + citations**.
+9. **Mutable default arg** persists; **GIL** → multiprocessing for CPU-bound.
+10. **401 authN** · **403 authZ** · **429 rate limit** · **201 created**.
+11. **Leftmost-prefix**; leading wildcard → **inverted/full-text**.
+12. **revert** for pushed commits; **salted slow hash** for passwords.
+</script>
+
+<script>
+(function () {
+  var md = document.getElementById('md').textContent;
+
+  // split into sections on "## "
+  var parts = md.split(/\n(?=## )/).map(function (s) { return s.trim(); }).filter(Boolean);
+
+  function inline(s) {
+    s = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    s = s.replace(/(Trap:)/g, '<span class="traphl">$1</span>');
+    return s;
+  }
+
+  function render(sec) {
+    var lines = sec.split('\n'), out = [], inList = false, inQuote = false;
+    function closeAll() { if (inList) { out.push('</ul>'); inList = false; } if (inQuote) { out.push('</blockquote>'); inQuote = false; } }
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (/^## /.test(l)) { closeAll(); out.push('<h2>' + inline(l.slice(3)) + '</h2>'); }
+      else if (/^### /.test(l)) { closeAll(); out.push('<h3>' + inline(l.slice(4)) + '</h3>'); }
+      else if (/^> ?/.test(l)) { if (inList) { out.push('</ul>'); inList = false; } if (!inQuote) { out.push('<blockquote>'); inQuote = true; } out.push('<p>' + inline(l.replace(/^> ?/, '')) + '</p>'); }
+      else if (/^- /.test(l)) { if (inQuote) { out.push('</blockquote>'); inQuote = false; } if (!inList) { out.push('<ul>'); inList = true; } out.push('<li>' + inline(l.slice(2)) + '</li>'); }
+      else if (/^\d+\. /.test(l)) { if (inQuote) { out.push('</blockquote>'); inQuote = false; } if (!inList) { out.push('<ul>'); inList = true; } out.push('<li>' + inline(l.replace(/^\d+\. /, '')) + '</li>'); }
+      else if (l.trim() === '') { closeAll(); }
+      else { closeAll(); out.push('<p>' + inline(l) + '</p>'); }
+    }
+    closeAll();
+    return out.join('\n');
+  }
+
+  var titles = parts.map(function (s) {
+    var m = s.match(/^## (.+)$/m);
+    var t = m ? m[1] : '?';
+    return t.replace(/^\d+\.\s*/, '').replace(/[🔴🟢🟡⚡]/g, '').trim().split(' ').slice(0, 2).join(' ');
+  });
+
+  var view = document.getElementById('view'), fill = document.getElementById('fill'),
+      dots = document.getElementById('dots'), pos = document.getElementById('pos'),
+      playBtn = document.getElementById('play'), pausedEl = document.getElementById('paused'),
+      durSel = document.getElementById('dur');
+
+  var idx = 0, playing = true, t0 = 0, elapsed = 0, raf = null;
+
+  titles.forEach(function (t, i) {
+    var b = document.createElement('button');
+    b.textContent = (i + 1) + ' ' + t;
+    b.onclick = function () { go(i, true); };
+    dots.appendChild(b);
+  });
+
+  function dur() { return parseInt(durSel.value, 10) * 1000; }
+
+  function go(i, resetPause) {
+    idx = (i + parts.length) % parts.length;
+    view.innerHTML = render(parts[idx]);
+    view.scrollTop = 0;
+    Array.prototype.forEach.call(dots.children, function (b, j) { b.classList.toggle('on', j === idx); });
+    pos.textContent = 'Section ' + (idx + 1) + ' / ' + parts.length;
+    elapsed = 0; t0 = performance.now();
+    if (resetPause && !playing) setPlaying(true);
+  }
+
+  function setPlaying(p) {
+    playing = p;
+    playBtn.textContent = p ? '⏸' : '▶';
+    pausedEl.style.display = p ? 'none' : 'inline';
+    if (p) t0 = performance.now() - elapsed;
+  }
+
+  function tick(now) {
+    if (playing) {
+      elapsed = now - t0;
+      var frac = Math.min(1, elapsed / dur());
+      fill.style.width = (frac * 100) + '%';
+      // auto-scroll long sections over the duration
+      var max = view.scrollHeight - view.clientHeight;
+      if (max > 0) view.scrollTop = max * frac;
+      if (frac >= 1) go(idx + 1);
+    } else {
+      fill.style.width = (Math.min(1, elapsed / dur()) * 100) + '%';
+    }
+    raf = requestAnimationFrame(tick);
+  }
+
+  playBtn.onclick = function () { setPlaying(!playing); };
+  document.getElementById('next').onclick = function () { go(idx + 1); };
+  document.getElementById('prev').onclick = function () { go(idx - 1); };
+  document.addEventListener('keydown', function (e) {
+    if (e.key === ' ') { e.preventDefault(); setPlaying(!playing); }
+    else if (e.key === 'ArrowRight') go(idx + 1);
+    else if (e.key === 'ArrowLeft') go(idx - 1);
+  });
+  // pausing by interacting with the text (manual scroll study)
+  view.addEventListener('wheel', function () { if (playing) setPlaying(false); }, { passive: true });
+  view.addEventListener('touchmove', function () { if (playing) setPlaying(false); }, { passive: true });
+
+  go(0);
+  raf = requestAnimationFrame(tick);
+})();
+</script>
