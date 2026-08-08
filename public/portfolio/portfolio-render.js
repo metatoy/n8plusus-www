@@ -52,20 +52,33 @@
     </div>`;
   }
 
+  const hasSelection = () => state.mapsTo || state.roles.size;
+  const byFeatured = (a, b) => (b.featured === true) - (a.featured === true);
+  const gridOf = (arr) => `<div class="grid">${arr.sort(byFeatured).map(card).join("")}</div>`;
+
   function paintGrid(data, gridMount) {
-    const byEra = {};
-    (data.projects || []).filter(projectMatches).forEach((p) => (byEra[p.era] = byEra[p.era] || []).push(p));
-    const shown = Object.values(byEra).reduce((n, a) => n + a.length, 0);
-    const html = (data.meta.eras || [])
-      .filter((era) => byEra[era.id] && byEra[era.id].length)
-      .map((era) => {
-        const items = byEra[era.id].sort((a, b) => (b.featured === true) - (a.featured === true)).map(card).join("");
-        return `<section class="era"><h2 class="era-h"><span>${esc(era.label)}</span><span class="mono range">${esc(era.range)}</span></h2><div class="grid">${items}</div></section>`;
-      })
-      .join("");
-    gridMount.innerHTML = html || `<p class="empty mono">No projects match that filter. <button class="linklike" data-clear="1">Clear</button></p>`;
+    const projects = data.projects || [];
     const c = document.getElementById("fcount");
-    if (c) c.textContent = shown + " / " + (data.projects || []).length + " shown";
+
+    if (!hasSelection()) {
+      // Default: grouped by era, with date dividers.
+      const byEra = {};
+      projects.forEach((p) => (byEra[p.era] = byEra[p.era] || []).push(p));
+      gridMount.innerHTML = (data.meta.eras || [])
+        .filter((era) => byEra[era.id] && byEra[era.id].length)
+        .map((era) => `<section class="era"><h2 class="era-h"><span>${esc(era.label)}</span><span class="mono range">${esc(era.range)}</span></h2>${gridOf(byEra[era.id])}</section>`)
+        .join("");
+      if (c) c.textContent = "";
+      return;
+    }
+
+    // Selection mode: no era dividers. Selected work up top, then a single "Other".
+    const selected = projects.filter(projectMatches);
+    const other = projects.filter((p) => !projectMatches(p));
+    let html = selected.length ? gridOf(selected) : `<p class="empty mono">Nothing matches that selection. <button class="linklike" data-clear="1">Clear</button></p>`;
+    if (other.length) html += `<section class="era other"><h2 class="era-h"><span>Other</span></h2>${gridOf(other)}</section>`;
+    gridMount.innerHTML = html;
+    if (c) c.textContent = selected.length + " selected";
   }
 
   window.renderIndex = async function (mountId) {
