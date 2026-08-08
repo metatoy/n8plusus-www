@@ -21,23 +21,6 @@
       }
     ],
     "filters": {
-      "mapsTo": [
-        {
-          "id": "gen-media",
-          "short": "GEN MEDIA",
-          "full": "Generative Media Engineer, AI Social"
-        },
-        {
-          "id": "platform",
-          "short": "PLATFORM",
-          "full": "Staff SWE, AI Marketing"
-        },
-        {
-          "id": "both",
-          "short": "BOTH",
-          "full": "maps to both roles"
-        }
-      ],
       "roleTypes": [
         {
           "id": "solo",
@@ -58,6 +41,44 @@
           "id": "fullstack",
           "short": "Fullstack",
           "full": "front & back"
+        }
+      ],
+      "skills": [
+        {
+          "id": "ai-agents",
+          "short": "AI Agents",
+          "icon": "robot",
+          "full": "agentic systems · multi-agent · MCP"
+        },
+        {
+          "id": "generative-ai",
+          "short": "Generative AI",
+          "icon": "sparkle",
+          "full": "LLM integration · prompt & agent design · LangChain"
+        },
+        {
+          "id": "machine-learning",
+          "short": "Machine Learning",
+          "icon": "brain",
+          "full": "evals · modeling · recommendations · sentiment"
+        },
+        {
+          "id": "frontend",
+          "short": "Frontend",
+          "icon": "code",
+          "full": "React · Next.js · TypeScript"
+        },
+        {
+          "id": "backend",
+          "short": "Backend",
+          "icon": "stack-simple",
+          "full": "Node · Python · FastAPI · Postgres · Temporal"
+        },
+        {
+          "id": "design-systems",
+          "short": "Design Systems",
+          "icon": "palette",
+          "full": "design tokens · styled-components · Figma"
         }
       ]
     }
@@ -110,13 +131,16 @@
           "description": "The multi-tenant control plane running live at demo.sorbcloud.com."
         }
       ],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack",
         "design-ux"
+      ],
+      "skillTags": [
+        "ai-agents",
+        "frontend",
+        "backend",
+        "design-systems"
       ]
     },
     {
@@ -147,12 +171,15 @@
           "description": "How a raw ticket becomes a classified, investigated, drafted resolution."
         }
       ],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack"
+      ],
+      "skillTags": [
+        "ai-agents",
+        "generative-ai",
+        "machine-learning",
+        "backend"
       ]
     },
     {
@@ -201,13 +228,15 @@
           "description": "Managing active and scheduled promotions."
         }
       ],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack",
         "design-ux"
+      ],
+      "skillTags": [
+        "frontend",
+        "design-systems",
+        "backend"
       ]
     },
     {
@@ -249,14 +278,16 @@
           "description": "Self-service management for 100+ connected channels."
         }
       ],
-      "mapsTo": [
-        "gen-media",
-        "platform"
-      ],
       "roleTypes": [
         "lead",
         "fullstack",
         "design-ux"
+      ],
+      "skillTags": [
+        "frontend",
+        "design-systems",
+        "backend",
+        "machine-learning"
       ]
     },
     {
@@ -311,13 +342,14 @@
           "description": "Dynamic image-template rendering."
         }
       ],
-      "mapsTo": [
-        "gen-media",
-        "platform"
-      ],
       "roleTypes": [
         "lead",
         "fullstack"
+      ],
+      "skillTags": [
+        "frontend",
+        "backend",
+        "design-systems"
       ]
     },
     {
@@ -352,12 +384,15 @@
           "description": "Filters and views in the migrated Next.js app."
         }
       ],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack"
+      ],
+      "skillTags": [
+        "ai-agents",
+        "generative-ai",
+        "backend",
+        "frontend"
       ]
     },
     {
@@ -386,13 +421,15 @@
           "description": "One engineer, N agents: plan → orchestrate → build → measure → gate → ship, as a closed loop."
         }
       ],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack",
         "design-ux"
+      ],
+      "skillTags": [
+        "ai-agents",
+        "generative-ai",
+        "backend"
       ]
     },
     {
@@ -451,13 +488,14 @@
           "description": "Narrative woven into the board."
         }
       ],
-      "mapsTo": [
-        "gen-media"
-      ],
       "roleTypes": [
         "solo",
         "fullstack",
         "design-ux"
+      ],
+      "skillTags": [
+        "frontend",
+        "design-systems"
       ]
     },
     {
@@ -515,13 +553,15 @@
           "description": "The AI moderation pipeline's review queue."
         }
       ],
-      "mapsTo": [
-        "gen-media"
-      ],
       "roleTypes": [
         "solo",
         "fullstack",
         "design-ux"
+      ],
+      "skillTags": [
+        "machine-learning",
+        "backend",
+        "frontend"
       ]
     },
     {
@@ -540,12 +580,12 @@
       "summary": "Interactive and cloud application work for Agosto, a long-standing N8+US client.",
       "description": "Details and media coming from the project archive.",
       "media": [],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack"
+      ],
+      "skillTags": [
+        "backend"
       ]
     },
     {
@@ -565,13 +605,13 @@
       "summary": "Prototype platforms for Best Buy's Emerging Platforms lab, including ML sentiment analysis of the Twelpforce Twitter program.",
       "description": "Details and media coming from the project archive. Included ML sentiment analysis over customer tweets, trained against a Google dataset, to read how customers experienced Twelpforce.",
       "media": [],
-      "mapsTo": [
-        "gen-media",
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack"
+      ],
+      "skillTags": [
+        "machine-learning",
+        "backend"
       ]
     },
     {
@@ -589,12 +629,13 @@
       "summary": "Interactive application work for bswing, a former N8+US client.",
       "description": "Details and media coming from the project archive.",
       "media": [],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "solo",
         "fullstack"
+      ],
+      "skillTags": [
+        "frontend",
+        "backend"
       ]
     },
     {
@@ -614,12 +655,13 @@
       "summary": "Lead role in the Target.com navigation redesign, coordinating delivery across New York, Los Angeles, and Costa Rica.",
       "description": "Details and media coming from the project archive.",
       "media": [],
-      "mapsTo": [
-        "platform"
-      ],
       "roleTypes": [
         "lead",
         "design-ux"
+      ],
+      "skillTags": [
+        "frontend",
+        "design-systems"
       ]
     },
     {
@@ -638,13 +680,14 @@
       "summary": "Interactive product-configurator work (Nike Bauer Stick ID) during the OLSON era.",
       "description": "Details and media coming from the project archive.",
       "media": [],
-      "mapsTo": [
-        "gen-media"
-      ],
       "roleTypes": [
         "lead",
         "design-ux",
         "fullstack"
+      ],
+      "skillTags": [
+        "frontend",
+        "design-systems"
       ]
     }
   ]

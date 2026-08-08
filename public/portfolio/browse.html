@@ -9,23 +9,28 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --ink:#231f20; --paper:#f1efe8; --card:#ffffff; --ink2:#2f2b2c;
+    --ink:#231f20; --paper:#f1efe8; --card:#ffffff;
     --text:#2a2622; --muted:#6f6b62; --line:#e2ddcf;
-    --green:#8dc63f; --green-ink:#5a8a24; --star:#c98a1a;
+    --green:#8dc63f; --green-ink:#5a8a24;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{background:var(--paper);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
   a{color:inherit;text-decoration:none}
+  .pico{width:15px;height:15px;flex:0 0 auto;vertical-align:-2px;margin-right:6px}
+  .ico{width:16px;height:16px;vertical-align:-3px;margin-right:6px}
 
   /* dark header band */
   .masthead{background:var(--ink);color:#f4f2ec}
   .masthead .inner{max-width:1080px;margin:0 auto;padding:22px 22px 30px}
-  .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px}
+  .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
   .wordmark{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--green);font-size:15px;letter-spacing:.02em}
-  .home{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#b6b2a8}
-  .home:hover{color:var(--green)}
+  .hlinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .hlink{font-size:12.5px;color:#d7d3c8;border:1px solid #48423f;border-radius:8px;padding:6px 12px;display:inline-flex;align-items:center;transition:all .15s}
+  .hlink:hover{border-color:var(--green);color:var(--green)}
+  .hlink.solid{background:var(--green);border-color:var(--green);color:var(--ink);font-weight:600}
+  .hlink.solid:hover{background:#a0d64f;color:var(--ink)}
   .masthead h1{font-size:32px;margin:0 0 6px;letter-spacing:-.01em}
   .masthead .sub{color:#c3bfb4;font-size:14px;margin:0;max-width:62ch}
 
@@ -33,15 +38,16 @@
   .body{max-width:1080px;margin:0 auto;padding:28px 22px 80px}
 
   .filters{margin:0 0 30px}
-  .fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
-  .flabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:64px}
-  .pill{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 13px;cursor:pointer;transition:all .15s;letter-spacing:.02em}
+  .fbar{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap}
+  .fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .fgroup.roles{margin-left:auto}
+  .flabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;margin-right:2px}
+  .pill{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text);background:#fff;border:1px solid var(--line);border-radius:20px;padding:5px 13px;cursor:pointer;transition:all .15s;letter-spacing:.02em;display:inline-flex;align-items:center}
   .pill:hover{border-color:var(--green-ink);color:var(--green-ink)}
   .pill.active{background:var(--green);border-color:var(--green);color:var(--ink);font-weight:700}
   .pill.clear{color:var(--muted);border-style:dashed}
   .pill:focus-visible{outline:2px solid var(--green-ink);outline-offset:2px}
-  .flegend{color:var(--muted);font-size:11px;margin:6px 0 0}
-  .fcount{color:var(--green-ink);font-size:11px;margin:4px 0 0;letter-spacing:.04em;font-weight:600}
+  .fcount{color:var(--green-ink);font-size:11px;margin:12px 0 0;letter-spacing:.04em;font-weight:600}
   .empty{color:var(--muted);font-size:14px;padding:20px 0}
   .linklike{background:none;border:none;color:var(--green-ink);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
 
@@ -63,6 +69,7 @@
   .card .sum{font-size:13.5px;line-height:1.5;color:#4a453f;margin:0 0 12px}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
   .chip{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 9px;background:#faf8f2}
+  .chip.more{color:var(--green-ink);border-color:#dce8c8;background:#f2f7e8}
 
   footer{color:var(--muted);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
   footer a{color:var(--green-ink)}
@@ -74,17 +81,18 @@
     <div class="inner">
       <div class="top">
         <span class="wordmark">N8+US</span>
-        <a class="home" href="/">← home</a>
+        <span class="hlinks">
+          <a class="hlink" href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#linkedin-logo"></use></svg>LinkedIn</a>
+          <a class="hlink solid" href="/resume/resume.pdf" download><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#file-arrow-down"></use></svg>Résumé (PDF)</a>
+        </span>
       </div>
       <h1>Selected work</h1>
-      <p class="sub">Thirty years at the seam where design meets engineering: the web, rich apps, social platforms, and agentic AI. Grouped by era.</p>
+      <p class="sub">Thirty years at the seam where design meets engineering: the web, rich apps, social platforms, and agentic AI. Grouped by era; filter by skill or role.</p>
     </div>
   </header>
   <main class="body">
     <div id="portfolio"></div>
-    <footer>
-      <a href="/resume">résumé</a> · <a href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://metatoy.com" target="_blank" rel="noopener">metatoy.com</a> · hello@metatoy.com
-    </footer>
+    <footer>Nathan O'Brien · <a href="https://metatoy.com" target="_blank" rel="noopener">metatoy.com</a></footer>
   </main>
   <script src="/portfolio/portfolio-render.js"></script>
   <script>renderIndex("portfolio");</script>
