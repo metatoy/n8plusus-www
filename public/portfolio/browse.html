@@ -25,7 +25,10 @@
   .masthead{background:var(--ink);color:#f4f2ec}
   .masthead .inner{max-width:1080px;margin:0 auto;padding:22px 22px 30px}
   .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+  .brand{display:inline-flex;align-items:baseline;gap:9px;flex-wrap:wrap}
   .wordmark{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--green);font-size:15px;letter-spacing:.02em}
+  .ident{font-size:13.5px;color:#b6b2a8;line-height:1.4}
+  .ident b{color:#f4f2ec;font-weight:600}
   .hlinks{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .hlink{font-size:12.5px;color:#d7d3c8;border:1px solid #48423f;border-radius:8px;padding:6px 12px;display:inline-flex;align-items:center;transition:all .15s}
   .hlink:hover{border-color:var(--green);color:var(--green)}
@@ -80,7 +83,7 @@
   <header class="masthead">
     <div class="inner">
       <div class="top">
-        <span class="wordmark">N8+US</span>
+        <span class="brand"><span class="wordmark">N8+US:</span> <span class="ident"><b>Nathan Hunsaker O'Brien:</b> Creative Engineering Leader · AI-Native / Agentic Systems</span></span>
         <span class="hlinks">
           <a class="hlink" href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#linkedin-logo"></use></svg>LinkedIn</a>
           <a class="hlink solid" href="/resume/resume.pdf" download><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#file-arrow-down"></use></svg>Résumé (PDF)</a>
@@ -92,7 +95,7 @@
   </header>
   <main class="body">
     <div id="portfolio"></div>
-    <footer>Nathan O'Brien · <a href="https://metatoy.com" target="_blank" rel="noopener">metatoy.com</a></footer>
+    <footer><a href="https://n8plusus.com">n8plusus.com</a></footer>
   </main>
   <script src="/portfolio/portfolio-render.js"></script>
   <script>renderIndex("portfolio");</script>
