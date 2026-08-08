@@ -21,25 +21,77 @@
     </a>`;
   }
 
-  window.renderIndex = async function (mountId) {
-    const data = await load();
-    const mount = document.getElementById(mountId);
+  // active filter state
+  const state = { mapsTo: null, roles: new Set() };
+
+  function projectMatches(p) {
+    // maps-to (single-select): gen-media | platform | both
+    if (state.mapsTo === "gen-media" && !(p.mapsTo || []).includes("gen-media")) return false;
+    if (state.mapsTo === "platform" && !(p.mapsTo || []).includes("platform")) return false;
+    if (state.mapsTo === "both" && !(["gen-media", "platform"].every((m) => (p.mapsTo || []).includes(m)))) return false;
+    // roles (multi-select, OR)
+    if (state.roles.size && !(p.roleTypes || []).some((r) => state.roles.has(r))) return false;
+    return true;
+  }
+
+  function filterBar(data) {
+    const f = (data.meta.filters) || { mapsTo: [], roleTypes: [] };
+    const mapsPills = f.mapsTo
+      .map((m) => `<button class="pill" data-group="mapsTo" data-id="${m.id}" title="${esc(m.full)}">${esc(m.short)}</button>`)
+      .join("");
+    const rolePills = f.roleTypes
+      .map((r) => `<button class="pill" data-group="roles" data-id="${r.id}" title="${esc(r.full)}">${esc(r.short)}</button>`)
+      .join("");
+    const legend = f.mapsTo.filter((m) => m.id !== "both").map((m) => `${esc(m.short)} = ${esc(m.full)}`).join(" · ");
+    return `<div class="filters">
+      <div class="fgroup"><span class="flabel mono">Maps to</span>${mapsPills}</div>
+      <div class="fgroup"><span class="flabel mono">My role</span>${rolePills}</div>
+      <button class="pill clear" data-clear="1">Clear</button>
+      <p class="flegend mono">${legend}</p>
+      <p class="fcount mono" id="fcount"></p>
+    </div>`;
+  }
+
+  function paintGrid(data, gridMount) {
     const byEra = {};
-    (data.projects || []).forEach((p) => (byEra[p.era] = byEra[p.era] || []).push(p));
+    (data.projects || []).filter(projectMatches).forEach((p) => (byEra[p.era] = byEra[p.era] || []).push(p));
+    const shown = Object.values(byEra).reduce((n, a) => n + a.length, 0);
     const html = (data.meta.eras || [])
       .filter((era) => byEra[era.id] && byEra[era.id].length)
       .map((era) => {
-        const items = byEra[era.id]
-          .sort((a, b) => (b.featured === true) - (a.featured === true))
-          .map(card)
-          .join("");
-        return `<section class="era">
-          <h2 class="era-h"><span>${esc(era.label)}</span><span class="mono range">${esc(era.range)}</span></h2>
-          <div class="grid">${items}</div>
-        </section>`;
+        const items = byEra[era.id].sort((a, b) => (b.featured === true) - (a.featured === true)).map(card).join("");
+        return `<section class="era"><h2 class="era-h"><span>${esc(era.label)}</span><span class="mono range">${esc(era.range)}</span></h2><div class="grid">${items}</div></section>`;
       })
       .join("");
-    mount.innerHTML = html;
+    gridMount.innerHTML = html || `<p class="empty mono">No projects match that filter. <button class="linklike" data-clear="1">Clear</button></p>`;
+    const c = document.getElementById("fcount");
+    if (c) c.textContent = shown + " / " + (data.projects || []).length + " shown";
+  }
+
+  window.renderIndex = async function (mountId) {
+    const data = await load();
+    const mount = document.getElementById(mountId);
+    mount.innerHTML = filterBar(data) + '<div id="pf-grid"></div>';
+    const grid = document.getElementById("pf-grid");
+    paintGrid(data, grid);
+    mount.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-group],[data-clear]");
+      if (!btn) return;
+      e.preventDefault();
+      if (btn.dataset.clear) {
+        state.mapsTo = null; state.roles.clear();
+      } else if (btn.dataset.group === "mapsTo") {
+        state.mapsTo = state.mapsTo === btn.dataset.id ? null : btn.dataset.id;
+      } else if (btn.dataset.group === "roles") {
+        state.roles.has(btn.dataset.id) ? state.roles.delete(btn.dataset.id) : state.roles.add(btn.dataset.id);
+      }
+      // repaint active states
+      mount.querySelectorAll(".pill[data-group]").forEach((el) => {
+        const on = el.dataset.group === "mapsTo" ? state.mapsTo === el.dataset.id : state.roles.has(el.dataset.id);
+        el.classList.toggle("active", !!on);
+      });
+      paintGrid(data, grid);
+    });
   };
 
   function mediaBlock(m) {

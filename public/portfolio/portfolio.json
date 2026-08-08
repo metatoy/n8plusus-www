@@ -4,168 +4,591 @@
     "updated": "2026-08-07",
     "note": "Source of truth for n8plusus.com/portfolio. Index + detail pages render from this. Media paths point at the demo assets for now; migrate to /portfolio/assets/<slug>/ later. Spec: spec/n8plusus/portfolio/portfolio-content-outline.md",
     "eras": [
-      { "id": "metatoy", "label": "Metatoy / Independent", "range": "2026" },
-      { "id": "buzzfeed", "label": "BuzzFeed", "range": "2015–2026" },
-      { "id": "agency", "label": "N8+US & Agency", "range": "1995–2015" }
-    ]
+      {
+        "id": "metatoy",
+        "label": "Metatoy / Independent",
+        "range": "2026"
+      },
+      {
+        "id": "buzzfeed",
+        "label": "BuzzFeed",
+        "range": "2015–2026"
+      },
+      {
+        "id": "agency",
+        "label": "N8+US & Agency",
+        "range": "1995–2015"
+      }
+    ],
+    "filters": {
+      "mapsTo": [
+        {
+          "id": "gen-media",
+          "short": "GEN MEDIA",
+          "full": "Generative Media Engineer, AI Social"
+        },
+        {
+          "id": "platform",
+          "short": "PLATFORM",
+          "full": "Staff SWE, AI Marketing"
+        },
+        {
+          "id": "both",
+          "short": "BOTH",
+          "full": "maps to both roles"
+        }
+      ],
+      "roleTypes": [
+        {
+          "id": "solo",
+          "short": "Solo",
+          "full": "solo build"
+        },
+        {
+          "id": "lead",
+          "short": "Lead",
+          "full": "led a team"
+        },
+        {
+          "id": "design-ux",
+          "short": "Design/UX",
+          "full": "design + UX"
+        },
+        {
+          "id": "fullstack",
+          "short": "Fullstack",
+          "full": "front & back"
+        }
+      ]
+    }
   },
   "projects": [
     {
-      "slug": "sorb", "era": "metatoy", "featured": true, "status": "stub",
+      "slug": "sorb",
+      "era": "metatoy",
+      "featured": true,
+      "status": "stub",
       "title": "Sorb — Figma-to-React design-token bridge",
-      "year": "2026", "role": "Founder & Engineer", "client": "Metatoy",
-      "skills": ["React", "Next.js", "TypeScript", "Figma plugin", "MCP", "design tokens", "Clerk", "Stripe", "PostgreSQL", "Redis"],
+      "year": "2026",
+      "role": "Founder & Engineer",
+      "client": "Metatoy",
+      "skills": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Figma plugin",
+        "MCP",
+        "design tokens",
+        "Clerk",
+        "Stripe",
+        "PostgreSQL",
+        "Redis"
+      ],
       "summary": "Edit a design token in Figma and preview it live in a running React app before you merge.",
       "description": "A design-token bridge between Figma and React: a Figma plugin plus a multi-tenant SaaS control plane that previews proposed tokens in a running app before merge. Published @sorb npm packages, a hosted demo, and MCP servers so agents can drive it.",
-      "links": [ { "label": "sorb", "url": "https://metatoy.com/sorb" }, { "label": "live demo", "url": "https://demo.sorbcloud.com" } ],
-      "media": []
+      "links": [
+        {
+          "label": "sorb",
+          "url": "https://metatoy.com/sorb"
+        },
+        {
+          "label": "live demo",
+          "url": "https://demo.sorbcloud.com"
+        }
+      ],
+      "media": [],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack",
+        "design-ux"
+      ]
     },
     {
-      "slug": "ai-support-triage", "era": "buzzfeed", "featured": true, "status": "complete",
+      "slug": "ai-support-triage",
+      "era": "buzzfeed",
+      "featured": true,
+      "status": "complete",
       "title": "AI Support Triage — a production agent",
-      "year": "2024–2026", "role": "Staff Software Engineer", "client": "BuzzFeed",
-      "skills": ["LLM agents", "evals", "MCP", "Slack", "Jira", "Python", "prompt & agent design"],
+      "year": "2024–2026",
+      "role": "Staff Software Engineer",
+      "client": "BuzzFeed",
+      "skills": [
+        "LLM agents",
+        "evals",
+        "MCP",
+        "Slack",
+        "Jira",
+        "Python",
+        "prompt & agent design"
+      ],
       "summary": "An agent that took over support-ticket triage and ran the full loop in production, with human sign-off.",
       "description": "I built an agent that took over support-ticket triage: it classified each ticket, investigated it, and drafted the fix and the customer reply, running the full loop in production with human sign-off on every action. The hard part was never the model, it was trust. I built a golden set of previously resolved tickets it had never seen and measured handling accuracy against known-good resolutions (about 84%); routing accuracy improved from 54% to 76%. Every human correction fed back as new evaluation data, and an observe-then-enforce rollout expanded autonomy only as the numbers earned it.",
       "media": [
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png", "title": "Claim-to-spec flow", "description": "How a raw ticket becomes a classified, investigated, drafted resolution." }
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png",
+          "title": "Claim-to-spec flow",
+          "description": "How a raw ticket becomes a classified, investigated, drafted resolution."
+        }
+      ],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack"
       ]
     },
     {
-      "slug": "callout", "era": "buzzfeed", "featured": true, "status": "complete",
+      "slug": "callout",
+      "era": "buzzfeed",
+      "featured": true,
+      "status": "complete",
       "title": "Callout — on-site promotions admin platform",
-      "year": "2023–2026", "role": "Lead author", "client": "BuzzFeed",
-      "skills": ["Next.js", "React", "TypeScript", "live preview", "undo/redo", "autosave", "audience targeting"],
+      "year": "2023–2026",
+      "role": "Lead author",
+      "client": "BuzzFeed",
+      "skills": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "live preview",
+        "undo/redo",
+        "autosave",
+        "audience targeting"
+      ],
       "summary": "An operator tool for on-site promotions with live preview, undo/redo, autosave, themes, and audience & device targeting.",
       "description": "Built from scratch as lead author: an operator platform for on-site promotions with live preview both in-admin and on-site, undo/redo, autosave, themes, media uploads, and audience and device targeting. The kind of tool where the person using it is a colleague, so the interface has to be fast and forgiving.",
       "media": [
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/g-callout/wizard.png", "title": "Promotion wizard", "description": "Guided setup for a new on-site promotion." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/g-callout/preview.png", "title": "Live preview", "description": "See the promotion in context before it ships." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/g-callout/live.png", "title": "Live on-site", "description": "The promotion rendered on the live site." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/g-callout/listing.png", "title": "Campaign listing", "description": "Managing active and scheduled promotions." }
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/g-callout/wizard.png",
+          "title": "Promotion wizard",
+          "description": "Guided setup for a new on-site promotion."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/g-callout/preview.png",
+          "title": "Live preview",
+          "description": "See the promotion in context before it ships."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/g-callout/live.png",
+          "title": "Live on-site",
+          "description": "The promotion rendered on the live site."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/g-callout/listing.png",
+          "title": "Campaign listing",
+          "description": "Managing active and scheduled promotions."
+        }
+      ],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack",
+        "design-ux"
       ]
     },
     {
-      "slug": "pubhub", "era": "buzzfeed", "featured": true, "status": "complete",
+      "slug": "pubhub",
+      "era": "buzzfeed",
+      "featured": true,
+      "status": "complete",
       "title": "PubHub — social publishing platform",
-      "year": "2015–2026", "role": "Frontend domain owner", "client": "BuzzFeed",
-      "skills": ["React", "Next.js", "TypeScript", "design systems", "publishing SDK", "Chrome extension"],
+      "year": "2015–2026",
+      "role": "Frontend domain owner",
+      "client": "BuzzFeed",
+      "skills": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "design systems",
+        "publishing SDK",
+        "Chrome extension"
+      ],
       "summary": "The publishing platform the social team ran on: 100+ connected channels, 40+ users, hundreds of posts a day.",
       "description": "I owned the frontend of BuzzFeed's social publishing platform for over a decade: a guided composer, a mixed-media carousel composer, and self-service account management, across 100+ connected channels and six platforms. I also set patterns beyond the product, a publishing SDK and a Chrome extension other teams built on.",
       "media": [
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/f-pubhub/composer.png", "title": "Guided composer", "description": "Composing a post across channels." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/f-pubhub/planner.png", "title": "Planner", "description": "Scheduling and planning across the calendar." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/f-pubhub/accounts.png", "title": "Account management", "description": "Self-service management for 100+ connected channels." }
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/f-pubhub/composer.png",
+          "title": "Guided composer",
+          "description": "Composing a post across channels."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/f-pubhub/planner.png",
+          "title": "Planner",
+          "description": "Scheduling and planning across the calendar."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/f-pubhub/accounts.png",
+          "title": "Account management",
+          "description": "Self-service management for 100+ connected channels."
+        }
+      ],
+      "mapsTo": [
+        "gen-media",
+        "platform"
+      ],
+      "roleTypes": [
+        "lead",
+        "fullstack",
+        "design-ux"
       ]
     },
     {
-      "slug": "image-publishing", "era": "buzzfeed", "featured": false, "status": "stub",
+      "slug": "image-publishing",
+      "era": "buzzfeed",
+      "featured": false,
+      "status": "stub",
       "title": "Image Publishing Platform",
-      "year": "2018–2026", "role": "Architect & lead", "client": "BuzzFeed",
-      "skills": ["dynamic image generation", "A/B testing", "React", "APIs", "self-service tooling"],
+      "year": "2018–2026",
+      "role": "Architect & lead",
+      "client": "BuzzFeed",
+      "skills": [
+        "dynamic image generation",
+        "A/B testing",
+        "React",
+        "APIs",
+        "self-service tooling"
+      ],
       "summary": "A dynamic image-template platform powering automated social posts and personalized share artifacts.",
       "description": "One platform, three connected efforts: a dynamic image-template API, the Tag Yourself share experience, and turn-key self-service sharing. The redesigned share experience won its A/B test at +176% desktop and +82% mobile share engagement, then became a turnkey path any team could adopt.",
       "sections": [
-        { "title": "Template Image API", "body": "The engine: dynamic, on-brand image generation for automated social posts at scale." },
-        { "title": "Tag Yourself", "body": "A personalized share artifact that gave people a reason to pull their friends in. Won its A/B test at +176% desktop / +82% mobile share engagement." },
-        { "title": "Turn-key Sharing", "body": "Made the whole thing a self-service path any team could adopt without engineering involvement." }
+        {
+          "title": "Template Image API",
+          "body": "The engine: dynamic, on-brand image generation for automated social posts at scale."
+        },
+        {
+          "title": "Tag Yourself",
+          "body": "A personalized share artifact that gave people a reason to pull their friends in. Won its A/B test at +176% desktop / +82% mobile share engagement."
+        },
+        {
+          "title": "Turn-key Sharing",
+          "body": "Made the whole thing a self-service path any team could adopt without engineering involvement."
+        }
       ],
       "media": [
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/b-tag-yourself/product-result-page.png", "title": "Tag Yourself result", "description": "A personalized share artifact." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/c-turn-key-sharing/word-chain.png", "title": "Turn-key sharing", "description": "Self-service share flow." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/a-pubhub-templates/3.png", "title": "Template output", "description": "Dynamic image-template rendering." }
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/b-tag-yourself/product-result-page.png",
+          "title": "Tag Yourself result",
+          "description": "A personalized share artifact."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/c-turn-key-sharing/word-chain.png",
+          "title": "Turn-key sharing",
+          "description": "Self-service share flow."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/a-pubhub-templates/3.png",
+          "title": "Template output",
+          "description": "Dynamic image-template rendering."
+        }
+      ],
+      "mapsTo": [
+        "gen-media",
+        "platform"
+      ],
+      "roleTypes": [
+        "lead",
+        "fullstack"
       ]
     },
     {
-      "slug": "agentic-migration", "era": "buzzfeed", "featured": false, "status": "stub",
+      "slug": "agentic-migration",
+      "era": "buzzfeed",
+      "featured": false,
+      "status": "stub",
       "title": "Agentic Framework Migration",
-      "year": "2025–2026", "role": "Staff Software Engineer", "client": "BuzzFeed",
-      "skills": ["agentic workflows", "Next.js", "Python", "migration tooling", "evals"],
+      "year": "2025–2026",
+      "role": "Staff Software Engineer",
+      "client": "BuzzFeed",
+      "skills": [
+        "agentic workflows",
+        "Next.js",
+        "Python",
+        "migration tooling",
+        "evals"
+      ],
       "summary": "Migrated a decade-old Python app to Next.js in 8% of the estimated engineering time via an agent loop.",
       "description": "Pioneered an agentic migration of a decade-old Python app to Next.js, completed in 8% of the estimated engineering time and packaged into a reusable blueprint applied across twelve similar systems.",
       "media": [
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/e-migration/home-redesign.png", "title": "Migrated app", "description": "The modernized Next.js result." }
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/e-migration/home-redesign.png",
+          "title": "Migrated app",
+          "description": "The modernized Next.js result."
+        }
+      ],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack"
       ]
     },
     {
-      "slug": "metatoy-studio", "era": "metatoy", "featured": true, "status": "stub",
+      "slug": "metatoy-studio",
+      "era": "metatoy",
+      "featured": true,
+      "status": "stub",
       "title": "Metatoy Studio — an AI-native software factory",
-      "year": "2026", "role": "Founder", "client": "Metatoy",
-      "skills": ["multi-agent orchestration", "model routing", "MCP", "Claude Code", "token telemetry"],
+      "year": "2026",
+      "role": "Founder",
+      "client": "Metatoy",
+      "skills": [
+        "multi-agent orchestration",
+        "model routing",
+        "MCP",
+        "Claude Code",
+        "token telemetry"
+      ],
       "summary": "A studio operated through a multi-agent factory: cost-tiered model routing, token telemetry, autonomous execution windows.",
       "description": "Metatoy is a solo studio run through a multi-agent software factory: cost-tiered model routing, token-spend telemetry, and autonomous execution windows that make solo delivery across six active repos possible. It's my answer to what it means to operate a company through an agent.",
-      "media": []
-    },
-    {
-      "slug": "woords", "era": "metatoy", "featured": true, "status": "complete",
-      "title": "woords — an infinite word game",
-      "year": "2026", "role": "Founder & Engineer", "client": "Metatoy",
-      "skills": ["SwiftUI", "iOS", "game design", "provisional patent"],
-      "summary": "An infinite word game for iOS, with a provisional patent filed on the core mechanic.",
-      "description": "A SwiftUI iOS word game built solo: an infinite, interconnected board with a shared-apron carry-over mechanic (provisional patent filed). Shipped through App Store review.",
-      "links": [ { "label": "woords.io", "url": "https://woords.io" } ],
-      "media": [
-        { "type": "video", "src": "/demo/20260803/assets/portfolio/h-woords/quanta-teaser.mp4", "poster": "/demo/20260803/assets/portfolio/h-woords/quanta-teaser-poster.jpg", "title": "Quanta teaser", "description": "A look at the game's world and motion." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/h-woords/1-map.png", "title": "The map", "description": "The infinite board as a navigable map." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/h-woords/2-board-solving.png", "title": "Solving a board", "description": "Play on a single board." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/h-woords/3-carry-across.png", "title": "Carry-across", "description": "The shared-apron mechanic (patent-filed)." },
-        { "type": "image", "src": "/demo/20260803/assets/portfolio/h-woords/4-story-the-letter.png", "title": "Story", "description": "Narrative woven into the board." }
+      "media": [],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack",
+        "design-ux"
       ]
     },
     {
-      "slug": "tattletown", "era": "metatoy", "featured": false, "status": "stub",
+      "slug": "woords",
+      "era": "metatoy",
+      "featured": true,
+      "status": "complete",
+      "title": "woords — an infinite word game",
+      "year": "2026",
+      "role": "Founder & Engineer",
+      "client": "Metatoy",
+      "skills": [
+        "SwiftUI",
+        "iOS",
+        "game design",
+        "provisional patent"
+      ],
+      "summary": "An infinite word game for iOS, with a provisional patent filed on the core mechanic.",
+      "description": "A SwiftUI iOS word game built solo: an infinite, interconnected board with a shared-apron carry-over mechanic (provisional patent filed). Shipped through App Store review.",
+      "links": [
+        {
+          "label": "woords.io",
+          "url": "https://woords.io"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "src": "/demo/20260803/assets/portfolio/h-woords/quanta-teaser.mp4",
+          "poster": "/demo/20260803/assets/portfolio/h-woords/quanta-teaser-poster.jpg",
+          "title": "Quanta teaser",
+          "description": "A look at the game's world and motion."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/h-woords/1-map.png",
+          "title": "The map",
+          "description": "The infinite board as a navigable map."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/h-woords/2-board-solving.png",
+          "title": "Solving a board",
+          "description": "Play on a single board."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/h-woords/3-carry-across.png",
+          "title": "Carry-across",
+          "description": "The shared-apron mechanic (patent-filed)."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/h-woords/4-story-the-letter.png",
+          "title": "Story",
+          "description": "Narrative woven into the board."
+        }
+      ],
+      "mapsTo": [
+        "gen-media"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack",
+        "design-ux"
+      ]
+    },
+    {
+      "slug": "tattletown",
+      "era": "metatoy",
+      "featured": false,
+      "status": "stub",
       "title": "TattleTown — location-based UGC social",
-      "year": "2026", "role": "Founder & Engineer", "client": "Metatoy",
-      "skills": ["SwiftUI", "iOS", "AI moderation", "geolocation"],
+      "year": "2026",
+      "role": "Founder & Engineer",
+      "client": "Metatoy",
+      "skills": [
+        "SwiftUI",
+        "iOS",
+        "AI moderation",
+        "geolocation"
+      ],
       "summary": "A location-based user-generated-content social app with an AI moderation pipeline.",
       "description": "A SwiftUI iOS social app anchored to real-world places, with an AI moderation pipeline keeping user-generated content safe. Submitted to the App Store.",
-      "links": [ { "label": "tattletown.com", "url": "https://tattletown.com" } ],
-      "media": []
+      "links": [
+        {
+          "label": "tattletown.com",
+          "url": "https://tattletown.com"
+        }
+      ],
+      "media": [],
+      "mapsTo": [
+        "gen-media"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack",
+        "design-ux"
+      ]
     },
     {
-      "slug": "agosto", "era": "agency", "featured": false, "status": "placeholder",
+      "slug": "agosto",
+      "era": "agency",
+      "featured": false,
+      "status": "placeholder",
       "title": "Agosto — cloud application work",
-      "year": "2012–2015", "role": "Founder / Technical Consultant (N8+US)", "client": "Agosto (Google Cloud Partner of the Year, 2013)",
-      "skills": ["interactive applications", "cloud"],
+      "year": "2012–2015",
+      "role": "Founder / Technical Consultant (N8+US)",
+      "client": "Agosto (Google Cloud Partner of the Year, 2013)",
+      "skills": [
+        "interactive applications",
+        "cloud"
+      ],
       "summary": "Interactive and cloud application work for Agosto, a long-standing N8+US client.",
       "description": "Details and media coming from the project archive.",
-      "media": []
+      "media": [],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack"
+      ]
     },
     {
-      "slug": "best-buy", "era": "agency", "featured": false, "status": "placeholder",
+      "slug": "best-buy",
+      "era": "agency",
+      "featured": false,
+      "status": "placeholder",
       "title": "Best Buy — Emerging Platforms",
-      "year": "2010–2011", "role": "Software Engineer, Contract (N8+US)", "client": "Best Buy (Emerging Platforms lab)",
-      "skills": ["ML sentiment analysis", "data visualization", "rapid prototyping"],
+      "year": "2010–2011",
+      "role": "Software Engineer, Contract (N8+US)",
+      "client": "Best Buy (Emerging Platforms lab)",
+      "skills": [
+        "ML sentiment analysis",
+        "data visualization",
+        "rapid prototyping"
+      ],
       "summary": "Prototype platforms for Best Buy's Emerging Platforms lab, including ML sentiment analysis of the Twelpforce Twitter program.",
       "description": "Details and media coming from the project archive. Included ML sentiment analysis over customer tweets, trained against a Google dataset, to read how customers experienced Twelpforce.",
-      "media": []
+      "media": [],
+      "mapsTo": [
+        "gen-media",
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack"
+      ]
     },
     {
-      "slug": "bswing", "era": "agency", "featured": false, "status": "placeholder",
+      "slug": "bswing",
+      "era": "agency",
+      "featured": false,
+      "status": "placeholder",
       "title": "bswing — interactive delivery",
-      "year": "2010–2014", "role": "Founder / Technical Consultant (N8+US)", "client": "bswing",
-      "skills": ["interactive applications"],
+      "year": "2010–2014",
+      "role": "Founder / Technical Consultant (N8+US)",
+      "client": "bswing",
+      "skills": [
+        "interactive applications"
+      ],
       "summary": "Interactive application work for bswing, a former N8+US client.",
       "description": "Details and media coming from the project archive.",
-      "media": []
+      "media": [],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "solo",
+        "fullstack"
+      ]
     },
     {
-      "slug": "schematic-target-nav", "era": "agency", "featured": false, "status": "placeholder",
+      "slug": "schematic-target-nav",
+      "era": "agency",
+      "featured": false,
+      "status": "placeholder",
       "title": "Schematic — Target.com navigation redesign",
-      "year": "2008–2010", "role": "Director of Technology", "client": "Target (via Schematic)",
-      "skills": ["solutions architecture", "technical direction", "large-scale delivery"],
+      "year": "2008–2010",
+      "role": "Director of Technology",
+      "client": "Target (via Schematic)",
+      "skills": [
+        "solutions architecture",
+        "technical direction",
+        "large-scale delivery"
+      ],
       "summary": "Lead role in the Target.com navigation redesign, coordinating delivery across New York, Los Angeles, and Costa Rica.",
       "description": "Details and media coming from the project archive.",
-      "media": []
+      "media": [],
+      "mapsTo": [
+        "platform"
+      ],
+      "roleTypes": [
+        "lead",
+        "design-ux"
+      ]
     },
     {
-      "slug": "olson-bauer-stick-id", "era": "agency", "featured": false, "status": "placeholder",
+      "slug": "olson-bauer-stick-id",
+      "era": "agency",
+      "featured": false,
+      "status": "placeholder",
       "title": "OLSON — Nike Bauer Stick ID",
-      "year": "2004–2008", "role": "Technical Creative Director", "client": "Nike Bauer (via OLSON)",
-      "skills": ["interactive development", "product configurator"],
+      "year": "2004–2008",
+      "role": "Technical Creative Director",
+      "client": "Nike Bauer (via OLSON)",
+      "skills": [
+        "interactive development",
+        "product configurator"
+      ],
       "summary": "Interactive product-configurator work (Nike Bauer Stick ID) during the OLSON era.",
       "description": "Details and media coming from the project archive.",
-      "media": []
+      "media": [],
+      "mapsTo": [
+        "gen-media"
+      ],
+      "roleTypes": [
+        "lead",
+        "design-ux",
+        "fullstack"
+      ]
     }
   ]
 }

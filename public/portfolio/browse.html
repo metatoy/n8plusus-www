@@ -20,6 +20,18 @@
   .top .home:hover{color:var(--green)}
   h1.title{font-size:30px;margin:6px 0 4px;letter-spacing:-.01em}
   .sub{color:var(--muted);font-size:14px;margin:0 0 30px;max-width:60ch}
+  .filters{margin:0 0 30px}
+  .fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+  .flabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:64px}
+  .pill{font:inherit;font-size:12px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:20px;padding:4px 13px;cursor:pointer;transition:all .15s;font-family:"JetBrains Mono",monospace;letter-spacing:.02em}
+  .pill:hover{border-color:var(--green);color:var(--white)}
+  .pill.active{background:var(--green);border-color:var(--green);color:var(--ink);font-weight:700}
+  .pill.clear{color:var(--muted);border-style:dashed;margin-top:2px}
+  .pill:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  .flegend{color:var(--muted);font-size:11px;margin:6px 0 0;letter-spacing:.02em}
+  .fcount{color:var(--green);font-size:11px;margin:4px 0 0;letter-spacing:.04em}
+  .empty{color:var(--muted);font-size:14px;padding:20px 0}
+  .linklike{background:none;border:none;color:var(--green);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
   .era{margin:0 0 40px}
   .era-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;font-size:15px;letter-spacing:.02em}
   .era-h .range{color:var(--muted);font-size:12px}
