@@ -67,7 +67,7 @@
       "slug": "sorb",
       "era": "metatoy",
       "featured": true,
-      "status": "stub",
+      "status": "complete",
       "title": "Sorb — Figma-to-React design-token bridge",
       "year": "2026",
       "role": "Founder & Engineer",
@@ -96,7 +96,20 @@
           "url": "https://demo.sorbcloud.com"
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "type": "image",
+          "src": "/portfolio/assets/sorb/sorb-site.png",
+          "title": "Sorb — the product",
+          "description": "Marketing site: the design-token bridge for the running app."
+        },
+        {
+          "type": "image",
+          "src": "/portfolio/assets/sorb/sorb-demo.png",
+          "title": "Hosted demo",
+          "description": "The multi-tenant control plane running live at demo.sorbcloud.com."
+        }
+      ],
       "mapsTo": [
         "platform"
       ],
@@ -250,7 +263,7 @@
       "slug": "image-publishing",
       "era": "buzzfeed",
       "featured": false,
-      "status": "stub",
+      "status": "complete",
       "title": "Image Publishing Platform",
       "year": "2018–2026",
       "role": "Architect & lead",
@@ -311,7 +324,7 @@
       "slug": "agentic-migration",
       "era": "buzzfeed",
       "featured": false,
-      "status": "stub",
+      "status": "complete",
       "title": "Agentic Framework Migration",
       "year": "2025–2026",
       "role": "Staff Software Engineer",
@@ -331,6 +344,12 @@
           "src": "/demo/20260803/assets/portfolio/e-migration/home-redesign.png",
           "title": "Migrated app",
           "description": "The modernized Next.js result."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/e-migration/planner-filters.png",
+          "title": "Rebuilt planner",
+          "description": "Filters and views in the migrated Next.js app."
         }
       ],
       "mapsTo": [
@@ -345,7 +364,7 @@
       "slug": "metatoy-studio",
       "era": "metatoy",
       "featured": true,
-      "status": "stub",
+      "status": "complete",
       "title": "Metatoy Studio — an AI-native software factory",
       "year": "2026",
       "role": "Founder",
@@ -359,7 +378,14 @@
       ],
       "summary": "A studio operated through a multi-agent factory: cost-tiered model routing, token telemetry, autonomous execution windows.",
       "description": "Metatoy is a solo studio run through a multi-agent software factory: cost-tiered model routing, token-spend telemetry, and autonomous execution windows that make solo delivery across six active repos possible. It's my answer to what it means to operate a company through an agent.",
-      "media": [],
+      "media": [
+        {
+          "type": "image",
+          "src": "/portfolio/assets/metatoy-studio/factory-diagram.png",
+          "title": "The operating model",
+          "description": "One engineer, N agents: plan → orchestrate → build → measure → gate → ship, as a closed loop."
+        }
+      ],
       "mapsTo": [
         "platform"
       ],
@@ -438,7 +464,7 @@
       "slug": "tattletown",
       "era": "metatoy",
       "featured": false,
-      "status": "stub",
+      "status": "complete",
       "title": "TattleTown — location-based UGC social",
       "year": "2026",
       "role": "Founder & Engineer",
@@ -457,7 +483,38 @@
           "url": "https://tattletown.com"
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/01-map-home-carousel.png",
+          "title": "Map home",
+          "description": "Tattles anchored to real-world places."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/08-compose-tattle.png",
+          "title": "Compose a Tattle",
+          "description": "Creating location-anchored user content."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/10-tattle-detail.png",
+          "title": "Tattle detail",
+          "description": "A single Tattle with rate and report."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/15-dynamic-island-expanded-compass.png",
+          "title": "Dynamic Island compass",
+          "description": "Live guidance to a nearby Tattle."
+        },
+        {
+          "type": "image",
+          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/18-moderation-console-pending.png",
+          "title": "Moderation console",
+          "description": "The AI moderation pipeline's review queue."
+        }
+      ],
       "mapsTo": [
         "gen-media"
       ],
