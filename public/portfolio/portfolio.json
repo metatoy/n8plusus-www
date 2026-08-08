@@ -5,14 +5,14 @@
     "note": "Source of truth for n8plusus.com/portfolio. Index + detail pages render from this. Media paths point at the demo assets for now; migrate to /portfolio/assets/<slug>/ later. Spec: spec/n8plusus/portfolio/portfolio-content-outline.md",
     "eras": [
       {
-        "id": "metatoy",
-        "label": "Metatoy / Independent",
-        "range": "2026"
-      },
-      {
         "id": "buzzfeed",
         "label": "BuzzFeed",
         "range": "2015–2026"
+      },
+      {
+        "id": "metatoy",
+        "label": "Metatoy / Independent",
+        "range": "2026"
       },
       {
         "id": "agency",
