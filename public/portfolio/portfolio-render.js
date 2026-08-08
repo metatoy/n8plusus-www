@@ -104,12 +104,22 @@
       <figcaption><b>${esc(m.title)}</b>${m.description ? " — " + esc(m.description) : ""}</figcaption></figure>`;
   }
 
+  function fmt(s) {
+    return esc(s)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+      // [text](url) — unescape the &quot; that esc() put on nothing; links have no quotes here
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  }
   function md(s) {
-    return String(s || "").split(/\n{2,}/).map((para) => {
-      const img = para.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-      if (img) return `<figure class="media"><img loading="lazy" src="${esc(img[2])}" alt="${esc(img[1])}" /></figure>`;
-      let t = esc(para).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
-      return `<p>${t}</p>`;
+    return String(s || "").split(/\n{2,}/).map((block) => {
+      const lines = block.split("\n");
+      if (lines.length && lines.every((l) => /^\s*-\s+/.test(l))) {
+        return "<ul>" + lines.map((l) => `<li>${fmt(l.replace(/^\s*-\s+/, ""))}</li>`).join("") + "</ul>";
+      }
+      const img = block.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (img) return `<figure class="media"><img loading="lazy" src="${esc(img[2])}" alt="${esc(img[1])}" /><figcaption>${esc(img[1])}</figcaption></figure>`;
+      return `<p>${fmt(block)}</p>`;
     }).join("");
   }
 

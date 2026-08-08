@@ -162,15 +162,8 @@
         "prompt & agent design"
       ],
       "summary": "An agent that took over support-ticket triage and ran the full loop in production, with human sign-off.",
-      "description": "I built an agent that took over support-ticket triage: it classified each ticket, investigated it, and drafted the fix and the customer reply, running the full loop in production with human sign-off on every action. The hard part was never the model, it was trust. I built a golden set of previously resolved tickets it had never seen and measured handling accuracy against known-good resolutions (about 84%); routing accuracy improved from 54% to 76%. Every human correction fed back as new evaluation data, and an observe-then-enforce rollout expanded autonomy only as the numbers earned it.",
-      "media": [
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png",
-          "title": "Claim-to-spec flow",
-          "description": "How a raw ticket becomes a classified, investigated, drafted resolution."
-        }
-      ],
+      "description": "An agent that took over support-ticket triage: it classifies and routes each ticket, then a gated investigator agent reads the live system, code, telemetry, and docs to draft the fix and the reply — with a human approving every action.",
+      "media": [],
       "roleTypes": [
         "solo",
         "fullstack"
@@ -180,7 +173,22 @@
         "generative-ai",
         "machine-learning",
         "backend"
-      ]
+      ],
+      "sections": [
+        {
+          "title": "What I built",
+          "body": "I spearheaded an AI agent to take over support-ticket triage, work that was consuming roughly one in seven hours of the team's time. It runs the full loop in production: classify the ticket, investigate the live system, then draft the fix and the reply, with a human signing off on every action."
+        },
+        {
+          "title": "How it works",
+          "body": "A classifier handles and routes each ticket; a gated investigator agent then reads the live system, code, telemetry, and docs to draft a fix and a reply. A human approves every call before anything goes out. It was trained on two years of resolved history and improves with every correction.\n\n![Claim → triage → spec flow: intake fills the queue, claiming labels the ticket, the agent runs against the rulebook, and a structured spec is written back — with a human gate on every write.](/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png)"
+        },
+        {
+          "title": "Results",
+          "body": "- **83.5%** handling accuracy on golden-set evals\n- Routing accuracy **54% → 76%**\n- Reclaimed roughly **one in seven hours** of team time, with a human in control\n- Reached a team-wide, month-long production beta running the full loop"
+        }
+      ],
+      "links": []
     },
     {
       "slug": "callout",
@@ -201,7 +209,7 @@
         "audience targeting"
       ],
       "summary": "An operator tool for on-site promotions with live preview, undo/redo, autosave, themes, and audience & device targeting.",
-      "description": "Built from scratch as lead author: an operator platform for on-site promotions with live preview both in-admin and on-site, undo/redo, autosave, themes, media uploads, and audience and device targeting. The kind of tool where the person using it is a colleague, so the interface has to be fast and forgiving.",
+      "description": "Built from scratch in Next.js: non-engineers compose audience-targeted promotions with a live preview driven by the same production renderer that serves readers.",
       "media": [
         {
           "type": "image",
@@ -237,7 +245,22 @@
         "frontend",
         "design-systems",
         "backend"
-      ]
+      ],
+      "sections": [
+        {
+          "title": "What I built",
+          "body": "I built the Callout admin platform in Next.js from scratch as lead author — an operator tool for on-site promotions with a live preview driven by the same production renderer that serves readers."
+        },
+        {
+          "title": "How it works",
+          "body": "Operators compose a promotion and see it render in real time, both in-admin and in an on-site context, through the production renderer. It includes undo/redo, autosave with session resume, themes, media uploads, and audience and device targeting."
+        },
+        {
+          "title": "Results",
+          "body": "- A live preview driven by the **real production renderer** — what you see is what ships\n- Undo/redo and autosave with session resume in a from-scratch Next.js admin\n- Audience and device targeting so operators run promotions without engineering"
+        }
+      ],
+      "links": []
     },
     {
       "slug": "pubhub",
@@ -257,7 +280,7 @@
         "Chrome extension"
       ],
       "summary": "The publishing platform the social team ran on: 100+ connected channels, 40+ users, hundreds of posts a day.",
-      "description": "I owned the frontend of BuzzFeed's social publishing platform for over a decade: a guided composer, a mixed-media carousel composer, and self-service account management, across 100+ connected channels and six platforms. I also set patterns beyond the product, a publishing SDK and a Chrome extension other teams built on.",
+      "description": "Owned the frontend for 8+ years: the internal platform a major media company's social team used to publish across six networks.",
       "media": [
         {
           "type": "image",
@@ -288,7 +311,22 @@
         "design-systems",
         "backend",
         "machine-learning"
-      ]
+      ],
+      "sections": [
+        {
+          "title": "What I built",
+          "body": "I owned the frontend of the social team's publishing platform for 8+ years as its domain expert, building it layer by layer as a React application spanning 15 post types across six networks: a guided composer, a mixed-media carousel composer, and self-service account-management tools."
+        },
+        {
+          "title": "How it works",
+          "body": "The platform connects to six social networks and handles 15 post types through guided composers. Beyond the core product I built a publishing SDK and a Chrome extension, and led the cross-brand rollout of a custom-built link-in-bio service."
+        },
+        {
+          "title": "Results",
+          "body": "- **100+ channels · 40+ editors · hundreds of posts a day**\n- 15 post types across 6 platforms\n- Helped integrate ML-based content recommendations in 2018, before the current wave\n- Set patterns beyond the product: a publishing SDK, a Chrome extension, and a link-in-bio service; mentored engineers and owned QA"
+        }
+      ],
+      "links": []
     },
     {
       "slug": "image-publishing",
@@ -307,41 +345,26 @@
         "self-service tooling"
       ],
       "summary": "A dynamic image-template platform powering automated social posts and personalized share artifacts.",
-      "description": "One platform, three connected efforts: a dynamic image-template API, the Tag Yourself share experience, and turn-key self-service sharing. The redesigned share experience won its A/B test at +176% desktop and +82% mobile share engagement, then became a turnkey path any team could adopt.",
+      "description": "One image-generation platform, applied in three steps: a server-side rendering engine, a shipped consumer feature built on it, and a self-service concept to make it a paved road for any team.",
       "sections": [
         {
-          "title": "Template Image API",
-          "body": "The engine: dynamic, on-brand image generation for automated social posts at scale."
+          "title": "1 · Dynamic Image-Template Platform",
+          "body": "Server-side React templates rendered headlessly into composited share images at scale — the engine behind automated social posts and personalized quiz share cards. I owned it end to end, from the rendering engine to the template authoring model, then made it a turnkey path any team could adopt. Templates are data-driven, so one template produces a personalized artifact per post or per quiz taker.\n\n![Dynamic template output](/demo/20260803/assets/portfolio/a-pubhub-templates/3.png)\n\n![Admin / preview tool — pick a template, fill the fields, preview before it ships](/demo/20260803/assets/portfolio/a-pubhub-templates/1.png)"
         },
         {
-          "title": "Tag Yourself",
-          "body": "A personalized share artifact that gave people a reason to pull their friends in. Won its A/B test at +176% desktop / +82% mobile share engagement."
+          "title": "2 · Tag Yourself",
+          "body": "The shipped consumer feature built on that engine: quiz results become personalized, generated share cards. Each card is personalized per quiz taker and built to earn the click before it reveals the result; the link pulls a friend back into the quiz, starting the loop again. It won its A/B test decisively.\n\n![Personalized result share card](/demo/20260803/assets/portfolio/b-tag-yourself/product-result-page.png)\n\n![The share loop: result → personalized card → a friend taps back in](/demo/20260803/assets/portfolio/b-tag-yourself/share-flow.png)"
         },
         {
-          "title": "Turn-key Sharing",
-          "body": "Made the whole thing a self-service path any team could adopt without engineering involvement."
+          "title": "3 · Turnkey Sharing",
+          "body": "A concept I designed to turn the proven share pattern into a paved road: one shared system, a small per-game config, and a self-service path so any game could add personalized sharing without a bespoke, multi-repo integration. An agent in the editor detects a shareable result and offers to wire the whole flow, no engineering ticket required. (My own concept and designs, shown as a proposal.)\n\n![One system applied under every game's own skin](/demo/20260803/assets/portfolio/c-turn-key-sharing/pattern.png)\n\n![Discovery → qualification → adoption, lowering friction at each stage](/demo/20260803/assets/portfolio/c-turn-key-sharing/discovery-flow.png)"
+        },
+        {
+          "title": "Results",
+          "body": "- Tag Yourself won its A/B test: **+176%** desktop share engagement, **+82%** mobile web\n- Return via shared links rose **59% → 69%**\n- Became the shared engine behind automated posts and personalized cards; self-service let teams ship their own artifacts without routing through my team"
         }
       ],
-      "media": [
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/b-tag-yourself/product-result-page.png",
-          "title": "Tag Yourself result",
-          "description": "A personalized share artifact."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/c-turn-key-sharing/word-chain.png",
-          "title": "Turn-key sharing",
-          "description": "Self-service share flow."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/a-pubhub-templates/3.png",
-          "title": "Template output",
-          "description": "Dynamic image-template rendering."
-        }
-      ],
+      "media": [],
       "roleTypes": [
         "lead",
         "fullstack"
@@ -350,7 +373,8 @@
         "frontend",
         "backend",
         "design-systems"
-      ]
+      ],
+      "links": []
     },
     {
       "slug": "agentic-migration",
@@ -369,7 +393,7 @@
         "evals"
       ],
       "summary": "Migrated a decade-old Python app to Next.js in 8% of the estimated engineering time via an agent loop.",
-      "description": "Pioneered an agentic migration of a decade-old Python app to Next.js, completed in 8% of the estimated engineering time and packaged into a reusable blueprint applied across twelve similar systems.",
+      "description": "Designed an agent loop that migrated a decade-old Python UI service to Next.js — it self-verified every change, paused only at real blockers, and logged every decision.",
       "media": [
         {
           "type": "image",
@@ -393,7 +417,22 @@
         "generative-ai",
         "backend",
         "frontend"
-      ]
+      ],
+      "sections": [
+        {
+          "title": "What I built",
+          "body": "I pioneered an agentic framework migration of a decade-old Python app to Next.js. I designed the agent loop that did the work: it self-verified every change, paused only at real blockers, and logged every decision."
+        },
+        {
+          "title": "How it works",
+          "body": "The loop makes a change, verifies it against the test suite, and moves on, escalating to a human only at a genuine blocker. I packaged the whole approach as a reusable blueprint so it could be applied across similar systems rather than re-solved each time."
+        },
+        {
+          "title": "Results",
+          "body": "- **~70,000 lines** migrated in **~8%** of the estimated engineering time\n- Test coverage **26% → 97%**\n- Became the first reusable pattern, applied across **12+ services**\n- Self-verifying loop with a human gate at real blockers only"
+        }
+      ],
+      "links": []
     },
     {
       "slug": "metatoy-studio",
