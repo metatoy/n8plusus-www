@@ -8,64 +8,84 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
-  :root{ --ink:#231f20; --ink2:#1a1718; --green:#8dc63f; --white:#f4f2ec; --muted:#9d9a92; --card:#2a2627; --line:#3a3536; }
+  :root{
+    --ink:#231f20; --paper:#f1efe8; --card:#ffffff; --ink2:#2f2b2c;
+    --text:#2a2622; --muted:#6f6b62; --line:#e2ddcf;
+    --green:#8dc63f; --green-ink:#5a8a24; --star:#c98a1a;
+  }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{background:var(--ink);color:var(--white);font-family:"Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{background:var(--paper);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
-  .wrap{max-width:1080px;margin:0 auto;padding:40px 22px 80px}
   a{color:inherit;text-decoration:none}
-  .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-  .top .home{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-  .top .home:hover{color:var(--green)}
-  h1.title{font-size:30px;margin:6px 0 4px;letter-spacing:-.01em}
-  .sub{color:var(--muted);font-size:14px;margin:0 0 30px;max-width:60ch}
+
+  /* dark header band */
+  .masthead{background:var(--ink);color:#f4f2ec}
+  .masthead .inner{max-width:1080px;margin:0 auto;padding:22px 22px 30px}
+  .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px}
+  .wordmark{font-family:"JetBrains Mono",monospace;font-weight:700;color:var(--green);font-size:15px;letter-spacing:.02em}
+  .home{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#b6b2a8}
+  .home:hover{color:var(--green)}
+  .masthead h1{font-size:32px;margin:0 0 6px;letter-spacing:-.01em}
+  .masthead .sub{color:#c3bfb4;font-size:14px;margin:0;max-width:62ch}
+
+  /* light body */
+  .body{max-width:1080px;margin:0 auto;padding:28px 22px 80px}
+
   .filters{margin:0 0 30px}
   .fgroup{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
   .flabel{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:64px}
-  .pill{font:inherit;font-size:12px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:20px;padding:4px 13px;cursor:pointer;transition:all .15s;font-family:"JetBrains Mono",monospace;letter-spacing:.02em}
-  .pill:hover{border-color:var(--green);color:var(--white)}
+  .pill{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--text);background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 13px;cursor:pointer;transition:all .15s;letter-spacing:.02em}
+  .pill:hover{border-color:var(--green-ink);color:var(--green-ink)}
   .pill.active{background:var(--green);border-color:var(--green);color:var(--ink);font-weight:700}
-  .pill.clear{color:var(--muted);border-style:dashed;margin-top:2px}
-  .pill:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-  .flegend{color:var(--muted);font-size:11px;margin:6px 0 0;letter-spacing:.02em}
-  .fcount{color:var(--green);font-size:11px;margin:4px 0 0;letter-spacing:.04em}
+  .pill.clear{color:var(--muted);border-style:dashed}
+  .pill:focus-visible{outline:2px solid var(--green-ink);outline-offset:2px}
+  .flegend{color:var(--muted);font-size:11px;margin:6px 0 0}
+  .fcount{color:var(--green-ink);font-size:11px;margin:4px 0 0;letter-spacing:.04em;font-weight:600}
   .empty{color:var(--muted);font-size:14px;padding:20px 0}
-  .linklike{background:none;border:none;color:var(--green);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
+  .linklike{background:none;border:none;color:var(--green-ink);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
+
   .era{margin:0 0 40px}
   .era.other{margin-top:36px}
-  .era.other .grid{opacity:.62}
+  .era.other .grid{opacity:.7}
   #pf-grid > .grid:first-child{margin-bottom:8px}
-  .era-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;font-size:15px;letter-spacing:.02em}
+  .era-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;font-size:15px;letter-spacing:.02em;color:var(--ink)}
   .era-h .range{color:var(--muted);font-size:12px}
+
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:block;transition:border-color .18s,transform .18s}
-  .card:hover{border-color:var(--green);transform:translateY(-2px)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:block;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:0 1px 2px rgba(35,31,32,.04)}
+  .card:hover{border-color:var(--green-ink);transform:translateY(-2px);box-shadow:0 6px 18px rgba(35,31,32,.08)}
   .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .card .yr{color:var(--green);font-size:11.5px;letter-spacing:.06em}
+  .card .yr{font-family:"JetBrains Mono",monospace;color:var(--green-ink);font-size:11.5px;letter-spacing:.04em;font-weight:500}
   .soon{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:1px 8px;text-transform:uppercase;letter-spacing:.05em}
-  .card h3{margin:0 0 4px;font-size:17px;line-height:1.25}
-  .card .client{color:var(--muted);font-size:12px;margin:0 0 8px}
-  .card .sum{font-size:13.5px;line-height:1.5;color:#d8d4ca;margin:0 0 12px}
+  .card h3{margin:0 0 4px;font-size:17px;line-height:1.25;color:var(--ink)}
+  .card .client{color:var(--muted);font-size:12px;margin:0 0 8px;font-family:"JetBrains Mono",monospace}
+  .card .sum{font-size:13.5px;line-height:1.5;color:#4a453f;margin:0 0 12px}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 9px}
+  .chip{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 9px;background:#faf8f2}
+
   footer{color:var(--muted);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
-  footer a:hover{color:var(--green)}
+  footer a{color:var(--green-ink)}
+  footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="top">
-      <span class="mono" style="color:var(--green)">N8+US<span style="color:var(--white)"></span></span>
-      <a class="home" href="/">← home</a>
+  <header class="masthead">
+    <div class="inner">
+      <div class="top">
+        <span class="wordmark">N8+US</span>
+        <a class="home" href="/">← home</a>
+      </div>
+      <h1>Selected work</h1>
+      <p class="sub">Thirty years at the seam where design meets engineering: the web, rich apps, social platforms, and agentic AI. Grouped by era.</p>
     </div>
-    <h1 class="title">Selected work</h1>
-    <p class="sub">Thirty years at the seam where design meets engineering: the web, rich apps, social platforms, and agentic AI. Grouped by era.</p>
+  </header>
+  <main class="body">
     <div id="portfolio"></div>
     <footer>
       <a href="/resume">résumé</a> · <a href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://metatoy.com" target="_blank" rel="noopener">metatoy.com</a> · hello@metatoy.com
     </footer>
-  </div>
+  </main>
   <script src="/portfolio/portfolio-render.js"></script>
   <script>renderIndex("portfolio");</script>
 </body>
