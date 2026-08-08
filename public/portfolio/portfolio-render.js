@@ -117,6 +117,8 @@
       if (lines.length && lines.every((l) => /^\s*-\s+/.test(l))) {
         return "<ul>" + lines.map((l) => `<li>${fmt(l.replace(/^\s*-\s+/, ""))}</li>`).join("") + "</ul>";
       }
+      const emb = block.trim().match(/^@\[([^\]]*)\]\(([^)]+)\)$/);
+      if (emb) return `<figure class="media embed"><iframe src="${esc(emb[2])}" title="${esc(emb[1])}" loading="lazy" scrolling="no" onload="try{this.style.height=this.contentWindow.document.body.scrollHeight+'px'}catch(e){}"></iframe><figcaption>${esc(emb[1])}</figcaption></figure>`;
       const img = block.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
       if (img) return `<figure class="media"><img loading="lazy" src="${esc(img[2])}" alt="${esc(img[1])}" /><figcaption>${esc(img[1])}</figcaption></figure>`;
       return `<p>${fmt(block)}</p>`;
