@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portfolio — Nathan O'Brien</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{ --ink:#231f20; --ink2:#1a1718; --green:#8dc63f; --white:#f4f2ec; --muted:#9d9a92; --card:#2a2627; --line:#3a3536; }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--ink);color:var(--white);font-family:"Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 22px 80px}
+  a{color:inherit;text-decoration:none}
+  .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .top .home{font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .top .home:hover{color:var(--green)}
+  h1.title{font-size:30px;margin:6px 0 4px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 30px;max-width:60ch}
+  .era{margin:0 0 40px}
+  .era-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;font-size:15px;letter-spacing:.02em}
+  .era-h .range{color:var(--muted);font-size:12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:block;transition:border-color .18s,transform .18s}
+  .card:hover{border-color:var(--green);transform:translateY(-2px)}
+  .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .card .yr{color:var(--green);font-size:11.5px;letter-spacing:.06em}
+  .soon{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:1px 8px;text-transform:uppercase;letter-spacing:.05em}
+  .card h3{margin:0 0 4px;font-size:17px;line-height:1.25}
+  .card .client{color:var(--muted);font-size:12px;margin:0 0 8px}
+  .card .sum{font-size:13.5px;line-height:1.5;color:#d8d4ca;margin:0 0 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 9px}
+  footer{color:var(--muted);font-size:12px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
+  footer a:hover{color:var(--green)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <span class="mono" style="color:var(--green)">N8+US<span style="color:var(--white)"></span></span>
+      <a class="home" href="/">← home</a>
+    </div>
+    <h1 class="title">Selected work</h1>
+    <p class="sub">Thirty years at the seam where design meets engineering: the web, rich apps, social platforms, and agentic AI. Grouped by era.</p>
+    <div id="portfolio"></div>
+    <footer>
+      <a href="/resume">résumé</a> · <a href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://metatoy.com" target="_blank" rel="noopener">metatoy.com</a> · hello@metatoy.com
+    </footer>
+  </div>
+  <script src="/portfolio/portfolio-render.js"></script>
+  <script>renderIndex("portfolio");</script>
+</body>
+</html>
