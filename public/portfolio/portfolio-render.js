@@ -13,12 +13,18 @@
     const skills = (p.skills || []).slice(0, 6).map((s) => `<span class="chip">${esc(s)}</span>`).join("");
     const more = (p.skills || []).length > 6 ? `<span class="chip more">+${p.skills.length - 6}</span>` : "";
     const ph = p.status === "placeholder" ? '<span class="soon">archive coming</span>' : "";
+    const thumb = p.thumb
+      ? `<div class="card-thumb"><img loading="lazy" src="${esc(p.thumb)}" alt="${esc(p.title)}" /></div>`
+      : `<div class="card-thumb card-thumb--none"><span class="mono">${esc(p.client)}</span></div>`;
     return `<a class="card" href="/portfolio/project.html?slug=${encodeURIComponent(p.slug)}">
-      <div class="card-top"><span class="yr mono">${esc(p.year)}</span>${ph}</div>
-      <h3>${esc(p.title)}</h3>
-      <p class="client mono">${esc(p.client)} · ${esc(p.role)}</p>
-      <p class="sum">${esc(p.summary)}</p>
-      <div class="chips">${skills}${more}</div>
+      ${thumb}
+      <div class="card-body">
+        <div class="card-top"><span class="yr mono">${esc(p.year)}</span>${ph}</div>
+        <h3>${esc(p.title)}</h3>
+        <p class="client mono">${esc(p.client)} · ${esc(p.role)}</p>
+        <p class="sum">${esc(p.summary)}</p>
+        <div class="chips">${skills}${more}</div>
+      </div>
     </a>`;
   }
 

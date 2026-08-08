@@ -86,6 +86,7 @@
   "projects": [
     {
       "slug": "sorb",
+      "thumb": "/portfolio/assets/sorb/sorb-site.png",
       "era": "metatoy",
       "featured": true,
       "status": "complete",
@@ -145,6 +146,7 @@
     },
     {
       "slug": "ai-support-triage",
+      "thumb": "/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png",
       "era": "buzzfeed",
       "featured": true,
       "status": "complete",
@@ -192,6 +194,7 @@
     },
     {
       "slug": "callout",
+      "thumb": "/demo/20260803/assets/portfolio/g-callout/preview.png",
       "era": "buzzfeed",
       "featured": true,
       "status": "complete",
@@ -264,6 +267,7 @@
     },
     {
       "slug": "pubhub",
+      "thumb": "/demo/20260803/assets/portfolio/f-pubhub/planner.png",
       "era": "buzzfeed",
       "featured": true,
       "status": "complete",
@@ -330,6 +334,7 @@
     },
     {
       "slug": "image-publishing",
+      "thumb": "/demo/20260803/assets/portfolio/a-pubhub-templates/3.png",
       "era": "buzzfeed",
       "featured": false,
       "status": "complete",
@@ -378,6 +383,7 @@
     },
     {
       "slug": "agentic-migration",
+      "thumb": "/demo/20260803/assets/portfolio/e-migration/home-redesign.png",
       "era": "buzzfeed",
       "featured": false,
       "status": "complete",
@@ -436,6 +442,7 @@
     },
     {
       "slug": "metatoy-studio",
+      "thumb": "/portfolio/assets/metatoy-studio/factory-diagram.png",
       "era": "metatoy",
       "featured": true,
       "status": "complete",
@@ -473,6 +480,7 @@
     },
     {
       "slug": "woords",
+      "thumb": "/demo/20260803/assets/portfolio/h-woords/2-board-solving.png",
       "era": "metatoy",
       "featured": true,
       "status": "complete",
@@ -539,6 +547,7 @@
     },
     {
       "slug": "tattletown",
+      "thumb": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/01-map-home-carousel.png",
       "era": "metatoy",
       "featured": false,
       "status": "complete",
