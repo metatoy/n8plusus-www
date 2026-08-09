@@ -94,6 +94,29 @@
     }).join("");
   }
 
+  // click any diagram/screenshot to open it full-size in a lightbox
+  function wireLightbox(root) {
+    let ov = document.getElementById("pf-lightbox");
+    if (!ov) {
+      ov = document.createElement("div");
+      ov.id = "pf-lightbox";
+      ov.innerHTML = '<button class="lb-close" aria-label="Close">&times;</button><img alt="" />';
+      document.body.appendChild(ov);
+      const close = () => ov.classList.remove("open");
+      ov.addEventListener("click", close);
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    }
+    const big = ov.querySelector("img");
+    root.querySelectorAll(".media img").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        big.src = el.currentSrc || el.src;
+        big.alt = el.alt || "";
+        ov.classList.add("open");
+      });
+    });
+  }
+
   window.renderProject = async function (mountId) {
     const slug = new URLSearchParams(location.search).get("slug");
     const data = await load();
@@ -132,5 +155,6 @@
         ${links ? `<div class="links">${links}</div>` : ""}
       </header>
       ${sections}${body}${gallery}${skillsSec}`;
+    wireLightbox(mount);
   };
 })();

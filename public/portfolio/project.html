@@ -48,6 +48,13 @@
   .gallery{margin-top:34px;display:grid;gap:26px}
   .media{margin:0}
   .media img,.media video{width:100%;border:1px solid var(--line);border-radius:10px;display:block;background:#fff;box-shadow:0 2px 8px rgba(35,31,32,.06)}
+  .media img{cursor:zoom-in}
+  /* lightbox */
+  #pf-lightbox{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(20,18,16,.9);cursor:zoom-out;padding:24px}
+  #pf-lightbox.open{display:flex}
+  #pf-lightbox img{max-width:96vw;max-height:92vh;width:auto;border:none;border-radius:8px;box-shadow:0 24px 70px rgba(0,0,0,.55);background:#eceae5}
+  #pf-lightbox .lb-close{position:fixed;top:16px;right:24px;background:none;border:none;color:#fff;font-size:38px;line-height:1;cursor:pointer;opacity:.85}
+  #pf-lightbox .lb-close:hover{opacity:1}
   .media.embed iframe{width:100%;min-height:520px;border:1px solid var(--line);border-radius:10px;display:block;background:#fff;box-shadow:0 2px 8px rgba(35,31,32,.06)}
   .media figcaption{color:var(--muted);font-size:12.5px;margin-top:8px;line-height:1.5}
   .media figcaption b{color:var(--ink);font-weight:600}
