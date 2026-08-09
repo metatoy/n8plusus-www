@@ -54,12 +54,19 @@
   .empty{color:var(--muted);font-size:14px;padding:20px 0}
   .linklike{background:none;border:none;color:var(--green-ink);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
 
-  .era{margin:0 0 40px}
-  .era.other{margin-top:36px}
-  .era.other .grid{opacity:.7}
-  #pf-grid > .grid:first-child{margin-bottom:8px}
-  .era-h{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px;font-size:15px;letter-spacing:.02em;color:var(--ink)}
-  .era-h .range{color:var(--muted);font-size:12px}
+  /* curated shelves */
+  .shelf{margin:0 0 44px}
+  .shelf-h{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 18px}
+  .shelf-h h2{font-size:16px;letter-spacing:.01em;color:var(--ink);margin:0}
+  .shelf-sub{font-size:12.5px;color:var(--muted)}
+  /* in-production live links */
+  .prodgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .prodlink{display:flex;flex-direction:column;gap:5px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:0 1px 2px rgba(35,31,32,.04)}
+  .prodlink:hover{border-color:var(--green-ink);transform:translateY(-2px);box-shadow:0 6px 18px rgba(35,31,32,.08)}
+  .prodlink .pl-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .prodlink .pl-label{font-size:14.5px;font-weight:600;color:var(--ink)}
+  .prodlink .pl-arrow{color:var(--green-ink);font-size:13px}
+  .prodlink .pl-sub{font-size:11.5px;color:var(--muted);letter-spacing:.02em}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:block;transition:border-color .18s,transform .18s,box-shadow .18s;box-shadow:0 1px 2px rgba(35,31,32,.04)}
@@ -96,7 +103,7 @@
         </span>
       </div>
       <h1>Selected work</h1>
-      <p class="sub">Thirty years at the seam where design meets engineering: the web, rich apps, social platforms, and agentic AI. Grouped by era; filter by skill or role.</p>
+      <p class="sub">Staff engineer at the design-engineering seam who ships agentic AI to production. A few flagship case studies, the things running live right now, and a little more if you want it.</p>
     </div>
   </header>
   <main class="body">

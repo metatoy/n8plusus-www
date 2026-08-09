@@ -28,77 +28,32 @@
     </a>`;
   }
 
-  // filter state: skills (multi) + roles (multi)
-  const state = { skills: new Set(), roles: new Set() };
-  const hasSelection = () => state.skills.size || state.roles.size;
-  function projectMatches(p) {
-    if (state.skills.size && !(p.skillTags || []).some((s) => state.skills.has(s))) return false;
-    if (state.roles.size && !(p.roleTypes || []).some((r) => state.roles.has(r))) return false;
-    return true;
-  }
+  const gridOf = (arr) => `<div class="grid">${arr.map(card).join("")}</div>`;
+  const shelf = (title, sub, inner) =>
+    `<section class="shelf"><div class="shelf-h"><h2>${esc(title)}</h2>${sub ? `<span class="shelf-sub">${esc(sub)}</span>` : ""}</div>${inner}</section>`;
 
-  function filterBar(data) {
-    const f = data.meta.filters || {};
-    const skillPills = (f.skills || [])
-      .map((s) => `<button class="pill" data-group="skills" data-id="${s.id}" title="${esc(s.full)}">${ico(s.icon)}${esc(s.short)}</button>`)
-      .join("");
-    const rolePills = (f.roleTypes || [])
-      .map((r) => `<button class="pill" data-group="roles" data-id="${r.id}" title="${esc(r.full)}">${esc(r.short)}</button>`)
-      .join("");
-    return `<div class="filters">
-      <div class="fbar">
-        <div class="fgroup skills"><span class="flabel mono">${ico("funnel")}Skills</span>${skillPills}</div>
-        <div class="fgroup roles"><span class="flabel mono">Role</span>${rolePills}<button class="pill clear" data-clear="1">Clear</button></div>
-      </div>
-      <p class="fcount mono" id="fcount"></p>
-    </div>`;
-  }
-
-  const byFeatured = (a, b) => (b.featured === true) - (a.featured === true);
-  const gridOf = (arr) => `<div class="grid">${arr.slice().sort(byFeatured).map(card).join("")}</div>`;
-
-  function paintGrid(data, gridMount) {
-    const projects = data.projects || [];
-    const c = document.getElementById("fcount");
-    if (!hasSelection()) {
-      const byEra = {};
-      projects.forEach((p) => (byEra[p.era] = byEra[p.era] || []).push(p));
-      gridMount.innerHTML = (data.meta.eras || [])
-        .filter((era) => byEra[era.id] && byEra[era.id].length)
-        .map((era) => `<section class="era"><h2 class="era-h"><span>${esc(era.label)}</span><span class="mono range">${esc(era.range)}</span></h2>${gridOf(byEra[era.id])}</section>`)
-        .join("");
-      if (c) c.textContent = "";
-      return;
-    }
-    const selected = projects.filter(projectMatches);
-    const other = projects.filter((p) => !projectMatches(p));
-    let html = selected.length ? gridOf(selected) : `<p class="empty mono">Nothing matches that selection. <button class="linklike" data-clear="1">Clear</button></p>`;
-    if (other.length) html += `<section class="era other"><h2 class="era-h"><span>Other</span></h2>${gridOf(other)}</section>`;
-    gridMount.innerHTML = html;
-    if (c) c.textContent = selected.length + " selected";
-  }
-
+  // Curated index (no filters). meta.index = { selected:[slug], more:[slug], inProduction:[{label,url,sub}] }.
   window.renderIndex = async function (mountId) {
     const data = await load();
     const mount = document.getElementById(mountId);
-    mount.innerHTML = filterBar(data) + '<div id="pf-grid"></div>';
-    const grid = document.getElementById("pf-grid");
-    paintGrid(data, grid);
-    mount.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-group],[data-clear]");
-      if (!btn) return;
-      e.preventDefault();
-      if (btn.dataset.clear) { state.skills.clear(); state.roles.clear(); }
-      else {
-        const set = btn.dataset.group === "skills" ? state.skills : state.roles;
-        set.has(btn.dataset.id) ? set.delete(btn.dataset.id) : set.add(btn.dataset.id);
-      }
-      mount.querySelectorAll(".pill[data-group]").forEach((el) => {
-        const on = (el.dataset.group === "skills" ? state.skills : state.roles).has(el.dataset.id);
-        el.classList.toggle("active", on);
-      });
-      paintGrid(data, grid);
-    });
+    const bySlug = Object.fromEntries((data.projects || []).map((p) => [p.slug, p]));
+    const idx = (data.meta && data.meta.index) || {};
+    const pick = (slugs) => (slugs || []).map((s) => bySlug[s]).filter(Boolean);
+    const selected = pick(idx.selected);
+    const more = pick(idx.more);
+    const prod = idx.inProduction || [];
+
+    const prodStrip = prod.length
+      ? `<div class="prodgrid">${prod
+          .map((x) => `<a class="prodlink" href="${esc(x.url)}" target="_blank" rel="noopener"><span class="pl-top"><span class="pl-label">${esc(x.label)}</span><span class="pl-arrow">↗</span></span>${x.sub ? `<span class="pl-sub mono">${esc(x.sub)}</span>` : ""}</a>`)
+          .join("")}</div>`
+      : "";
+
+    let html = "";
+    if (selected.length) html += shelf("Selected work", "", gridOf(selected));
+    if (prod.length) html += shelf("In production", "Live and verifiable — go poke at it", prodStrip);
+    if (more.length) html += shelf("More", "", gridOf(more));
+    mount.innerHTML = html;
   };
 
   function mediaBlock(m) {

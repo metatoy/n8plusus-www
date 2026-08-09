@@ -81,6 +81,48 @@
           "full": "design tokens · styled-components · Figma"
         }
       ]
+    },
+    "index": {
+      "selected": [
+        "sorb",
+        "ai-support-triage",
+        "metatoy-studio",
+        "agentic-migration",
+        "callout"
+      ],
+      "more": [
+        "pubhub",
+        "image-publishing",
+        "woords",
+        "tattletown"
+      ],
+      "inProduction": [
+        {
+          "label": "@sorb on npm",
+          "url": "https://www.npmjs.com/org/sorb",
+          "sub": "4 published packages (OIDC)"
+        },
+        {
+          "label": "Sorb live demo",
+          "url": "https://demo.sorbcloud.com",
+          "sub": "multi-tenant hosted SaaS"
+        },
+        {
+          "label": "woords on the App Store",
+          "url": "https://apps.apple.com/app/id6778837773",
+          "sub": "iOS · live"
+        },
+        {
+          "label": "TattleTown live",
+          "url": "https://tt-api.woords.io/features",
+          "sub": "production API + feature tour"
+        },
+        {
+          "label": "Metatoy on GitHub",
+          "url": "https://github.com/metatoy",
+          "sub": "sorb-* + woords-lab (OSS)"
+        }
+      ]
     }
   },
   "projects": [
