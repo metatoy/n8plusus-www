@@ -84,11 +84,11 @@
     },
     "index": {
       "selected": [
-        "sorb",
         "ai-support-triage",
-        "metatoy-studio",
+        "callout",
         "agentic-migration",
-        "callout"
+        "sorb",
+        "metatoy-studio"
       ],
       "more": [
         "pubhub",
@@ -289,7 +289,7 @@
         },
         {
           "title": "How it works",
-          "body": "A **two-call classifier** decides *what to do* first — deliberately **blind to the routing list** — then, separately, *who owns it*. A gated investigator agent reads the live system, code, telemetry, and docs to draft an evidence-cited fix and reply. A person approves every call before anything goes out; it was trained on two years of resolved history and improves with every correction."
+          "body": "A **two-call classifier** decides *what to do* first — deliberately **blind to the routing list** — then, separately, *who owns it*. A gated investigator agent reads the live system, code, telemetry, and docs to draft an evidence-cited fix and reply. A person approves every call before anything goes out; it was trained on two years of resolved history and improves with every correction.\n\n![The loop end to end: two-call classification (branch, then route), a gated investigator, a human gate on every write, and a correction flywheel. (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-loop.png)"
         },
         {
           "title": "How I built it",
