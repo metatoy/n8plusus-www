@@ -452,11 +452,11 @@
         },
         {
           "title": "How I built it",
-          "body": "**Backend:** FastAPI (async, Pydantic v2) over a MySQL DAO layer with a Redis write-through cache; ruff + strict mypy + pytest as the gate; Datadog instrumentation exposing a selection funnel (campaigns-qualified → variants-qualified → variant-selected) and cache hit/miss. The suite grew to **575 tests**.\n\n**Frontend:** Next.js 14 / React 18, styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, react-image-crop, and Jest + Testing Library (with a separate integration config and react-axe accessibility auditing).\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change lands a checked-in feature spec with file-by-file plan and acceptance criteria; standing agent-instruction docs encode both house style and domain rules; an implementation-report trail shows an agent-driven refactor taken from **94% → 100%** passing."
+          "body": "**Frontend (my build):** Next.js 14 / React 18, styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, and react-image-crop; tested with Jest + Testing Library (plus a separate integration config) and react-axe accessibility auditing. The live WYSIWYG preview renders through the same component the production site serves, so what an operator sees is what ships.\n\n**Integrated with and extended the backend:** the selection API was owned by another team. I integrated the admin against it and contributed **targeted backend changes** to support new admin features — additional condition and trigger types plus the endpoints the wizard needed (the specific API commits are in my GitHub history). I did not author the selection service itself.\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change landed a checked-in feature spec with a file-by-file plan and acceptance criteria."
         },
         {
           "title": "Results",
-          "body": "- **What you see is what ships** — the editor previews through the same renderer that serves readers.\n- A **575-test** backend suite (grown from ~545), with strict typing and a documented 94%→100% refactor pass.\n- A **48-hour global frequency cap** protects readers from promo fatigue.\n- Launched with **no negative impact on core site metrics** (time-on-site, PVs/session); actively maintained 2023–2026."
+          "body": "- **What you see is what ships** — the editor previews through the same renderer that serves readers.\n- A **48-hour global frequency cap** protects readers from promo fatigue.\n- Launched with **no negative impact on core site metrics** (time-on-site, PVs/session); actively maintained 2023–2026."
         }
       ],
       "links": [],
@@ -464,47 +464,81 @@
         {
           "label": "AI / Agentic",
           "items": [
-            "spec-driven agent workflow",
-            "checked-in feature specs + standing agent instructions",
-            "agent-assisted refactors",
-            "OpenAPI generation via agent prompts"
+            {
+              "name": "Spec-first feature workflow",
+              "applied": "Every non-trivial change landed a checked-in spec with a file-by-file plan and acceptance criteria."
+            },
+            {
+              "name": "AI-agent-scaffolded development",
+              "applied": "Built the admin with an agent-assisted, spec-driven loop."
+            }
           ]
         },
         {
           "label": "Frontend",
           "items": [
-            "Next.js",
-            "React",
-            "JavaScript",
-            "styled-components",
-            "react-hook-form + zod",
-            "undo/redo (use-undo)",
-            "autosave",
-            "image crop / upload",
-            "Jest + Testing Library",
-            "accessibility (react-axe)"
+            {
+              "name": "Next.js · React",
+              "applied": "Built the Callout admin app from scratch — listing, wizard, preview."
+            },
+            {
+              "name": "styled-components",
+              "applied": "Styled every admin surface to match the production look."
+            },
+            {
+              "name": "react-hook-form + zod",
+              "applied": "Schema-validated the multi-step campaign create/edit forms."
+            },
+            {
+              "name": "undo/redo + autosave",
+              "applied": "Wired use-undo and localStorage autosave into the wizard."
+            },
+            {
+              "name": "Live WYSIWYG preview",
+              "applied": "Rendered the preview through the same component that serves readers."
+            },
+            {
+              "name": "Image crop / upload",
+              "applied": "Built the campaign image uploader and cropper."
+            },
+            {
+              "name": "Jest + Testing Library · react-axe",
+              "applied": "Unit/integration tests and accessibility auditing for the admin."
+            }
           ]
         },
         {
           "label": "Backend / Infra",
           "items": [
-            "FastAPI",
-            "Pydantic v2",
-            "MySQL",
-            "Redis",
-            "ruff + mypy (strict)",
-            "pytest",
-            "Datadog",
-            "weight-based selection engine"
+            {
+              "name": "FastAPI selection API (integration)",
+              "applied": "Integrated the admin against the team-owned selection service."
+            },
+            {
+              "name": "Targeted API changes",
+              "applied": "Added condition/trigger types and the endpoints the wizard needed (see GitHub history)."
+            },
+            {
+              "name": "REST integration",
+              "applied": "Handled auth, API calls, and client-side caching behavior."
+            }
           ]
         },
         {
           "label": "Leadership",
           "items": [
-            "sole author of the admin tier",
-            "cross-team three-tier system",
-            "shipped to production",
-            "spec-first discipline"
+            {
+              "name": "Owned the admin tier",
+              "applied": "Sole author of the operator-facing tier of a three-tier system."
+            },
+            {
+              "name": "Cross-team delivery",
+              "applied": "Coordinated backend API changes with the owning team."
+            },
+            {
+              "name": "Shipped to production",
+              "applied": "Launched with no negative impact on core site metrics."
+            }
           ]
         }
       ]
