@@ -88,6 +88,14 @@
         const cap = parts.length > 1 ? parts.slice(1).join(" :: ") : coll[1];
         return `<details class="media-collapse"><summary>${esc(sum)}</summary><figure class="media"><img loading="lazy" src="${esc(coll[2])}" alt="${esc(cap)}" /><figcaption>${esc(cap)}</figcaption></figure></details>`;
       }
+      // click-to-view thumbnail: t![Short label :: full caption](src)
+      const thm = block.trim().match(/^t!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (thm) {
+        const parts = thm[1].split(" :: ");
+        const label = parts.length > 1 ? parts[0] : thm[1];
+        const cap = parts.length > 1 ? parts.slice(1).join(" :: ") : thm[1];
+        return `<figure class="media media-thumb"><img loading="lazy" src="${esc(thm[2])}" alt="${esc(cap)}" /><figcaption>${esc(label)} <span class="mt-cta">expand</span></figcaption></figure>`;
+      }
       const img = block.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
       if (img) return `<figure class="media"><img loading="lazy" src="${esc(img[2])}" alt="${esc(img[1])}" /><figcaption>${esc(img[1])}</figcaption></figure>`;
       return `<p>${fmt(block)}</p>`;

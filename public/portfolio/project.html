@@ -49,6 +49,12 @@
   .media{margin:0}
   .media img,.media video{width:100%;border:1px solid var(--line);border-radius:10px;display:block;background:#fff;box-shadow:0 2px 8px rgba(35,31,32,.06)}
   .media img{cursor:zoom-in}
+  /* click-to-view diagram thumbnails */
+  .media-thumb{display:inline-block;width:330px;max-width:100%;vertical-align:top;margin:6px 16px 12px 0}
+  .media-thumb img{border-radius:8px}
+  .media-thumb figcaption{font-size:12px;margin-top:6px}
+  .media-thumb .mt-cta{color:var(--green-ink);font-weight:600;white-space:nowrap}
+  .media-thumb .mt-cta::before{content:"⤢ "}
   /* lightbox */
   #pf-lightbox{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(20,18,16,.9);cursor:zoom-out;padding:24px}
   #pf-lightbox.open{display:flex}
