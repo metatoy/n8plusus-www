@@ -196,11 +196,15 @@
         },
         {
           "title": "How it works",
-          "body": "1. A designer edits a token variable in Figma inside the plugin.\n2. The plugin posts the proposed tokens to a local bridge server (`:7777`).\n3. The React SDK's provider fetches them, applies them as **CSS custom properties on `:root`**, and live-polls for updates — so the running app re-themes in place.\n4. If the bridge isn't running it falls back silently to the committed tokens — **preview never breaks production**. One command opens a GitHub PR with the new token file."
+          "body": "1. A designer edits a token variable in Figma inside the plugin.\n2. The plugin posts the proposed tokens to a local bridge server (`:7777`).\n3. The React SDK's provider fetches them, applies them as **CSS custom properties on `:root`**, and live-polls for updates — so the running app re-themes in place.\n4. If the bridge isn't running it falls back silently to the committed tokens — **preview never breaks production**. One command opens a GitHub PR with the new token file.\n\n![Architecture: a polyrepo that grows like a tree — Canopy (Figma) → Juice (the bridge) → Leaf (React SDK), on a shared Core contract, plus the hosted Cloud plane. (Illustrative.)](/portfolio/assets/sorb/sorb-polyrepo.png)"
         },
         {
           "title": "How I built it",
-          "body": "**Polyrepo, by design** — a tree lifecycle (Seed → Juice → Leaf · Canopy) plus a shared Core contract and a Cloud control plane, each its own repo so any package can be public or private independently. **JavaScript only** (types are JSDoc typedefs), built with **esbuild** — never TypeScript, with one deliberate exception: the hosted Cloud plane is a Next.js app.\n\n- **Juice** is the bridge — a **Hono** server (bin `sorb`, port 7777) that's a dev-dependency only and never touches production; the *same* binary turns on auth, entitlements, and scoped CORS the moment a database URL is set.\n- **Seed** captures Storybook via Playwright and resolves tokens through Style Dictionary (DTCG).\n- **Canopy** is the Figma plugin (sandboxed `code.js` + iframe `ui.html`); **Leaf** is the React SDK (provider + hooks).\n- **MCP servers** expose the whole thing so agents can drive it."
+          "body": "**Polyrepo, by design** — a tree lifecycle (Seed → Juice → Leaf · Canopy) plus a shared Core contract and a Cloud control plane, each its own repo so any package can be public or private independently. **JavaScript only** (types are JSDoc typedefs), built with **esbuild** — never TypeScript, with one deliberate exception: the hosted Cloud plane is a Next.js app.\n\n- **Juice** is the bridge — a **Hono** server (bin `sorb`, port 7777) that's a dev-dependency only and never touches production; the *same* binary turns on auth, entitlements, and scoped CORS the moment a database URL is set.\n- **Seed** captures Storybook via Playwright and resolves tokens through Style Dictionary (DTCG).\n- **Canopy** is the Figma plugin (sandboxed `code.js` + iframe `ui.html`); **Leaf** is the React SDK (provider + hooks).\n- **MCP servers** expose the whole thing so agents can drive it.\n\nt![Live-preview flow — Figma → bridge → app :: Edit a token in Figma → the plugin posts it to the local bridge → the React SDK applies it as CSS variables and re-themes the running app in place; falls back to committed tokens if the bridge is off. (Illustrative.)](/portfolio/assets/sorb/sorb-bridge.png)"
+        },
+        {
+          "title": "FAQ — what hiring teams ask, answered with this project",
+          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**You describe yourself as working at the seam where design meets engineering. What does that look like in practice?**\nSorb is that seam made into a product. The problem it solves is that a token approved in Figma gets re-typed by hand in code and quietly drifts, and nobody notices until users do. So instead of anchoring on the design file, I anchored on the running app: a designer edits a token in Figma, the plugin posts it to a local bridge, and the React SDK applies it as CSS custom properties so the real components re-skin live before anyone merges. It gives design and engineering one shared source of truth they can both see moving.\n\n**How do you evaluate whether an AI or generated change is actually good, rather than just plausible?**\nBy checking it against something that can't lie. In Sorb every AI feature rides the live binding graph and is verified against the actual running app, so a proposed token change is judged by what it does on real components, not by the model's confidence. For the first write feature, a contrast fixer, the judge is the deterministic WCAG contrast math, not the LLM. The running app and the math are the oracle; the model only proposes.\n\n**How do you design AI responsibly and handle the failure case where it's confidently wrong?**\nThe loop is AI proposes, a human reviews, and the live app verifies, with no auto-apply anywhere. I was also careful not to overstate the guarantee: verify is a check-then-merge habit, not an enforced CI gate, and I keep the product copy honest about that distinction. On the reliability side the preview fails safe by design. If the bridge isn't running, the SDK silently falls back to the committed tokens, so an experiment can never break production.\n\n**Have you shipped this in production, or is it a prototype?**\nThe core is shipped: four @sorb packages published to npm through OIDC trusted publishing, a React SDK and Figma plugin in real use, and a multi-tenant hosted platform running live with a public demo on self-hosted infrastructure. I'm honest about what's still branch-local: the deeper AI write features are built and gated, not merged, because I won't market a capability the product doesn't actually run yet. The bridge, the SDK, the plugin, and the hosted plane are real and deployed today."
         },
         {
           "title": "Results",
@@ -211,41 +215,113 @@
         {
           "label": "AI / Agentic",
           "items": [
-            "MCP servers (agent-drivable)",
-            "agent-built polyrepo"
+            {
+              "name": "MCP control surface",
+              "applied": "Built an MCP read-model over the resolved tokens and their component bindings (listTokens, getToken, bindings) so an agent reads the same ground truth the app renders from."
+            },
+            {
+              "name": "Running-app as the oracle",
+              "applied": "Designed every AI feature to ride the live binding graph and verify against the actual running app, so a proposed change is checked against reality rather than trusted from the model."
+            },
+            {
+              "name": "AI-proposes, human-verifies loop",
+              "applied": "Scoped the AI roadmap so the model only proposes token changes; a person reviews and the live app confirms them, with no auto-apply path."
+            },
+            {
+              "name": "Deterministic oracle for writes",
+              "applied": "Gated the first verifiable AI write (a contrast/a11y fixer) on WCAG contrast math as the judge, keeping the correctness check deterministic instead of leaning on the LLM's word."
+            },
+            {
+              "name": "Agent-built polyrepo",
+              "applied": "Built the whole toolchain through the studio's spec-first agent pods, down a cost-tiered model ladder with a human owning every merge."
+            }
           ]
         },
         {
           "label": "Frontend",
           "items": [
-            "React SDK (provider + hooks)",
-            "Figma plugin (sandbox + iframe)",
-            "CSS custom properties",
-            "design tokens (DTCG / Style Dictionary)",
-            "Storybook capture (Playwright)",
-            "Next.js (Cloud)"
+            {
+              "name": "React SDK",
+              "applied": "Wrote the Leaf SDK (SorbProvider, PreviewBanner, useToken/useIsPreview hooks) that applies proposed tokens as CSS custom properties on :root and live-polls for updates."
+            },
+            {
+              "name": "Figma plugin",
+              "applied": "Built Canopy across the Figma sandbox split: code.js reads variables with no network, ui.html fetches over the bridge, the two talking only over postMessage."
+            },
+            {
+              "name": "CSS custom properties",
+              "applied": "Made var(--token, fallback) the runtime carrier so a token edit re-skins real components in place, and falls back silently to committed values when the bridge is off."
+            },
+            {
+              "name": "Design tokens (DTCG / Style Dictionary)",
+              "applied": "Modeled tokens in DTCG across primitive/semantic/component tiers and resolved them through a thin Style Dictionary wrapper into a stable {id, cssVar, value, tier, type} shape."
+            },
+            {
+              "name": "Storybook capture (Playwright)",
+              "applied": "Drove Storybook headlessly with Playwright to capture component artifacts the plugin can re-materialize as real Figma nodes."
+            },
+            {
+              "name": "Auto-binding engine",
+              "applied": "Wrote a property-affinity binder (fill to bg, stroke to border, text to text, radius to radius) so tokens attach to components with zero hand-authored mapping code."
+            },
+            {
+              "name": "Next.js (Cloud)",
+              "applied": "Built the hosted control-plane UI in Next.js 15 for orgs, projects, API keys, and billing."
+            }
           ]
         },
         {
           "label": "Backend / Infra",
           "items": [
-            "Node.js",
-            "Hono bridge server",
-            "esbuild",
-            "JavaScript (JSDoc types)",
-            "PostgreSQL",
-            "Redis",
-            "Clerk",
-            "Stripe",
-            "npm publishing (OIDC)"
+            {
+              "name": "Hono bridge server",
+              "applied": "Built Juice, the Hono server on :7777 (bin sorb) that serves preview, verify, and token endpoints and is a dev-dependency that never touches production."
+            },
+            {
+              "name": "One binary, two modes",
+              "applied": "Wrote the bridge so setting a database URL flips it from local single-tenant to hosted mode (auth, entitlements, scoped CORS) without changing a single endpoint path."
+            },
+            {
+              "name": "JavaScript + esbuild",
+              "applied": "Kept the four public packages JavaScript-only with JSDoc typedefs, built with esbuild, and pinned a shared @sorb/core contract so independently versioned repos cannot drift."
+            },
+            {
+              "name": "PostgreSQL + Redis",
+              "applied": "Ran Postgres 16 as the system of record (orgs, keys, entitlements, audit) and Redis 7 for preview payloads and verify reports with tiered TTLs."
+            },
+            {
+              "name": "Clerk + Stripe",
+              "applied": "Wired Clerk for auth/orgs and Stripe for per-editor billing into the hosted plane."
+            },
+            {
+              "name": "Coolify / Traefik on Hetzner",
+              "applied": "Deployed the bridge, control plane, marketing site, and live demo on a self-hosted Coolify/Traefik stack on a Hetzner VPS."
+            },
+            {
+              "name": "npm publishing (OIDC)",
+              "applied": "Shipped @sorb/core, seed, leaf, and juice to npm through GitHub Actions OIDC trusted publishing, no long-lived tokens."
+            }
           ]
         },
         {
           "label": "Leadership",
           "items": [
-            "founder & sole engineer",
-            "product & category positioning",
-            "OSS + SaaS dual model"
+            {
+              "name": "Founder & sole engineer",
+              "applied": "Designed, built, and shipped the entire toolchain, plugin, SDK, and hosted platform solo."
+            },
+            {
+              "name": "Category & positioning",
+              "applied": "Defined the 'design-token bridge for the running app' category against Code Connect, choosing a claim that is falsifiable in the product's favor and honest about being React-only and narrower-but-deeper."
+            },
+            {
+              "name": "OSS + SaaS dual model",
+              "applied": "Shaped a fully free, offline, self-hostable local loop with a paid hosted moat, one codebase serving both."
+            },
+            {
+              "name": "Honest guardrails",
+              "applied": "Held the copy to what the product actually does, never claiming an enforced merge gate when verify is a check-then-merge habit."
+            }
           ]
         }
       ]
@@ -842,11 +918,15 @@
         },
         {
           "title": "How it works",
-          "body": "The loop ports one slice at a time — legacy request handlers become Next.js server-side data-fetching + routes — runs the **full test suite on every commit**, verifies the new page **side-by-side against production**, and escalates to a human only when it hits a genuine blocker."
+          "body": "The loop ports one slice at a time — legacy request handlers become Next.js server-side data-fetching + routes — runs the **full test suite on every commit**, verifies the new page **side-by-side against production**, and escalates to a human only when it hits a genuine blocker.\n\n![The migration loop: prep coverage first, then port each slice, test every commit, verify against production, and pause only at real blockers. (Illustrative, clean-room.)](/portfolio/assets/agentic-migration/migration-loop.png)"
         },
         {
           "title": "How I built it",
-          "body": "**Porting mechanics:** Tornado handlers → Next.js `getServerSideProps` / catch-all routes, commit by commit, each landing the full Jest suite green (**~2,306 tests**). To make that safe I fanned out worker agents to raise coverage first — from **26% to 97%** — which surfaced four real latent bugs before the port even started.\n\n**A debugging win worth naming:** three networks' publishing broke at once after a config change dropped two keys that a single shared upload-URL fallback depended on. I traced the common cause and shipped one forward-fix with before/after proof, rather than three band-aids.\n\nThe loop was built as a **reusable blueprint** — designed to apply across ~a dozen candidate services, not just this one."
+          "body": "**Porting mechanics:** Tornado handlers → Next.js `getServerSideProps` / catch-all routes, commit by commit, each landing the full Jest suite green (**~2,306 tests**). To make that safe I fanned out worker agents to raise coverage first — from **26% to 97%** — which surfaced four real latent bugs before the port even started.\n\n**A debugging win worth naming:** three networks' publishing broke at once after a config change dropped two keys that a single shared upload-URL fallback depended on. I traced the common cause and shipped one forward-fix with before/after proof, rather than three band-aids.\n\nThe loop was built as a **reusable blueprint** — designed to apply across ~a dozen candidate services, not just this one.\n\nt![Port mechanics — Tornado → Next.js :: Porting mechanics: each legacy piece (handlers, build, React/Redux, styling, tests) mapped to its Next.js equivalent, gated by the full test suite every commit. (Illustrative, clean-room.)](/portfolio/assets/agentic-migration/migration-ports.png)"
+        },
+        {
+          "title": "FAQ — what hiring teams ask, answered with this project",
+          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**How do you use AI in your daily engineering work?**\nOn this project AI was the primary way the work got done, not an assistant on the side. I designed an agent loop that ported the codebase one slice at a time, ran the full test suite on every commit, and checked the migrated page against production before moving on. My job shifted to designing the loop, setting the gates, and deciding at the blockers the agent surfaced, which is how one person carried a migration that would normally take a team.\n\n**How do you keep a large, agent-driven refactor from quietly breaking things?**\nI made the existing test suite trustworthy before touching the framework. Worker agents raised line coverage from 26 to 97 percent first, which surfaced four real latent bugs, and then the thresholds were locked so coverage could not silently regress. During the port the full suite plus lint had to be green after every commit, and behavior-sensitive flows were verified side by side against the live production app, so a change was never called done on the agent's word alone.\n\n**How do you design an agent to run responsibly on a production system?**\nEvery consequential decision paused for human approval; the agent executed and the human decided, and each decision was logged with its options, risk, and outcome so the run was auditable. I also held a strict lift-and-shift rule so no behavior changed under cover of the migration, which kept every diff legible as either a faithful port or a real bug. When the port surfaced an already-broken area, the call was to fix forward and document it rather than quietly paper over it.\n\n**Have you shipped this in production, or was it a prototype?**\nIt ran against the real decade-old service that a working team depended on, through timed production test windows and a monitored, staged rollout rather than a single cutover. One of those windows surfaced a publishing failure across three networks that I traced to a single dropped-config root cause and fixed forward with before-and-after proof. The point was never just this one app either; the loop was built as a reusable blueprint for the dozen or so similar services behind it."
         },
         {
           "title": "Results",
@@ -858,37 +938,93 @@
         {
           "label": "AI / Agentic",
           "items": [
-            "agent-loop design",
-            "self-verifying agents",
-            "agent fan-out for coverage",
-            "decision logging / auditable runs"
+            {
+              "name": "Agent-loop design",
+              "applied": "Designed the migration loop that ports one slice at a time, self-verifies, and escalates to a human only at a genuine blocker."
+            },
+            {
+              "name": "Self-verifying agents",
+              "applied": "Had the agent inspect the running UI in a browser and diff it side-by-side against production, closing the gap where an agent claims a change works without ever seeing it run."
+            },
+            {
+              "name": "Agent fan-out",
+              "applied": "Fanned out worker agents across a tiered file-batch plan to raise the legacy suite's coverage before the port began."
+            },
+            {
+              "name": "Decision logging / auditable runs",
+              "applied": "Logged every gated decision with options, choice, risk, and graded outcome, so the run doubled as a training set for the next migration."
+            },
+            {
+              "name": "Human approval gates",
+              "applied": "Paused at every consequential choice for human sign-off; the agent executed, the human decided."
+            }
           ]
         },
         {
           "label": "Frontend",
           "items": [
-            "Next.js",
-            "React",
-            "SSR (getServerSideProps)",
-            "JavaScript"
+            {
+              "name": "Next.js (SSR)",
+              "applied": "Ported legacy request handlers onto Next.js server-side data-fetching in catch-all routes as the target framework."
+            },
+            {
+              "name": "React",
+              "applied": "Rebuilt the decade-old React 16 / Redux client surface on the modern Next.js stack while matching legacy behavior."
+            },
+            {
+              "name": "Behavior-parity porting",
+              "applied": "Held a strict lift-and-shift, verifying each migrated page against the live production app rather than improving behavior mid-port."
+            },
+            {
+              "name": "JavaScript",
+              "applied": "Wrote the port in JavaScript, keeping the legacy code in-tree as the agent's living reference throughout."
+            }
           ]
         },
         {
           "label": "Backend / Infra",
           "items": [
-            "Python",
-            "Tornado (legacy)",
-            "Jest (~2,306-test suite)",
-            "CI gating",
-            "config / root-cause debugging"
+            {
+              "name": "Python / Tornado (legacy)",
+              "applied": "Read and mapped the decade-old Python/Tornado handler layer as the source of truth for the port."
+            },
+            {
+              "name": "Jest (large suite)",
+              "applied": "Ran the full ~2,306-test Jest suite plus lint green after every commit as a hard verification gate."
+            },
+            {
+              "name": "Test-coverage engineering",
+              "applied": "Raised legacy line coverage from 26% to 97% and locked the thresholds so the safety net cannot silently regress."
+            },
+            {
+              "name": "Root-cause debugging",
+              "applied": "Traced three networks' broken publishing to two config keys a shared upload-URL fallback depended on, and shipped one forward-fix with before/after proof."
+            },
+            {
+              "name": "Staged rollout",
+              "applied": "Ramped the migration through monitored soaks and timed production test windows rather than a single cutover."
+            }
           ]
         },
         {
           "label": "Leadership",
           "items": [
-            "modernization strategy",
-            "reusable migration blueprint",
-            "risk-managed rollout"
+            {
+              "name": "Modernization strategy",
+              "applied": "Turned a single open question about whether an agent loop could carry a full framework migration into an approved modernization program."
+            },
+            {
+              "name": "Reusable blueprint",
+              "applied": "Built the agent persona, decision-log defaults, and a porting-gotchas README so the next migration starts warm, not cold."
+            },
+            {
+              "name": "Risk-managed delivery",
+              "applied": "Set the coverage-first, per-commit-green, human-gated discipline that kept a decade-old production tool safe during the port."
+            },
+            {
+              "name": "Self-initiated program",
+              "applied": "Ran the first migration as a proof of concept, then earned leadership approval to apply the pattern across a family of candidate services."
+            }
           ]
         }
       ]
@@ -937,11 +1073,15 @@
         },
         {
           "title": "How it works",
-          "body": "Every substantial task becomes an approved **spec** first. A run then casts a **pod** (design / developer / QA execution roles plus review seats), executes **down a cost-tiered model ladder**, and **verifies against reality** (screenshot / simulator / compile gates) — with a human owning every merge and deploy. Work, cost, and outcomes are logged to a ledger and to a persistent memory so the system improves run over run."
+          "body": "Every substantial task becomes an approved **spec** first. A run then casts a **pod** (design / developer / QA execution roles plus review seats), executes **down a cost-tiered model ladder**, and **verifies against reality** (screenshot / simulator / compile gates) — with a human owning every merge and deploy. Work, cost, and outcomes are logged to a ledger and to a persistent memory so the system improves run over run.\n\n![The factory: spec → cast a pod → run down the model ladder → verify against reality → human gate, with a measured ledger and a file-based memory. (Illustrative.)](/portfolio/assets/metatoy-studio/studio-factory.png)"
         },
         {
           "title": "How I built it",
-          "body": "Built on **Claude Code** plus a bespoke layer: custom agents and skills, **MCP servers** wiring the pods to real tools (hosting, browser, Figma, wikis), and an operating contract in checked-in docs.\n\n- **Cost-tiered model routing:** a default tier for thinking and judge-facing writing, a workhorse tier for build, and a bulk tier for mechanical fan-out — fan-out goes *down* the ladder to match task value to cost.\n- **Verification skills:** deterministic screenshot / simulator / compile checks so agent output is checked, not assumed.\n- **Telemetry:** a ledger measures tokens and wall-time per pod, so throughput is a number.\n- **Infra:** a self-hosted PaaS on cloud hardware, durable workflow orchestration (Temporal), and a file-based agent memory with a hygiene protocol."
+          "body": "Built on **Claude Code** plus a bespoke layer: custom agents and skills, **MCP servers** wiring the pods to real tools (hosting, browser, Figma, wikis), and an operating contract in checked-in docs.\n\n- **Cost-tiered model routing:** a default tier for thinking and judge-facing writing, a workhorse tier for build, and a bulk tier for mechanical fan-out — fan-out goes *down* the ladder to match task value to cost.\n- **Verification skills:** deterministic screenshot / simulator / compile checks so agent output is checked, not assumed.\n- **Telemetry:** a ledger measures tokens and wall-time per pod, so throughput is a number.\n- **Infra:** a self-hosted PaaS on cloud hardware, durable workflow orchestration (Temporal), and a file-based agent memory with a hygiene protocol.\n\nt![Cost-tiered model routing :: Match the model to the task — opus for thinking and judging, sonnet for build, haiku for bulk fan-out, fable a founder override; fan-out goes down the ladder, and a ledger prices every run. (Illustrative.)](/portfolio/assets/metatoy-studio/studio-routing.png)"
+        },
+        {
+          "title": "FAQ — what hiring teams ask, answered with this project",
+          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**How do you use AI in your daily work?**\nAI is the substrate I build on, not a sidecar. I run an entire solo studio through a multi-agent factory on Claude Code, where every substantial task becomes an approved spec, then a pod of agents executes it down a cost-tiered model ladder and verifies the result before a human merges. It is the primary interface for getting real work done across about six repos, which is why I can ship products, design, and backend as one person.\n\n**How do you evaluate whether an agentic system is reliable enough to trust?**\nI make the system prove it against reality rather than against its own confidence. Every pod runs through deterministic verification gates (screenshot, simulator, and compile checks) so output is observed working, not assumed, and a human owns every merge and deploy. I also instrument the factory with a token and wall-time ledger, so I can see what a run actually cost and whether a change made it better or just more expensive.\n\n**What does responsible design of an autonomous system look like to you?**\nIt means autonomy with a person always on the trigger. Even the studio's unattended execution windows are built so a human signs off on every merge and deploy, and the verification gates sit between the agent and anything that ships. I keep the operating rules and model-routing policy in checked-in docs so the behavior is legible and auditable, not folded into a prompt no one can review.\n\n**How do you work at the seam between design and engineering?**\nI come from a long design-to-engineering career, so I built that seam into the factory rather than treating it as a handoff. Pods reach design context directly through a Figma MCP connection, and frontend work is checked with screenshot and simulator verification skills so the rendered result gets a design-trained review before it lands. The point is that taste and correctness are both enforced in the same loop instead of being argued about after the fact."
         },
         {
           "title": "Results",
@@ -952,39 +1092,97 @@
         {
           "label": "AI / Agentic",
           "items": [
-            "multi-agent orchestration",
-            "persona-cast pods",
-            "cost-tiered model routing",
-            "autonomous execution windows",
-            "MCP tooling",
-            "Claude Code",
-            "agent memory system"
+            {
+              "name": "Multi-agent orchestration",
+              "applied": "I designed a persona-cast pod model where each substantial task casts a slate of execution roles (design, developer, QA) plus review seats, announced before the run and coordinated toward a single merge."
+            },
+            {
+              "name": "Cost-tiered model routing",
+              "applied": "I built a routing policy that sends thinking and judge-facing writing to a default tier, build work to a workhorse tier, and mechanical fan-out down to a bulk tier, so task value is matched to model cost on every run."
+            },
+            {
+              "name": "MCP tooling",
+              "applied": "I wired the pods to real tools through MCP servers (hosting, browser, Figma, wikis, mail) so agents act on the actual environment instead of describing what they would do."
+            },
+            {
+              "name": "Claude Code as the substrate",
+              "applied": "I run the whole studio on Claude Code daily as the primary interface for getting work done, extended with custom agents, skills, and workflow scripts checked into the repo."
+            },
+            {
+              "name": "Autonomous execution windows",
+              "applied": "I built human-gated 'away' modes that let a pod run longer multi-step work unattended while a human still owns every merge and deploy trigger."
+            },
+            {
+              "name": "Agent memory system",
+              "applied": "I maintain a file-based memory with a hygiene protocol (state-decay, overlap-merge, snapshot-before-delete) so the factory carries context and lessons run over run instead of starting cold."
+            },
+            {
+              "name": "Prompt and skill design",
+              "applied": "I authored a library of bespoke skills (screenshot and simulator verification, job-scan, project-refresh) that encode repeatable procedures the pods invoke by name."
+            }
           ]
         },
         {
           "label": "Frontend",
           "items": [
-            "screenshot / visual verification skills",
-            "rapid prototype-to-production"
+            {
+              "name": "React / static site delivery",
+              "applied": "The studio ships web surfaces through the same factory, including this portfolio site and product marketing pages, built and deployed by pods rather than by hand."
+            },
+            {
+              "name": "Visual verification skills",
+              "applied": "I built deterministic screenshot and simulator verification skills (Playwright harnesses, an iOS sim loop) so UI output from agents is checked against a rendered result, not assumed correct."
+            },
+            {
+              "name": "Design-to-code seam",
+              "applied": "I connected the pods to Figma through MCP so design context feeds implementation work directly, keeping a design-trained eye in the loop on frontend output."
+            }
           ]
         },
         {
           "label": "Backend / Infra",
           "items": [
-            "self-hosted PaaS (Coolify)",
-            "Temporal (durable workflows)",
-            "Cloudflare tunnels",
-            "token-telemetry ledger",
-            "MCP servers"
+            {
+              "name": "Self-hosted PaaS",
+              "applied": "I run the studio's hosted services on a self-managed PaaS (Coolify) on cloud hardware, with the deploy step gated behind a human confirmation."
+            },
+            {
+              "name": "Durable workflow orchestration",
+              "applied": "I stood up a Temporal stack to make long-running agent workflows durable and resumable rather than dying with a single session."
+            },
+            {
+              "name": "Networking and tunnels",
+              "applied": "I front internal services with Cloudflare tunnels so NAS-hosted components (a skill server, workflow engine) are reachable without exposing the host."
+            },
+            {
+              "name": "Token-telemetry ledger",
+              "applied": "I built a ledger plus rollup tooling that records token spend and wall-time per pod, so studio throughput is a measured number instead of a guess."
+            },
+            {
+              "name": "MCP servers",
+              "applied": "I operate several MCP servers as the tool layer between the agents and real infrastructure, which is what lets a pod deploy, query, and verify against live systems."
+            }
           ]
         },
         {
           "label": "Leadership",
           "items": [
-            "solo studio operating model",
-            "spec-first delivery",
-            "measured throughput",
-            "human-gated governance"
+            {
+              "name": "Solo operating model",
+              "applied": "I designed and run Metatoy as a company encoded in an operating model, so one person ships across roughly six active repos and products without dropping the quality bar."
+            },
+            {
+              "name": "Spec-first delivery",
+              "applied": "I enforce a command vocabulary where every substantial task becomes an approved spec before any code, keeping intent and scope settled before a pod executes."
+            },
+            {
+              "name": "Human-gated governance",
+              "applied": "I built the factory so a human owns every merge and deploy, with verification gates in between, which is how autonomy stays safe to run."
+            },
+            {
+              "name": "Measured throughput",
+              "applied": "I treat the studio's own output as something to instrument, pricing pods by tokens and time so decisions about where to spend agent effort are grounded in data."
+            }
           ]
         }
       ],
