@@ -128,7 +128,7 @@
   "projects": [
     {
       "slug": "sorb",
-      "thumb": "/portfolio/assets/sorb/sorb-site.png",
+      "thumb": "/portfolio/assets/sorb/sorb-thumb.png",
       "era": "metatoy",
       "featured": true,
       "status": "complete",
