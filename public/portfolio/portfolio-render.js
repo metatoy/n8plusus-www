@@ -102,6 +102,41 @@
     }).join("");
   }
 
+  // Render one section. A section with format:"listgroup" + items[] becomes an
+  // outlined container: a Bootstrap-style list-group selector + tab panels.
+  function renderSection(sec) {
+    if (sec.format === "listgroup" && Array.isArray(sec.items)) {
+      const intro = sec.intro ? md(sec.intro) : "";
+      const nav = sec.items
+        .map((it, i) => `<button type="button" class="lg-item${i === 0 ? " active" : ""}" data-fi="${i}">${it.emoji ? `<span class="lg-emoji" aria-hidden="true">${esc(it.emoji)}</span>` : ""}<span>${esc(it.label)}</span></button>`)
+        .join("");
+      const panels = sec.items
+        .map((it, i) => `<div class="feat-panel${i === 0 ? " active" : ""}" data-fi="${i}">${md(it.body)}</div>`)
+        .join("");
+      return `<div class="subsec"><h3>${esc(sec.title)}</h3>${intro}
+        <div class="feat-wrap">
+          <div class="lg" role="tablist">${nav}</div>
+          <div class="feat-panels">${panels}</div>
+        </div></div>`;
+    }
+    return `<div class="subsec"><h3>${esc(sec.title)}</h3>${md(sec.body)}</div>`;
+  }
+
+  // list-group items switch which feature panel is shown
+  function wireFeatures(root) {
+    root.querySelectorAll(".feat-wrap").forEach((wrap) => {
+      const items = wrap.querySelectorAll(".lg-item");
+      const panels = wrap.querySelectorAll(".feat-panel");
+      items.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = btn.getAttribute("data-fi");
+          items.forEach((b) => b.classList.toggle("active", b === btn));
+          panels.forEach((pn) => pn.classList.toggle("active", pn.getAttribute("data-fi") === i));
+        });
+      });
+    });
+  }
+
   // click any diagram/screenshot to open it full-size in a lightbox
   function wireLightbox(root) {
     let ov = document.getElementById("pf-lightbox");
@@ -134,7 +169,7 @@
     document.title = `${p.title} — Nathan O'Brien`;
     const skills = (p.skills || []).map((s) => `<span class="chip">${esc(s)}</span>`).join("");
     const links = (p.links || []).map((l) => `<a class="ext" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
-    const sections = (p.sections || []).map((sec) => `<div class="subsec"><h3>${esc(sec.title)}</h3>${md(sec.body)}</div>`).join("");
+    const sections = (p.sections || []).map(renderSection).join("");
     const body = p.body ? `<div class="body">${md(p.body)}</div>` : "";
     const gallery = (p.media || []).length ? `<div class="gallery">${p.media.map(mediaBlock).join("")}</div>`
       : (p.status === "placeholder" ? `<p class="soon-note mono">Details and media coming from the project archive.</p>` : "");
@@ -163,6 +198,7 @@
         ${links ? `<div class="links">${links}</div>` : ""}
       </header>
       ${sections}${body}${gallery}${skillsSec}`;
+    wireFeatures(mount);
     wireLightbox(mount);
   };
 })();
