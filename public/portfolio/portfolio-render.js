@@ -144,6 +144,11 @@
     const body = p.body ? `<div class="body">${md(p.body)}</div>` : "";
     const gallery = (p.media || []).length ? `<div class="gallery">${p.media.map(mediaBlock).join("")}</div>`
       : (p.status === "placeholder" ? `<p class="soon-note mono">Details and media coming from the project archive.</p>` : "");
+    const skillsSec = (p.skillsGroups || []).length
+      ? `<div class="subsec skills-sec"><h3>Skills</h3><div class="skgrid">${p.skillsGroups
+          .map((g) => `<div class="skgroup"><h4 class="mono">${esc(g.label)}</h4><ul>${(g.items || []).map((i) => `<li>${esc(i)}</li>`).join("")}</ul></div>`)
+          .join("")}</div></div>`
+      : "";
     mount.innerHTML = `
       <header class="phead">
         <p class="mono meta-line">${esc(p.year)} · ${esc(p.client)} · ${esc(p.role)}</p>
@@ -152,6 +157,6 @@
         <div class="chips">${skills}</div>
         ${links ? `<div class="links">${links}</div>` : ""}
       </header>
-      ${sections}${body}${gallery}`;
+      ${sections}${body}${gallery}${skillsSec}`;
   };
 })();
