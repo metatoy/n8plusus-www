@@ -45,11 +45,11 @@ Early recognition: AIGA Silver and D&AD (British Design and Art Direction) Merit
 
 ## Skills
 
-**AI / Agentic:** LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code
+**AI / Agentic:** LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Chainlit · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code
 
 **Frontend:** React · Next.js · TypeScript · JavaScript · SSR · design systems and design tokens · styled-components · Storybook · automated testing (Playwright) · Chrome extension and Figma plugin development
 
-**Backend / Infra:** Node.js · Python · FastAPI · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)
+**Backend / Infra:** Node.js · Python · FastAPI · Temporal (durable workflow orchestration) · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)
 
 **Leadership:** Team building & recruiting · managing & mentoring direct reports · performance reviews · planning & resource management · technical direction & architecture · client pitches & new business · conference speaking
 
