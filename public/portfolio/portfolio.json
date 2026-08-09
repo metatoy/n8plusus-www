@@ -528,7 +528,7 @@
         },
         {
           "title": "How I built it",
-          "body": "**Frontend (my build):** Next.js 14 / React 18, styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, and react-image-crop; tested with Jest + Testing Library (plus a separate integration config) and react-axe accessibility auditing. The live WYSIWYG preview renders through the same component the production site serves, so what an operator sees is what ships.\n\n**Integrated with and extended the backend:** the selection API was owned by another team. I integrated the admin against it and contributed **targeted backend changes** to support new admin features — additional condition and trigger types plus the endpoints the wizard needed (the specific API commits are in my GitHub history). I did not author the selection service itself.\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change landed a checked-in feature spec with a file-by-file plan and acceptance criteria."
+          "body": "**Frontend (my build).** The admin app — listing, multi-step wizard, and live preview — in Next.js 14 / React 18: styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, and react-image-crop; tested with Jest + Testing Library (plus a separate integration config) and react-axe accessibility auditing.\n\n**The shared render unit.** I also built and maintained the **Callout render unit** — the `CalloutUnitRenderer` in BuzzFeed's shared React component library, a versioned internal npm package. The *same* component renders the live preview in the admin and the promotion a reader actually sees, so \"what you see is what ships\" is literal, not aspirational. In it I built the popup units (newsletter-signup, link-click), the **trigger system** (a state-machine `useTrigger` handling exit-intent, quiz-complete, and game-level triggers, with pause/resume and race-condition handling), the background-pattern / texture treatments, and device-aware rendering.\n\n**Integrated with and extended the backend.** The selection API was owned by another team; I integrated the admin against it and contributed **targeted API changes** — device-type targeting end to end (API values, admin UI, and the render payload), game-level-complete trigger support, tighter quiz-trigger validation, a new \"Games\" target-page section, and extending `GET /campaigns` to return each campaign's page and targeting conditions. I did not author the selection service itself.\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change landed a checked-in feature spec with a file-by-file plan and acceptance criteria."
         },
         {
           "title": "Results",
@@ -558,8 +558,16 @@
               "applied": "Built the Callout admin app from scratch — listing, wizard, preview."
             },
             {
+              "name": "Shared render unit (internal npm package)",
+              "applied": "Built + maintained the CalloutUnitRenderer in BuzzFeed's shared React component library — the same component powers the admin preview and the live promotion."
+            },
+            {
+              "name": "Trigger system (state machine)",
+              "applied": "Built the useTrigger state machine: exit-intent, quiz-complete, and game-level triggers with pause/resume and race-condition handling."
+            },
+            {
               "name": "styled-components",
-              "applied": "Styled every admin surface to match the production look."
+              "applied": "Styled the admin surfaces and the render unit's popup + background-pattern treatments."
             },
             {
               "name": "react-hook-form + zod",
@@ -571,15 +579,11 @@
             },
             {
               "name": "Live WYSIWYG preview",
-              "applied": "Rendered the preview through the same component that serves readers."
-            },
-            {
-              "name": "Image crop / upload",
-              "applied": "Built the campaign image uploader and cropper."
+              "applied": "Rendered the preview through the shared render unit that also serves readers."
             },
             {
               "name": "Jest + Testing Library · react-axe",
-              "applied": "Unit/integration tests and accessibility auditing for the admin."
+              "applied": "Unit/integration tests and accessibility auditing across the admin and the render unit."
             }
           ]
         },
@@ -587,16 +591,20 @@
           "label": "Backend / Infra",
           "items": [
             {
-              "name": "FastAPI selection API (integration)",
-              "applied": "Integrated the admin against the team-owned selection service."
+              "name": "API integration",
+              "applied": "Integrated the admin against the team-owned FastAPI selection service (auth, REST, caching behavior)."
             },
             {
-              "name": "Targeted API changes",
-              "applied": "Added condition/trigger types and the endpoints the wizard needed (see GitHub history)."
+              "name": "Targeted API changes — device targeting",
+              "applied": "Added device-type targeting end to end (API values, admin UI, and the render payload)."
             },
             {
-              "name": "REST integration",
-              "applied": "Handled auth, API calls, and client-side caching behavior."
+              "name": "Trigger + targeting endpoints",
+              "applied": "Added game-level-complete triggers, tightened quiz-trigger validation, and a new 'Games' target-page section."
+            },
+            {
+              "name": "GET /campaigns extension",
+              "applied": "Extended the campaigns endpoint to return each campaign's page and targeting conditions the admin needed."
             }
           ]
         },
@@ -922,7 +930,7 @@
         },
         {
           "title": "How I built it",
-          "body": "**Porting mechanics:** Tornado handlers → Next.js `getServerSideProps` / catch-all routes, commit by commit, each landing the full Jest suite green (**~2,306 tests**). To make that safe I fanned out worker agents to raise coverage first — from **26% to 97%** — which surfaced four real latent bugs before the port even started.\n\n**A debugging win worth naming:** three networks' publishing broke at once after a config change dropped two keys that a single shared upload-URL fallback depended on. I traced the common cause and shipped one forward-fix with before/after proof, rather than three band-aids.\n\nThe loop was built as a **reusable blueprint** — designed to apply across ~a dozen candidate services, not just this one.\n\nt![Port mechanics — Tornado → Next.js :: Porting mechanics: each legacy piece (handlers, build, React/Redux, styling, tests) mapped to its Next.js equivalent, gated by the full test suite every commit. (Illustrative, clean-room.)](/portfolio/assets/agentic-migration/migration-ports.png)"
+          "body": "**Porting mechanics:** Tornado handlers → Next.js `getServerSideProps` / catch-all routes, commit by commit, each landing the full Jest suite green (**~2,306 tests**). To make that safe I fanned out worker agents to raise coverage first — from **26% to 97%** — which surfaced four real latent bugs before the port even started.\n\nThe loop was built as a **reusable blueprint** — designed to apply across ~a dozen candidate services, not just this one.\n\nt![Port mechanics — Tornado → Next.js :: Porting mechanics: each legacy piece (handlers, build, React/Redux, styling, tests) mapped to its Next.js equivalent, gated by the full test suite every commit. (Illustrative, clean-room.)](/portfolio/assets/agentic-migration/migration-ports.png)"
         },
         {
           "title": "FAQ — what hiring teams ask, answered with this project",
