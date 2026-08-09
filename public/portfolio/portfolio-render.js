@@ -80,6 +80,14 @@
       }
       const emb = block.trim().match(/^@\[([^\]]*)\]\(([^)]+)\)$/);
       if (emb) return `<figure class="media embed"><iframe src="${esc(emb[2])}" title="${esc(emb[1])}" loading="lazy" scrolling="no" onload="try{this.style.height=this.contentWindow.document.body.scrollHeight+'px'}catch(e){}"></iframe><figcaption>${esc(emb[1])}</figcaption></figure>`;
+      // collapsible figure: +![Summary label :: full caption](src)
+      const coll = block.trim().match(/^\+!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (coll) {
+        const parts = coll[1].split(" :: ");
+        const sum = parts.length > 1 ? parts[0] : "Show diagram";
+        const cap = parts.length > 1 ? parts.slice(1).join(" :: ") : coll[1];
+        return `<details class="media-collapse"><summary>${esc(sum)}</summary><figure class="media"><img loading="lazy" src="${esc(coll[2])}" alt="${esc(cap)}" /><figcaption>${esc(cap)}</figcaption></figure></details>`;
+      }
       const img = block.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
       if (img) return `<figure class="media"><img loading="lazy" src="${esc(img[2])}" alt="${esc(img[1])}" /><figcaption>${esc(img[1])}</figcaption></figure>`;
       return `<p>${fmt(block)}</p>`;
@@ -99,10 +107,21 @@
     const body = p.body ? `<div class="body">${md(p.body)}</div>` : "";
     const gallery = (p.media || []).length ? `<div class="gallery">${p.media.map(mediaBlock).join("")}</div>`
       : (p.status === "placeholder" ? `<p class="soon-note mono">Details and media coming from the project archive.</p>` : "");
+    const norm = (it) => (typeof it === "string" ? { name: it, applied: "" } : it);
+    const tableMode = (p.skillsGroups || []).some((g) => (g.items || []).some((it) => typeof it === "object" && it.applied));
+    const skillsInner = (p.skillsGroups || [])
+      .map((g) => {
+        const rows = (g.items || []).map(norm);
+        if (tableMode) {
+          return `<div class="skgroup2"><h4 class="mono">${esc(g.label)}</h4><table class="sktable"><tbody>${rows
+            .map((r) => `<tr><th>${esc(r.name)}</th><td>${esc(r.applied)}</td></tr>`)
+            .join("")}</tbody></table></div>`;
+        }
+        return `<div class="skgroup"><h4 class="mono">${esc(g.label)}</h4><ul>${rows.map((r) => `<li>${esc(r.name)}</li>`).join("")}</ul></div>`;
+      })
+      .join("");
     const skillsSec = (p.skillsGroups || []).length
-      ? `<div class="subsec skills-sec"><h3>Skills</h3><div class="skgrid">${p.skillsGroups
-          .map((g) => `<div class="skgroup"><h4 class="mono">${esc(g.label)}</h4><ul>${(g.items || []).map((i) => `<li>${esc(i)}</li>`).join("")}</ul></div>`)
-          .join("")}</div></div>`
+      ? `<div class="subsec skills-sec"><h3>Skills</h3><div class="${tableMode ? "skstack" : "skgrid"}">${skillsInner}</div></div>`
       : "";
     mount.innerHTML = `
       <header class="phead">

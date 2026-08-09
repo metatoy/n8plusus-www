@@ -293,11 +293,15 @@
         },
         {
           "title": "How I built it",
-          "body": "**Architecture:** a rulebook is the single source of truth, served over both **HTTP and MCP** so humans and agents read the same rules. A **two-key, fail-closed write policy** gates every external write (chat / tickets) behind a human/agent switch — nothing auto-sends. The agent runs as a looped Claude-CLI process against that tool surface (FastAPI + MySQL + Docker).\n\n**How I got the accuracy up:** a persona pod supplied routing expertise and independent judging, and I ran an **optimization loop** — blind-triage a locked set, score each call with a **three-lens consensus** against ground truth, then meta-optimize the rulebook — on **594 labeled tickets** (80/20 train/holdout, the test set kept untouched). A negative result (adding a rich routing reference *raised* routing but *collapsed* branch accuracy) was found and reverted rather than shipped.\n\nThe whole thing is eval-driven: a golden set is the gate, and every human correction becomes a fresh training example.\n\n![The system, three lanes: intake (two-call classifier) → gated investigation (reads live system, code, telemetry, docs) → human gate (approve, post, learn). (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-architecture.png)\n\n![The optimization loop: blind-triage a locked set → three-lens consensus scoring → meta-optimize the rulebook → re-run on the holdout. Routing 51%→mid-70s; the test set is never trained on. (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-optimization-loop.png)"
+          "body": "**Architecture:** a rulebook is the single source of truth, served over both **HTTP and MCP** so humans and agents read the same rules. A **two-key, fail-closed write policy** gates every external write (chat / tickets) behind a human/agent switch — nothing auto-sends. The agent runs as a looped Claude-CLI process against that tool surface (FastAPI + MySQL + Docker).\n\n**How I got the accuracy up:** a persona pod supplied routing expertise and independent judging, and I ran an **optimization loop** — blind-triage a locked set, score each call with a **three-lens consensus** against ground truth, then meta-optimize the rulebook — on **594 labeled tickets** (80/20 train/holdout, the test set kept untouched). A negative result (adding a rich routing reference *raised* routing but *collapsed* branch accuracy) was found and reverted rather than shipped.\n\nThe whole thing is eval-driven: a golden set is the gate, and every human correction becomes a fresh training example.\n\n+![System architecture — the full three-lane view :: The system, three lanes: intake (two-call classifier) → gated investigation (reads live system, code, telemetry, docs) → human gate (approve, post, learn). (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-architecture.png)\n\n+![The optimization loop — how accuracy improved :: The optimization loop: blind-triage a locked set → three-lens consensus scoring → meta-optimize the rulebook → re-run on the holdout. Routing 51%→mid-70s; the test set is never trained on. (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-optimization-loop.png)"
+        },
+        {
+          "title": "FAQ — what hiring teams ask, answered with this project",
+          "body": "The questions I get most in AI-focused interviews, answered with this one project:\n\n**How do you evaluate the quality and reliability of an AI system?**\nAgainst held-out ground truth, not vibes. I built a golden set of previously-resolved tickets the agent had never seen and measured handling accuracy against the known-good resolutions (~84%); routing accuracy improved from 54% to the mid-70s on a locked holdout. Every human correction during the beta became new evaluation data, so quality was tracked continuously. Operationally I instrument per-turn cost, latency, error rates, and traces, so failures are diagnosable.\n\n**How do you design an agent responsibly and handle failure modes?**\nA human sign-off gate on every external write, two-key and fail-closed, so nothing auto-sends. Autonomy expands only as the eval numbers earn it, an observe-then-enforce rollout rather than turning it loose. The hard part was never the model, it was trust: making the agent's behavior legible, catching the cases where it was confidently wrong, and feeding corrections back in.\n\n**Have you shipped AI in production, or just prototypes?**\nIn production. It ran the full loop, classify, investigate, draft the fix and the reply, in a team-wide, month-long beta, reclaiming roughly one in seven hours of the team's time with a human in control.\n\n**How do you manage the cost and latency of agents?**\nThe expensive part is gated. The investigator only fires when the classifier's confidence is low, so the deep evidence pass runs on the minority of tickets; the common path stays a cheap two-call classification."
         },
         {
           "title": "Results",
-          "body": "- **83.5% handling accuracy** on golden-set evals.\n- Routing accuracy climbed from **54% to the mid-70s** on a locked holdout.\n- Reclaimed roughly **one in seven hours** of team time, with a human in control.\n- Reached a team-wide, month-long production beta running the full loop."
+          "body": "- **84% handling accuracy** on golden-set evals.\n- Routing accuracy climbed from **54% to the mid-70s** on a locked holdout.\n- Reclaimed roughly **one in seven hours** of team time, with a human in control.\n- Reached a team-wide, month-long production beta running the full loop."
         }
       ],
       "links": [],
@@ -305,40 +309,77 @@
         {
           "label": "AI / Agentic",
           "items": [
-            "LLM agent design",
-            "two-call classifier + gated investigator",
-            "evals / golden-set methodology",
-            "optimization loop (blind-triage → multi-lens scoring → meta-opt)",
-            "MCP servers",
-            "rulebook-as-source-of-truth",
-            "fail-closed human gate"
+            {
+              "name": "LLM agent design",
+              "applied": "Designed the classify → investigate → draft loop that runs triage end to end."
+            },
+            {
+              "name": "Evals / golden-set",
+              "applied": "Built a golden set of resolved tickets; measured ~84% handling accuracy against it."
+            },
+            {
+              "name": "Optimization loop",
+              "applied": "Blind-triage → three-lens scoring → meta-optimize; routing 54% → mid-70s on a locked holdout."
+            },
+            {
+              "name": "MCP servers",
+              "applied": "Served the rulebook over HTTP + MCP so humans and agents read the same rules."
+            },
+            {
+              "name": "Human-in-the-loop gate",
+              "applied": "Two-key, fail-closed write policy on every external action; nothing auto-sends."
+            }
           ]
         },
         {
           "label": "Frontend",
           "items": [
-            "internal review / approval UI",
-            "agent onboarding console"
+            {
+              "name": "Review / approval UI",
+              "applied": "The surface where a human approves or corrects each drafted action."
+            },
+            {
+              "name": "Agent console",
+              "applied": "Operator console for running and observing the agent loop."
+            }
           ]
         },
         {
           "label": "Backend / Infra",
           "items": [
-            "Python",
-            "FastAPI",
-            "MCP (HTTP tool surface)",
-            "MySQL",
-            "Docker Compose",
-            "self-hosted Claude-CLI agent loop",
-            "gated chat / ticketing integrations"
+            {
+              "name": "Python · FastAPI",
+              "applied": "The rulebook and tool services the agent runs against."
+            },
+            {
+              "name": "MCP tool surface",
+              "applied": "Exposed live system, code, telemetry, and docs to the investigator agent."
+            },
+            {
+              "name": "MySQL · Docker",
+              "applied": "Persistence and containerized deploy for the self-hosted agent loop."
+            },
+            {
+              "name": "Gated integrations",
+              "applied": "Chat and ticketing writes routed through the fail-closed policy."
+            }
           ]
         },
         {
           "label": "Leadership",
           "items": [
-            "took an open-ended AI mandate to production",
-            "defined the human-in-the-loop trust model",
-            "measured against a golden set"
+            {
+              "name": "Ambiguous mandate → production",
+              "applied": "Turned an open-ended 'use AI for support' brief into a shipped, measured system."
+            },
+            {
+              "name": "Trust model",
+              "applied": "Defined the observe-then-enforce, human-in-the-loop rollout the team adopted."
+            },
+            {
+              "name": "Measured bar",
+              "applied": "Made golden-set accuracy the gate for expanding autonomy."
+            }
           ]
         }
       ]
