@@ -895,7 +895,7 @@
         },
         {
           "title": "Results",
-          "body": "- **~70,000 lines** migrated in **~8%** of the estimated engineering time.\n- Test coverage taken from **26% → 97%** first, then held green (~2,306 tests) across the port.\n- A reusable migration blueprint for **~a dozen candidate services**."
+          "body": "- **~70,000 lines** migrated in **~8%** of the estimated engineering time.\n- Test coverage taken from **26% → 97%** first, then held green (~2,306 tests) across the port.\n- A reusable migration blueprint for **~a dozen candidate services**.\n\nPost-migration, the team could rapidly iterate on new core features agentically — shipping a redesigned, personalized home page and new planner tools on the modern stack."
         }
       ],
       "links": [],
@@ -1203,7 +1203,7 @@
     },
     {
       "slug": "woords",
-      "thumb": "/demo/20260803/assets/portfolio/h-woords/2-board-solving.png",
+      "thumb": "/portfolio/assets/woords/card-thumb-phone.png",
       "era": "metatoy",
       "featured": true,
       "status": "complete",
@@ -1309,7 +1309,7 @@
     },
     {
       "slug": "tattletown",
-      "thumb": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/01-map-home-carousel.png",
+      "thumb": "/portfolio/assets/tattletown/card-thumb-phone.png",
       "era": "metatoy",
       "featured": false,
       "status": "complete",
