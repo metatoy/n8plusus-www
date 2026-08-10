@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "N8+US, Inc. consulting site — static site + contact form handler (Migadu SMTP).",
+  "description": "N8+US, Inc. consulting site \u2014 static site + contact form handler (Migadu SMTP).",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "node build-portfolio.mjs"
   },
   "engines": {
     "node": ">=20"

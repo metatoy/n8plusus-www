@@ -712,7 +712,7 @@
                 card.setAttribute("role", "link");
                 card.setAttribute("tabindex", "0");
                 card.setAttribute("aria-label", "Open the selected project");
-                var go = function () { window.location.href = "/portfolio/project.html?slug=" + encodeURIComponent(current); };
+                var go = function () { window.location.href = "/portfolio/" + encodeURIComponent(current) + ".html"; };
                 card.addEventListener("click", go);
                 card.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
               }
@@ -736,7 +736,7 @@
                 var all = p.skills || [];
                 var chips = all.slice(0, 6).map(function (s) { return '<span class="chip">' + esc(s) + '</span>'; }).join("");
                 var more = all.length > 6 ? '<span class="chip more">+' + (all.length - 6) + '</span>' : "";
-                return '<a class="pf-card" href="/portfolio/project.html?slug=' + encodeURIComponent(p.slug) + '">'
+                return '<a class="pf-card" href="/portfolio/' + encodeURIComponent(p.slug) + '.html">'
                   + '<span class="pf-yr">' + esc(p.year) + '</span>'
                   + '<span class="pf-t">' + esc(p.title) + '</span>'
                   + '<span class="pf-role">' + esc(p.client) + ' · ' + esc(p.role) + '</span>'
