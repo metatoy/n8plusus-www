@@ -45,7 +45,12 @@
 
     const prodStrip = prod.length
       ? `<div class="prodgrid">${prod
-          .map((x) => `<a class="prodlink" href="${esc(x.url)}" target="_blank" rel="noopener"><span class="pl-top"><span class="pl-label">${esc(x.label)}</span><span class="pl-arrow">↗</span></span>${x.sub ? `<span class="pl-sub mono">${esc(x.sub)}</span>` : ""}</a>`)
+          .map((x) => {
+            const icon = x.icon
+              ? `<span class="pl-ico" aria-hidden="true" style="-webkit-mask-image:url(/portfolio/assets/prodicons/${esc(x.icon)}.svg);mask-image:url(/portfolio/assets/prodicons/${esc(x.icon)}.svg)"></span>`
+              : "";
+            return `<a class="prodlink" href="${esc(x.url)}" target="_blank" rel="noopener">${icon}<span class="pl-main"><span class="pl-top"><span class="pl-label">${esc(x.label)}</span><span class="pl-arrow">↗</span></span>${x.sub ? `<span class="pl-sub mono">${esc(x.sub)}</span>` : ""}</span></a>`;
+          })
           .join("")}</div>`
       : "";
 
@@ -87,6 +92,14 @@
         const sum = parts.length > 1 ? parts[0] : "Show diagram";
         const cap = parts.length > 1 ? parts.slice(1).join(" :: ") : coll[1];
         return `<details class="media-collapse"><summary>${esc(sum)}</summary><figure class="media"><img loading="lazy" src="${esc(coll[2])}" alt="${esc(cap)}" /><figcaption>${esc(cap)}</figcaption></figure></details>`;
+      }
+      // phone-framed click-to-view thumbnail: tp![Short label :: full caption](src)
+      const pthm = block.trim().match(/^tp!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (pthm) {
+        const parts = pthm[1].split(" :: ");
+        const label = parts.length > 1 ? parts[0] : pthm[1];
+        const cap = parts.length > 1 ? parts.slice(1).join(" :: ") : pthm[1];
+        return `<figure class="media media-thumb media-phone"><span class="phone-frame"><img loading="lazy" src="${esc(pthm[2])}" alt="${esc(cap)}" /></span><figcaption>${esc(label)} <span class="mt-cta">expand</span></figcaption></figure>`;
       }
       // click-to-view thumbnail: t![Short label :: full caption](src)
       const thm = block.trim().match(/^t!\[([^\]]*)\]\(([^)]+)\)$/);
@@ -137,6 +150,18 @@
     });
   }
 
+  // same-origin walkthrough iframes post their height so we can size the frame to
+  // the player (and to each step's caption). See /portfolio/walkthroughs/walkthrough.js.
+  function wireWalkthrough(root) {
+    const frames = root.querySelectorAll(".wt-iframe");
+    if (!frames.length) return;
+    window.addEventListener("message", (e) => {
+      const d = e.data;
+      if (!d || d.type !== "wt-height" || !d.height) return;
+      frames.forEach((f) => { if (f.contentWindow === e.source) f.style.height = d.height + "px"; });
+    });
+  }
+
   // click any diagram/screenshot to open it full-size in a lightbox
   function wireLightbox(root) {
     let ov = document.getElementById("pf-lightbox");
@@ -165,11 +190,20 @@
     const data = await load();
     const mount = document.getElementById(mountId);
     const p = (data.projects || []).find((x) => x.slug === slug);
-    if (!p) { mount.innerHTML = `<p class="sum">Project not found. <a href="/portfolio/browse.html">Back to portfolio</a>.</p>`; return; }
+    if (!p) { mount.innerHTML = `<p class="sum">Project not found. <a href="/portfolio/">Back to portfolio</a>.</p>`; return; }
     document.title = `${p.title} — Nathan O'Brien`;
     const skills = (p.skills || []).map((s) => `<span class="chip">${esc(s)}</span>`).join("");
     const links = (p.links || []).map((l) => `<a class="ext" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
-    const sections = (p.sections || []).map(renderSection).join("");
+    // walkthrough embed — no header; injected directly under the "What I built" section
+    const wtHtml = p.walkthrough
+      ? `<div class="walkthrough-sec"><figure class="media embed walkthrough-embed"><iframe class="wt-iframe" src="${esc(p.walkthrough)}" title="${esc(p.title)} walkthrough" loading="lazy" scrolling="no"></iframe></figure></div>`
+      : "";
+    const secArr = (p.sections || []).map(renderSection);
+    if (wtHtml) {
+      const wi = (p.sections || []).findIndex((s) => /what i built/i.test(s.title || ""));
+      secArr.splice((wi >= 0 ? wi : -1) + 1, 0, wtHtml);
+    }
+    const sections = secArr.join("");
     const body = p.body ? `<div class="body">${md(p.body)}</div>` : "";
     const gallery = (p.media || []).length ? `<div class="gallery">${p.media.map(mediaBlock).join("")}</div>`
       : (p.status === "placeholder" ? `<p class="soon-note mono">Details and media coming from the project archive.</p>` : "");
@@ -200,5 +234,6 @@
       ${sections}${body}${gallery}${skillsSec}`;
     wireFeatures(mount);
     wireLightbox(mount);
+    wireWalkthrough(mount);
   };
 })();

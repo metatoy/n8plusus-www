@@ -100,27 +100,32 @@
         {
           "label": "@sorb on npm",
           "url": "https://www.npmjs.com/org/sorb",
-          "sub": "4 published packages (OIDC)"
+          "sub": "4 published packages (OIDC)",
+          "icon": "package"
         },
         {
-          "label": "Sorb live demo",
-          "url": "https://demo.sorbcloud.com",
-          "sub": "multi-tenant hosted SaaS"
+          "label": "Sorb Cloud",
+          "url": "https://www.sorbcloud.com/",
+          "sub": "multi-tenant hosted SaaS",
+          "icon": "cloud-arrow-up"
         },
         {
           "label": "woords on the App Store",
           "url": "https://apps.apple.com/app/id6778837773",
-          "sub": "iOS · live"
+          "sub": "iOS · live",
+          "icon": "app-store-logo"
         },
         {
-          "label": "TattleTown live",
-          "url": "https://tt-api.woords.io/features",
-          "sub": "production API + feature tour"
+          "label": "@metatoy/bootstrap-styled",
+          "url": "https://bootstrap-styled.metatoy.com/",
+          "sub": "OSS React + styled-components · Bootstrap 5 parity",
+          "icon": "code"
         },
         {
           "label": "Metatoy on GitHub",
           "url": "https://github.com/metatoy",
-          "sub": "sorb-* + woords-lab (OSS)"
+          "sub": "sorb-* + woords-lab (OSS)",
+          "icon": "github-logo"
         }
       ]
     }
@@ -128,6 +133,7 @@
   "projects": [
     {
       "slug": "sorb",
+      "walkthrough": "/portfolio/walkthroughs/sorb.html",
       "thumb": "/portfolio/assets/sorb/sorb-thumb.png",
       "era": "metatoy",
       "featured": true,
@@ -203,8 +209,8 @@
           "body": "**Polyrepo, by design** — a tree lifecycle (Seed → Juice → Leaf · Canopy) plus a shared Core contract and a Cloud control plane, each its own repo so any package can be public or private independently. **JavaScript only** (types are JSDoc typedefs), built with **esbuild** — never TypeScript, with one deliberate exception: the hosted Cloud plane is a Next.js app.\n\n- **Juice** is the bridge — a **Hono** server (bin `sorb`, port 7777) that's a dev-dependency only and never touches production; the *same* binary turns on auth, entitlements, and scoped CORS the moment a database URL is set.\n- **Seed** captures Storybook via Playwright and resolves tokens through Style Dictionary (DTCG).\n- **Canopy** is the Figma plugin (sandboxed `code.js` + iframe `ui.html`); **Leaf** is the React SDK (provider + hooks).\n- **MCP servers** expose the whole thing so agents can drive it.\n\nt![Live-preview flow — Figma → bridge → app :: Edit a token in Figma → the plugin posts it to the local bridge → the React SDK applies it as CSS variables and re-themes the running app in place; falls back to committed tokens if the bridge is off. (Illustrative.)](/portfolio/assets/sorb/sorb-bridge.png)"
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**You describe yourself as working at the seam where design meets engineering. What does that look like in practice?**\nSorb is that seam made into a product. The problem it solves is that a token approved in Figma gets re-typed by hand in code and quietly drifts, and nobody notices until users do. So instead of anchoring on the design file, I anchored on the running app: a designer edits a token in Figma, the plugin posts it to a local bridge, and the React SDK applies it as CSS custom properties so the real components re-skin live before anyone merges. It gives design and engineering one shared source of truth they can both see moving.\n\n**When AI proposes a change, how do you tell a good one from a merely plausible one?**\nBy checking it against something that can't lie. In Sorb every AI feature rides the live binding graph and is verified against the actual running app, so a proposed token change is judged by what it does on real components, not by the model's confidence. For the first write feature, a contrast fixer, the judge is the deterministic WCAG contrast math, not the LLM. The running app and the math are the oracle; the model only proposes.\n\n**What does responsible AI look like when the model is confidently wrong?**\nThe loop is AI proposes, a human reviews, and the live app verifies, with no auto-apply anywhere. I was also careful not to overstate the guarantee: verify is a check-then-merge habit, not an enforced CI gate, and I keep the product copy honest about that distinction. On the reliability side the preview fails safe by design. If the bridge isn't running, the SDK silently falls back to the committed tokens, so an experiment can never break production.\n\n**Is Sorb actually shipped, or still a prototype?**\nThe core is shipped: four @sorb packages published to npm through OIDC trusted publishing, a React SDK and Figma plugin in real use, and a multi-tenant hosted platform running live with a public demo on self-hosted infrastructure. I'm honest about what's still branch-local: the deeper AI write features are built and gated, not merged, because I won't market a capability the product doesn't actually run yet. The bridge, the SDK, the plugin, and the hosted plane are real and deployed today."
+          "title": "Questions this project answers",
+          "body": "**You describe yourself as working at the seam where design meets engineering. What does that look like in practice?**\nSorb is that seam made into a product. The problem it solves is that a token approved in Figma gets re-typed by hand in code and quietly drifts, and nobody notices until users do. So instead of anchoring on the design file, I anchored on the running app: a designer edits a token in Figma, the plugin posts it to a local bridge, and the React SDK applies it as CSS custom properties so the real components re-skin live before anyone merges. It gives design and engineering one shared source of truth they can both see moving.\n\n**When AI proposes a change, how do you tell a good one from a merely plausible one?**\nBy checking it against something that can't lie. In Sorb every AI feature rides the live binding graph and is verified against the actual running app, so a proposed token change is judged by what it does on real components, not by the model's confidence. For the first write feature, a contrast fixer, the judge is the deterministic WCAG contrast math, not the LLM. The running app and the math are the oracle; the model only proposes.\n\n**What does responsible AI look like when the model is confidently wrong?**\nThe loop is AI proposes, a human reviews, and the live app verifies, with no auto-apply anywhere. I was also careful not to overstate the guarantee: verify is a check-then-merge habit, not an enforced CI gate, and I keep the product copy honest about that distinction. On the reliability side the preview fails safe by design. If the bridge isn't running, the SDK silently falls back to the committed tokens, so an experiment can never break production.\n\n**Is Sorb actually shipped, or still a prototype?**\nThe core is shipped: four @sorb packages published to npm through OIDC trusted publishing, a React SDK and Figma plugin in real use, and a multi-tenant hosted platform running live with a public demo on self-hosted infrastructure. I'm honest about what's still branch-local: the deeper AI write features are built and gated, not merged, because I won't market a capability the product doesn't actually run yet. The bridge, the SDK, the plugin, and the hosted plane are real and deployed today."
         },
         {
           "title": "Results",
@@ -328,6 +334,7 @@
     },
     {
       "slug": "ai-support-triage",
+      "walkthrough": "/portfolio/walkthroughs/ai-triage.html",
       "thumb": "/portfolio/assets/ai-triage/triage-thumb-slack.jpg",
       "era": "buzzfeed",
       "featured": true,
@@ -372,8 +379,8 @@
           "body": "**Architecture:** a rulebook is the single source of truth, served over both **HTTP and MCP** so humans and agents read the same rules. A **two-key, fail-closed write policy** gates every external write (chat / tickets) behind a human/agent switch — nothing auto-sends. The agent runs as a looped Claude-CLI process against that tool surface (FastAPI + MySQL + Docker).\n\n**How I got the accuracy up:** a persona pod supplied routing expertise and independent judging, and I ran an **optimization loop** — blind-triage a locked set, score each call with a **three-lens consensus** against ground truth, then meta-optimize the rulebook — on **594 labeled tickets** (80/20 train/holdout, the test set kept untouched). A negative result (adding a rich routing reference *raised* routing but *collapsed* branch accuracy) was found and reverted rather than shipped.\n\nThe whole thing is eval-driven: a golden set is the gate, and every human correction becomes a fresh training example.\n\nt![System architecture — the full three-lane view :: The system, three lanes: intake (two-call classifier) → gated investigation (reads live system, code, telemetry, docs) → human gate (approve, post, learn). (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-architecture.png)\n\nt![The optimization loop — how accuracy improved :: The optimization loop: blind-triage a locked set → three-lens consensus scoring → meta-optimize the rulebook → re-run on the holdout. Routing 51%→mid-70s; the test set is never trained on. (Illustrative, clean-room.)](/portfolio/assets/ai-triage/triage-optimization-loop.png)"
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in AI-focused interviews, answered with this one project:\n\n**How do you know an AI agent is actually good, and not just plausible-sounding?**\nAgainst held-out ground truth, not vibes. I built a golden set of previously-resolved tickets the agent had never seen and measured handling accuracy against the known-good resolutions (~84%); routing accuracy improved from 54% to the mid-70s on a locked holdout. Every human correction during the beta became new evaluation data, so quality was tracked continuously. Operationally I instrument per-turn cost, latency, error rates, and traces, so failures are diagnosable.\n\n**When an agent is confidently wrong, what stops it from doing damage?**\nA human sign-off gate on every external write, two-key and fail-closed, so nothing auto-sends. Autonomy expands only as the eval numbers earn it, an observe-then-enforce rollout rather than turning it loose. The hard part was never the model, it was trust: making the agent's behavior legible, catching the cases where it was confidently wrong, and feeding corrections back in.\n\n**Is this real production AI, or a proof of concept?**\nIn production. It ran the full loop, classify, investigate, draft the fix and the reply, in a team-wide, month-long beta, reclaiming roughly one in seven hours of the team's time with a human in control.\n\n**How do you keep an agent's cost and latency in check?**\nThe expensive part is gated. The investigator only fires when the classifier's confidence is low, so the deep evidence pass runs on the minority of tickets; the common path stays a cheap two-call classification."
+          "title": "Questions this project answers",
+          "body": "**How do you know an AI agent is actually good, and not just plausible-sounding?**\nAgainst held-out ground truth, not vibes. I built a golden set of previously-resolved tickets the agent had never seen and measured handling accuracy against the known-good resolutions (~84%); routing accuracy improved from 54% to the mid-70s on a locked holdout. Every human correction during the beta became new evaluation data, so quality was tracked continuously. Operationally I instrument per-turn cost, latency, error rates, and traces, so failures are diagnosable.\n\n**When an agent is confidently wrong, what stops it from doing damage?**\nA human sign-off gate on every external write, two-key and fail-closed, so nothing auto-sends. Autonomy expands only as the eval numbers earn it, an observe-then-enforce rollout rather than turning it loose. The hard part was never the model, it was trust: making the agent's behavior legible, catching the cases where it was confidently wrong, and feeding corrections back in.\n\n**Is this real production AI, or a proof of concept?**\nIn production. It ran the full loop, classify, investigate, draft the fix and the reply, in a team-wide, month-long beta, reclaiming roughly one in seven hours of the team's time with a human in control.\n\n**How do you keep an agent's cost and latency in check?**\nThe expensive part is gated. The investigator only fires when the classifier's confidence is low, so the deep evidence pass runs on the minority of tickets; the common path stays a cheap two-call classification."
         },
         {
           "title": "Results",
@@ -462,6 +469,7 @@
     },
     {
       "slug": "callout",
+      "walkthrough": "/portfolio/walkthroughs/callout.html",
       "thumb": "/portfolio/assets/callout/callout-live-thumb.png",
       "era": "buzzfeed",
       "featured": true,
@@ -484,27 +492,21 @@
       "media": [
         {
           "type": "image",
-          "src": "/demo/20260803/assets/portfolio/g-callout/wizard.png",
+          "src": "/portfolio/assets/callout/promotion-wizard.png",
           "title": "Promotion wizard",
-          "description": "Guided setup for a new on-site promotion."
+          "description": "The multi-step create/edit flow — information, targeting conditions, unit type, content, and review — so a non-engineer can compose a targeted promotion end to end."
         },
         {
           "type": "image",
-          "src": "/demo/20260803/assets/portfolio/g-callout/preview.png",
+          "src": "/portfolio/assets/callout/live-preview.png",
           "title": "Live preview",
-          "description": "See the promotion in context before it ships."
+          "description": "The review step previews the promotion through the same renderer that serves readers — what you see is what ships."
         },
         {
           "type": "image",
-          "src": "/demo/20260803/assets/portfolio/g-callout/live.png",
-          "title": "Live on-site",
-          "description": "The promotion rendered on the live site."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/g-callout/listing.png",
+          "src": "/portfolio/assets/callout/campaign-listing.png",
           "title": "Campaign listing",
-          "description": "Managing active and scheduled promotions."
+          "description": "The operator home: every campaign with its status, target page, and click-rate analytics."
         }
       ],
       "roleTypes": [
@@ -531,8 +533,8 @@
           "body": "**Frontend (my build).** The admin app — listing, multi-step wizard, and live preview — in Next.js 14 / React 18: styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, and react-image-crop; tested with Jest + Testing Library (plus a separate integration config) and react-axe accessibility auditing.\n\n**The shared render unit.** I also built and maintained the **Callout render unit** — the `CalloutUnitRenderer` in BuzzFeed's shared React component library, a versioned internal npm package. The *same* component renders the live preview in the admin and the promotion a reader actually sees, so \"what you see is what ships\" is literal, not aspirational. In it I built the popup units (newsletter-signup, link-click), the **trigger system** (a state-machine `useTrigger` handling exit-intent, quiz-complete, and game-level triggers, with pause/resume and race-condition handling), the background-pattern / texture treatments, and device-aware rendering.\n\n**Integrated with and extended the backend.** The selection API was owned by another team; I integrated the admin against it and contributed **targeted API changes** — device-type targeting end to end (API values, admin UI, and the render payload), game-level-complete trigger support, tighter quiz-trigger validation, a new \"Games\" target-page section, and extending `GET /campaigns` to return each campaign's page and targeting conditions. I did not author the selection service itself.\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change landed a checked-in feature spec with a file-by-file plan and acceptance criteria."
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**What's the hardest part of building a tool non-engineers use every day?**\nMaking powerful things feel safe. The campaign wizard exposes layered targeting, triggers, and variants, so the work was hiding that complexity behind undo/redo, autosave, and a live preview that shows the real result before anything ships. The bar isn't \"an engineer could operate it\" — it's that a marketer can compose a targeted promotion, see exactly what a reader will see, and never need a code change.\n\n**Why does it matter that the editor previews through the *same* renderer as production?**\nBecause a preview that only approximates the real thing quietly erodes trust — operators stop believing it and start shipping to check. I built the admin's live preview on the literal production render unit, so \"what you see is what ships\" is a guarantee, not a slogan. It also collapses two code paths into one: there's no separate preview renderer to drift out of sync.\n\n**What does it mean to own a piece of a shared design-system library, not just an app?**\nThe render unit lives in a versioned internal component library that other products depend on, so a change there is a change to everyone's contract. That raised the bar: the trigger system became a proper state machine with pause/resume and race handling, the popup units were built to be reused, and everything shipped with tests because a regression wouldn't just break my app. Owning a shared component is as much about API stability and blast radius as it is about the feature.\n\n**How do you represent work where you extended a backend another team owned?**\nHonestly and specifically. I was sole author of the admin tier and the render unit; the selection service belonged to another team, so I integrated against it and contributed targeted API changes — device-type targeting end to end, new trigger types, a new target-page section, and extending an endpoint to return the targeting data the admin needed. I'd rather say exactly what I built and what I extended than blur the line to sound like I owned more."
+          "title": "Questions this project answers",
+          "body": "**What's the hardest part of building a tool non-engineers use every day?**\nMaking powerful things feel safe. The campaign wizard exposes layered targeting, triggers, and variants, so the work was hiding that complexity behind undo/redo, autosave, and a live preview that shows the real result before anything ships. The bar isn't \"an engineer could operate it\" — it's that a marketer can compose a targeted promotion, see exactly what a reader will see, and never need a code change.\n\n**Why does it matter that the editor previews through the *same* renderer as production?**\nBecause a preview that only approximates the real thing quietly erodes trust — operators stop believing it and start shipping to check. I built the admin's live preview on the literal production render unit, so \"what you see is what ships\" is a guarantee, not a slogan. It also collapses two code paths into one: there's no separate preview renderer to drift out of sync.\n\n**What does it mean to own a piece of a shared design-system library, not just an app?**\nThe render unit lives in a versioned internal component library that other products depend on, so a change there is a change to everyone's contract. That raised the bar: the trigger system became a proper state machine with pause/resume and race handling, the popup units were built to be reused, and everything shipped with tests because a regression wouldn't just break my app. Owning a shared component is as much about API stability and blast radius as it is about the feature.\n\n**How do you represent work where you extended a backend another team owned?**\nHonestly and specifically. I was sole author of the admin tier and the render unit; the selection service belonged to another team, so I integrated against it and contributed targeted API changes — device-type targeting end to end, new trigger types, a new target-page section, and extending an endpoint to return the targeting data the admin needed. I'd rather say exactly what I built and what I extended than blur the line to sound like I owned more."
         },
         {
           "title": "Results",
@@ -633,7 +635,7 @@
     },
     {
       "slug": "pubhub",
-      "thumb": "/demo/20260803/assets/portfolio/f-pubhub/planner.png",
+      "thumb": "/portfolio/assets/pubhub/pubhub-thumb.jpg",
       "era": "buzzfeed",
       "featured": true,
       "status": "complete",
@@ -651,26 +653,6 @@
       ],
       "summary": "The publishing platform the social team ran on: 100+ connected channels, 40+ users, hundreds of posts a day.",
       "description": "Owned the frontend for 8+ years: the internal platform a major media company's social team used to publish across six networks.",
-      "media": [
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/f-pubhub/composer.png",
-          "title": "Guided composer",
-          "description": "Composing a post across channels."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/f-pubhub/planner.png",
-          "title": "Planner",
-          "description": "Scheduling and planning across the calendar."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/f-pubhub/accounts.png",
-          "title": "Account management",
-          "description": "Self-service management for 100+ connected channels."
-        }
-      ],
       "roleTypes": [
         "lead",
         "fullstack",
@@ -685,7 +667,7 @@
       "sections": [
         {
           "title": "What I built",
-          "body": "I owned the frontend of a national media company's social publishing platform for 8+ years as its domain expert — the tool a 40+-person social team used to plan, compose, and publish across six networks.\n\n- **Composer** — a guided flow (pick channel → post type → media → schedule) with platform-specific detail views across 15 post types, plus a mixed-media carousel composer.\n- **Planner** — a weekly / 4-day scheduling calendar with drag-and-drop rescheduling and a hover preview of real post content without leaving the grid.\n- **Recommendation queue** — a review surface where automation-suggested posts wait for human approval, with filtering, drag-to-schedule, and impression tracking.\n- **Automations admin** — per-channel rule tables (trigger → filters → publish / schedule / recommend) backed by a content-safety exclusion pipeline (profanity + thumbnail OCR, NSFW flags, broken-embed detection, seasonal windowing).\n- **Accounts** — a platform × account manager with OAuth connect / reconnect and per-account connection health.\n- **.bio** — a cross-brand link-in-bio product for Instagram and TikTok, plus an embeddable **publishing SDK** and a **Chrome extension** that was the primary link-publishing surface.\n\nI also helped integrate ML-based content recommendations in 2018, before the current wave."
+          "body": "I owned the frontend of a national media company's social publishing platform for 8+ years as its domain expert — the tool a 40+-person social team used to plan, compose, and publish across six networks.\n\n- **Composer** — a guided flow (pick channel → post type → media → schedule) with platform-specific detail views across 15 post types, plus a mixed-media carousel composer.\n- **Planner** — a weekly / 4-day scheduling calendar with drag-and-drop rescheduling and a hover preview of real post content without leaving the grid.\n- **Recommendation queue** — a review surface where automation-suggested posts wait for human approval, with filtering, drag-to-schedule, and impression tracking.\n- **Automations admin** — per-channel rule tables (trigger → filters → publish / schedule / recommend) backed by a content-safety exclusion pipeline (profanity + thumbnail OCR, NSFW flags, broken-embed detection, seasonal windowing).\n- **Accounts** — a platform × account manager with OAuth connect / reconnect and per-account connection health.\n- **.bio** — a cross-brand link-in-bio product for Instagram and TikTok, plus an embeddable **publishing SDK** and a **Chrome extension** that was the primary link-publishing surface.\n\nI also helped integrate ML-based content recommendations in 2018, before the current wave.\n\nt![Draft detail (composer) :: A scheduled Facebook video post — copy, schedule time, assets, and metadata in one view.](/portfolio/assets/pubhub/post-editor.png)\n\nt![Planner :: The week-view planner with the recommendation queue alongside.](/portfolio/assets/pubhub/planner.png)\n\nt![Account management :: Connected channels across six networks.](/portfolio/assets/pubhub/connected-channels.png)"
         },
         {
           "title": "How it works",
@@ -696,8 +678,8 @@
           "body": "**Frontend:** React + Redux + React Router, bundled with Webpack and styled in Sass on the company's internal design system; drag-and-drop scheduling (react-dnd, later dnd-kit), real-time queue / planner updates over websockets, and per-platform embeds. The React surface grew to ~160 components across composer, planner, settings, automations, and the SDK.\n\n**Backend:** Python on an async (Tornado) I/O loop, deployed through the company's internal PaaS, with Datadog instrumentation and event messaging for downstream consumers. **Testing:** Jest + Enzyme unit tests and a Selenium-based end-to-end suite.\n\nDecisions that shaped it:\n\n- **Job-loop over a new microservice** for a channel-sync fix — comparable cost, but running it through the existing job loop got Datadog instrumentation, alerting, and a consistent job UX for free. That sync also cut a hot channel-lookup path from ~1,200ms to ~25ms.\n- **Per-user OAuth tokens over a shared system token** — system tokens obscure attribution, share a blast radius on copyright takedowns, and can't be revoked when someone leaves; per-user tokens cost a re-auth step but keep the platform accountable.\n- **Moved de-duplication into the automation router** after real duplicate-publish incidents during a platform outage — a mid-life architecture correction, not a day-one design.\n- **Shipped a narrow automation MVP and iterated in public** (a beta channel) rather than big-bang launching to every page.\n\nEight years in, I designed the agent loop that finally moved this codebase off Python/Tornado onto Next.js — see the Agentic Framework Migration case study."
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**What does owning one domain for eight-plus years teach you that a short stint can't?**\nYou live with every decision long enough to see which ones aged well. I shipped a narrow automation MVP and iterated it in a beta channel rather than big-banging it; I moved de-duplication into the automation router only after real duplicate-publish incidents showed where the seam belonged. Long tenure turns architecture from a guess into a feedback loop — you own the consequences, so you design for them.\n\n**How do you design automation that a 40-person team will actually trust?**\nAutomation proposes, a human disposes. Rule-based bots watch upstream content and either publish, schedule, or drop a candidate into a recommendation queue where a person approves it before anything reaches a platform — and a content-safety pipeline screens candidates first. Trust came from keeping a human on the trigger for anything consequential, which is also why the tool held a 95% satisfaction score for a team that depended on it daily.\n\n**Walk me through an architecture call you made and the trade-off behind it.**\nFor a channel-sync fix I chose the existing async job loop over standing up a new microservice. The cost was comparable, but routing it through the job loop inherited Datadog instrumentation, alerting, and a consistent job UX for free — and the synced-table redesign cut a hot channel-lookup path from ~1,200ms to ~25ms. I also chose per-user OAuth tokens over a shared system token, trading a re-auth step for real attribution and the ability to revoke access when someone leaves.\n\n**How do you keep a frontend that grew to ~160 components from becoming unmaintainable?**\nBy treating the internal design system as the source of truth and building on it rather than around it, and by keeping the surface coherent as it spanned composer, planner, settings, automations, and an SDK. Real-time updates over websockets and drag-and-drop scheduling were built as shared primitives, not per-screen one-offs. The test discipline — Jest/Enzyme units plus a Selenium end-to-end suite — is what let a codebase that large keep changing safely for years."
+          "title": "Questions this project answers",
+          "body": "**What does owning one domain for eight-plus years teach you that a short stint can't?**\nYou live with every decision long enough to see which ones aged well. I shipped a narrow automation MVP and iterated it in a beta channel rather than big-banging it; I moved de-duplication into the automation router only after real duplicate-publish incidents showed where the seam belonged. Long tenure turns architecture from a guess into a feedback loop — you own the consequences, so you design for them.\n\n**How do you design automation that a 40-person team will actually trust?**\nAutomation proposes, a human disposes. Rule-based bots watch upstream content and either publish, schedule, or drop a candidate into a recommendation queue where a person approves it before anything reaches a platform — and a content-safety pipeline screens candidates first. Trust came from keeping a human on the trigger for anything consequential, which is also why the tool held a 95% satisfaction score for a team that depended on it daily.\n\n**Walk me through an architecture call you made and the trade-off behind it.**\nFor a channel-sync fix I chose the existing async job loop over standing up a new microservice. The cost was comparable, but routing it through the job loop inherited Datadog instrumentation, alerting, and a consistent job UX for free — and the synced-table redesign cut a hot channel-lookup path from ~1,200ms to ~25ms. I also chose per-user OAuth tokens over a shared system token, trading a re-auth step for real attribution and the ability to revoke access when someone leaves.\n\n**How do you keep a frontend that grew to ~160 components from becoming unmaintainable?**\nBy treating the internal design system as the source of truth and building on it rather than around it, and by keeping the surface coherent as it spanned composer, planner, settings, automations, and an SDK. Real-time updates over websockets and drag-and-drop scheduling were built as shared primitives, not per-screen one-offs. The test discipline — Jest/Enzyme units plus a Selenium end-to-end suite — is what let a codebase that large keep changing safely for years."
         },
         {
           "title": "Results",
@@ -781,7 +763,7 @@
         },
         {
           "title": "2 · Tag Yourself",
-          "body": "A shipped consumer feature: quiz results become **personalized share images**. A player “tags” their expected result; the reveal generates an “Expectation vs. Reality” card, and the shared link pulls a friend back into the quiz.\n\n- Share-card layout is driven purely by which results are present (single card · friend/mystery · expectation-vs-reality · a celebratory “you-were-right” variant).\n- **A real bug I chased down:** Facebook was caching one `og:image` for *every* share of a quiz result because the “what I picked” id was missing from the canonical URL — so every friend's distinct card collapsed to the first one crawled. Fix: make each pick produce a unique share URL.\n- The redesign won its A/B test decisively (see Results)."
+          "body": "A shipped consumer feature: quiz results become **personalized share images**. A player “tags” their expected result; the reveal generates an “Expectation vs. Reality” card, and the shared link pulls a friend back into the quiz.\n\n- Share-card layout is driven purely by which results are present (single card · friend/mystery · expectation-vs-reality · a celebratory “you-were-right” variant).\n- **A real bug I chased down:** Facebook was caching one `og:image` for *every* share of a quiz result because the “what I picked” id was missing from the canonical URL — so every friend's distinct card collapsed to the first one crawled. Fix: make each pick produce a unique share URL.\n- The redesign won its A/B test decisively (see Results).\n\nt![Tag Yourself share card :: The generated “Expectation vs. Reality” card a player shares after a quiz.](/portfolio/assets/image-publishing/tagyourself/share-card-expectation-reality-blue.png)\n\nt![Personalized result card :: Each result renders its own share image, server-side, at social sizes.](/portfolio/assets/image-publishing/tagyourself/share-card-pokemon-pikachu.png)\n\nt![Expectation vs. Reality :: The two-card layout that drove the A/B win.](/portfolio/assets/image-publishing/tagyourself/share-card-expectation-reality-delilah.png)\n\nt![Result reveal :: The in-quiz reveal that generates the share artifact.](/portfolio/assets/image-publishing/tagyourself/result-page-expectation-reality.png)\n\nt![Tag a friend :: Predict a friend’s result — the shared link pulls them back into the quiz.](/portfolio/assets/image-publishing/tagyourself/tag-friend-grid-scrollable.png)\n\nt![Result page :: A generated result page for a themed quiz.](/portfolio/assets/image-publishing/tagyourself/result-page-backrooms.png)"
         },
         {
           "title": "3 · Turnkey Sharing",
@@ -792,50 +774,12 @@
           "body": "**Stack:** Node.js / Express; templates are server-rendered **React 17 + styled-components**; rendering via **Puppeteer (headless Chromium)** + node-html-to-image; fonts embedded as base64 `@font-face`. **Caching:** image keys are content hashes of the post-processed params, so inputs that render identically share a cached PNG. **Testing:** Jest + supertest at the HTTP layer.\n\nThe platform replaced a legacy Python/wkhtmltoimage service; migration was **staged and selective** — I ported the ~7 highest-value template families forward from a legacy set of ~48 and dropped the dead ones rather than porting 1:1."
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**What turns a one-off feature into a platform other teams can build on?**\nSeparating the engine from the use case. I built a dynamic image-template platform — server-side React rendered headlessly into composited PNGs — and then a shipped consumer feature rode on top of it, with a template registry and version aliasing so old caller URLs keep working as storage moves forward. The platform-thinking extension was a self-service concept: a form-plus-live-preview tool so any team could produce share artifacts with no engineering ticket.\n\n**How do you know a redesign actually worked, and not just looked better?**\nYou put it to a test with a number attached. The personalized share-card redesign won its A/B decisively — **+176% desktop** and **+82% mobile-web** share engagement — and return-visit rate via shared links moved from **59% to 69%**. Feeling good about a design is a hypothesis; the A/B result is the evidence.\n\n**When you migrate off a legacy system, how do you decide what to bring forward?**\nBy value, not by parity. Replacing the legacy render service, I ported the ~7 highest-value template families forward from a legacy set of ~48 and deliberately dropped the dead ones rather than doing a 1:1 rewrite. A migration is a rare license to delete — porting everything faithfully would have carried years of dead weight into the new system.\n\n**How do you generate images at scale without redoing the same render over and over?**\nContent-addressed caching. Each image key is a hash of the post-processed parameters, so any two requests that would render an identical PNG share one cached artifact and one render. That's what makes headless-Chromium rendering viable at scale — the expensive step only runs when the output would genuinely differ."
+          "title": "Questions this project answers",
+          "body": "**What turns a one-off feature into a platform other teams can build on?**\nSeparating the engine from the use case. I built a dynamic image-template platform — server-side React rendered headlessly into composited PNGs — and then a shipped consumer feature rode on top of it, with a template registry and version aliasing so old caller URLs keep working as storage moves forward. The platform-thinking extension was a self-service concept: a form-plus-live-preview tool so any team could produce share artifacts with no engineering ticket.\n\n**How do you know a redesign actually worked, and not just looked better?**\nYou put it to a test with a number attached. The personalized share-card redesign won its A/B decisively — **+176% desktop** and **+82% mobile-web** share engagement — and return-visit rate via shared links moved from **59% to 69%**. Feeling good about a design is a hypothesis; the A/B result is the evidence.\n\n**When you migrate off a legacy system, how do you decide what to bring forward?**\nBy value, not by parity. Replacing the legacy render service, I ported the ~7 highest-value template families forward from a legacy set of ~48 and deliberately dropped the dead ones rather than doing a 1:1 rewrite. A migration is a rare license to delete — porting everything faithfully would have carried years of dead weight into the new system.\n\n**How do you generate images at scale without redoing the same render over and over?**\nContent-addressed caching. Each image key is a hash of the post-processed parameters, so any two requests that would render an identical PNG share one cached artifact and one render. That's what makes headless-Chromium rendering viable at scale — the expensive step only runs when the output would genuinely differ."
         },
         {
           "title": "Results",
           "body": "- Tag Yourself A/B: **+176% desktop** and **+82% mobile-web** share engagement.\n- Return-visit rate via shared links **59% → 69%**.\n- The image-publishing program helped BuzzFeed reach **~214.9M Instagram engagements** against a 125M target (**~172% of goal**, H2 2017).\n- Consolidated ~7 actively-maintained template families out of a legacy ~48."
-        }
-      ],
-      "media": [
-        {
-          "type": "image",
-          "src": "/portfolio/assets/image-publishing/tagyourself/share-card-expectation-reality-blue.png",
-          "title": "Tag Yourself share card",
-          "description": "The generated “Expectation vs. Reality” card a player shares after a quiz."
-        },
-        {
-          "type": "image",
-          "src": "/portfolio/assets/image-publishing/tagyourself/share-card-pokemon-pikachu.png",
-          "title": "Personalized result card",
-          "description": "Each result renders its own share image, server-side, at social sizes."
-        },
-        {
-          "type": "image",
-          "src": "/portfolio/assets/image-publishing/tagyourself/share-card-expectation-reality-delilah.png",
-          "title": "Expectation vs. Reality",
-          "description": "The two-card layout that drove the A/B win."
-        },
-        {
-          "type": "image",
-          "src": "/portfolio/assets/image-publishing/tagyourself/result-page-expectation-reality.png",
-          "title": "Result reveal",
-          "description": "The in-quiz reveal that generates the share artifact."
-        },
-        {
-          "type": "image",
-          "src": "/portfolio/assets/image-publishing/tagyourself/tag-friend-grid-scrollable.png",
-          "title": "Tag a friend",
-          "description": "Predict a friend’s result — the shared link pulls them back into the quiz."
-        },
-        {
-          "type": "image",
-          "src": "/portfolio/assets/image-publishing/tagyourself/result-page-backrooms.png",
-          "title": "Result page",
-          "description": "A generated result page for a themed quiz."
         }
       ],
       "roleTypes": [
@@ -890,6 +834,7 @@
     },
     {
       "slug": "agentic-migration",
+      "walkthrough": "/portfolio/walkthroughs/migration.html",
       "thumb": "/portfolio/assets/agentic-migration/migration-thumb.jpg",
       "era": "buzzfeed",
       "featured": false,
@@ -945,8 +890,8 @@
           "body": "**Porting mechanics:** Tornado handlers → Next.js `getServerSideProps` / catch-all routes, commit by commit, each landing the full Jest suite green (**~2,306 tests**). To make that safe I fanned out worker agents to raise coverage first — from **26% to 97%** — which surfaced four real latent bugs before the port even started.\n\nThe loop was built as a **reusable blueprint** — designed to apply across ~a dozen candidate services, not just this one.\n\nt![Port mechanics — Tornado → Next.js :: Porting mechanics: each legacy piece (handlers, build, React/Redux, styling, tests) mapped to its Next.js equivalent, gated by the full test suite every commit. (Illustrative, clean-room.)](/portfolio/assets/agentic-migration/migration-ports.png)"
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**How do you use AI in your daily engineering work?**\nOn this project AI was the primary way the work got done, not an assistant on the side. I designed an agent loop that ported the codebase one slice at a time, ran the full test suite on every commit, and checked the migrated page against production before moving on. My job shifted to designing the loop, setting the gates, and deciding at the blockers the agent surfaced, which is how one person carried a migration that would normally take a team.\n\n**With an agent driving a big refactor, how do you keep it from quietly breaking things?**\nI made the existing test suite trustworthy before touching the framework. Worker agents raised line coverage from 26 to 97 percent first, which surfaced four real latent bugs, and then the thresholds were locked so coverage could not silently regress. During the port the full suite plus lint had to be green after every commit, and behavior-sensitive flows were verified side by side against the live production app, so a change was never called done on the agent's word alone.\n\n**What does it take to let an agent operate safely against a live production system?**\nEvery consequential decision paused for human approval; the agent executed and the human decided, and each decision was logged with its options, risk, and outcome so the run was auditable. I also held a strict lift-and-shift rule so no behavior changed under cover of the migration, which kept every diff legible as either a faithful port or a real bug. When the port surfaced an already-broken area, the call was to fix forward and document it rather than quietly paper over it.\n\n**Was this a real production migration, or a lab exercise?**\nIt ran against the real decade-old service that a working team depended on, through timed production test windows and a monitored, staged rollout rather than a single cutover. The point was never just this one app either; the loop was built as a reusable blueprint for the dozen or so similar services behind it."
+          "title": "Questions this project answers",
+          "body": "**How do you use AI in your daily engineering work?**\nOn this project AI was the primary way the work got done, not an assistant on the side. I designed an agent loop that ported the codebase one slice at a time, ran the full test suite on every commit, and checked the migrated page against production before moving on. My job shifted to designing the loop, setting the gates, and deciding at the blockers the agent surfaced, which is how one person carried a migration that would normally take a team.\n\n**With an agent driving a big refactor, how do you keep it from quietly breaking things?**\nI made the existing test suite trustworthy before touching the framework. Worker agents raised line coverage from 26 to 97 percent first, which surfaced four real latent bugs, and then the thresholds were locked so coverage could not silently regress. During the port the full suite plus lint had to be green after every commit, and behavior-sensitive flows were verified side by side against the live production app, so a change was never called done on the agent's word alone.\n\n**What does it take to let an agent operate safely against a live production system?**\nEvery consequential decision paused for human approval; the agent executed and the human decided, and each decision was logged with its options, risk, and outcome so the run was auditable. I also held a strict lift-and-shift rule so no behavior changed under cover of the migration, which kept every diff legible as either a faithful port or a real bug. When the port surfaced an already-broken area, the call was to fix forward and document it rather than quietly paper over it.\n\n**Was this a real production migration, or a lab exercise?**\nIt ran against the real decade-old service that a working team depended on, through timed production test windows and a monitored, staged rollout rather than a single cutover. The point was never just this one app either; the loop was built as a reusable blueprint for the dozen or so similar services behind it."
         },
         {
           "title": "Results",
@@ -1051,6 +996,7 @@
     },
     {
       "slug": "metatoy-studio",
+      "walkthrough": "/portfolio/walkthroughs/studio.html",
       "thumb": "/portfolio/assets/metatoy-studio/studio-thumb.jpg",
       "era": "metatoy",
       "featured": true,
@@ -1142,8 +1088,8 @@
           ]
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**What does an AI-native workflow actually look like day to day?**\nAI is the substrate I build on, not a sidecar. I run an entire solo studio through a multi-agent factory on Claude Code, where every substantial task becomes an approved spec, then a pod of agents executes it down a cost-tiered model ladder and verifies the result before a human merges. It is the primary interface for getting real work done across about six repos, which is why I can ship products, design, and backend as one person.\n\n**How do you decide an agentic system is reliable enough to trust?**\nI make the system prove it against reality rather than against its own confidence. Every pod runs through deterministic verification gates (screenshot, simulator, and compile checks) so output is observed working, not assumed, and a human owns every merge and deploy. I also instrument the factory with a token and wall-time ledger, so I can see what a run actually cost and whether a change made it better or just more expensive.\n\n**What does responsible design of an autonomous system look like to you?**\nIt means autonomy with a person always on the trigger. Even the studio's unattended execution windows are built so a human signs off on every merge and deploy, and the verification gates sit between the agent and anything that ships. I keep the operating rules and model-routing policy in checked-in docs so the behavior is legible and auditable, not folded into a prompt no one can review.\n\n**How do you work at the seam between design and engineering?**\nI come from a long design-to-engineering career, so I built that seam into the factory rather than treating it as a handoff. Pods reach design context directly through a Figma MCP connection, and frontend work is checked with screenshot and simulator verification skills so the rendered result gets a design-trained review before it lands. The point is that taste and correctness are both enforced in the same loop instead of being argued about after the fact."
+          "title": "Questions this project answers",
+          "body": "**What does an AI-native workflow actually look like day to day?**\nAI is the substrate I build on, not a sidecar. I run an entire solo studio through a multi-agent factory on Claude Code, where every substantial task becomes an approved spec, then a pod of agents executes it down a cost-tiered model ladder and verifies the result before a human merges. It is the primary interface for getting real work done across about six repos, which is why I can ship products, design, and backend as one person.\n\n**How do you decide an agentic system is reliable enough to trust?**\nI make the system prove it against reality rather than against its own confidence. Every pod runs through deterministic verification gates (screenshot, simulator, and compile checks) so output is observed working, not assumed, and a human owns every merge and deploy. I also instrument the factory with a token and wall-time ledger, so I can see what a run actually cost and whether a change made it better or just more expensive.\n\n**What does responsible design of an autonomous system look like to you?**\nIt means autonomy with a person always on the trigger. Even the studio's unattended execution windows are built so a human signs off on every merge and deploy, and the verification gates sit between the agent and anything that ships. I keep the operating rules and model-routing policy in checked-in docs so the behavior is legible and auditable, not folded into a prompt no one can review.\n\n**How do you work at the seam between design and engineering?**\nI come from a long design-to-engineering career, so I built that seam into the factory rather than treating it as a handoff. Pods reach design context directly through a Figma MCP connection, and frontend work is checked with screenshot and simulator verification skills so the rendered result gets a design-trained review before it lands. The point is that taste and correctness are both enforced in the same loop instead of being argued about after the fact."
         },
         {
           "title": "Results",
@@ -1290,30 +1236,6 @@
           "poster": "/demo/20260803/assets/portfolio/h-woords/quanta-teaser-poster.jpg",
           "title": "Quanta teaser",
           "description": "A look at the game's world and motion."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/h-woords/1-map.png",
-          "title": "The map",
-          "description": "The infinite board as a navigable map."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/h-woords/2-board-solving.png",
-          "title": "Solving a board",
-          "description": "Play on a single board."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/h-woords/3-carry-across.png",
-          "title": "Carry-across",
-          "description": "The shared-apron mechanic (patent-filed)."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/h-woords/4-story-the-letter.png",
-          "title": "Story",
-          "description": "Narrative woven into the board."
         }
       ],
       "roleTypes": [
@@ -1332,15 +1254,15 @@
         },
         {
           "title": "How it works",
-          "body": "The core is a **shared-apron carry-over mechanic** (provisional patent filed): adjacent boards share an edge “apron,” so solving one seeds its neighbors — which is what makes an infinite yet coherent board possible. The client is anonymous-first (play immediately; claim an account later), pulling daily sections from an API and rendering the grid natively."
+          "body": "The core is a **shared-apron carry-over mechanic** (provisional patent filed): adjacent boards share an edge “apron,” so solving one seeds its neighbors — which is what makes an infinite yet coherent board possible. The client is anonymous-first (play immediately; claim an account later), pulling daily sections from an API and rendering the grid natively.\n\ntp![The map :: The infinite board as a navigable map.](/demo/20260803/assets/portfolio/h-woords/1-map.png)\n\ntp![Solving a board :: Play on a single board.](/demo/20260803/assets/portfolio/h-woords/2-board-solving.png)\n\ntp![Carry-across :: The shared-apron mechanic (patent-filed).](/demo/20260803/assets/portfolio/h-woords/3-carry-across.png)\n\ntp![Story :: Narrative woven into the board.](/demo/20260803/assets/portfolio/h-woords/4-story-the-letter.png)"
         },
         {
           "title": "How I built it",
           "body": "**SwiftUI (iOS 17+)** against **frozen data contracts** (a section schema + API OpenAPI) so the app and API evolve independently. Content is generated by a separate tooling pipeline and served by a Node/JS API; Firebase via SPM.\n\n- **Verification:** a `verify-ios.sh` compile+test gate runs before every change; visual bugs are checked through the *real* navigation push on a booted simulator (not SwiftUI Preview, whose safe-area differs and yields false passes). The suite runs to hundreds of Swift tests.\n- **Studio build model:** worker agents edit Swift in parallel worktrees; only the main agent compiles — a Swift change is never marked “verified” from a sub-agent.\n- **Release:** a scripted App Store “gauntlet” runs before every major submission."
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**What's it like to own every layer of a product as a solo engineer?**\nYou carry the SwiftUI client, the JS API and content pipeline, and the release process all at once — there's no one to hand the hard part to. I managed that by freezing the data contracts between the app and the API (a section schema plus an OpenAPI spec) so each layer could evolve independently without me holding the whole system in my head at every change. Shipping it solo through App Store review is the proof that the breadth is real, not aspirational.\n\n**How do you keep quality high when no one else reviews your code?**\nI made verification a gate, not a habit. A `verify-ios.sh` compile-and-test step runs before every change, the suite runs to hundreds of Swift tests, and a scripted App Store \"gauntlet\" runs before every major submission. When you're solo, the discipline has to live in tooling that can't be skipped, because there's no second pair of eyes to catch what you rushed.\n\n**Where did the core mechanic come from, and why file a patent on it?**\nThe hard problem in an \"infinite crossword\" is making an endless board that's still coherent. The answer was a shared-apron carry-over mechanic: adjacent boards share an edge apron, so solving one seeds its neighbors. It was novel enough to be worth protecting, so I filed a provisional patent on the interconnection mechanic.\n\n**How do you catch UI bugs in a native app with no QA team?**\nBy checking the real thing, not a proxy. Visual bugs are verified through the actual navigation push on a booted simulator rather than SwiftUI Preview — Preview's safe-area differs and yields false passes, so trusting it hides real layout bugs. In the studio build model, worker agents can edit Swift in parallel worktrees but only the main agent compiles, so nothing is ever marked \"verified\" without a real build behind it."
+          "title": "Questions this project answers",
+          "body": "**What's it like to own every layer of a product as a solo engineer?**\nYou carry the SwiftUI client, the JS API and content pipeline, and the release process all at once — there's no one to hand the hard part to. I managed that by freezing the data contracts between the app and the API (a section schema plus an OpenAPI spec) so each layer could evolve independently without me holding the whole system in my head at every change. Shipping it solo through App Store review is the proof that the breadth is real, not aspirational.\n\n**How do you keep quality high when no one else reviews your code?**\nI made verification a gate, not a habit. A `verify-ios.sh` compile-and-test step runs before every change, the suite runs to hundreds of Swift tests, and a scripted App Store \"gauntlet\" runs before every major submission. When you're solo, the discipline has to live in tooling that can't be skipped, because there's no second pair of eyes to catch what you rushed.\n\n**Where did the core mechanic come from, and why file a patent on it?**\nThe hard problem in an \"infinite crossword\" is making an endless board that's still coherent. The answer was a shared-apron carry-over mechanic: adjacent boards share an edge apron, so solving one seeds its neighbors. It was novel enough to be worth protecting, so I filed a provisional patent on the interconnection mechanic.\n\n**How do you catch UI bugs in a native app with no QA team?**\nBy checking the real thing, not a proxy. Visual bugs are verified through the actual navigation push on a booted simulator rather than SwiftUI Preview — Preview's safe-area differs and yields false passes, so trusting it hides real layout bugs. In the studio build model, worker agents can edit Swift in parallel worktrees but only the main agent compiles, so nothing is ever marked \"verified\" without a real build behind it."
         },
         {
           "title": "Results",
@@ -1409,38 +1331,6 @@
           "url": "https://tt-api.woords.io/features"
         }
       ],
-      "media": [
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/01-map-home-carousel.png",
-          "title": "Map home",
-          "description": "Tattles anchored to real-world places."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/08-compose-tattle.png",
-          "title": "Compose a Tattle",
-          "description": "Creating location-anchored user content."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/10-tattle-detail.png",
-          "title": "Tattle detail",
-          "description": "A single Tattle with rate and report."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/15-dynamic-island-expanded-compass.png",
-          "title": "Dynamic Island compass",
-          "description": "Live guidance to a nearby Tattle."
-        },
-        {
-          "type": "image",
-          "src": "/demo/20260803/assets/portfolio/j-tattletown/assets/screens/18-moderation-console-pending.png",
-          "title": "Moderation console",
-          "description": "The AI moderation pipeline's review queue."
-        }
-      ],
       "roleTypes": [
         "solo",
         "fullstack",
@@ -1458,15 +1348,15 @@
         },
         {
           "title": "How it works",
-          "body": "Anonymous-first: pick a signature identity, drop a pin, write, and submit. Every submission enters a **pending** state and passes an **AI moderation** stage before it can go live — moderation was in the data model from day one. Nearby Tattles surface on a map; QR “Markers” link the physical place to its stories."
+          "body": "Anonymous-first: pick a signature identity, drop a pin, write, and submit. Every submission enters a **pending** state and passes an **AI moderation** stage before it can go live — moderation was in the data model from day one. Nearby Tattles surface on a map; QR “Markers” link the physical place to its stories.\n\ntp![Map home :: Tattles anchored to real-world places.](/demo/20260803/assets/portfolio/j-tattletown/assets/screens/01-map-home-carousel.png)\n\ntp![Compose a Tattle :: Creating location-anchored user content.](/demo/20260803/assets/portfolio/j-tattletown/assets/screens/08-compose-tattle.png)\n\ntp![Tattle detail :: A single Tattle with rate and report.](/demo/20260803/assets/portfolio/j-tattletown/assets/screens/10-tattle-detail.png)\n\ntp![Dynamic Island compass :: Live guidance to a nearby Tattle.](/demo/20260803/assets/portfolio/j-tattletown/assets/screens/15-dynamic-island-expanded-compass.png)\n\ntp![Moderation console :: The AI moderation pipeline's review queue.](/demo/20260803/assets/portfolio/j-tattletown/assets/screens/18-moderation-console-pending.png)"
         },
         {
           "title": "How I built it",
           "body": "**A deliberate two-layer split.** All the logic — models, API client, geo — lives in **`TattletownKit`, a Foundation-only Swift package** that compiles and tests **headlessly** (no Xcode), so it can be verified by any sub-agent. The **SwiftUI app** imports the kit and is the only Xcode-only part.\n\n- **Moderation pipeline:** submissions flow pending → approved → removed, with an AI stage designed to make anonymous UGC shippable under App Store review.\n- **Client:** URLSession async/await API client (anon device-JWT), haversine geo (no CoreLocation dependency in the kit), a live API at tt-api.woords.io, Dynamic Island compass, push, and web share pages.\n- **Release discipline:** cut on `rc-beta` branches with a handoff per cut; always compile-verify Swift before merge."
         },
         {
-          "title": "FAQ — what hiring teams ask, answered with this project",
-          "body": "The questions I get most in interviews for this kind of role, answered with this project:\n\n**How do you make anonymous user-generated content safe enough to ship?**\nBy designing for it from day one instead of bolting it on. Every submission enters a **pending** state and passes an AI moderation stage before it can go live — the pending → approved → removed flow was in the data model from the first schema, not added after a problem. That's what makes anonymous, place-anchored UGC defensible under App Store review.\n\n**Why split the app into a Foundation-only kit and a thin UI layer?**\nSo the logic is verifiable without Xcode. All the models, the API client, and the geo math live in `TattletownKit`, a Foundation-only Swift package that compiles and tests **headlessly** — which means any sub-agent can verify it, and only the SwiftUI shell needs the full Xcode toolchain. The architecture is shaped by how it gets tested: keep the hard logic where a machine can check it in seconds.\n\n**What does \"trust and safety by design\" look like in a small solo project?**\nIt looks like the safety path being load-bearing, not decorative. Nothing a user writes is visible until it clears moderation, the client authenticates with an anonymous device-JWT so there's no account friction but still a revocable identity, and the model was built pending-first. Safety isn't a feature I added — it's the state machine the whole app runs on.\n\n**How does an agent-driven workflow change the way you architect an app?**\nIt pushes you to make correctness machine-checkable. The Foundation-only kit exists precisely so logic can be compiled and tested outside Xcode by an agent, and releases are cut on `rc-beta` branches with a compile-verify gate before any merge. When agents do the edits, the architecture's job is to make \"is this still correct?\" a fast, automatable question."
+          "title": "Questions this project answers",
+          "body": "**How do you make anonymous user-generated content safe enough to ship?**\nBy designing for it from day one instead of bolting it on. Every submission enters a **pending** state and passes an AI moderation stage before it can go live — the pending → approved → removed flow was in the data model from the first schema, not added after a problem. That's what makes anonymous, place-anchored UGC defensible under App Store review.\n\n**Why split the app into a Foundation-only kit and a thin UI layer?**\nSo the logic is verifiable without Xcode. All the models, the API client, and the geo math live in `TattletownKit`, a Foundation-only Swift package that compiles and tests **headlessly** — which means any sub-agent can verify it, and only the SwiftUI shell needs the full Xcode toolchain. The architecture is shaped by how it gets tested: keep the hard logic where a machine can check it in seconds.\n\n**What does \"trust and safety by design\" look like in a small solo project?**\nIt looks like the safety path being load-bearing, not decorative. Nothing a user writes is visible until it clears moderation, the client authenticates with an anonymous device-JWT so there's no account friction but still a revocable identity, and the model was built pending-first. Safety isn't a feature I added — it's the state machine the whole app runs on.\n\n**How does an agent-driven workflow change the way you architect an app?**\nIt pushes you to make correctness machine-checkable. The Foundation-only kit exists precisely so logic can be compiled and tested outside Xcode by an agent, and releases are cut on `rc-beta` branches with a compile-verify gate before any merge. When agents do the edits, the architecture's job is to make \"is this still correct?\" a fast, automatable question."
         },
         {
           "title": "Results",

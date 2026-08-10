@@ -154,6 +154,7 @@
       .section-label::before{content:"//";color:var(--green-dim);}
       .section-label .num{color:var(--muted);margin-left:auto;}
       .h2{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-0.01em;margin:0 0 18px;}
+      .h2 .ft-note{display:block;font-size:16px;font-weight:400;letter-spacing:0;color:var(--green);margin-top:8px;}
 
       .divider{position:relative;z-index:3;padding:0;}
       .divider-strip{
@@ -290,10 +291,15 @@
       }
       .pf-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 18px 44px -22px rgba(0,0,0,0.8);}
       .pf-card .pf-k{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);}
-      .pf-card .pf-t{font-size:20px;font-weight:700;color:var(--white);letter-spacing:-0.01em;}
+      .pf-card .pf-yr{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.05em;color:var(--green);}
+      .pf-card .pf-t{font-size:19px;font-weight:700;color:var(--white);letter-spacing:-0.01em;line-height:1.2;}
+      .pf-card .pf-role{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:-4px;}
       .pf-card .pf-d{font-size:14px;line-height:1.5;color:#b7b4ac;}
       .pf-card .pf-s{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);margin-top:auto;padding-top:10px;}
       .pf-card .pf-s b{color:var(--green);font-weight:700;}
+      .pf-card .pf-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:12px;}
+      .pf-card .pf-chips .chip{font-size:11px;color:#b7b4ac;border:1px solid rgba(141,198,63,0.24);border-radius:20px;padding:2px 9px;background:rgba(141,198,63,0.04);}
+      .pf-card .pf-chips .chip.more{color:var(--green);border-color:rgba(141,198,63,0.4);}
       .pf-more{margin-top:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
       .pf-note{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.06em;color:#6f6a5f;text-transform:uppercase;}
       @media (max-width:900px){.pf-grid{grid-template-columns:1fr;}}
@@ -348,7 +354,7 @@
           <a href="#about">About</a>
           <a href="#work">Experience</a>
           <a href="#services">Services</a>
-          <a href="#portfolio">Portfolio</a>
+          <a href="/portfolio/">Portfolio</a>
           <a href="#opensource">Open&nbsp;Source</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -364,7 +370,7 @@
               <h1>A technologist who <span class="glow">understands creative.</span></h1>
               <p class="sub"><b>30 years driving imagination to real-world implementation.</b> Today that space is AI-native, agentic development — where I push the limits daily.</p>
               <div class="cta-row">
-                <a class="btn" href="#contact">▸ Start a project</a>
+                <a class="btn" href="/portfolio/">▸ View portfolio</a>
                 <a class="btn-ghost mono" href="https://www.linkedin.com/in/nathanhunsaker/" target="_blank" rel="noopener">LinkedIn ↗</a>
               </div>
             </div>
@@ -377,8 +383,8 @@
                 </div>
                 <div class="pcar-stage" id="pcarStage" aria-live="polite"></div>
                 <div class="pc-foot mono">
-                  <span id="pcarName">PUBHUB</span>
-                  <span id="pcarIdx">01 / 06</span>
+                  <span id="pcarName">AI SUPPORT TRIAGE</span>
+                  <span id="pcarIdx">01 / 05</span>
                 </div>
               </div>
             </div>
@@ -455,7 +461,7 @@
       <section class="section" id="services">
         <div class="wrap">
           <div class="section-label mono">Services<span class="num">03</span></div>
-          <h2 class="h2">What I take on.</h2>
+          <h2 class="h2">What I take on. <span class="ft-note">Also open to the right full-time fit.</span></h2>
           <div class="svc-grid">
             <div class="svc-card">
               <span class="svc-k mono">Service 01</span>
@@ -484,30 +490,10 @@
       <section class="section" id="portfolio">
         <div class="wrap">
           <div class="section-label mono">Portfolio<span class="num">04</span></div>
-          <h2 class="h2">Case studies — a decade of publishing, promotion &amp; sharing platforms.</h2>
-          <div class="pf-grid">
-            <a class="pf-card" href="/portfolio#pubhub">
-              <span class="pf-k">Case study 01</span>
-              <span class="pf-t">PubHub</span>
-              <span class="pf-d">Social publishing across four networks — planner, guided composer, account health, and automation a human approves.</span>
-              <span class="pf-s"><b>10 yrs</b> owning the frontend · agentic Next.js migration</span>
-            </a>
-            <a class="pf-card" href="/portfolio#callout">
-              <span class="pf-k">Case study 02</span>
-              <span class="pf-t">Callout</span>
-              <span class="pf-d">On-site promotions admin — five-step wizard and a live WYSIWYG preview driven by the real production renderer.</span>
-              <span class="pf-s"><b>Sole author</b> of the admin tier, from scratch in Next.js</span>
-            </a>
-            <a class="pf-card" href="/portfolio#tag-yourself">
-              <span class="pf-k">Case study 03</span>
-              <span class="pf-t">Tag Yourself</span>
-              <span class="pf-d">Shareable quiz results — personalized images generated at scale, and a share loop that pulls readers back.</span>
-              <span class="pf-s"><b>+176%</b> desktop share engagement · <b>59→69%</b> returns</span>
-            </a>
-          </div>
+          <h2 class="h2">Selected work</h2>
+          <div class="pf-grid" id="pfGrid"></div>
           <div class="pf-more">
-            <a class="btn-ghost mono" href="/portfolio">View all case studies →</a>
-            <span class="pf-note">Illustrative clean-room reconstructions · two more in progress</span>
+            <a class="btn-ghost mono" href="/portfolio/">View all →</a>
           </div>
         </div>
       </section>
@@ -523,8 +509,8 @@
           <div class="section-label mono">Contact<span class="num">05</span></div>
           <div class="contact-grid">
             <div class="contact-main">
-              <h2 class="h2">Start a project.</h2>
-              <p class="about-body" style="font-size:16px;max-width:44ch;">Tell me what you're building. I'll punch the card and get back to you.</p>
+              <h2 class="h2">Drop me a line.</h2>
+              <p class="about-body" style="font-size:16px;max-width:44ch;">I'll punch the card and get back to you.</p>
               <form class="form" id="contactForm" action="/api/contact" method="post" novalidate>
                 <div class="hp" aria-hidden="true">
                   <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
@@ -596,10 +582,6 @@
                   <div class="mono" style="font-size:11px;color:#6f6a5f;margin-top:4px;">From imagination to implementation.</div>
                 </div>
               </div>
-            </div>
-            <div class="fcol">
-              <span class="ftitle">Reach</span>
-              <a href="#contact">Start a project →</a>
             </div>
             <div class="fcol">
               <span class="ftitle">Elsewhere</span>
@@ -692,34 +674,82 @@
           if (!stage) return;
           var nameEl = document.getElementById("pcarName");
           var idxEl = document.getElementById("pcarIdx");
-          var P = "/demo/20260803/assets/portfolio/";
-          var projects = [
-            { n: "PubHub",           src: P + "e-migration/home-redesign.png" },
-            { n: "Callout",          src: P + "g-callout/live.png" },
-            { n: "Tag Yourself",     src: P + "b-tag-yourself/product-result-page.png" },
-            { n: "Turn Key Sharing", src: P + "c-turn-key-sharing/word-chain.png" },
-            { n: "Snap Quiz",        src: P + "i-snap-quiz/2-build-2.png" },
-            { n: "Woords",           src: P + "h-woords/2-board-solving.png" }
-          ];
-          var imgs = projects.map(function (p, i) {
-            var im = document.createElement("img");
-            im.src = p.src;
-            im.alt = p.n + " — product screenshot";
-            im.loading = i === 0 ? "eager" : "lazy";
-            stage.appendChild(im);
-            return im;
-          });
-          var idx = 0;
-          function show(i) {
-            imgs.forEach(function (im, k) { im.className = k === i ? "on" : ""; });
-            if (nameEl) nameEl.textContent = projects[i].n.toUpperCase();
-            if (idxEl) idxEl.textContent = ("0" + (i + 1)) + " / 0" + projects.length;
-          }
-          show(0);
-          setInterval(function () { idx = (idx + 1) % projects.length; show(idx); }, 3500);
+          // Pull the featured "Selected work" set straight from the portfolio data.
+          fetch("/portfolio/portfolio.json", { cache: "no-cache" })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              var bySlug = {};
+              (data.projects || []).forEach(function (p) { bySlug[p.slug] = p; });
+              var sel = ((data.meta || {}).index || {}).selected || [];
+              var projects = sel.map(function (s) {
+                var p = bySlug[s];
+                if (!p || !p.thumb) return null;
+                return { n: String(p.title || s).split(" — ")[0], src: p.thumb, slug: p.slug };
+              }).filter(Boolean);
+              if (!projects.length) return;
+              var n = projects.length;
+              var imgs = projects.map(function (p, i) {
+                var im = document.createElement("img");
+                im.src = p.src;
+                im.alt = p.n + " — project thumbnail";
+                im.loading = i === 0 ? "eager" : "lazy";
+                stage.appendChild(im);
+                return im;
+              });
+              var idx = 0;
+              var current = projects[0].slug;
+              function pad(x) { return x < 10 ? "0" + x : "" + x; }
+              function show(i) {
+                imgs.forEach(function (im, k) { im.className = k === i ? "on" : ""; });
+                current = projects[i].slug;
+                if (nameEl) nameEl.textContent = projects[i].n.toUpperCase();
+                if (idxEl) idxEl.textContent = pad(i + 1) + " / " + pad(n);
+              }
+              // clicking the card opens the currently-shown project's detail page
+              var card = document.getElementById("heroCard");
+              if (card) {
+                card.style.cursor = "pointer";
+                card.setAttribute("role", "link");
+                card.setAttribute("tabindex", "0");
+                card.setAttribute("aria-label", "Open the selected project");
+                var go = function () { window.location.href = "/portfolio/project.html?slug=" + encodeURIComponent(current); };
+                card.addEventListener("click", go);
+                card.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+              }
+              show(0);
+              setInterval(function () { idx = (idx + 1) % n; show(idx); }, 3500);
+            })
+            .catch(function () {});
+        }
+        function buildPortfolio() {
+          var grid = document.getElementById("pfGrid");
+          if (!grid) return;
+          var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]; }); };
+          fetch("/portfolio/portfolio.json", { cache: "no-cache" })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              var bySlug = {};
+              (data.projects || []).forEach(function (p) { bySlug[p.slug] = p; });
+              var sel = ((data.meta || {}).index || {}).selected || [];
+              var first3 = sel.slice(0, 3).map(function (s) { return bySlug[s]; }).filter(Boolean);
+              grid.innerHTML = first3.map(function (p) {
+                var all = p.skills || [];
+                var chips = all.slice(0, 6).map(function (s) { return '<span class="chip">' + esc(s) + '</span>'; }).join("");
+                var more = all.length > 6 ? '<span class="chip more">+' + (all.length - 6) + '</span>' : "";
+                return '<a class="pf-card" href="/portfolio/project.html?slug=' + encodeURIComponent(p.slug) + '">'
+                  + '<span class="pf-yr">' + esc(p.year) + '</span>'
+                  + '<span class="pf-t">' + esc(p.title) + '</span>'
+                  + '<span class="pf-role">' + esc(p.client) + ' · ' + esc(p.role) + '</span>'
+                  + '<span class="pf-d">' + esc(p.summary) + '</span>'
+                  + '<span class="pf-chips">' + chips + more + '</span>'
+                  + '</a>';
+              }).join("");
+            })
+            .catch(function () {});
         }
         function build() {
           buildCarousel();
+          buildPortfolio();
           // (hero punchcard rows → project carousel; contact punchcard → team
           // photo — founder 2026-08-02)
           buildStrip(document.getElementById("strip1"), 1337);
