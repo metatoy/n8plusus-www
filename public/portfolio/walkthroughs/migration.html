@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Agentic Migration — walkthrough</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portfolio/walkthroughs/walkthrough.css" />
+</head>
+<body>
+  <div id="wt"></div>
+  <script src="/portfolio/walkthroughs/migration/scenes.js"></script>
+  <script src="/portfolio/walkthroughs/walkthrough.js"></script>
+  <script>
+    Walkthrough({
+      mount: "#wt",
+      id: "migration",
+      scenes: window.WT_MIGRATION_SCENES,
+      manifest: [
+        { id: "subject", title: "A legacy tool that had to move.", scene: "subject", audio: "/portfolio/walkthroughs/migration/step-01.mp3", durationMs: 17300,
+          body: "PubHub is BuzzFeed's social-publishing tool — I owned its frontend for ten years. It ran on an aging Tornado stack, and I set out to migrate it to Next.js. No one had done a Tornado-to-Next migration here, so there was no playbook to copy." },
+        { id: "spec", title: "I started with a spec — and put a number on it.", scene: "spec", audio: "/portfolio/walkthroughs/migration/step-02.mp3", durationMs: 25300,
+          body: "I didn't point an AI at the repo and hope. I set the goal — a behavior-matched Next.js port — wrote the plan first into thirteen tasks, and put an estimate on it up front: my spec called it sixty-one engineer-hours. One migration-agent persona to execute it, and one hard rule I could enforce — never edit the legacy code, only port from it." },
+        { id: "execute", title: "It ported slice by slice — and it ran overnight.", scene: "execute", audio: "/portfolio/walkthroughs/migration/step-03.mp3", durationMs: 31200,
+          body: "The agent worked the plan in small slices — scaffold, mount, SSO, the API-gateway and imagebuilder proxies, SSR bootstrap state. And it worked after hours: I'd set it running and it ported autonomously overnight, unattended, queuing the calls that needed judgment for me to review in the morning. The decision that made that safe — I kept the legacy code in-tree as the porting reference, so nothing was reconstructed from memory." },
+        { id: "gate", title: "I gated every consequential decision.", scene: "gate", audio: "/portfolio/walkthroughs/migration/step-04.mp3", durationMs: 22700,
+          body: "The hard part isn't generating code — it's keeping judgment in the loop. So the agent ran free on the typing but stopped at every consequential choice: seventy-one decisions, each logged with the options I weighed, what I picked, and the risk. Each morning I'd clear the overnight queue — the agent typed, I made the calls." },
+        { id: "verify", title: "I made it verify its own work.", scene: "verify", audio: "/portfolio/walkthroughs/migration/step-05.mp3", durationMs: 18200,
+          body: "I made Chrome DevTools a hard prerequisite so the agent inspected the running UI itself instead of asking me to eyeball it. And I rebased the legacy test corpus in — twenty-three hundred tests, coverage thresholds enforced — so every fix had to come back green." },
+        { id: "result", title: "About five human hours — most of it ran overnight.", scene: "result", audio: "/portfolio/walkthroughs/migration/step-06.mp3", durationMs: 26800, money: "after",
+          body: "Nine hundred files, seventy thousand lines — behavior-matched to the original and validated on stage. I tracked two clocks against that sixty-one-hour estimate: my own hands-on time came in around five hours; the agent carried the rest, most of it running after hours while I was away from the desk. I did the thinking; the agent did the typing — and most of the typing happened overnight." },
+        { id: "learn", title: "Every wall became a written-down answer.", scene: "learn", audio: "/portfolio/walkthroughs/migration/step-07.mp3", durationMs: 18500,
+          body: "Every time the agent hit a wall — a build quirk, a proxy edge case, an SSR gotcha — I captured the problem and the fix as a learning artifact. So a wall I hit once didn't cost me twice, and the next service starts with the answers already written down instead of rediscovered." },
+        { id: "pattern", title: "I built it as a pattern, not a one-off.", scene: "pattern", audio: "/portfolio/walkthroughs/migration/step-08.mp3", durationMs: 17800,
+          body: "I didn't want a single migration — I wanted a repeatable method. So I generalized the agent persona, the decision defaults, and that library of problem-and-solution learnings into a service-agnostic kit, and mapped the twelve other React-and-Tornado services it targets next." },
+      ],
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>AI Support Triage — walkthrough</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portfolio/walkthroughs/walkthrough.css" />
+</head>
+<body>
+  <div id="wt"></div>
+  <script src="/portfolio/walkthroughs/ai-triage/scenes.js"></script>
+  <script src="/portfolio/walkthroughs/walkthrough.js"></script>
+  <script>
+    // Manifest: caption text doubles as VO transcript; scene = key in WT_AI_TRIAGE_SCENES.
+    Walkthrough({
+      mount: "#wt",
+      id: "ai-triage",
+      scenes: window.WT_AI_TRIAGE_SCENES,
+      manifest: [
+        { id: "land", title: "A ticket lands.", scene: "land", audio: "/portfolio/walkthroughs/ai-triage/step-01.mp3", durationMs: 16100,
+          body: "I built this to take over support-ticket triage — work that was eating roughly one in seven hours of my team's time. It starts here: a request lands in a Slack help channel as a ticket with no priority, no owner, and no order." },
+        { id: "hypothesis", title: "First, I make it hypothesize.", scene: "hypothesis", audio: "/portfolio/walkthroughs/ai-triage/step-02.mp3", durationMs: 14700,
+          body: "The first thing I had it do is form a hypothesis — a fast, low-cost pass grounded in the real triage procedures I encoded — reading what's likely wrong and how severe it is, before spending anything on a deep investigation." },
+        { id: "investigation", title: "Then I let it investigate.", scene: "investigation", audio: "/portfolio/walkthroughs/ai-triage/step-03.mp3", durationMs: 18400,
+          body: "Only when it's warranted do I let the agent escalate to a higher-cost, agentic investigation — through logs, status, config, and past tickets — to test its hypothesis and pin down the cause. I gate the expensive path so it runs on the minority of tickets that need it." },
+        { id: "resource", title: "I gave it real access.", scene: "resource", audio: "/portfolio/walkthroughs/ai-triage/step-04.mp3", durationMs: 17800,
+          body: "I wired the investigator into the real system — code and APIs, recent changes in GitHub, docs in the wiki, logs in Datadog — pointed by the hypothesis, with a system-library helper agent alongside. It reads the same ground truth I would." },
+        { id: "draft", title: "I made it show its work.", scene: "draft", audio: "/portfolio/walkthroughs/ai-triage/step-05.mp3", durationMs: 15300, money: "before",
+          body: "When the investigation concludes, it attaches a draft spec to the ticket — the root cause, the evidence behind it, and a recommended fix. I built it to always cite its evidence, so a human judges the reasoning, not just the answer." },
+        { id: "approve", title: "Nothing ships without a human.", scene: "approve", audio: "/portfolio/walkthroughs/ai-triage/step-06.mp3", durationMs: 20900, money: "after",
+          body: "Nothing the agent produces gets sent automatically. I built the gate so every outbound action — a Slack reply, a ticket update — stays blocked until a person signs off. In the triage channel the team reviews the summary and its recommended actions, approves a course, or redirects the agent to dig deeper." },
+        { id: "resolve", title: "Every ticket ends in a decision.", scene: "resolve", audio: "/portfolio/walkthroughs/ai-triage/step-07.mp3", durationMs: 14300,
+          body: "The request gets a clear call — won't fix, urgent, or will-fix-and-backlogged — so every ticket ends in a decision, not a dangling thread. That was the point: not to answer faster, but to make the queue resolvable." },
+        { id: "learn", title: "I closed the loop.", scene: "learn", audio: "/portfolio/walkthroughs/ai-triage/step-08.mp3", durationMs: 19600,
+          body: "I closed the loop with a flywheel: every human correction becomes fresh ground truth, and the rulebook rebuilds over time. I tuned it against a locked golden set until routing accuracy climbed from fifty-four percent into the mid-seventies — and it keeps getting sharper." },
+      ],
+    });
+  </script>
+</body>
+</html>

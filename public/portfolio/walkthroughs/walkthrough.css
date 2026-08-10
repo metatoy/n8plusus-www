@@ -1,0 +1,109 @@
+/* Vanilla walkthrough player — embedded (same-origin iframe) inside portfolio project pages.
+   Ported from the metatoy-www React WalkthroughPlayer. Player-only chrome: no standalone
+   branding (the host project page provides title + context). Dark media block, orange accent. */
+
+:root {
+  --wt-accent: #f26722;
+  --wt-bg: #ffffff;
+  --wt-stage: #17130f;
+  --wt-fg: #1c1712;
+  --wt-muted: #6f6b62;
+  --wt-border: #e2ddcf;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: transparent; }
+body { font-family: "Space Grotesk", system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+
+.wt {
+  border: 1px solid var(--wt-border); border-radius: 12px; overflow: hidden;
+  background: var(--wt-bg); box-shadow: 0 2px 10px rgba(35, 31, 32, 0.06);
+  max-width: 100%;
+}
+.wt:focus-visible { outline: 3px solid var(--wt-accent); outline-offset: 2px; }
+
+/* slim top row — mute prompt only (no title; the page supplies that) */
+.wt-topbar { display: flex; align-items: center; justify-content: flex-end; gap: 0.6rem; padding: 0.7rem 0.9rem; }
+.wt-muteWrap { display: flex; align-items: center; gap: 0.6rem; }
+.wt-mutePrompt {
+  font-size: 0.82rem; font-weight: 600; color: var(--wt-accent); white-space: nowrap;
+  animation: wtPromptIn 0.4s ease both;
+}
+@keyframes wtPromptIn { from { opacity: 0; transform: translateX(6px); } to { opacity: 1; transform: none; } }
+.wt-muteBtn {
+  border: 1px solid var(--wt-border); background: transparent; color: var(--wt-muted);
+  width: 34px; height: 34px; border-radius: 999px; display: grid; place-items: center;
+  cursor: pointer; transition: color .15s ease, border-color .15s ease, background .15s ease; flex: none;
+}
+.wt-muteBtn:hover { color: var(--wt-accent); border-color: var(--wt-accent); }
+.wt-muteBtn svg { width: 18px; height: 18px; fill: currentColor; }
+/* prominent CTA state while muted */
+.wt-muteBtn.cta {
+  color: #fff; background: var(--wt-accent); border-color: var(--wt-accent);
+  width: 40px; height: 40px; box-shadow: 0 0 0 0 rgba(242, 103, 34, 0.5);
+  animation: wtMutePulse 2s ease-in-out infinite;
+}
+.wt-muteBtn.cta:hover { filter: brightness(1.06); }
+.wt-muteBtn.cta svg { width: 20px; height: 20px; }
+@keyframes wtMutePulse {
+  0% { box-shadow: 0 0 0 0 rgba(242, 103, 34, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(242, 103, 34, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(242, 103, 34, 0); }
+}
+
+/* stage — the animated SVG scene / poster */
+.wt-stage {
+  position: relative; width: 100%; aspect-ratio: 16 / 10; background: var(--wt-stage);
+  display: grid; place-items: center; overflow: hidden;
+}
+.wt-scene { position: absolute; inset: 0; display: grid; place-items: center; animation: wtSceneEnter 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.wt-scene svg { width: 100%; height: 100%; display: block; }
+.wt-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+@keyframes wtSceneEnter { from { opacity: 0; transform: translateY(8px) scale(0.99); } to { opacity: 1; transform: none; } }
+/* pause: freeze all scene animation (scenes are SSR-baked to "running") */
+.wt-stage.paused .wt-scene * { animation-play-state: paused !important; }
+
+/* money tag */
+.wt-moneyTag {
+  position: absolute; top: 12px; left: 12px; z-index: 2; font-size: 0.7rem; font-weight: 700;
+  color: #fff; background: rgba(0, 0, 0, 0.55); border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px; padding: 3px 10px; letter-spacing: 0.02em;
+}
+
+/* progress */
+.wt-progress { height: 3px; background: rgba(0, 0, 0, 0.08); position: relative; overflow: hidden; }
+.wt-progressFill { height: 100%; width: 0; background: var(--wt-accent); transform-origin: left; }
+
+/* caption */
+.wt-caption { padding: 1.05rem 1.25rem 0.4rem; animation: wtCaptionEnter 0.45s ease both; }
+@keyframes wtCaptionEnter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.wt-captionTitle { margin: 0 0 0.3rem; font-size: 1.18rem; font-weight: 750; color: var(--wt-fg); line-height: 1.2; }
+.wt-captionBody { margin: 0; color: var(--wt-fg); opacity: .82; line-height: 1.5; font-size: 0.95rem; max-width: 62ch; }
+
+/* controls */
+.wt-controls { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 1.25rem 1.05rem; }
+.wt-ctrlBtn {
+  border: 1px solid var(--wt-border); background: transparent; color: var(--wt-fg);
+  width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.wt-ctrlBtn:hover:not(:disabled) { border-color: var(--wt-accent); color: var(--wt-accent); }
+.wt-ctrlBtn:disabled { opacity: .35; cursor: default; }
+.wt-ctrlBtn svg { width: 18px; height: 18px; fill: currentColor; }
+.wt-playBtn { background: var(--wt-accent); border-color: var(--wt-accent); color: #fff; }
+.wt-playBtn:hover:not(:disabled) { filter: brightness(1.06); color: #fff; border-color: var(--wt-accent); }
+.wt-spacer { flex: 1; }
+.wt-dots { display: flex; gap: 7px; }
+.wt-dot { width: 9px; height: 9px; padding: 0; border: none; border-radius: 999px; background: #cfc9bb; cursor: pointer; transition: background .15s, transform .15s; }
+.wt-dot:hover { transform: scale(1.15); }
+.wt-dot.active { background: var(--wt-accent); }
+.wt-stepLabel { font-size: 0.78rem; color: var(--wt-muted); font-variant-numeric: tabular-nums; margin-left: 0.2rem; }
+
+@media (max-width: 560px) {
+  .wt-mutePrompt { display: none; }
+  .wt-captionBody { font-size: 0.9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wt-muteBtn.cta, .wt-mutePrompt, .wt-scene, .wt-caption { animation: none !important; }
+  /* snap scene animations to their end-state (they use forwards) */
+  .wt-scene * { animation-duration: 0.01s !important; animation-delay: 0s !important; }
+}
