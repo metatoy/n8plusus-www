@@ -1,11 +1,15 @@
 /* Vanilla walkthrough player. Ported from the metatoy-www React WalkthroughPlayer.
    Driven by a manifest + a map of scene HTML strings. Narration-driven pacing:
    advances on audio 'ended' when unmuted; falls back to durationMs when muted.
-   Always embedded in a portfolio project page via same-origin iframe; posts its
-   height to the parent so the iframe can size to it.
+   Playback starts from a Sorb LifecycleDemo-style start overlay (big play +
+   "Adjust volume for narration" hint); that click is the autoplay-policy
+   gesture, so narration begins audible and the transport's mute toggle is
+   inactive (sound on) by default. Always embedded in a portfolio project page
+   via same-origin iframe; posts its height to the parent so the iframe can
+   size to it.
 
    Usage (in the per-walkthrough HTML):
-     Walkthrough({ mount: "#wt", id: "ai-triage", manifest: [...], scenes: window.WT_AI_TRIAGE_SCENES });
+     Walkthrough({ mount: "#wt", id: "ai-triage", title: "Walkthrough: ...", manifest: [...], scenes: window.WT_AI_TRIAGE_SCENES });
 */
 (function () {
   const ICONS = {
@@ -17,6 +21,7 @@
     pause: "M6 5h4v14H6zm8 0h4v14h-4z",
   };
   const svg = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+  const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 
   window.Walkthrough = function (config) {
     const root = document.querySelector(config.mount);
@@ -24,26 +29,30 @@
     const M = config.manifest, SCENES = config.scenes || {}, total = M.length, id = config.id || "wt";
     const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    let i = 0, muted = true, playing = true, rafId = 0, timer = 0, progStart = 0, progBase = 0;
+    let i = 0, started = false, muted = false, playing = false, done = false,
+      rafId = 0, timer = 0, progStart = 0, progBase = 0;
 
     root.className = "wt";
     root.setAttribute("tabindex", "0");
     root.setAttribute("role", "group");
     root.setAttribute("aria-roledescription", "carousel");
     root.innerHTML = `
-      <div class="wt-topbar">
-        <div class="wt-muteWrap">
-          <span class="wt-mutePrompt">Click to turn on audio narration</span>
-          <button type="button" class="wt-muteBtn cta" data-act="mute" aria-pressed="true" title="Turn on audio narration">${svg(ICONS.muted)}</button>
+      ${config.title ? `<div class="wt-topbar"><h2 class="wt-title">${esc(config.title)}</h2></div>` : ""}
+      <div class="wt-stage">
+        <div class="wt-stageInner" style="position:absolute;inset:0"></div>
+        <span class="wt-moneyTag" hidden></span>
+        <div class="wt-startOverlay">
+          <button type="button" class="wt-bigPlay" data-act="start" aria-label="Play the walkthrough">${svg(ICONS.play)}</button>
+          <p class="wt-startHint"><span class="wt-startHintIcon" aria-hidden="true">${svg(ICONS.sound)}</span>Adjust volume for narration</p>
         </div>
       </div>
-      <div class="wt-stage"><div class="wt-stageInner" style="position:absolute;inset:0"></div><span class="wt-moneyTag" hidden></span></div>
       <div class="wt-progress"><div class="wt-progressFill"></div></div>
       <div class="wt-caption"><h3 class="wt-captionTitle"></h3><p class="wt-captionBody"></p></div>
       <div class="wt-controls">
         <button type="button" class="wt-ctrlBtn" data-act="prev" aria-label="Previous step">${svg(ICONS.prev)}</button>
-        <button type="button" class="wt-ctrlBtn wt-playBtn" data-act="play" aria-label="Pause">${svg(ICONS.pause)}</button>
+        <button type="button" class="wt-ctrlBtn wt-playBtn" data-act="play" aria-label="Play">${svg(ICONS.play)}</button>
         <button type="button" class="wt-ctrlBtn" data-act="next" aria-label="Next step">${svg(ICONS.next)}</button>
+        <button type="button" class="wt-ctrlBtn" data-act="mute" aria-pressed="true" aria-label="Mute narration" title="Mute narration">${svg(ICONS.sound)}</button>
         <span class="wt-spacer"></span>
         <div class="wt-dots" role="tablist" aria-label="Jump to step">${M.map((s, n) => `<button type="button" class="wt-dot" data-i="${n}" role="tab" aria-label="Step ${n + 1}: ${s.title.replace(/"/g, "&quot;")}"></button>`).join("")}</div>
         <span class="wt-stepLabel"></span>
@@ -51,8 +60,9 @@
 
     const el = (s) => root.querySelector(s);
     const stage = el(".wt-stage"), stageInner = el(".wt-stageInner"), moneyTag = el(".wt-moneyTag");
+    const overlay = el(".wt-startOverlay"), startBtn = el('[data-act="start"]');
     const fill = el(".wt-progressFill"), titleEl = el(".wt-captionTitle"), bodyEl = el(".wt-captionBody");
-    const muteBtn = el('[data-act="mute"]'), mutePrompt = el(".wt-mutePrompt");
+    const muteBtn = el('[data-act="mute"]');
     const playBtn = el('[data-act="play"]'), prevBtn = el('[data-act="prev"]'), nextBtn = el('[data-act="next"]');
     const stepLabel = el(".wt-stepLabel"), dots = Array.from(root.querySelectorAll(".wt-dot"));
     const audio = new Audio(); audio.preload = "none";
@@ -66,6 +76,13 @@
     }
 
     function stopClocks() { cancelAnimationFrame(rafId); clearTimeout(timer); }
+
+    // any interaction dismisses the start overlay (the click is the autoplay gesture)
+    function ensureStarted() {
+      if (started) return;
+      started = true;
+      overlay.remove();
+    }
 
     function runProgress() {
       progStart = performance.now();
@@ -112,32 +129,34 @@
       requestAnimationFrame(postHeight);
     }
 
-    function go(n) { if (n < 0 || n > total - 1) return; i = n; mount(); }
-    function advance() { if (i < total - 1) go(i + 1); else { playing = false; setPlayUI(); stage.classList.add("paused"); stopClocks(); } }
+    function go(n) { if (n < 0 || n > total - 1) return; i = n; done = false; mount(); }
+    function advance() { if (i < total - 1) go(i + 1); else { playing = false; done = true; setPlayUI(); stage.classList.add("paused"); stopClocks(); } }
 
     function setPlayUI() { playBtn.innerHTML = svg(playing ? ICONS.pause : ICONS.play); playBtn.setAttribute("aria-label", playing ? "Pause" : "Play"); }
     function setMuteUI() {
-      muteBtn.classList.toggle("cta", muted);
       muteBtn.innerHTML = svg(muted ? ICONS.muted : ICONS.sound);
-      muteBtn.setAttribute("aria-pressed", String(muted));
-      muteBtn.title = muted ? "Turn on audio narration" : "Mute narration";
-      mutePrompt.style.display = muted ? "" : "none";
+      muteBtn.setAttribute("aria-pressed", String(!muted));
+      muteBtn.setAttribute("aria-label", muted ? "Unmute narration" : "Mute narration");
+      muteBtn.title = muted ? "Unmute narration" : "Mute narration";
     }
 
     // events
     audio.addEventListener("ended", () => { if (playing && !muted && hasAudio()) advance(); });
-    muteBtn.addEventListener("click", () => { muted = !muted; audio.muted = muted; setMuteUI(); mount(); });
+    startBtn.addEventListener("click", () => { ensureStarted(); playing = true; setPlayUI(); mount(); });
+    muteBtn.addEventListener("click", () => { muted = !muted; audio.muted = muted; setMuteUI(); if (started) mount(); });
     playBtn.addEventListener("click", () => {
+      ensureStarted();
+      if (!playing && done) { done = false; playing = true; setPlayUI(); go(0); return; } // replay from the top
       playing = !playing; setPlayUI();
       if (playing) { stage.classList.remove("paused"); if (!muted && hasAudio()) audio.play().catch(() => {}); runProgress(); }
       else { stage.classList.add("paused"); audio.pause(); stopClocks(); }
     });
-    prevBtn.addEventListener("click", () => go(i - 1));
-    nextBtn.addEventListener("click", () => go(i + 1));
-    dots.forEach((d) => d.addEventListener("click", () => go(Number(d.dataset.i))));
+    prevBtn.addEventListener("click", () => { ensureStarted(); go(i - 1); });
+    nextBtn.addEventListener("click", () => { ensureStarted(); go(i + 1); });
+    dots.forEach((d) => d.addEventListener("click", () => { ensureStarted(); go(Number(d.dataset.i)); }));
     root.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight") { e.preventDefault(); go(i + 1); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); go(i - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); ensureStarted(); go(i + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); ensureStarted(); go(i - 1); }
       else if (e.key === " ") { e.preventDefault(); playBtn.click(); }
     });
     window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(postHeight, 120); });
