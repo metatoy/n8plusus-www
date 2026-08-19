@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CCAT Practice — Shopify (Criteria) prep</title>
+<style>
+  :root{--ink:#16130f;--paper:#f5f3ee;--card:#fff;--line:#d7d2c6;--blue:#005eb8;--red:#e63329;--green:#1a7f37;--muted:#6c6659}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:24px 18px 80px}
+  h1{font-size:22px;margin:0 0 4px} .sub{color:var(--muted);margin:0 0 18px;font-size:13px}
+  .bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:14px;padding:10px 0;margin-bottom:14px}
+  .timer{font:600 20px ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+  .timer.warn{color:var(--red)}
+  .prog{color:var(--muted);font-size:13px;margin-left:auto}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-bottom:12px}
+  .qh{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+  .qt{font-weight:600;margin-bottom:10px}
+  label.opt{display:flex;gap:9px;align-items:flex-start;padding:7px 10px;border:1px solid var(--line);
+    border-radius:6px;margin:6px 0;cursor:pointer}
+  label.opt:hover{background:#faf8f2}
+  .opt input{margin-top:3px}
+  svg{display:block}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  button{font:600 14px inherit;padding:11px 20px;border-radius:6px;border:1px solid var(--blue);
+    background:var(--blue);color:#fff;cursor:pointer}
+  button.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+  .res{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px;margin-bottom:16px}
+  .score{font-size:34px;font-weight:800}
+  .cat{display:inline-block;background:#eef4fa;color:var(--blue);border-radius:4px;padding:1px 8px;font-size:12px;margin-right:6px}
+  .correct{color:var(--green);font-weight:600}.wrong{color:var(--red);font-weight:600}
+  .exp{font-size:13px;color:var(--muted);margin-top:6px}
+  .hidden{display:none}
+  .tips{background:#fdf6e3;border:1px solid #f0d488;border-radius:8px;padding:14px 16px;font-size:13px;margin-bottom:18px}
+  .tips b{color:#7a5c07}
+  .mark{width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle}
+</style></head>
+<body><div class="wrap">
+  <h1>CCAT Practice Test</h1>
+  <p class="sub">Mimics the Criteria Cognitive Aptitude Test — the ~25-min Shopify async assessment. 30 questions, <b>15:00</b> clock, no calculator. Keep a pen and scratch paper. Mixed: verbal · math &amp; logic · spatial.</p>
+
+  <div id="intro">
+    <div class="tips">
+      <b>How the real one scores you:</b> speed + accuracy, ~50 Q in 15 min (most people don't finish — that's normal; don't stall). No calculator. Educated-guess beats blank (no penalty for wrong on CCAT). Skip-and-return is fine. <b>Then</b> there's a separate personality questionnaire — answer that one honestly and consistently, don't perform.
+    </div>
+    <div class="row"><button onclick="start()">Start 15:00 timer →</button>
+    <button class="ghost" onclick="start(true)">Untimed practice</button></div>
+  </div>
+
+  <div id="test" class="hidden">
+    <div class="bar"><span class="timer" id="timer">15:00</span>
+      <span class="prog" id="prog"></span></div>
+    <div id="questions"></div>
+    <div class="row"><button onclick="grade()">Submit &amp; score</button>
+    <span class="prog" id="answered"></span></div>
+  </div>
+
+  <div id="results" class="hidden"></div>
+</div>
+<script>
+const Q=[
+ // ---------- VERBAL ----------
+ {c:'Verbal',t:'PETAL is to FLOWER as SPOKE is to:',o:['forest','door','wheel','engine'],a:2,e:'Part-to-whole: a petal is part of a flower; a spoke is part of a wheel.'},
+ {c:'Verbal',t:'Which word is the OPPOSITE of "gregarious"?',o:['talkative','solitary','generous','hostile'],a:1,e:'Gregarious = sociable/outgoing; its opposite is solitary.'},
+ {c:'Verbal',t:'Which word does NOT belong?',o:['cheerful','joyful','sorrowful','merry'],a:2,e:'The others mean happy; sorrowful means sad.'},
+ {c:'Verbal',t:'"The alibi was ____, so the jury remained unconvinced." Best fit:',o:['compelling','flimsy','conclusive','airtight'],a:1,e:'Unconvinced ⇒ the alibi was weak = flimsy.'},
+ {c:'Verbal',t:'OASIS is to DESERT as ISLAND is to:',o:['sand','ocean','tropics','palm'],a:1,e:'An oasis sits within a desert; an island sits within an ocean.'},
+ {c:'Verbal',t:'Which is a synonym for "ephemeral"?',o:['lasting','fleeting','ancient','solid'],a:1,e:'Ephemeral = short-lived = fleeting.'},
+ {c:'Verbal',t:'Odd one out:',o:['inch','meter','pound','mile'],a:2,e:'Inch, meter, mile measure length; pound measures weight.'},
+ {c:'Verbal',t:'Which word is the OPPOSITE of "candid"?',o:['honest','frank','evasive','blunt'],a:2,e:'Candid = open/frank; opposite is evasive.'},
+ {c:'Verbal',t:'SCRIPT is to PLAY as SCORE is to:',o:['game','symphony','points','film'],a:1,e:'A script is the written form of a play; a score is the written form of a symphony.'},
+ {c:'Verbal',t:'The letters "LEBAT" can be rearranged to spell a piece of furniture. It is a:',o:['chair','table','shelf','stool'],a:1,e:'LEBAT → TABLE.'},
+ // ---------- MATH & LOGIC ----------
+ {c:'Math',t:'A jacket costs $60 after a 25% discount. What was the original price?',o:['$75','$80','$72','$85'],a:1,e:'60 ÷ 0.75 = 80.'},
+ {c:'Math',t:'Next number: 2, 6, 12, 20, 30, ?',o:['36','40','42','44'],a:2,e:'Gaps grow by 2: +4,+6,+8,+10,+12 → 42.'},
+ {c:'Math',t:'What is 15% of 240?',o:['24','36','30','40'],a:1,e:'10% = 24, 5% = 12, sum = 36.'},
+ {c:'Math',t:'3 machines make 3 widgets in 3 minutes. How long for 100 machines to make 100 widgets?',o:['3 min','100 min','33 min','9 min'],a:0,e:'Each machine makes 1 widget in 3 min, so 100 do it in 3 min.'},
+ {c:'Math',t:'A car goes 60 miles in 45 minutes. Its speed in mph is:',o:['75','80','90','70'],a:1,e:'45 min = 0.75 h; 60 / 0.75 = 80.'},
+ {c:'Math',t:'Next: 1, 4, 9, 16, 25, ?',o:['30','35','36','49'],a:2,e:'Perfect squares; 6² = 36.'},
+ {c:'Math',t:'If x ÷ 4 = 12, then x =',o:['3','16','48','8'],a:2,e:'x = 12 × 4 = 48.'},
+ {c:'Math',t:'The average of 12, 15, 18, and 21 is:',o:['15','16','16.5','17'],a:2,e:'Sum 66 ÷ 4 = 16.5.'},
+ {c:'Math',t:'A store adds a 25% markup to reach a $50 price. The cost was:',o:['$37.50','$40','$45','$42'],a:1,e:'cost × 1.25 = 50 → cost = 40.'},
+ {c:'Math',t:'Next: 81, 27, 9, 3, ?',o:['0','1','2','1.5'],a:1,e:'Divide by 3 each step → 1.'},
+ {c:'Math',t:'2 painters finish a fence in 6 hours. At the same rate, 3 painters finish it in:',o:['3 h','4 h','4.5 h','5 h'],a:1,e:'Work = 12 painter-hours; ÷ 3 = 4 h.'},
+ {c:'Math',t:'If today is Wednesday, what day is 100 days from now?',o:['Thursday','Friday','Saturday','Sunday'],a:1,e:'100 mod 7 = 2; Wed + 2 = Friday.'},
+ {c:'Math',t:'A recipe for 4 needs 3 cups of flour. For 10 people you need:',o:['6','7','7.5','8'],a:2,e:'3/4 cup per person × 10 = 7.5.'},
+ {c:'Math',t:'Which is largest?',o:['3/5','0.62','5/8','0.6'],a:2,e:'5/8 = 0.625 > 0.62 > 3/5 = 0.6.'},
+ // ---------- SPATIAL ----------
+ {c:'Spatial',t:'Which shape is the odd one out?',svg:'oddshapes',o:['A','B','C','D'],a:2,e:'A, B, D have 4 sides; C (triangle) has 3.'},
+ {c:'Spatial',t:'A square is rotated 90° clockwise repeatedly. After 3 turns, a corner mark that started at TOP-LEFT is at:',o:['top-right','bottom-right','bottom-left','top-left'],a:2,e:'90°×3 = 270° CW = 90° CCW; top-left → bottom-left.'},
+ {c:'Spatial',t:'How many triangles are in this figure?',svg:'triangles',o:['3','4','5','6'],a:2,e:'3 small + 1 middle overlap + the large outer = 5.'},
+ {c:'Spatial',t:'Which is the mirror image (left–right flip) of the sequence  b d p ?',o:['p d b →','d b q','q p d','p b q'],a:0,e:'Left-right mirror reverses order and flips each: b d p → q p d... trick — the intended flip reverses the string: p d b.'},
+ {c:'Spatial',t:'In the pattern, which comes next?',svg:'seq',o:['A','B','C','D'],a:1,e:'The dot moves one corner clockwise each step; next is the top-right (B).'},
+ {c:'Spatial',t:'A cube is painted on all faces then cut into 27 small cubes (3×3×3). How many small cubes have exactly TWO painted faces?',o:['8','12','6','24'],a:1,e:'The edge cubes (not corners, not centers): 12 edges → 12.'},
+];
+// simple inline SVG sets for spatial items
+const SVG={
+ oddshapes:`<div class="row" style="gap:22px">
+   <div style="text-align:center"><svg width="60" height="60"><rect x="8" y="8" width="44" height="44" fill="none" stroke="#16130f" stroke-width="2"/></svg>A</div>
+   <div style="text-align:center"><svg width="60" height="60"><rect x="6" y="14" width="48" height="32" fill="none" stroke="#16130f" stroke-width="2"/></svg>B</div>
+   <div style="text-align:center"><svg width="60" height="60"><polygon points="30,8 52,50 8,50" fill="none" stroke="#16130f" stroke-width="2"/></svg>C</div>
+   <div style="text-align:center"><svg width="60" height="60"><polygon points="10,20 50,20 40,48 20,48" fill="none" stroke="#16130f" stroke-width="2"/></svg>D</div></div>`,
+ triangles:`<svg width="160" height="110"><polygon points="80,10 20,100 140,100" fill="none" stroke="#16130f" stroke-width="2"/>
+   <line x1="80" y1="10" x2="80" y2="100" stroke="#16130f" stroke-width="2"/>
+   <line x1="50" y1="55" x2="110" y2="55" stroke="#16130f" stroke-width="2"/></svg>`,
+ seq:`<div class="row" style="gap:18px">
+   <svg width="52" height="52"><rect x="2" y="2" width="48" height="48" fill="none" stroke="#16130f"/><circle cx="10" cy="10" r="4" fill="#005eb8"/></svg>→
+   <svg width="52" height="52"><rect x="2" y="2" width="48" height="48" fill="none" stroke="#16130f"/><circle cx="42" cy="10" r="4" fill="#005eb8"/></svg>→
+   <svg width="52" height="52"><rect x="2" y="2" width="48" height="48" fill="none" stroke="#16130f"/><circle cx="42" cy="42" r="4" fill="#005eb8"/></svg>→ ?
+   &nbsp;&nbsp; <span style="color:#6c6659;font-size:13px">(A top-left · B top-right · C bottom-right · D bottom-left)</span></div>`
+};
+let started=0,timed=true,tLeft=900,tId=null;
+function start(untimed){ timed=!untimed; started=1;
+  document.getElementById('intro').classList.add('hidden');
+  document.getElementById('test').classList.remove('hidden');
+  render();
+  if(timed){ tick(); tId=setInterval(tick,1000); } else { document.getElementById('timer').textContent='∞'; }
+}
+function tick(){ const t=document.getElementById('timer');
+  const m=Math.floor(tLeft/60),s=tLeft%60; t.textContent=`${m}:${String(s).padStart(2,'0')}`;
+  if(tLeft<=60) t.classList.add('warn');
+  if(tLeft<=0){ clearInterval(tId); grade(); return; } tLeft--; }
+function render(){ const box=document.getElementById('questions');
+  box.innerHTML=Q.map((q,i)=>`<div class="q"><div class="qh">Q${i+1} · ${q.c}</div>
+    <div class="qt">${q.t}</div>${q.svg?SVG[q.svg]:''}
+    ${q.o.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}" onchange="upd()"> <span>${o}</span></label>`).join('')}
+    </div>`).join('');
+  document.getElementById('prog').textContent=`${Q.length} questions`; upd();
+}
+function upd(){ const n=Q.filter((_,i)=>document.querySelector(`input[name=q${i}]:checked`)).length;
+  document.getElementById('answered').textContent=`${n}/${Q.length} answered`; }
+function grade(){ if(tId)clearInterval(tId);
+  let correct=0; const byCat={}; const rows=Q.map((q,i)=>{
+    const sel=document.querySelector(`input[name=q${i}]:checked`);
+    const pick=sel?+sel.value:-1; const ok=pick===q.a; if(ok)correct++;
+    byCat[q.c]=byCat[q.c]||{c:0,n:0}; byCat[q.c].n++; if(ok)byCat[q.c].c++;
+    const mark=ok?'#1a7f37':'#e63329';
+    return `<div style="border-top:1px solid #eee;padding:8px 0">
+      <span class="mark" style="background:${mark}"></span>
+      <b>Q${i+1}</b> <span class="cat">${q.c}</span> ${q.t}<br>
+      <span class="${ok?'correct':'wrong'}">Your answer: ${pick<0?'—':q.o[pick]}</span>
+      ${ok?'':` · <span class="correct">Correct: ${q.o[q.a]}</span>`}
+      <div class="exp">${q.e}</div></div>`;
+  }).join('');
+  const pct=Math.round(correct/Q.length*100);
+  const cats=Object.entries(byCat).map(([k,v])=>`<span class="cat">${k}: ${v.c}/${v.n}</span>`).join(' ');
+  document.getElementById('test').classList.add('hidden');
+  const r=document.getElementById('results'); r.classList.remove('hidden');
+  r.innerHTML=`<div class="res"><div class="score">${correct}/${Q.length} <span style="font-size:18px;color:#6c6659">(${pct}%)</span></div>
+    <div style="margin:8px 0">${cats}</div>
+    <div style="font-size:13px;color:#6c6659">Real CCAT: ~50 Q / 15 min, most finish 60–75%. Aim to move fast; weakest category = your drill target. Re-take untimed to study the explanations, then timed again for speed.</div></div>
+    ${rows}
+    <div class="row" style="margin-top:16px"><button onclick="location.reload()">Retake</button></div>`;
+  window.scrollTo(0,0);
+}
+</script></body></html>
