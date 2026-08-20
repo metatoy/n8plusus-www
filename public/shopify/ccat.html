@@ -37,7 +37,7 @@
 </style></head>
 <body><div class="wrap">
   <h1>CCAT Practice Test</h1>
-  <p class="sub">Mimics the Criteria Cognitive Aptitude Test — the ~25-min Shopify async assessment. 30 questions, <b>15:00</b> clock, no calculator. Keep a pen and scratch paper. Mixed: verbal · math &amp; logic · spatial.</p>
+  <p class="sub">Mimics the Criteria Cognitive Aptitude Test — the ~25-min Shopify async assessment. 35 questions, <b>15:00</b> clock, no calculator. Keep a pen and scratch paper. Mixed: verbal · math &amp; logic · spatial.</p>
 
   <div id="intro">
     <div class="tips">
@@ -92,6 +92,12 @@ const Q=[
  {c:'Spatial',t:'Which is the mirror image (left–right flip) of the sequence  b d p ?',o:['p d b →','d b q','q p d','p b q'],a:0,e:'Left-right mirror reverses order and flips each: b d p → q p d... trick — the intended flip reverses the string: p d b.'},
  {c:'Spatial',t:'In the pattern, which comes next?',svg:'seq',o:['A','B','C','D'],a:1,e:'The dot moves one corner clockwise each step; next is the top-right (B).'},
  {c:'Spatial',t:'A cube is painted on all faces then cut into 27 small cubes (3×3×3). How many small cubes have exactly TWO painted faces?',o:['8','12','6','24'],a:1,e:'The edge cubes (not corners, not centers): 12 edges → 12.'},
+ // ---------- ADDED DRILLS ----------
+ {c:'Math',t:'A team of 5 finishes a project in 12 days. At the same rate, how many days would 6 people take?',o:['9','10','11','14'],a:1,e:'Work = 5 × 12 = 60 person-days; 60 ÷ 6 = 10.'},
+ {c:'Math',t:'Next number: 3, 5, 9, 17, 33, ?',o:['48','65','66','49'],a:1,e:'Each gap doubles: +2, +4, +8, +16, then +32 → 65.'},
+ {c:'Verbal',t:'THERMOMETER is to TEMPERATURE as ODOMETER is to:',o:['speed','distance','time','pressure'],a:1,e:'A thermometer measures temperature; an odometer measures distance.'},
+ {c:'Verbal',t:'Which word is the OPPOSITE of "meticulous"?',o:['careful','thorough','careless','precise'],a:2,e:'Meticulous = very careful/precise; the opposite is careless.'},
+ {c:'Spatial',t:'On a clock at exactly 3:00, what is the angle between the hour and minute hands?',o:['45°','60°','90°','120°'],a:2,e:'Each hour mark = 30°; from 12 to 3 is 3 marks → 90°.'},
 ];
 // simple inline SVG sets for spatial items
 const SVG={
