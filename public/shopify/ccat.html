@@ -21,10 +21,14 @@
   label.opt:hover{background:#faf8f2}
   .opt input{margin-top:3px}
   svg{display:block}
-  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
   button{font:600 14px inherit;padding:11px 20px;border-radius:6px;border:1px solid var(--blue);
     background:var(--blue);color:#fff;cursor:pointer}
   button.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+  .drillcard{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--line);
+    border-radius:8px;padding:14px 16px;margin-bottom:10px;cursor:pointer;color:var(--ink)}
+  .drillcard:hover{border-color:var(--blue);background:#f7fbff}
+  .drillcard b{font-size:15px;color:var(--blue)} .drillcard span{color:var(--muted);font-size:13px}
   .res{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px;margin-bottom:16px}
   .score{font-size:34px;font-weight:800}
   .cat{display:inline-block;background:#eef4fa;color:var(--blue);border-radius:4px;padding:1px 8px;font-size:12px;margin-right:6px}
@@ -34,72 +38,32 @@
   .tips{background:#fdf6e3;border:1px solid #f0d488;border-radius:8px;padding:14px 16px;font-size:13px;margin-bottom:18px}
   .tips b{color:#7a5c07}
   .mark{width:14px;height:14px;border-radius:50%;display:inline-block;vertical-align:middle}
+  .picklab{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px}
 </style></head>
 <body><div class="wrap">
-  <h1>CCAT Practice Test</h1>
-  <p class="sub">Mimics the Criteria Cognitive Aptitude Test — the ~25-min Shopify async assessment. 35 questions, <b>15:00</b> clock, no calculator. Keep a pen and scratch paper. Mixed: verbal · math &amp; logic · spatial.</p>
+  <h1>CCAT Practice — 5 Drills</h1>
+  <p class="sub">Five separate practice tests, each a full mixed set (verbal · number series · word problems · logic · spatial) modeled on the Criteria CCAT — the ~25-min Shopify async assessment. Pick one. No calculator; keep a pen and scratch paper.</p>
 
   <div id="intro">
     <div class="tips">
-      <b>How the real one scores you:</b> speed + accuracy, ~50 Q in 15 min (most people don't finish — that's normal; don't stall). No calculator. Educated-guess beats blank (no penalty for wrong on CCAT). Skip-and-return is fine. <b>Then</b> there's a separate personality questionnaire — answer that one honestly and consistently, don't perform.
+      <b>How the real one scores you:</b> ~50 Q in 15 min, timed and hard to finish — speed + accuracy. No calculator. Educated-guess beats blank (no wrong-answer penalty). Population average ≈ 24/50; aim higher for an eng role. <b>Then</b> a separate personality questionnaire — answer that one honestly and consistently.
     </div>
-    <div class="row"><button onclick="start()">Start 15:00 timer →</button>
-    <button class="ghost" onclick="start(true)">Untimed practice</button></div>
+    <div class="picklab">Choose a drill (each timed to CCAT pace ~20s/question):</div>
+    <div id="drills"></div>
+    <label style="display:block;margin-top:8px;font-size:13px;color:#6c6659"><input type="checkbox" id="untimed"> untimed (study mode)</label>
   </div>
 
   <div id="test" class="hidden">
-    <div class="bar"><span class="timer" id="timer">15:00</span>
-      <span class="prog" id="prog"></span></div>
+    <div class="bar"><span class="timer" id="timer">0:00</span><span class="prog" id="prog"></span></div>
     <div id="questions"></div>
     <div class="row"><button onclick="grade()">Submit &amp; score</button>
-    <span class="prog" id="answered"></span></div>
+      <button class="ghost" onclick="location.reload()">← Back to menu</button>
+      <span class="prog" id="answered"></span></div>
   </div>
 
   <div id="results" class="hidden"></div>
 </div>
 <script>
-const Q=[
- // ---------- VERBAL ----------
- {c:'Verbal',t:'PETAL is to FLOWER as SPOKE is to:',o:['forest','door','wheel','engine'],a:2,e:'Part-to-whole: a petal is part of a flower; a spoke is part of a wheel.'},
- {c:'Verbal',t:'Which word is the OPPOSITE of "gregarious"?',o:['talkative','solitary','generous','hostile'],a:1,e:'Gregarious = sociable/outgoing; its opposite is solitary.'},
- {c:'Verbal',t:'Which word does NOT belong?',o:['cheerful','joyful','sorrowful','merry'],a:2,e:'The others mean happy; sorrowful means sad.'},
- {c:'Verbal',t:'"The alibi was ____, so the jury remained unconvinced." Best fit:',o:['compelling','flimsy','conclusive','airtight'],a:1,e:'Unconvinced ⇒ the alibi was weak = flimsy.'},
- {c:'Verbal',t:'OASIS is to DESERT as ISLAND is to:',o:['sand','ocean','tropics','palm'],a:1,e:'An oasis sits within a desert; an island sits within an ocean.'},
- {c:'Verbal',t:'Which is a synonym for "ephemeral"?',o:['lasting','fleeting','ancient','solid'],a:1,e:'Ephemeral = short-lived = fleeting.'},
- {c:'Verbal',t:'Odd one out:',o:['inch','meter','pound','mile'],a:2,e:'Inch, meter, mile measure length; pound measures weight.'},
- {c:'Verbal',t:'Which word is the OPPOSITE of "candid"?',o:['honest','frank','evasive','blunt'],a:2,e:'Candid = open/frank; opposite is evasive.'},
- {c:'Verbal',t:'SCRIPT is to PLAY as SCORE is to:',o:['game','symphony','points','film'],a:1,e:'A script is the written form of a play; a score is the written form of a symphony.'},
- {c:'Verbal',t:'The letters "LEBAT" can be rearranged to spell a piece of furniture. It is a:',o:['chair','table','shelf','stool'],a:1,e:'LEBAT → TABLE.'},
- // ---------- MATH & LOGIC ----------
- {c:'Math',t:'A jacket costs $60 after a 25% discount. What was the original price?',o:['$75','$80','$72','$85'],a:1,e:'60 ÷ 0.75 = 80.'},
- {c:'Math',t:'Next number: 2, 6, 12, 20, 30, ?',o:['36','40','42','44'],a:2,e:'Gaps grow by 2: +4,+6,+8,+10,+12 → 42.'},
- {c:'Math',t:'What is 15% of 240?',o:['24','36','30','40'],a:1,e:'10% = 24, 5% = 12, sum = 36.'},
- {c:'Math',t:'3 machines make 3 widgets in 3 minutes. How long for 100 machines to make 100 widgets?',o:['3 min','100 min','33 min','9 min'],a:0,e:'Each machine makes 1 widget in 3 min, so 100 do it in 3 min.'},
- {c:'Math',t:'A car goes 60 miles in 45 minutes. Its speed in mph is:',o:['75','80','90','70'],a:1,e:'45 min = 0.75 h; 60 / 0.75 = 80.'},
- {c:'Math',t:'Next: 1, 4, 9, 16, 25, ?',o:['30','35','36','49'],a:2,e:'Perfect squares; 6² = 36.'},
- {c:'Math',t:'If x ÷ 4 = 12, then x =',o:['3','16','48','8'],a:2,e:'x = 12 × 4 = 48.'},
- {c:'Math',t:'The average of 12, 15, 18, and 21 is:',o:['15','16','16.5','17'],a:2,e:'Sum 66 ÷ 4 = 16.5.'},
- {c:'Math',t:'A store adds a 25% markup to reach a $50 price. The cost was:',o:['$37.50','$40','$45','$42'],a:1,e:'cost × 1.25 = 50 → cost = 40.'},
- {c:'Math',t:'Next: 81, 27, 9, 3, ?',o:['0','1','2','1.5'],a:1,e:'Divide by 3 each step → 1.'},
- {c:'Math',t:'2 painters finish a fence in 6 hours. At the same rate, 3 painters finish it in:',o:['3 h','4 h','4.5 h','5 h'],a:1,e:'Work = 12 painter-hours; ÷ 3 = 4 h.'},
- {c:'Math',t:'If today is Wednesday, what day is 100 days from now?',o:['Thursday','Friday','Saturday','Sunday'],a:1,e:'100 mod 7 = 2; Wed + 2 = Friday.'},
- {c:'Math',t:'A recipe for 4 needs 3 cups of flour. For 10 people you need:',o:['6','7','7.5','8'],a:2,e:'3/4 cup per person × 10 = 7.5.'},
- {c:'Math',t:'Which is largest?',o:['3/5','0.62','5/8','0.6'],a:2,e:'5/8 = 0.625 > 0.62 > 3/5 = 0.6.'},
- // ---------- SPATIAL ----------
- {c:'Spatial',t:'Which shape is the odd one out?',svg:'oddshapes',o:['A','B','C','D'],a:2,e:'A, B, D have 4 sides; C (triangle) has 3.'},
- {c:'Spatial',t:'A square is rotated 90° clockwise repeatedly. After 3 turns, a corner mark that started at TOP-LEFT is at:',o:['top-right','bottom-right','bottom-left','top-left'],a:2,e:'90°×3 = 270° CW = 90° CCW; top-left → bottom-left.'},
- {c:'Spatial',t:'How many triangles are in this figure?',svg:'triangles',o:['3','4','5','6'],a:2,e:'3 small + 1 middle overlap + the large outer = 5.'},
- {c:'Spatial',t:'Which is the mirror image (left–right flip) of the sequence  b d p ?',o:['p d b →','d b q','q p d','p b q'],a:0,e:'Left-right mirror reverses order and flips each: b d p → q p d... trick — the intended flip reverses the string: p d b.'},
- {c:'Spatial',t:'In the pattern, which comes next?',svg:'seq',o:['A','B','C','D'],a:1,e:'The dot moves one corner clockwise each step; next is the top-right (B).'},
- {c:'Spatial',t:'A cube is painted on all faces then cut into 27 small cubes (3×3×3). How many small cubes have exactly TWO painted faces?',o:['8','12','6','24'],a:1,e:'The edge cubes (not corners, not centers): 12 edges → 12.'},
- // ---------- ADDED DRILLS ----------
- {c:'Math',t:'A team of 5 finishes a project in 12 days. At the same rate, how many days would 6 people take?',o:['9','10','11','14'],a:1,e:'Work = 5 × 12 = 60 person-days; 60 ÷ 6 = 10.'},
- {c:'Math',t:'Next number: 3, 5, 9, 17, 33, ?',o:['48','65','66','49'],a:1,e:'Each gap doubles: +2, +4, +8, +16, then +32 → 65.'},
- {c:'Verbal',t:'THERMOMETER is to TEMPERATURE as ODOMETER is to:',o:['speed','distance','time','pressure'],a:1,e:'A thermometer measures temperature; an odometer measures distance.'},
- {c:'Verbal',t:'Which word is the OPPOSITE of "meticulous"?',o:['careful','thorough','careless','precise'],a:2,e:'Meticulous = very careful/precise; the opposite is careless.'},
- {c:'Spatial',t:'On a clock at exactly 3:00, what is the angle between the hour and minute hands?',o:['45°','60°','90°','120°'],a:2,e:'Each hour mark = 30°; from 12 to 3 is 3 marks → 90°.'},
-];
-// simple inline SVG sets for spatial items
 const SVG={
  oddshapes:`<div class="row" style="gap:22px">
    <div style="text-align:center"><svg width="60" height="60"><rect x="8" y="8" width="44" height="44" fill="none" stroke="#16130f" stroke-width="2"/></svg>A</div>
@@ -108,15 +72,109 @@ const SVG={
    <div style="text-align:center"><svg width="60" height="60"><polygon points="10,20 50,20 40,48 20,48" fill="none" stroke="#16130f" stroke-width="2"/></svg>D</div></div>`,
  triangles:`<svg width="160" height="110"><polygon points="80,10 20,100 140,100" fill="none" stroke="#16130f" stroke-width="2"/>
    <line x1="80" y1="10" x2="80" y2="100" stroke="#16130f" stroke-width="2"/>
-   <line x1="50" y1="55" x2="110" y2="55" stroke="#16130f" stroke-width="2"/></svg>`,
- seq:`<div class="row" style="gap:18px">
-   <svg width="52" height="52"><rect x="2" y="2" width="48" height="48" fill="none" stroke="#16130f"/><circle cx="10" cy="10" r="4" fill="#005eb8"/></svg>→
-   <svg width="52" height="52"><rect x="2" y="2" width="48" height="48" fill="none" stroke="#16130f"/><circle cx="42" cy="10" r="4" fill="#005eb8"/></svg>→
-   <svg width="52" height="52"><rect x="2" y="2" width="48" height="48" fill="none" stroke="#16130f"/><circle cx="42" cy="42" r="4" fill="#005eb8"/></svg>→ ?
-   &nbsp;&nbsp; <span style="color:#6c6659;font-size:13px">(A top-left · B top-right · C bottom-right · D bottom-left)</span></div>`
+   <line x1="50" y1="55" x2="110" y2="55" stroke="#16130f" stroke-width="2"/></svg>`
 };
-let started=0,timed=true,tLeft=900,tId=null;
-function start(untimed){ timed=!untimed; started=1;
+const DRILLS={
+ "Drill 1":[
+  {c:'Verbal',t:'HAMMER is to NAIL as SCREWDRIVER is to:',o:['nail','screw','wood','drill'],a:1,e:'A hammer drives a nail; a screwdriver drives a screw.'},
+  {c:'Verbal',t:'Opposite of "abundant":',o:['plentiful','scarce','ample','rich'],a:1,e:'Abundant = plentiful; opposite is scarce.'},
+  {c:'Verbal',t:'Odd one out:',o:['rose','tulip','oak','daisy'],a:2,e:'Rose, tulip, daisy are flowers; oak is a tree.'},
+  {c:'Verbal',t:'Synonym for "lucid":',o:['murky','clear','dim','vague'],a:1,e:'Lucid = clear/easy to understand.'},
+  {c:'Verbal',t:'BIRD is to FLOCK as WOLF is to:',o:['herd','pack','school','pride'],a:1,e:'A group of wolves is a pack.'},
+  {c:'Number Series',t:'Next: 5, 10, 20, 40, ?',o:['60','70','80','100'],a:2,e:'Doubles each step → 80.'},
+  {c:'Number Series',t:'Next: 2, 3, 5, 8, 13, ?',o:['18','20','21','24'],a:2,e:'Fibonacci: 8 + 13 = 21.'},
+  {c:'Number Series',t:'Next: 100, 95, 85, 70, ?',o:['55','50','45','60'],a:1,e:'Subtract 5, 10, 15, 20 → 50.'},
+  {c:'Word Problems',t:'What is 20% of 150?',o:['25','30','35','20'],a:1,e:'0.2 × 150 = 30.'},
+  {c:'Word Problems',t:'A $200 phone gets 10% off, then another 10% off. Final price?',o:['$160','$162','$180','$164'],a:1,e:'200 × 0.9 × 0.9 = 162.'},
+  {c:'Word Problems',t:'If 4 pens cost $6, how much do 10 pens cost?',o:['$12','$15','$18','$20'],a:1,e:'$1.50 each × 10 = $15.'},
+  {c:'Logic',t:'The average of three numbers is 20. Two of them are 15 and 25. The third is:',o:['18','20','22','25'],a:1,e:'Sum = 60; 60 − 40 = 20.'},
+  {c:'Spatial',t:'Which shape is the odd one out?',svg:'oddshapes',o:['A','B','C','D'],a:2,e:'A, B, D have 4 sides; C is a triangle.'},
+  {c:'Spatial',t:'The letter "b" rotated 180° looks like:',o:['d','p','q','b'],a:2,e:'A 180° turn of b gives q.'},
+  {c:'Spatial',t:'A 2×2 grid of squares — how many squares total (including the big one)?',o:['4','5','6','8'],a:1,e:'4 small + 1 large = 5.'},
+  {c:'Spatial',t:'A 3×3×3 cube is painted then cut into 27 cubes. How many have NO paint?',o:['0','1','6','8'],a:1,e:'Only the single center cube.'}
+ ],
+ "Drill 2":[
+  {c:'Verbal',t:'DOCTOR is to PATIENT as LAWYER is to:',o:['judge','client','court','case'],a:1,e:'A lawyer serves a client.'},
+  {c:'Verbal',t:'Opposite of "transparent":',o:['clear','opaque','visible','honest'],a:1,e:'Transparent = see-through; opposite is opaque.'},
+  {c:'Verbal',t:'Odd one out:',o:['copper','iron','oxygen','gold'],a:2,e:'Copper, iron, gold are metals; oxygen is a gas.'},
+  {c:'Verbal',t:'Synonym for "brief":',o:['long','concise','detailed','vague'],a:1,e:'Brief = concise.'},
+  {c:'Verbal',t:'CATERPILLAR is to BUTTERFLY as TADPOLE is to:',o:['fish','frog','toad','newt'],a:1,e:'A tadpole becomes a frog.'},
+  {c:'Number Series',t:'Next: 3, 6, 12, 24, ?',o:['36','42','48','50'],a:2,e:'Doubles → 48.'},
+  {c:'Number Series',t:'Next: 1, 1, 2, 3, 5, 8, ?',o:['11','12','13','14'],a:2,e:'Fibonacci: 5 + 8 = 13.'},
+  {c:'Number Series',t:'Next: 7, 14, 28, ?',o:['42','56','35','49'],a:1,e:'Doubles → 56.'},
+  {c:'Word Problems',t:'What is 30% of 90?',o:['24','27','30','33'],a:1,e:'0.3 × 90 = 27.'},
+  {c:'Word Problems',t:'A shirt is $80 with 15% off. Sale price?',o:['$64','$68','$70','$72'],a:1,e:'80 − 12 = 68.'},
+  {c:'Word Problems',t:'6 workers finish a job in 4 days. At the same rate, 8 workers finish in:',o:['2 days','3 days','3.5 days','5 days'],a:1,e:'24 worker-days ÷ 8 = 3.'},
+  {c:'Word Problems',t:'A car travels 150 miles in 2.5 hours. Its speed is:',o:['55 mph','60 mph','65 mph','50 mph'],a:1,e:'150 ÷ 2.5 = 60.'},
+  {c:'Spatial',t:'An arrow points UP. Rotated 90° clockwise, it points:',o:['down','right','left','up'],a:1,e:'Up → right after a 90° CW turn.'},
+  {c:'Spatial',t:'The left–right mirror image of the letter "d" is:',o:['b','p','q','d'],a:0,e:'Mirroring d horizontally gives b.'},
+  {c:'Spatial',t:'How many triangles are in this figure?',svg:'triangles',o:['3','4','5','6'],a:2,e:'3 small + middle + large = 5.'},
+  {c:'Logic',t:'How many months of the year have exactly 28 days?',o:['1','2','all 12','4'],a:2,e:'Every month has at least 28 days — so all 12.'}
+ ],
+ "Drill 3":[
+  {c:'Verbal',t:'PEN is to WRITE as KNIFE is to:',o:['cook','cut','sharp','kitchen'],a:1,e:'A pen is used to write; a knife is used to cut.'},
+  {c:'Verbal',t:'Opposite of "expand":',o:['grow','contract','stretch','widen'],a:1,e:'Expand ↔ contract.'},
+  {c:'Verbal',t:'Odd one out:',o:['triangle','square','circle','pentagon'],a:2,e:'The others have straight sides; a circle has none.'},
+  {c:'Verbal',t:'Synonym for "enormous":',o:['tiny','huge','average','narrow'],a:1,e:'Enormous = huge.'},
+  {c:'Verbal',t:'FISH is to SCHOOL as LION is to:',o:['herd','pride','pack','flock'],a:1,e:'A group of lions is a pride.'},
+  {c:'Number Series',t:'Next: 1, 2, 4, 7, 11, ?',o:['14','15','16','18'],a:2,e:'Add 1, 2, 3, 4, 5 → 16.'},
+  {c:'Number Series',t:'Next: 64, 32, 16, 8, ?',o:['2','4','6','1'],a:1,e:'Halves each step → 4.'},
+  {c:'Number Series',t:'Next: 2, 4, 8, 16, ?',o:['24','30','32','64'],a:2,e:'Doubles → 32.'},
+  {c:'Word Problems',t:'What is 25% of 200?',o:['40','50','60','45'],a:1,e:'One quarter of 200 = 50.'},
+  {c:'Word Problems',t:'A book costs $24 after 20% off. Original price?',o:['$28','$30','$32','$29'],a:1,e:'24 ÷ 0.8 = 30.'},
+  {c:'Word Problems',t:'12 apples cost $3. What do 20 apples cost?',o:['$4','$5','$6','$7'],a:1,e:'$0.25 each × 20 = $5.'},
+  {c:'Logic',t:'The average of 10, 20, 30, 40, and 50 is:',o:['25','30','35','40'],a:1,e:'Middle value / sum 150 ÷ 5 = 30.'},
+  {c:'Spatial',t:'An arrow points LEFT. Rotated 180°, it points:',o:['up','right','down','left'],a:1,e:'180° flips left to right.'},
+  {c:'Spatial',t:'The letter "p" rotated 180° looks like:',o:['b','d','q','p'],a:1,e:'A 180° turn of p gives d.'},
+  {c:'Spatial',t:'Three unit squares sit in a single row. How many squares are in the figure?',o:['3','4','6','5'],a:0,e:'Only the 3 unit squares — no larger square forms in a 3×1 strip.'},
+  {c:'Spatial',t:'What is the angle between the hands of a clock at 6:00?',o:['90°','120°','180°','150°'],a:2,e:'Hands point straight opposite → 180°.'}
+ ],
+ "Drill 4":[
+  {c:'Verbal',t:'TEACHER is to STUDENT as COACH is to:',o:['team','player','game','field'],a:1,e:'A coach instructs a player.'},
+  {c:'Verbal',t:'Opposite of "ancient":',o:['old','modern','historic','aged'],a:1,e:'Ancient ↔ modern.'},
+  {c:'Verbal',t:'Odd one out:',o:['apple','carrot','banana','grape'],a:1,e:'The others are fruit; a carrot is a vegetable.'},
+  {c:'Verbal',t:'Synonym for "rapid":',o:['slow','swift','steady','late'],a:1,e:'Rapid = swift.'},
+  {c:'Verbal',t:'GLOVE is to HAND as SOCK is to:',o:['foot','shoe','leg','toe'],a:0,e:'A glove covers a hand; a sock covers a foot.'},
+  {c:'Number Series',t:'Next: 5, 8, 11, 14, ?',o:['16','17','18','20'],a:1,e:'Add 3 each step → 17.'},
+  {c:'Number Series',t:'Next: 1, 3, 9, 27, ?',o:['54','72','81','90'],a:2,e:'Times 3 → 81.'},
+  {c:'Number Series',t:'Next: 20, 17, 14, 11, ?',o:['9','8','7','10'],a:1,e:'Subtract 3 → 8.'},
+  {c:'Word Problems',t:'What is 40% of 60?',o:['20','24','28','30'],a:1,e:'0.4 × 60 = 24.'},
+  {c:'Word Problems',t:'A laptop is $500 with 30% off. Sale price?',o:['$300','$350','$370','$400'],a:1,e:'500 − 150 = 350.'},
+  {c:'Word Problems',t:'3 printers print 300 pages in 10 minutes. One printer prints how many in 10 minutes?',o:['100','150','300','50'],a:0,e:'300 ÷ 3 = 100.'},
+  {c:'Logic',t:'The average of 5 numbers is 12. Their total is:',o:['50','55','60','65'],a:2,e:'12 × 5 = 60.'},
+  {c:'Spatial',t:'A 4×4 grid of squares contains how many unit (1×1) squares?',o:['12','14','16','20'],a:2,e:'4 × 4 = 16.'},
+  {c:'Spatial',t:'The left–right mirror image of the letter "q" is:',o:['b','d','p','q'],a:2,e:'Mirroring q horizontally gives p.'},
+  {c:'Spatial',t:'Two equal squares sit side by side. How many rectangles are in the figure?',o:['2','3','4','1'],a:1,e:'2 small squares + 1 combined rectangle = 3.'},
+  {c:'Spatial',t:'A 3×3×3 painted cube is cut into 27. How many small cubes show exactly ONE painted face?',o:['4','6','8','12'],a:1,e:'The face-centers: 6 faces → 6.'}
+ ],
+ "Drill 5":[
+  {c:'Verbal',t:'SUN is to DAY as MOON is to:',o:['star','night','sky','dark'],a:1,e:'The sun marks day; the moon marks night.'},
+  {c:'Verbal',t:'Opposite of "generous":',o:['kind','stingy','giving','rich'],a:1,e:'Generous ↔ stingy.'},
+  {c:'Verbal',t:'Odd one out:',o:['violin','trumpet','cello','guitar'],a:1,e:'The others are string instruments; a trumpet is brass.'},
+  {c:'Verbal',t:'Synonym for "furious":',o:['calm','angry','happy','tired'],a:1,e:'Furious = very angry.'},
+  {c:'Verbal',t:'AUTHOR is to BOOK as COMPOSER is to:',o:['painting','symphony','band','stage'],a:1,e:'An author creates a book; a composer creates a symphony.'},
+  {c:'Number Series',t:'Next: 2, 6, 18, 54, ?',o:['108','162','216','150'],a:1,e:'Times 3 → 162.'},
+  {c:'Number Series',t:'Next: 10, 9, 7, 4, ?',o:['2','1','0','3'],a:2,e:'Subtract 1, 2, 3, 4 → 0.'},
+  {c:'Number Series',t:'Next: 1, 4, 9, 16, ?',o:['20','24','25','36'],a:2,e:'Perfect squares → 25.'},
+  {c:'Word Problems',t:'What is 10% of 250?',o:['20','25','30','15'],a:1,e:'0.1 × 250 = 25.'},
+  {c:'Word Problems',t:'A meal costs $40. A 20% tip is:',o:['$6','$8','$10','$4'],a:1,e:'0.2 × 40 = 8.'},
+  {c:'Word Problems',t:'A car uses 8 gallons to go 240 miles. Its fuel economy is:',o:['24 mpg','28 mpg','30 mpg','32 mpg'],a:2,e:'240 ÷ 8 = 30.'},
+  {c:'Logic',t:'If 5x = 45, then x =',o:['7','8','9','10'],a:2,e:'45 ÷ 5 = 9.'},
+  {c:'Spatial',t:'Which of these is NOT a three-dimensional shape?',o:['cube','sphere','circle','cylinder'],a:2,e:'A circle is 2-D; the others are 3-D.'},
+  {c:'Spatial',t:'An arrow points RIGHT. Rotated 90° clockwise, it points:',o:['up','down','left','right'],a:1,e:'Right → down after a 90° CW turn.'},
+  {c:'Spatial',t:'What is the angle between the hands of a clock at 9:00?',o:['45°','90°','120°','180°'],a:1,e:'Three hour-marks apart → 90°.'},
+  {c:'Spatial',t:'A 3×3×3 painted cube is cut into 27. How many small cubes have THREE painted faces?',o:['4','6','8','12'],a:2,e:'The 8 corner cubes.'}
+ ]
+};
+let QS=[], timed=true, tLeft=0, tId=null;
+document.getElementById('drills').innerHTML = Object.keys(DRILLS).map((k,i)=>{
+  const n=DRILLS[k].length; const secs=n*20; const mm=Math.floor(secs/60), ss=secs%60;
+  return `<button class="drillcard" onclick="start('${k}')"><b>${k}</b> <span>· ${n} questions · ${mm}:${String(ss).padStart(2,'0')} · fresh mixed set</span></button>`;
+}).join('');
+function start(key){
+  const untimed=document.getElementById('untimed').checked;
+  QS = DRILLS[key];
+  timed = !untimed; tLeft = QS.length*20;
   document.getElementById('intro').classList.add('hidden');
   document.getElementById('test').classList.remove('hidden');
   render();
@@ -124,19 +182,19 @@ function start(untimed){ timed=!untimed; started=1;
 }
 function tick(){ const t=document.getElementById('timer');
   const m=Math.floor(tLeft/60),s=tLeft%60; t.textContent=`${m}:${String(s).padStart(2,'0')}`;
-  if(tLeft<=60) t.classList.add('warn');
+  if(tLeft<=30) t.classList.add('warn');
   if(tLeft<=0){ clearInterval(tId); grade(); return; } tLeft--; }
 function render(){ const box=document.getElementById('questions');
-  box.innerHTML=Q.map((q,i)=>`<div class="q"><div class="qh">Q${i+1} · ${q.c}</div>
+  box.innerHTML=QS.map((q,i)=>`<div class="q"><div class="qh">Q${i+1} · ${q.c}</div>
     <div class="qt">${q.t}</div>${q.svg?SVG[q.svg]:''}
     ${q.o.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}" onchange="upd()"> <span>${o}</span></label>`).join('')}
     </div>`).join('');
-  document.getElementById('prog').textContent=`${Q.length} questions`; upd();
+  document.getElementById('prog').textContent=`${QS.length} questions`; upd();
 }
-function upd(){ const n=Q.filter((_,i)=>document.querySelector(`input[name=q${i}]:checked`)).length;
-  document.getElementById('answered').textContent=`${n}/${Q.length} answered`; }
+function upd(){ const n=QS.filter((_,i)=>document.querySelector(`input[name=q${i}]:checked`)).length;
+  document.getElementById('answered').textContent=`${n}/${QS.length} answered`; }
 function grade(){ if(tId)clearInterval(tId);
-  let correct=0; const byCat={}; const rows=Q.map((q,i)=>{
+  let correct=0; const byCat={}; const rows=QS.map((q,i)=>{
     const sel=document.querySelector(`input[name=q${i}]:checked`);
     const pick=sel?+sel.value:-1; const ok=pick===q.a; if(ok)correct++;
     byCat[q.c]=byCat[q.c]||{c:0,n:0}; byCat[q.c].n++; if(ok)byCat[q.c].c++;
@@ -148,15 +206,15 @@ function grade(){ if(tId)clearInterval(tId);
       ${ok?'':` · <span class="correct">Correct: ${q.o[q.a]}</span>`}
       <div class="exp">${q.e}</div></div>`;
   }).join('');
-  const pct=Math.round(correct/Q.length*100);
+  const pct=Math.round(correct/QS.length*100);
   const cats=Object.entries(byCat).map(([k,v])=>`<span class="cat">${k}: ${v.c}/${v.n}</span>`).join(' ');
   document.getElementById('test').classList.add('hidden');
   const r=document.getElementById('results'); r.classList.remove('hidden');
-  r.innerHTML=`<div class="res"><div class="score">${correct}/${Q.length} <span style="font-size:18px;color:#6c6659">(${pct}%)</span></div>
+  r.innerHTML=`<div class="res"><div class="score">${correct}/${QS.length} <span style="font-size:18px;color:#6c6659">(${pct}%)</span></div>
     <div style="margin:8px 0">${cats}</div>
-    <div style="font-size:13px;color:#6c6659">Real CCAT: ~50 Q / 15 min, most finish 60–75%. Aim to move fast; weakest category = your drill target. Re-take untimed to study the explanations, then timed again for speed.</div></div>
+    <div style="font-size:13px;color:#6c6659">Weakest category = your drill target. Re-run untimed to study the explanations, then try another drill for fresh questions.</div></div>
     ${rows}
-    <div class="row" style="margin-top:16px"><button onclick="location.reload()">Retake</button></div>`;
+    <div class="row" style="margin-top:16px"><button onclick="location.reload()">← Menu / pick another drill</button></div>`;
   window.scrollTo(0,0);
 }
 </script></body></html>
