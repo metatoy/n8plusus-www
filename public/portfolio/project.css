@@ -1,7 +1,7 @@
 :root{
     --ink:#231f20; --paper:#f1efe8; --card:#ffffff;
     --text:#2a2622; --muted:#6f6b62; --line:#e2ddcf;
-    --green:#8dc63f; --green-ink:#5a8a24;
+    --green:#8dc63f; --green-ink:#46701e;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -35,7 +35,7 @@
   .ext{color:var(--green-ink);font-size:13px;text-decoration:none;font-weight:600}
   .ext:hover{text-decoration:underline}
   .subsec{border-top:1px solid var(--line);margin-top:28px;padding-top:20px}
-  .subsec h3{font-size:19px;margin:0 0 8px;color:var(--ink)}
+  .subsec h2{font-size:19px;margin:0 0 8px;color:var(--ink)}
   .body,.subsec{font-size:15px;line-height:1.65;color:#3f3a34}
   .body p,.subsec p{margin:0 0 14px}
   .gallery{margin-top:34px;display:grid;gap:26px}
@@ -93,13 +93,13 @@
   .feat-panel li:last-child{margin-bottom:0}
   /* skills table mode */
   .skstack{display:flex;flex-direction:column;gap:22px}
-  .skgroup2 h4{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px;font-weight:600}
+  .skgroup2 h3{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px;font-weight:600}
   .sktable{width:100%;border-collapse:collapse;font-size:13px}
   .sktable th{text-align:left;vertical-align:top;width:32%;padding:7px 14px 7px 0;color:var(--ink);font-weight:600;border-top:1px solid var(--line)}
   .sktable td{vertical-align:top;padding:7px 0;color:#4a453f;line-height:1.5;border-top:1px solid var(--line)}
   .skills-sec{margin-top:34px}
   .skgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px 28px;margin-top:4px}
-  .skgroup h4{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px;font-weight:600}
+  .skgroup h3{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px;font-weight:600}
   .skgroup ul{list-style:none;margin:0;padding:0}
   .skgroup li{font-size:13.5px;line-height:1.55;color:#3f3a34;padding:2px 0 2px 14px;position:relative}
   .skgroup li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--green)}

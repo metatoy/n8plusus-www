@@ -59,7 +59,7 @@ const page = (p) => {
 <body>
   <div class="bar"><div class="inner">
     <span class="bl">
-      <a class="barhome" href="/" aria-label="Home">N8+US</a>
+      <a class="barhome" href="/" aria-label="N8+US home">N8+US</a>
       <a class="barback" href="/portfolio/">← all work</a>
     </span>
     <span class="hlinks">
@@ -68,7 +68,7 @@ const page = (p) => {
     </span>
   </div></div>
   <div class="wrap">
-    <div id="project">${PF.projectInnerHTML(p)}</div>
+    <main id="project">${PF.projectInnerHTML(p)}</main>
     <footer>
       <a href="/portfolio/">all work</a> · <a href="https://n8plusus.com">n8plusus.com</a>
     </footer>

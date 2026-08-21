@@ -73,13 +73,13 @@
       const panels = sec.items
         .map((it, i) => `<div class="feat-panel${i === 0 ? " active" : ""}" data-fi="${i}">${md(it.body)}</div>`)
         .join("");
-      return `<div class="subsec"><h3>${esc(sec.title)}</h3>${intro}
+      return `<div class="subsec"><h2>${esc(sec.title)}</h2>${intro}
         <div class="feat-wrap">
           <div class="lg" role="tablist">${nav}</div>
           <div class="feat-panels">${panels}</div>
         </div></div>`;
     }
-    return `<div class="subsec"><h3>${esc(sec.title)}</h3>${md(sec.body)}</div>`;
+    return `<div class="subsec"><h2>${esc(sec.title)}</h2>${md(sec.body)}</div>`;
   }
 
   // ---- index cards + shelves ----
@@ -159,15 +159,15 @@
       .map((g) => {
         const rows = (g.items || []).map(norm);
         if (tableMode) {
-          return `<div class="skgroup2"><h4 class="mono">${esc(g.label)}</h4><table class="sktable"><tbody>${rows
+          return `<div class="skgroup2"><h3 class="mono">${esc(g.label)}</h3><table class="sktable"><tbody>${rows
             .map((r) => `<tr><th>${esc(r.name)}</th><td>${esc(r.applied)}</td></tr>`)
             .join("")}</tbody></table></div>`;
         }
-        return `<div class="skgroup"><h4 class="mono">${esc(g.label)}</h4><ul>${rows.map((r) => `<li>${esc(r.name)}</li>`).join("")}</ul></div>`;
+        return `<div class="skgroup"><h3 class="mono">${esc(g.label)}</h3><ul>${rows.map((r) => `<li>${esc(r.name)}</li>`).join("")}</ul></div>`;
       })
       .join("");
     const skillsSec = (p.skillsGroups || []).length
-      ? `<div class="subsec skills-sec"><h3>Skills</h3><div class="${tableMode ? "skstack" : "skgrid"}">${skillsInner}</div></div>`
+      ? `<div class="subsec skills-sec"><h2>Skills</h2><div class="${tableMode ? "skstack" : "skgrid"}">${skillsInner}</div></div>`
       : "";
     return `
       <header class="phead">
