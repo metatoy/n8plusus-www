@@ -1,0 +1,18 @@
+# N8+US, Inc. — Nathan O'Brien
+
+> N8+US, Inc. is the consulting practice of Nathan O'Brien, a creative engineering leader with 30 years driving imagination to real-world implementation. Today that work is AI-native and agentic: fractional CTO, AI architecture, and delivery. This site is his portfolio and point of contact.
+
+## Key pages
+- [Home](https://n8plusus.com/): who Nathan is and what N8+US does.
+- [Portfolio](https://n8plusus.com/portfolio/): selected work, one page per project.
+- [Résumé (PDF)](https://n8plusus.com/resume/resume.pdf): full professional history.
+
+## Selected work
+- [Sorb](https://n8plusus.com/portfolio/sorb.html): a Figma-to-React design-token bridge.
+- [AI support triage](https://n8plusus.com/portfolio/ai-support-triage.html)
+- [Agentic migration](https://n8plusus.com/portfolio/agentic-migration.html)
+- [Metatoy Studio](https://n8plusus.com/portfolio/metatoy-studio.html)
+
+## Contact
+- Email: hello@n8plusus.com
+- [LinkedIn](https://www.linkedin.com/in/nathanhunsaker/) · [GitHub](https://github.com/nhunsaker)

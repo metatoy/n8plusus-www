@@ -16,7 +16,7 @@ const _mod = require(join(PUB, "portfolio", "portfolio-templates.js"));
 const PF = _mod && _mod.projectInnerHTML ? _mod : globalThis.PF;
 
 const V = "20260810b"; // asset cache-bust; bump when css/js change
-const ORIGIN = "https://www.n8plusus.com";
+const ORIGIN = "https://n8plusus.com"; // canonical host (non-www), consistent with the homepage
 const data = JSON.parse(readFileSync(join(PUB, "portfolio", "portfolio.json"), "utf8"));
 
 const page = (p) => {
@@ -25,6 +25,19 @@ const page = (p) => {
   const ogImg = meta.image
     ? `\n<meta property="og:image" content="${ORIGIN}${PF.esc(meta.image)}" />\n<meta name="twitter:card" content="summary_large_image" />`
     : `\n<meta name="twitter:card" content="summary" />`;
+  const jsonld = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: meta.title,
+    headline: p.title,
+    description: meta.description,
+    url: canonical,
+    ...(meta.image ? { image: `${ORIGIN}${meta.image}` } : {}),
+    ...(p.year ? { dateCreated: String(p.year) } : {}),
+    author: { "@type": "Person", name: "Nathan O'Brien", url: `${ORIGIN}/` },
+    ...(p.client ? { about: p.client } : {}),
+    isPartOf: { "@type": "CollectionPage", name: "N8+US Portfolio", url: `${ORIGIN}/portfolio/` },
+  });
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -37,6 +50,7 @@ const page = (p) => {
 <meta property="og:title" content="${PF.esc(p.title)}" />
 <meta property="og:description" content="${PF.esc(meta.description)}" />
 <meta property="og:url" content="${canonical}" />${ogImg}
+<script type="application/ld+json">${jsonld}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />

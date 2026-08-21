@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>N8+US, Inc. — Nathan O'Brien · a technologist who understands creative</title>
     <meta name="description" content="N8+US, Inc. — Nathan O'Brien. 30 years driving imagination to real-world implementation. AI-native, agentic development — fractional CTO, AI architecture, and delivery." />
+    <link rel="canonical" href="https://n8plusus.com/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://n8plusus.com/" />
     <meta property="og:title" content="N8+US — a technologist who understands creative" />
@@ -16,6 +17,44 @@
     <meta name="twitter:title" content="N8+US — a technologist who understands creative" />
     <meta name="twitter:description" content="30 years driving imagination to real-world implementation — now AI-native and agentic." />
     <meta name="twitter:image" content="https://n8plusus.com/assets/og-image.png" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://n8plusus.com/#nathan",
+          "name": "Nathan O'Brien",
+          "jobTitle": "Creative Engineering Leader · AI-Native / Agentic Systems",
+          "description": "30 years driving imagination to real-world implementation — fractional CTO, AI architecture, and delivery.",
+          "url": "https://n8plusus.com/",
+          "image": "https://n8plusus.com/assets/og-image.png",
+          "sameAs": [
+            "https://www.linkedin.com/in/nathanhunsaker/",
+            "https://github.com/nhunsaker"
+          ],
+          "worksFor": { "@id": "https://n8plusus.com/#org" }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://n8plusus.com/#org",
+          "name": "N8+US, Inc.",
+          "url": "https://n8plusus.com/",
+          "logo": "https://n8plusus.com/assets/og-image.png",
+          "founder": { "@id": "https://n8plusus.com/#nathan" },
+          "areaServed": "Worldwide (Remote)",
+          "email": "hello@n8plusus.com"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://n8plusus.com/#site",
+          "url": "https://n8plusus.com/",
+          "name": "N8+US, Inc.",
+          "publisher": { "@id": "https://n8plusus.com/#org" }
+        }
+      ]
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -114,11 +153,11 @@
       .pc-head{
         display:flex;justify-content:space-between;align-items:baseline;
         font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.14em;
-        color:#6f6a5f;text-transform:uppercase;margin-bottom:10px;
+        color:#5c574d;text-transform:uppercase;margin-bottom:10px;
       }
       .pc-printed{
         font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.02em;
-        color:#8f8a7c;display:flex;gap:3px;margin-bottom:9px;flex-wrap:nowrap;overflow:hidden;
+        color:#5c574d;display:flex;gap:3px;margin-bottom:9px;flex-wrap:nowrap;overflow:hidden;
       }
       .pc-printed span{flex:1;text-align:center;}
       .pc-rows{display:flex;flex-direction:column;gap:5px;}
@@ -131,7 +170,7 @@
       .hole.green{background:var(--green);box-shadow:0 0 8px rgba(141,198,63,0.6);}
       .pc-foot{
         font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.1em;
-        color:#8f8a7c;margin-top:11px;display:flex;justify-content:space-between;text-transform:uppercase;
+        color:#5c574d;margin-top:11px;display:flex;justify-content:space-between;text-transform:uppercase;
       }
 
       /* Hero project carousel (replaced the punch rows — founder 2026-08-02) */
@@ -205,7 +244,7 @@
       @media (max-width:900px){.svc-grid{grid-template-columns:1fr;}}
 
       .credits{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:10px;color:#57534b;letter-spacing:.04em;line-height:1.7;}
-      .credits a{color:#6f6a5f;text-decoration:none;}
+      .credits a{color:#5c574d;text-decoration:underline;}
       .credits a:hover{color:var(--green);}
 
       .brandwall{
@@ -360,6 +399,7 @@
         </nav>
       </div>
 
+      <main>
       <header class="hero">
         <div class="wrap">
           <div class="hero-grid">
@@ -564,6 +604,8 @@
         </div>
       </section>
 
+      </main>
+
       <footer class="footer">
         <div class="wrap">
           <div class="footer-grid">
@@ -711,7 +753,8 @@
                 card.style.cursor = "pointer";
                 card.setAttribute("role", "link");
                 card.setAttribute("tabindex", "0");
-                card.setAttribute("aria-label", "Open the selected project");
+                // No aria-label: role=link takes its accessible name from the visible card
+                // content (the project name), so the name always matches what's shown.
                 var go = function () { window.location.href = "/portfolio/" + encodeURIComponent(current) + ".html"; };
                 card.addEventListener("click", go);
                 card.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
