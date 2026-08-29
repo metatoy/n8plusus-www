@@ -6,6 +6,14 @@
 #   e.g.  bash scripts/access-report.sh n8plusus.com /demo 168
 #         bash scripts/access-report.sh woords.io "" 24
 set -euo pipefail
+
+# Founder-IP filter (corrected 2026-08-10): founder = Xfinity/Comcast home
+# (24.118.128.135, Falcon Heights) + AT&T cellular iPhone (69.225.203.246;
+# AT&T mobile geolocates to Detroit — founder-confirmed). AT&T-cellular iPhone
+# hits matching that pattern are likely founder unless proven otherwise.
+# NOT founder: 97.116.150.103 (CenturyLink MN iPhone) — a real visitor to the
+# family page, 2026-08-08.
+
 HOST="${1:?usage: access-report.sh <host> [path-prefix] [hours]}"
 PREFIX="${2:-}"
 HOURS="${3:-168}"
