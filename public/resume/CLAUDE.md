@@ -4,6 +4,19 @@ Guidance for Claude Code (and any agent or human) working in this directory. Thi
 **canonical, version-controlled home** for the résumé as of 2026-08-03. It lives inside the
 `n8plusus-www` repo (git), served by Express at `https://n8plusus.com/resume/`.
 
+> **FOUNDATION (2026-08-29):** the working foundation for future applications is the
+> **RiseSmart Final v2** — `20260829-risesmart/Nathan H O'Brien_Resume_Final.md` (corrected) +
+> `…_Final_v2-corrected.docx` (styled), editable Google Doc: *"Nathan H O'Brien — Resume Foundation
+> v2 (corrected)"* (Doc id `1EOUitKYmY0RvwzQ7Fe1zNCBO39N4SyTbp9csgc_iRTY`). RiseSmart's original
+> deliverables carried OCR typos from the old outlined PDF ("Al-Native", "GitHub Actions Cl",
+> "Typescript") — corrected 2026-08-29; the originals are kept beside them for provenance.
+> `resume.json` (still the site renderer's source) was synced to the foundation the same day
+> (summary, contact = n8plusus@gmail.com + phone, education year dropped). Per-application
+> tailoring runs through the `/ats-review` skill (write mode). The public download PDFs
+> (`resume.pdf`, `../assets/resume-slim-v4-gold.pdf`) were replaced 2026-08-29 with the text-layer
+> gold (`resume-accessible-gs.pdf` content) after both were found to be outlined/machine-blank;
+> broken originals in `archive/2026-08-29/`.
+
 > **Why this exists:** résumé edits kept getting lost across parallel files and formats
 > (a `.docx`, a "gold" PDF, and ~6 `resume-*.md` copies in `misc/nhunsaker-linkedin/`, which was
 > **not** a git repo). This directory fixes that: one source of truth, in git.

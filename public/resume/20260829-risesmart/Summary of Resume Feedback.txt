@@ -1,0 +1,23 @@
+Summary of Resume Feedback
+General Formatting & Visuals
+Enhance visual appeal with subtle color or shading to help the resume stand out.
+Ensure consistent grammar, punctuation, and bullet styles throughout.
+Fix OCR/encoding errors (e.g., "Al" vs "AI", "APls") and consider a single-column ATS-friendly version.
+Contact Info & Header
+Use a simplified header for subsequent pages that only displays contact details.
+Headline Suggestion: STAFF SOFTWARE ENGINEER | AI-NATIVE & AGENTIC SYSTEMS | FRONTEND ARCHITECTURE.
+Summary Section
+Avoid personal pronouns; use a consistent, implied first-person voice.
+Rewrite the summary to be more ATS-friendly, focusing on specialization, level, and key deliveries.
+Skills Section
+Keep technical skills at the top for technical roles.
+Restructure skills into categories (AI, Frontend, Backend, etc.) for better parsing.
+Incorporate modern industry keywords such as "Generative AI" and "Agentic Workflows."
+Experience & Accomplishments
+Surface high-impact metrics (e.g., 84% accuracy, 176% desktop improvement) in the first half of the resume.
+Omit total years of service (e.g., "11 years") as dates already communicate tenure.
+Show internal promotions as a "Growth path" or "Career progression."
+Vary action verbs at the start of bullets to maintain engagement.
+Earlier Career & Recognition
+Compact the "Earlier Career" section to show progression without listing every project.
+Create a standalone "Selected Recognition" section for prestigious awards like AIGA and D&AD.
