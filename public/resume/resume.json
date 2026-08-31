@@ -3,19 +3,19 @@
     "version": "5",
     "variant": "non-leadership / conservative (pure employment history; ATS-friendly)",
     "source": "resume-slim-v4-gold.pdf",
-    "synced": "2026-08-03",
-    "note": "Source of truth for /resume. index.html, resume.html and resume-edit.html all render from this file. Edit here (or via resume-edit.html) then re-export resume.md."
+    "synced": "2026-08-29",
+    "note": "Source of truth for /resume. index.html, resume.html and resume-edit.html all render from this file. Edit here (or via resume-edit.html) then re-export resume.md. | 2026-08-29: summary + contact + education synced to the RiseSmart Foundation v2 (public/resume/20260829-risesmart/, GDoc 'Resume Foundation v2 (corrected)')."
   },
   "name": "Nathan H O'Brien",
   "title": "Staff Software Engineer · Creative Engineering · AI-Native / Agentic Systems",
   "location": "Minneapolis, MN (Remote)",
   "contact": {
-    "email": "skills@metatoy.com",
-    "phone": "",
+    "email": "n8plusus@gmail.com",
+    "phone": "612-208-6868",
     "linkedin": "linkedin.com/in/nathanhunsaker",
     "github": "github.com/nhunsaker"
   },
-  "summary": "An innovator at heart: a creative engineer who has spent 30 years turning non-traditional ideas into production software. Design-trained and engineering-fluent, I work the seam between the two, carrying what people imagine through to real-world implementation. I excel in fast-moving environments where roles are fluid and requirements change. Today that space is AI-native, agentic development, and I'm pushing the limit daily.",
+  "summary": "Staff Software Engineer specializing in creative engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.",
   "experience": [
     {
       "company": "BuzzFeed",
@@ -58,12 +58,24 @@
   ],
   "earlierNote": "Early recognition: AIGA Silver and D&AD (British Design and Art Direction) Merit awards, a Microsoft case-study feature, and work featured in *The Web Design WOW! Book*.",
   "skills": [
-    { "group": "AI / Agentic", "items": "LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Chainlit · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code" },
-    { "group": "Frontend", "items": "React · Next.js · TypeScript · JavaScript · SSR · design systems and design tokens · styled-components · Storybook · automated testing (Playwright) · Chrome extension and Figma plugin development" },
-    { "group": "Backend / Infra", "items": "Node.js · Python · FastAPI · Temporal (durable workflow orchestration) · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)" },
-    { "group": "Leadership", "items": "Team building & recruiting · managing & mentoring direct reports · performance reviews · planning & resource management · technical direction & architecture · client pitches & new business · conference speaking" }
+    {
+      "group": "AI / Agentic",
+      "items": "LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Chainlit · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code"
+    },
+    {
+      "group": "Frontend",
+      "items": "React · Next.js · TypeScript · JavaScript · SSR · design systems and design tokens · styled-components · Storybook · automated testing (Playwright) · Chrome extension and Figma plugin development"
+    },
+    {
+      "group": "Backend / Infra",
+      "items": "Node.js · Python · FastAPI · Temporal (durable workflow orchestration) · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)"
+    },
+    {
+      "group": "Leadership",
+      "items": "Team building & recruiting · managing & mentoring direct reports · performance reviews · planning & resource management · technical direction & architecture · client pitches & new business · conference speaking"
+    }
   ],
   "education": [
-    "Minneapolis College of Art and Design · Interactive Design · 1994–1995"
+    "Minneapolis College of Art and Design · Interactive Design"
   ]
 }
