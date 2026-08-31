@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sorb MCP — Feature Reference</title>
+<meta name="description" content="What Sorb's Model Context Protocol servers do — the complete tool reference for @sorb/tap and the sorb-juice MCP engine." />
+<meta name="robots" content="noindex" />
+<style>
+  :root{
+    --accent:#f26722; --accent-hover:#d4551a; --accent-tint:#fdf0e9; --blaze-ink:#b14712;
+    --n0:#ffffff; --n50:#faf8f5; --n100:#f4f1ec; --n200:#e7e3dc; --n300:#d1d1d1;
+    --muted:#8b7e66; --fg:#3f3a33; --near:#211f1c;
+    --ok:#15803d; --ok-tint:#f0fdf4; --ok-border:#bbf7d0;
+    --warn:#b45309; --warn-tint:#fdf6ec;
+    --code-bg:#211f1c; --code-fg:#f3efe9;
+    --sans:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,'SF Mono',Menlo,Monaco,'Cascadia Code','Roboto Mono',monospace;
+    --r:12px; --rs:8px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--n50);color:var(--fg);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+  a{color:var(--blaze-ink);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+  /* header */
+  header.hero{background:linear-gradient(180deg,#fff, var(--n50));border-bottom:1px solid var(--n200)}
+  .hero-inner{padding:44px 20px 34px}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .smark{width:34px;height:34px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font:800 20px var(--sans);flex:none}
+  .brand b{font:800 18px var(--sans);color:var(--near);letter-spacing:-.01em}
+  .brand span{color:var(--muted);font-size:13px}
+  h1{font:800 34px/1.15 var(--sans);color:var(--near);letter-spacing:-.02em;margin:.2rem 0 .5rem}
+  h1 .thin{color:var(--accent)}
+  .lede{font-size:17px;color:var(--fg);max-width:680px;margin:0}
+  .lede b{color:var(--near)}
+
+  /* sticky mini-nav */
+  nav.toc{position:sticky;top:0;z-index:5;background:rgba(250,248,245,.92);backdrop-filter:saturate(1.4) blur(6px);border-bottom:1px solid var(--n200)}
+  nav.toc .wrap{display:flex;gap:6px;flex-wrap:wrap;padding:10px 20px}
+  nav.toc a{font:600 12.5px var(--sans);color:var(--muted);padding:5px 10px;border-radius:999px}
+  nav.toc a:hover{background:var(--accent-tint);color:var(--blaze-ink);text-decoration:none}
+
+  section{padding:34px 0}
+  section + section{border-top:1px solid var(--n200)}
+  h2{font:800 24px var(--sans);color:var(--near);letter-spacing:-.01em;margin:0 0 6px}
+  h2 .num{color:var(--accent);font-variant-numeric:tabular-nums}
+  h3{font:700 15px var(--sans);color:var(--near);text-transform:uppercase;letter-spacing:.05em;margin:26px 0 10px}
+  .sub{color:var(--muted);font-size:14.5px;margin:0 0 18px;max-width:720px}
+  p{max-width:720px}
+
+  /* pills */
+  .pill{display:inline-flex;align-items:center;gap:5px;font:700 11px var(--sans);letter-spacing:.02em;border-radius:999px;padding:3px 9px;vertical-align:middle}
+  .pill.read{background:var(--ok-tint);color:var(--ok);border:1px solid var(--ok-border)}
+  .pill.write{background:var(--accent-tint);color:var(--blaze-ink);border:1px solid #f3c19c}
+  .pill.stdio{background:var(--n100);color:var(--muted);border:1px solid var(--n200)}
+  .pill.http{background:#eef4ff;color:#2a5bd7;border:1px solid #cddcff}
+  .pill.oss{background:var(--n100);color:var(--fg);border:1px solid var(--n200)}
+
+  /* comparison table */
+  .cmp{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:14.5px;overflow:hidden;border:1px solid var(--n200);border-radius:var(--r)}
+  .cmp th,.cmp td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--n200);vertical-align:top}
+  .cmp thead th{background:var(--n100);color:var(--near);font-weight:700;font-size:13px}
+  .cmp tbody th{font-weight:600;color:var(--muted);width:150px;background:var(--n50)}
+  .cmp tr:last-child td,.cmp tr:last-child th{border-bottom:0}
+  .cmp code{font-family:var(--mono);font-size:12.5px;background:var(--n100);padding:1px 5px;border-radius:5px}
+
+  /* code block + copy */
+  .code{position:relative;background:var(--code-bg);color:var(--code-fg);border-radius:var(--rs);margin:12px 0;overflow:hidden;border:1px solid #000}
+  .code pre{margin:0;padding:14px 16px;overflow-x:auto;font:13px/1.6 var(--mono);white-space:pre}
+  .code .lang{position:absolute;top:8px;right:52px;font:600 10px var(--mono);color:#8b8578;text-transform:uppercase;letter-spacing:.05em}
+  .copy{position:absolute;top:7px;right:8px;background:#3a362f;color:#e6e1d8;border:1px solid #4a463d;border-radius:6px;font:600 11px var(--sans);padding:4px 9px;cursor:pointer}
+  .copy:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .copy.done{background:var(--ok);border-color:var(--ok);color:#fff}
+  code.inline{font-family:var(--mono);font-size:13px;background:var(--n100);color:var(--blaze-ink);padding:1px 6px;border-radius:5px;border:1px solid var(--n200)}
+
+  /* tool cards */
+  .tools{display:grid;gap:12px;margin-top:8px}
+  .tool{border:1px solid var(--n200);border-radius:var(--r);background:#fff;padding:15px 16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .tool.w{background:linear-gradient(0deg,var(--accent-tint),#fff 60%);border-color:#f3c19c}
+  .tool-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  .tool-name{font:700 15px var(--mono);color:var(--near)}
+  .tool-desc{font-size:14px;color:var(--fg);margin:4px 0 10px}
+  .params{margin:0;border-top:1px dashed var(--n200);padding-top:10px}
+  .params .row{display:grid;grid-template-columns:180px 1fr;gap:10px;padding:3px 0;font-size:13.5px}
+  .params .row .pn{font-family:var(--mono);color:var(--blaze-ink)}
+  .params .none{font-size:13px;color:var(--muted);font-style:italic}
+  .req{font:700 10px var(--sans);color:var(--accent);margin-left:5px}
+  .opt{font:600 10px var(--sans);color:var(--muted);margin-left:5px}
+  .returns{margin-top:10px;font-size:13.5px;color:var(--muted)}
+  .returns b{color:var(--fg)}
+  .returns code{font-family:var(--mono);font-size:12.5px;color:var(--blaze-ink)}
+
+  .callout{border:1px solid var(--n200);background:#fff;border-left:3px solid var(--accent);border-radius:var(--rs);padding:12px 15px;margin:14px 0;font-size:14px}
+  .callout.ok{border-left-color:var(--ok);background:var(--ok-tint)}
+  .callout.warn{border-left-color:var(--warn);background:var(--warn-tint)}
+  .callout b{color:var(--near)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .card{border:1px solid var(--n200);border-radius:var(--r);background:#fff;padding:14px 16px}
+  .card h4{margin:0 0 6px;font:700 14px var(--sans);color:var(--near)}
+  .card p{margin:0;font-size:13.5px;color:var(--fg)}
+  .k{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+
+  footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--n200)}
+  footer a{color:var(--blaze-ink)}
+  footer .row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+
+  @media(max-width:640px){
+    h1{font-size:27px}
+    .params .row{grid-template-columns:1fr}
+    .grid2{grid-template-columns:1fr}
+    .cmp tbody th{width:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="brand">
+      <span class="smark">S</span>
+      <div><b>Sorb™</b> &nbsp;<span>design-token bridge · MCP</span></div>
+    </div>
+    <h1>Sorb <span class="thin">MCP</span> — feature reference</h1>
+    <p class="lede">Sorb ships <b>two Model Context Protocol servers</b> so AI agents and MCP-capable IDEs (Claude Code, Cursor, Copilot) can read the <b>real</b> design-token truth from a design system — the resolved value of any token, the alias chain that produced it, and the components that bind it — and, on the paid tier, propose token changes as reviewable diffs and PRs. This page documents every shipped tool.</p>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#overview">Overview</a>
+    <a href="#tap">@sorb/tap</a>
+    <a href="#juice">sorb&nbsp;mcp</a>
+    <a href="#hosted">Hosted connect</a>
+    <a href="#roadmap">Roadmap</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <h2>What Sorb's MCP does</h2>
+    <p class="sub">A design system's "source of truth" usually lives in three disconnected places — Figma, the docs site, and the running code. Sorb resolves them into one queryable map: <b>token → value → alias chain → the components that use it</b>. The MCP servers expose that map to an LLM so it can answer <em>"where does this button color actually come from?"</em> with the resolved chain instead of a guess — and act on it safely.</p>
+
+    <table class="cmp">
+      <thead>
+        <tr><th></th><th><code>@sorb/tap</code></th><th><code>sorb mcp</code> <span class="k">(in @sorb/juice)</span></th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Role</th><td>The free, read-only on-ramp</td><td>The full local + hosted engine</td></tr>
+        <tr><th>Sources</th><td>DTCG file · Sorb project · bridge</td><td>Running app's <code>.sorb/</code> map · bridge</td></tr>
+        <tr><th>Tools</th><td><span class="pill read">6 read</span></td><td><span class="pill read">7 read</span> <span class="pill write">3 gated write</span></td></tr>
+        <tr><th>Resources</th><td><code>sorb-tap://tokens</code></td><td>—</td></tr>
+        <tr><th>Transport</th><td><span class="pill stdio">stdio</span></td><td><span class="pill stdio">stdio</span> <span class="pill http">HTTP + SSE</span></td></tr>
+        <tr><th>Auth</th><td>none (bridge: read-only <code>sorb_pk_</code>)</td><td>none local · hosted <code>Bearer sorb_sk_</code> + entitlement gate</td></tr>
+        <tr><th>Distribution</th><td><span class="pill oss">OSS · npm @sorb/tap</span></td><td><span class="pill oss">OSS · npm @sorb/juice</span> · hosted via Sorb Cloud</td></tr>
+      </tbody>
+    </table>
+    <p class="sub" style="margin-top:14px">Both speak the same conceptual vocabulary (<code class="inline">list_tokens</code>, <code class="inline">get_token</code>, resolve, and the component tools). Start with <code class="inline">@sorb/tap</code> for zero-setup read access; move to <code class="inline">sorb mcp</code> when you want live-app bindings and the write/preview/PR path.</p>
+  </section>
+
+  <!-- SERVER 1 -->
+  <section id="tap">
+    <h2><span class="num">1.</span> <code>@sorb/tap</code> &nbsp;<span class="pill read">read-only</span> <span class="pill stdio">stdio</span></h2>
+    <p class="sub">Point an agent at a design system and let it answer token questions — with the real alias chain and (when Sorb captures are present) the components that use each token. Three source modes: a bare <b>DTCG token file</b> (no Sorb account needed), a <b>Sorb project</b>'s <code class="inline">.sorb/</code> artifacts, or a <b>running Sorb bridge</b>. <em>Tap: how agents draw from the tree.</em></p>
+
+    <h3>Install</h3>
+    <div class="code">
+      <span class="lang">shell</span><button class="copy" data-copy="claude mcp add sorb-tap -- npx -y @sorb/tap --tokens tokens.json">Copy</button>
+      <pre>claude mcp add sorb-tap -- npx -y @sorb/tap --tokens tokens.json</pre>
+    </div>
+    <p class="sub">Source flags: <code class="inline">--tokens &lt;file.json&gt;…</code> (bare DTCG) · <code class="inline">--dir &lt;project&gt;</code> (Sorb <code class="inline">.sorb/</code> artifacts) · <code class="inline">--bridge &lt;url&gt; [--pk &lt;key&gt;]</code> (running bridge). With no flags it auto-detects <code class="inline">.sorb/</code> in the cwd, else <code class="inline">tokens/*.json</code>. Works with any stdio MCP client; a LangChain example ships in <code class="inline">examples/langchain-client/</code>.</p>
+
+    <h3>Tools <span class="pill read">6</span></h3>
+    <div class="tools">
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">list_tokens</span><span class="pill read">read</span></div>
+        <div class="tool-desc">List design tokens (id, CSS variable, resolved value, tier, type), with optional filters.</div>
+        <div class="params">
+          <div class="row"><span class="pn">tier<span class="opt">optional</span></span><span>string — filter by tier (component / semantic / primitive)</span></div>
+          <div class="row"><span class="pn">type<span class="opt">optional</span></span><span>string — filter by DTCG <code>$type</code> (color, dimension, …)</span></div>
+          <div class="row"><span class="pn">q<span class="opt">optional</span></span><span>string — substring match over id / cssVar / value</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ count, tokens: [{ id, cssVar, value, tier, type }] }</code></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">get_token</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Get one token by id or CSS variable, including its raw authored value and alias chain.</div>
+        <div class="params">
+          <div class="row"><span class="pn">id<span class="req">required</span></span><span>string — dotted token id (e.g. <code>component.button.bg</code>) or its CSS var (<code>--component-button-bg</code>)</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ token }</code> or <code>{ error }</code></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">resolve_token</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Resolve a token to its final value, showing the alias chain that produced it.</div>
+        <div class="params">
+          <div class="row"><span class="pn">id<span class="req">required</span></span><span>string — token id or CSS var</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ id, cssVar, value, chain, error? }</code></div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">list_components</span><span class="pill read">read</span></div>
+        <div class="tool-desc">List captured components / stories. Requires Sorb capture artifacts or a bridge.</div>
+        <div class="params"><div class="none">No parameters.</div></div>
+        <div class="returns"><b>Returns</b> <code>{ count, components: [names] }</code> — or a capability message in bare-DTCG mode</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">get_component_bindings</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Show which tokens a captured component binds, by role (fill / stroke / cornerRadius / …).</div>
+        <div class="params">
+          <div class="row"><span class="pn">component<span class="req">required</span></span><span>string — captured component name</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ component, bindings }</code> · <code>{ capability }</code> when captures absent</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">find_token_usage</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Reverse index — which captured components use a token, and on which roles.</div>
+        <div class="params">
+          <div class="row"><span class="pn">id<span class="req">required</span></span><span>string — token id or CSS var</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ id, count, usage: [{ component, roles }] }</code></div>
+      </div>
+    </div>
+
+    <div class="callout ok"><b>Honest by design.</b> The three component tools need Sorb captures or a bridge. In bare-DTCG mode they return a clear capability message instead of pretending the design system has no components.</div>
+
+    <h3>Resource</h3>
+    <div class="card">
+      <h4><code class="inline">sorb-tap://tokens</code> &nbsp;<span class="k">application/json</span></h4>
+      <p>"Resolved design tokens" — the full resolved token map from the active source: <code class="inline">{ source, tokens }</code>. Lets a client load the whole map as context in one read.</p>
+    </div>
+  </section>
+
+  <!-- SERVER 2 -->
+  <section id="juice">
+    <h2><span class="num">2.</span> <code>sorb mcp</code> &nbsp;<span class="pill read">read</span> <span class="pill write">gated write</span> <span class="pill stdio">stdio</span> <span class="pill http">HTTP + SSE</span></h2>
+    <p class="sub">The fuller engine, shipped as the <code class="inline">sorb mcp</code> subcommand of the <code class="inline">@sorb/juice</code> bridge CLI. It reads a <b>running app's</b> resolved tokens and its <b>bound React components</b>, and adds three <b>proposal-only</b> write tools for changing tokens safely. Runs locally over stdio, or hosted over streamable-HTTP with API-key auth and a Team-plan entitlement gate.</p>
+
+    <h3>Install — local (stdio)</h3>
+    <div class="code">
+      <span class="lang">json · .mcp.json</span><button class="copy" data-copy='{
+  "mcpServers": {
+    "sorb": { "command": "sorb", "args": ["mcp", "--dir", "/path/to/your/app"] }
+  }
+}'>Copy</button>
+      <pre>{
+  "mcpServers": {
+    "sorb": { "command": "sorb", "args": ["mcp", "--dir", "/path/to/your/app"] }
+  }
+}</pre>
+    </div>
+    <p class="sub">Read tools work with zero write-config. Optional bridge + GitHub flags enable previews and PRs: <code class="inline">--bridge &lt;url&gt;</code>, <code class="inline">--gh-owner / --gh-repo / --gh-pat</code>. Hosted mode: <code class="inline">sorb mcp --http [--port …]</code> (needs <code class="inline">DATABASE_URL</code>) exposes <code class="inline">/mcp</code> + <code class="inline">/mcp/sse</code>.</p>
+
+    <h3>Read tools <span class="pill read">7</span></h3>
+    <div class="tools">
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">list_tokens</span><span class="pill read">read</span></div>
+        <div class="tool-desc">List the running app's resolved design tokens, filtered by tier, DTCG type, and a substring query.</div>
+        <div class="params">
+          <div class="row"><span class="pn">tier<span class="opt">optional</span></span><span>enum — <code>component</code> · <code>semantic</code> · <code>primitive</code></span></div>
+          <div class="row"><span class="pn">type<span class="opt">optional</span></span><span>string — DTCG <code>$type</code></span></div>
+          <div class="row"><span class="pn">q<span class="opt">optional</span></span><span>string — substring over id / cssVar / value</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> the resolved token list</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">get_token</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Get a single resolved token by dotted id, together with the component/story ids that bind it.</div>
+        <div class="params"><div class="row"><span class="pn">id<span class="req">required</span></span><span>string — dotted token id</span></div></div>
+        <div class="returns"><b>Returns</b> token + binding ids</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">resolve_value</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Resolve the value a token renders as in the running app — looked up by id or by CSS custom property.</div>
+        <div class="params">
+          <div class="row"><span class="pn">id<span class="opt">optional</span></span><span>string — token id</span></div>
+          <div class="row"><span class="pn">cssVar<span class="opt">optional</span></span><span>string — CSS custom property (one of id / cssVar)</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> the resolved value</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">list_components</span><span class="pill read">read</span></div>
+        <div class="tool-desc">List captured components / stories, each with the relative path to its captured artifact.</div>
+        <div class="params"><div class="none">No parameters.</div></div>
+        <div class="returns"><b>Returns</b> the component list</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">get_component_bindings</span><span class="pill read">read</span></div>
+        <div class="tool-desc">A component's role→token bindings (and candidate alternatives), merged across every node in its captured artifact tree.</div>
+        <div class="params"><div class="row"><span class="pn">componentId<span class="req">required</span></span><span>string — captured component id</span></div></div>
+        <div class="returns"><b>Returns</b> the bindings</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">find_token_usages</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Which components bind a given token id, and on which roles (fill / stroke / cornerRadius / effectN).</div>
+        <div class="params"><div class="row"><span class="pn">id<span class="req">required</span></span><span>string — token id</span></div></div>
+        <div class="returns"><b>Returns</b> the usages</div>
+      </div>
+
+      <div class="tool">
+        <div class="tool-head"><span class="tool-name">find_components_by_token</span><span class="pill read">read</span></div>
+        <div class="tool-desc">Which components render a given CSS custom property — resolving the cssVar to its token id first.</div>
+        <div class="params"><div class="row"><span class="pn">cssVar<span class="req">required</span></span><span>string — CSS custom property</span></div></div>
+        <div class="returns"><b>Returns</b> the components</div>
+      </div>
+    </div>
+
+    <h3>Write tools <span class="pill write">3 · gated · proposal-only</span></h3>
+    <div class="tools">
+      <div class="tool w">
+        <div class="tool-head"><span class="tool-name">propose_token_change</span><span class="pill write">gated write</span></div>
+        <div class="tool-desc">Compute the changeset + blast-radius for setting a token to a new value, and (with a bridge) open a live preview session. <b>Does not apply the change.</b></div>
+        <div class="params">
+          <div class="row"><span class="pn">id<span class="req">required</span></span><span>string — token id</span></div>
+          <div class="row"><span class="pn">newValue<span class="req">required</span></span><span>string — proposed value</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ change, blastRadius, preview, note }</code></div>
+      </div>
+
+      <div class="tool w">
+        <div class="tool-head"><span class="tool-name">rebind_component</span><span class="pill write">gated write</span></div>
+        <div class="tool-desc">Propose rebinding a component role to a different token id. Returns a binding-change proposal; <b>does not apply</b> (no network).</div>
+        <div class="params">
+          <div class="row"><span class="pn">componentId<span class="req">required</span></span><span>string</span></div>
+          <div class="row"><span class="pn">role<span class="req">required</span></span><span>string — e.g. fill / stroke / cornerRadius</span></div>
+          <div class="row"><span class="pn">tokenId<span class="req">required</span></span><span>string — the token to bind to</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> a rebind proposal + note</div>
+      </div>
+
+      <div class="tool w">
+        <div class="tool-head"><span class="tool-name">open_pr</span><span class="pill write">gated write</span></div>
+        <div class="tool-desc">Open a GitHub PR with a proposed token change (reuses Sorb's Open-PR flow). Requires GitHub credentials. Review + <b>merge is the human step.</b></div>
+        <div class="params">
+          <div class="row"><span class="pn">id<span class="req">required</span></span><span>string — token id</span></div>
+          <div class="row"><span class="pn">newValue<span class="req">required</span></span><span>string — proposed value</span></div>
+          <div class="row"><span class="pn">title<span class="opt">optional</span></span><span>string — PR title</span></div>
+        </div>
+        <div class="returns"><b>Returns</b> <code>{ prUrl, note }</code> or <code>{ error }</code></div>
+      </div>
+    </div>
+
+    <div class="callout"><b>Safety model.</b> Write tools never auto-apply — they return diffs, blast-radius, live previews, or a PR for human review. Locally they're always available (they just need creds to reach GitHub); on the hosted endpoint they're gated (see below).</div>
+  </section>
+
+  <!-- HOSTED -->
+  <section id="hosted">
+    <h2>Hosted connect</h2>
+    <p class="sub">The same <code class="inline">sorb mcp</code> engine runs as a multi-tenant HTTP service. Connect from the Sorb Cloud dashboard (<b>Keys → MCP</b>), which emits a copy-paste <code class="inline">.mcp.json</code> for the hosted endpoint.</p>
+
+    <div class="code">
+      <span class="lang">json · .mcp.json</span><button class="copy" data-copy='{
+  "mcpServers": {
+    "sorb": {
+      "type": "http",
+      "url": "https://bridge.sorbcloud.com/mcp",
+      "headers": { "Authorization": "Bearer <YOUR_SORB_API_KEY>" }
+    }
+  }
+}'>Copy</button>
+      <pre>{
+  "mcpServers": {
+    "sorb": {
+      "type": "http",
+      "url": "https://bridge.sorbcloud.com/mcp",
+      "headers": { "Authorization": "Bearer &lt;YOUR_SORB_API_KEY&gt;" }
+    }
+  }
+}</pre>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h4>Transport</h4>
+        <p>Streamable-HTTP at <code class="inline">/mcp</code> (primary) with an SSE fallback at <code class="inline">/mcp/sse</code>. Tenant scope (project / namespace) comes only from the authed session — never from tool input.</p>
+      </div>
+      <div class="card">
+        <h4>Auth &amp; entitlement</h4>
+        <p><code class="inline">Authorization: Bearer &lt;key&gt;</code>. The <b>7 read tools are always free.</b> The <b>3 write tools</b> require a <b>write-scoped secret key</b> (<code class="inline">sorb_sk_…</code>) on a <b>Team / Enterprise</b> org. Read-only publishable keys (<code class="inline">sorb_pk_…</code>) → <code class="inline">read_only</code>; wrong plan → <code class="inline">entitlement_required</code> with an upgrade link.</p>
+      </div>
+    </div>
+    <div class="callout warn"><b>Availability.</b> The hosted MCP endpoint depends on the bridge MCP service being deployed and per-project token data wired up. The dashboard surfaces the connect snippet ahead of the endpoint being fully live — treat hosted mode as coming online, local <code class="inline">sorb mcp</code> and <code class="inline">@sorb/tap</code> as available today.</div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <h2>Roadmap</h2>
+    <p class="sub">Specced/built on feature branches, not yet in the shipped tool list above:</p>
+    <div class="grid2">
+      <div class="card"><h4><code class="inline">sorb_verify_status</code></h4><p>An 8th read tool: last-verified timestamp, drift state (token-hash delta) and changed-token count, so agents can warn when a design system has drifted from its captured snapshot.</p></div>
+      <div class="card"><h4>Live-app reads</h4><p>Tools that read tokens/bindings straight from a live <code class="inline">sorb dev</code> session rather than the on-disk <code class="inline">.sorb/</code> snapshot.</p></div>
+      <div class="card"><h4>AI explainer tools</h4><p>Higher-level "explain this token / propose a reskin / check accessibility" tools layered on the resolved map.</p></div>
+      <div class="card"><h4>Figma / Canopy edge</h4><p>The Figma plugin can't <em>be</em> an MCP server (sandbox limits) — it's the producer edge that feeds captures into the <code class="inline">sorb mcp</code> pipeline the agents read.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <a href="https://github.com/metatoy/sorb-tap">github.com/metatoy/sorb-tap</a>
+      <a href="https://www.npmjs.com/package/@sorb/tap">npm · @sorb/tap</a>
+      <a href="https://www.npmjs.com/package/@sorb/juice">npm · @sorb/juice</a>
+      <a href="https://sorbcloud.com">sorbcloud.com</a>
+    </div>
+    <div>Reference generated 2026-08-30 from the as-built source. Covers the shipped 6 (<code class="inline">@sorb/tap</code>) + 10 (<code class="inline">sorb mcp</code>) tools; roadmap items are branch-gated. Sorb™ is a trademark of Metatoy LLC.</div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.getAttribute('data-copy') || '';
+      navigator.clipboard.writeText(text).then(function(){
+        var old = btn.textContent; btn.textContent = 'Copied'; btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1400);
+      });
+    });
+  });
+</script>
+</body>
+</html>
