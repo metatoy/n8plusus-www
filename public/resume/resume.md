@@ -1,9 +1,9 @@
 # Nathan H O'Brien
 
-**Staff Software Engineer · Design Engineer · AI-Native / Agentic Systems**
-Minneapolis, MN (Remote) · skills@metatoy.com · 612-208-6868 · [linkedin.com/in/nathanhunsaker](https://linkedin.com/in/nathanhunsaker) · [github.com/nhunsaker](https://github.com/nhunsaker)
+**Staff Software Engineer · Creative Engineering · AI-Native / Agentic Systems**
+Minneapolis, MN (Remote) · n8plusus@gmail.com · 612-208-6868 · [linkedin.com/in/nathanhunsaker](https://linkedin.com/in/nathanhunsaker) · [github.com/nhunsaker](https://github.com/nhunsaker)
 
-Staff Software Engineer and design engineer specializing in the seam between design and engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.
+Staff Software Engineer specializing in creative engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.
 
 ---
 

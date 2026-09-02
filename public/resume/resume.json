@@ -7,15 +7,15 @@
     "note": "Source of truth for /resume. index.html, resume.html and resume-edit.html all render from this file. Edit here (or via resume-edit.html) then re-export resume.md. | 2026-08-29: summary + contact + education synced to the RiseSmart Foundation v2 (public/resume/20260829-risesmart/, GDoc 'Resume Foundation v2 (corrected)')."
   },
   "name": "Nathan H O'Brien",
-  "title": "Staff Software Engineer · Design Engineer · AI-Native / Agentic Systems",
+  "title": "Staff Software Engineer · Creative Engineering · AI-Native / Agentic Systems",
   "location": "Minneapolis, MN (Remote)",
   "contact": {
-    "email": "skills@metatoy.com",
+    "email": "n8plusus@gmail.com",
     "phone": "612-208-6868",
     "linkedin": "linkedin.com/in/nathanhunsaker",
     "github": "github.com/nhunsaker"
   },
-  "summary": "Staff Software Engineer and design engineer specializing in the seam between design and engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.",
+  "summary": "Staff Software Engineer specializing in creative engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.",
   "experience": [
     {
       "company": "BuzzFeed",
