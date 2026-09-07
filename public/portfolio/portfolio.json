@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1",
-    "updated": "2026-09-06",
+    "updated": "2026-09-07",
     "note": "Source of truth for n8plusus.com/portfolio. Index + detail pages render from this. Media paths point at the demo assets for now; migrate to /portfolio/assets/<slug>/ later. Spec: spec/n8plusus/portfolio/portfolio-content-outline.md",
     "eras": [
       {
@@ -105,6 +105,12 @@
           "icon": "package"
         },
         {
+          "label": "Try Sorb — no-install tour",
+          "url": "https://try.sorbcloud.com",
+          "sub": "the whole loop, clickable",
+          "icon": "code"
+        },
+        {
           "label": "Sorb Cloud",
           "url": "https://www.sorbcloud.com/",
           "sub": "multi-tenant hosted SaaS",
@@ -156,15 +162,15 @@
         "Redis"
       ],
       "summary": "Edit a design token in Figma and preview it live in a running React app before you merge.",
-      "description": "A design-token bridge between Figma and React: a Figma plugin plus a multi-tenant SaaS control plane that previews proposed tokens in a running app before merge. Published @sorb npm packages, a hosted demo, and MCP servers so agents can drive it.",
+      "description": "A design-token bridge between Figma and React: a Figma plugin plus a multi-tenant SaaS control plane that previews proposed tokens in a running app before merge. Published @sorb npm packages, a no-install interactive tour at try.sorbcloud.com, and MCP servers so agents can drive it.",
       "links": [
         {
           "label": "Overview",
           "url": "https://metatoy.com/sorb"
         },
         {
-          "label": "Live demo",
-          "url": "https://demo.sorbcloud.com"
+          "label": "Try it, no install",
+          "url": "https://try.sorbcloud.com"
         },
         {
           "label": "npm @sorb",
@@ -174,15 +180,15 @@
       "media": [
         {
           "type": "image",
-          "src": "/portfolio/assets/sorb/sorb-site.png",
-          "title": "Sorb — the product",
-          "description": "Marketing site: the design-token bridge for the running app."
+          "src": "/portfolio/assets/sorb/sorb-token-explorer.png",
+          "title": "Token Explorer",
+          "description": "Every token with its CSS variable, tier, and exactly which components consume it. Shown here embedded in a consuming app's Storybook."
         },
         {
           "type": "image",
-          "src": "/portfolio/assets/sorb/sorb-demo.png",
-          "title": "Hosted demo",
-          "description": "The multi-tenant control plane running live at demo.sorbcloud.com."
+          "src": "/portfolio/assets/sorb/sorb-try-tour.png",
+          "title": "The no-install tour",
+          "description": "try.sorbcloud.com: the real plugin and a real storefront in the browser. The whole loop, clickable in ninety seconds."
         }
       ],
       "roleTypes": [
@@ -199,19 +205,19 @@
       "sections": [
         {
           "title": "What I built",
-          "body": "A **design-token bridge between Figma and React**: a Figma plugin, a React SDK, a bridge server, and a capture/resolver layer on a shared contract — plus a hosted, multi-tenant control plane. Edit a token in Figma and see it live in your running React app *before* you merge.\n\nIt runs two ways from one codebase: a **free, local, single-tenant** loop (`sorb dev`) and a **paid, hosted, multi-tenant** platform — the same binary flips modes."
+          "body": "A **design-token bridge between Figma and React**: a Figma plugin, a React SDK, a bridge server, and a capture/resolver layer on a shared contract, plus a hosted, multi-tenant control plane. Edit a token in Figma and see it live in your running React app *before* you merge.\n\nIt runs two ways from one codebase: a **free, local, single-tenant** loop (`sorb dev`) and a **paid, hosted, multi-tenant** platform. The same binary flips modes.\n\n- **The connectivity layer:** framework adapters for six UI stacks, one-click browser pairing for the plugin, live diagnostics that name the failing side, one-click GitHub pull requests, and hosted + local MCP servers for agents."
         },
         {
           "title": "Where it came from",
-          "body": "Sorb wasn't a cold start — it's the productized version of a pattern I'd already proven and a pain I'd already lived at BuzzFeed.\n\n- **The architecture, proven:** for the [Callout platform](https://n8plusus.com/portfolio/callout) I designed a JSON contract that one data structure served four ways — form generation, validation, live preview over browser events, and the production render. A teammate built the renderer's first pass against that contract; it held across the team boundary. Sorb's design-surface → event channel → live-preview-in-the-real-renderer shape is the same architecture, generalized.\n- **The gap, seen formally:** I worked with our VP of technology, a senior engineer, and design leadership to evaluate how Figma could stay connected to our codebase — and we found the existing tooling lacking core features. On my own time I started building and evaluating ways to keep the two in sync. That work became Sorb.\n- **The pain, felt personally:** shipping a shared-component change meant version-bump → publish → update and deploy up to three consuming services just to *see* it ([Foundation UI](https://n8plusus.com/portfolio/foundation-ui) has the full story). Sorb's core promise — see a proposed token change in the running app with no publish-deploy cycle — erases my own old bottleneck."
+          "body": "Sorb wasn't a cold start. It's the productized version of a pattern I'd already proven and a pain I'd already lived at BuzzFeed.\n\n- **The architecture, proven:** for the [Callout platform](https://n8plusus.com/portfolio/callout) I designed a JSON contract where one data structure served four jobs: form generation, validation, live preview over browser events, and the production render. A teammate built the renderer's first pass against that contract, and it held across the team boundary. Sorb generalizes the same shape: a design surface pushes changes over an event channel, and you preview them in the real renderer.\n- **The gap, seen formally:** I worked with our VP of technology, a senior engineer, and design leadership to evaluate how Figma could stay connected to our codebase, and we found the existing tooling lacking core features. On my own time I started building and evaluating ways to keep the two in sync. That work became Sorb.\n- **The pain, felt personally:** shipping a shared-component change meant a version bump, a publish, then updating and deploying up to three consuming services just to *see* it ([Foundation UI](https://n8plusus.com/portfolio/foundation-ui) has the full story). Sorb's core promise erases my own old bottleneck: see a proposed token change in the running app with no publish and deploy cycle."
         },
         {
           "title": "How it works",
-          "body": "1. A designer edits a token variable in Figma inside the plugin.\n2. The plugin posts the proposed tokens to a local bridge server (`:7777`).\n3. The React SDK's provider fetches them, applies them as **CSS custom properties on `:root`**, and live-polls for updates — so the running app re-themes in place.\n4. If the bridge isn't running it falls back silently to the committed tokens — **preview never breaks production**. One command opens a GitHub PR with the new token file.\n\n![Architecture: a polyrepo that grows like a tree — Canopy (Figma) → Juice (the bridge) → Leaf (React SDK), on a shared Core contract, plus the hosted Cloud plane. (Illustrative.)](/portfolio/assets/sorb/sorb-polyrepo.png)"
+          "body": "1. A designer opens the Sorb plugin in Figma and clicks sign in. The browser opens, a device pairing hands the plugin a scoped key, and it's connected. No servers, URLs, or keys to paste. (The free local bridge still works with zero account for self-hosted setups.)\n\n2. The designer edits a token variable and clicks Preview. The plugin posts the proposed tokens to the bridge.\n\n3. The React SDK's provider fetches them, applies them as **CSS custom properties on `:root`**, and live-polls for updates, so the running app re-themes in place. Framework adapters carry the same tokens into Tailwind, MUI, Mantine, PrimeVue, and Angular Material apps.\n\n4. If the bridge isn't reachable it falls back silently to the committed tokens: **preview never breaks production**. And when a preview fails, diagnostics name which side owns it. The SDK answers a ping with a fingerprint, and a diagnosis panel points at plugin, bridge, app, or cloud.\n\n5. A token version ships as a **GitHub pull request** with one click.\n\n![Architecture: a polyrepo that grows like a tree. Canopy (Figma) feeds Juice (the bridge) which feeds Leaf (React SDK), on a shared Core contract, plus the hosted Cloud plane. (Illustrative.)](/portfolio/assets/sorb/sorb-polyrepo.png)"
         },
         {
           "title": "How I built it",
-          "body": "**Polyrepo, by design** — a tree lifecycle (Seed → Juice → Leaf · Canopy) plus a shared Core contract and a Cloud control plane, each its own repo so any package can be public or private independently. **JavaScript only** (types are JSDoc typedefs), built with **esbuild** — never TypeScript, with one deliberate exception: the hosted Cloud plane is a Next.js app.\n\n- **Juice** is the bridge — a **Hono** server (bin `sorb`, port 7777) that's a dev-dependency only and never touches production; the *same* binary turns on auth, entitlements, and scoped CORS the moment a database URL is set.\n- **Seed** captures Storybook via Playwright and resolves tokens through Style Dictionary (DTCG).\n- **Canopy** is the Figma plugin (sandboxed `code.js` + iframe `ui.html`); **Leaf** is the React SDK (provider + hooks).\n- **MCP servers** expose the whole thing so agents can drive it.\n\nt![Live-preview flow — Figma → bridge → app :: Edit a token in Figma → the plugin posts it to the local bridge → the React SDK applies it as CSS variables and re-themes the running app in place; falls back to committed tokens if the bridge is off. (Illustrative.)](/portfolio/assets/sorb/sorb-bridge.png)"
+          "body": "**Polyrepo, by design.** A tree lifecycle (Seed, Juice, Leaf, Canopy) plus a shared Core contract and a Cloud control plane, each its own repo so any package can be public or private independently. **JavaScript only** (types are JSDoc typedefs), built with **esbuild**. Never TypeScript, with one deliberate exception: the hosted Cloud plane is a Next.js app.\n\n- **Juice** is the bridge, a **Hono** server (bin `sorb`, port 7777) that's a dev-dependency only and never touches production. The *same* binary turns on auth, entitlements, and scoped CORS the moment a database URL is set.\n- **Seed** captures Storybook via Playwright and resolves tokens through Style Dictionary (DTCG).\n- **Canopy** is the Figma plugin (sandboxed `code.js` + iframe `ui.html`); **Leaf** is the React SDK (provider + hooks).\n- **MCP servers** expose the whole thing so agents can drive it.\n\nt![Live-preview flow: Figma to bridge to app :: Edit a token in Figma, the plugin posts it to the local bridge, and the React SDK applies it as CSS variables and re-themes the running app in place. Falls back to committed tokens if the bridge is off. (Illustrative.)](/portfolio/assets/sorb/sorb-bridge.png)"
         },
         {
           "title": "Questions this project answers",
@@ -219,7 +225,7 @@
         },
         {
           "title": "Results",
-          "body": "- Published to npm: **@sorb/core, @sorb/seed, @sorb/leaf, @sorb/juice** (via OIDC trusted publishing).\n- A live **multi-tenant hosted platform** with a public demo at demo.sorbcloud.com.\n- A defined category and positioning distinct from Figma Code Connect — a 100% free, self-hostable core with a hosted moat."
+          "body": "- Published to npm: **@sorb/core, @sorb/seed, @sorb/leaf, @sorb/juice** (via OIDC trusted publishing).\n- A live **multi-tenant hosted platform** (app.sorbcloud.com) with a Token Explorer workbench, version compare, and token-version-to-PR shipping.\n- **try.sorbcloud.com**: a no-install interactive tour with the real plugin and a real storefront, the bridge played by a service worker. Ninety seconds, no account.\n- Six live demo storefronts (Bootstrap, Tailwind, MUI, Mantine, PrimeVue, Angular Material) re-themed by one token set.\n- A hosted **MCP server** at mcp.sorbcloud.com so agents can read and propose tokens.\n- A defined category and positioning distinct from Figma Code Connect: a 100% free, self-hostable core with a hosted moat."
         }
       ],
       "skillsGroups": [

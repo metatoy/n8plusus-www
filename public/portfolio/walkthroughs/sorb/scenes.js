@@ -465,4 +465,41 @@ window.WT_SORB_SCENES = {
 
         
       </style></svg>`,
+  diagnosis: `<svg class="dx-svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="A ping travels plugin to bridge to app; a sorb-hello fingerprint chip returns; the bridge card flashes red as the diagnosis names it the failing side while plugin, app and cloud get green checks."><defs><marker id="dxArrow" markerWidth="9" markerHeight="9" refX="5" refY="4.5" orient="auto"><path d="M0 0 L8 4.5 L0 9 Z" fill="#8b7e66"></path></marker></defs><g class="node n0" aria-hidden="true"><rect x="60" y="170" width="150" height="96" rx="12" fill="#211c15" stroke="#4a4a4a"></rect><circle cx="84" cy="196" r="6" fill="#f26722"></circle><text x="98" y="201" font-size="14" fill="#f7f7f7" font-weight="700">Plugin</text><text x="84" y="230" font-size="10.5" fill="#8b7e66">Figma · Canopy</text><g class="tick t0"><circle cx="186" cy="244" r="10" fill="#1c2a19" stroke="#4a7a3a"></circle><path d="M181 244 l4 4 l6 -8" fill="none" stroke="#6cc24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></g><g class="node n1" aria-hidden="true"><rect class="bridgeBox" x="250" y="170" width="150" height="96" rx="12" fill="#211c15" stroke="#4a4a4a"></rect><circle cx="274" cy="196" r="6" fill="#f26722"></circle><text x="288" y="201" font-size="14" fill="#f7f7f7" font-weight="700">Bridge</text><text x="274" y="230" font-size="10.5" fill="#8b7e66">Juice</text><g class="failTag"><rect x="262" y="238" width="126" height="22" rx="11" fill="#2a1512" stroke="#ff5a4d" stroke-width="1.3"></rect><text x="325" y="253" font-size="11" fill="#ff8578" font-weight="700" text-anchor="middle">unreachable</text></g></g><g class="node n2" aria-hidden="true"><rect x="440" y="170" width="150" height="96" rx="12" fill="#211c15" stroke="#4a4a4a"></rect><circle cx="464" cy="196" r="6" fill="#f26722"></circle><text x="478" y="201" font-size="14" fill="#f7f7f7" font-weight="700">App</text><text x="464" y="230" font-size="10.5" fill="#8b7e66">Leaf SDK</text><g class="tick t1"><circle cx="566" cy="244" r="10" fill="#1c2a19" stroke="#4a7a3a"></circle><path d="M561 244 l4 4 l6 -8" fill="none" stroke="#6cc24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></g><g class="node n3" aria-hidden="true"><rect x="630" y="170" width="120" height="96" rx="12" fill="#211c15" stroke="#4a4a4a"></rect><circle cx="654" cy="196" r="6" fill="#f26722"></circle><text x="668" y="201" font-size="14" fill="#f7f7f7" font-weight="700">Cloud</text><text x="654" y="230" font-size="10.5" fill="#8b7e66">app.sorbcloud</text><g class="tick t2"><circle cx="726" cy="244" r="10" fill="#1c2a19" stroke="#4a7a3a"></circle><path d="M721 244 l4 4 l6 -8" fill="none" stroke="#6cc24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></g></g><g fill="none" stroke="#8b7e66" stroke-width="1.6" aria-hidden="true"><line class="wire w0" x1="210" y1="218" x2="242" y2="218" marker-end="url(#dxArrow)"></line><line class="wire w1" x1="400" y1="218" x2="432" y2="218" marker-end="url(#dxArrow)"></line><line class="wire w2" x1="590" y1="218" x2="622" y2="218" marker-end="url(#dxArrow)"></line></g><circle class="ping" cx="120" cy="150" r="6" fill="#f26722" aria-hidden="true"></circle><text class="pingLabel" x="120" y="132" font-size="11" fill="#f26722" font-family="monospace" font-weight="600">sorb-ping</text><g class="hello" aria-hidden="true"><rect x="404" y="296" width="252" height="58" rx="10" fill="#1c1712" stroke="#f26722" stroke-width="1.3"></rect><text x="420" y="318" font-size="11" fill="#f26722" font-weight="700" font-family="monospace">sorb-hello</text><text x="420" y="336" font-size="10" fill="#8b7e66" font-family="monospace">jane-jeans · key ····4821 · leaf 0.5.0</text><text x="420" y="348" font-size="10" fill="#8b7e66" font-family="monospace">last preview: ok · bridge: hosted</text></g><g class="verdict" aria-hidden="true"><rect x="130" y="396" width="540" height="44" rx="12" fill="#2a1512" stroke="#ff5a4d" stroke-width="1.4"></rect><path d="M158 430 l10 -18 l10 18 z" fill="none" stroke="#ff5a4d" stroke-width="1.6" stroke-linejoin="round"></path><text x="168" y="427" font-size="11" text-anchor="middle" fill="#ff8578" font-weight="700">!</text><text x="192" y="423" font-size="13" fill="#ff8578" font-weight="700">diagnosis: the bridge is down — not your app, not the plugin</text></g><text class="caption" x="400" y="472" font-size="12" fill="#8b7e66" text-anchor="middle">ping · fingerprint · the failing side, named</text><style>
+        .dx-svg { font-family: inherit; }
+        .node { opacity: 0; animation: fade 0.5s ease-out forwards; animation-play-state: running; }
+        .n0 { animation-delay: 0.15s; } .n1 { animation-delay: 0.3s; }
+        .n2 { animation-delay: 0.45s; } .n3 { animation-delay: 0.6s; }
+        .wire { opacity: 0; animation: fade 0.4s ease-out forwards; animation-play-state: running; }
+        .w0 { animation-delay: 0.7s; } .w1 { animation-delay: 0.8s; } .w2 { animation-delay: 0.9s; }
+        .ping { opacity: 0; animation: dxPing 2.4s ease-in-out 1.1s forwards; animation-play-state: running; }
+        .pingLabel { opacity: 0; animation: fade 0.4s ease-out 1.1s forwards, fadeOut 0.5s ease-out 3.4s forwards; animation-play-state: running; }
+        .hello { opacity: 0; animation: fade 0.5s ease-out 3.6s forwards; animation-play-state: running; }
+        .tick { opacity: 0; } 
+        .t0 { animation: fade 0.4s ease-out 4.4s forwards; animation-play-state: running; }
+        .t1 { animation: fade 0.4s ease-out 4.6s forwards; animation-play-state: running; }
+        .t2 { animation: fade 0.4s ease-out 4.8s forwards; animation-play-state: running; }
+        .bridgeBox { animation: dxBridgeFail 0.8s ease-in-out 5.2s forwards; animation-play-state: running; }
+        .failTag { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0.85); animation: flagIn 0.5s cubic-bezier(0.34,1.5,0.64,1) 5.4s forwards; animation-play-state: running; }
+        .verdict { opacity: 0; animation: fade 0.55s ease-out 6.0s forwards; animation-play-state: running; }
+        .caption { opacity: 0; animation: fade 0.5s ease-out 6.6s forwards; animation-play-state: running; }
+        @keyframes dxPing {
+          0% { opacity: 0; transform: translate(0, 0); }
+          8% { opacity: 1; }
+          30% { transform: translate(205px, 0); }
+          60% { transform: translate(390px, 0); }
+          90% { opacity: 1; transform: translate(500px, 40px); }
+          100% { opacity: 0; transform: translate(500px, 60px); }
+        }
+        @keyframes dxBridgeFail {
+          0% { stroke: #4a4a4a; fill: #211c15; }
+          100% { stroke: #ff5a4d; fill: #241412; }
+        }
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes flagIn {
+          from { opacity: 0; transform: scale(0.85); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      </style></svg>`,
 };
