@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Foundation UI — a design system that held — Nathan O'Brien</title>
+<meta name="description" content="I led BuzzFeed's publishing tools off their legacy style framework, proposed and built Foundation UI on Bootstrap, and it stayed the working standard for four years without a rewrite — while I shipped into the company-wide React component library used by 79 projects." />
+<link rel="canonical" href="https://n8plusus.com/portfolio/foundation-ui.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Foundation UI — a design system that held" />
+<meta property="og:description" content="I led BuzzFeed's publishing tools off their legacy style framework, proposed and built Foundation UI on Bootstrap, and it stayed the working standard for four years without a rewrite — while I shipped into the company-wide React component library used by 79 projects." />
+<meta property="og:url" content="https://n8plusus.com/portfolio/foundation-ui.html" />
+<meta property="og:image" content="https://n8plusus.com/portfolio/assets/foundation-ui/foundation-ui-thumb.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"Foundation UI — a design system that held — Nathan O'Brien","headline":"Foundation UI — a design system that held","description":"I led BuzzFeed's publishing tools off their legacy style framework, proposed and built Foundation UI on Bootstrap, and it stayed the working standard for four years without a rewrite — while I shipped into the company-wide React component library used by 79 projects.","url":"https://n8plusus.com/portfolio/foundation-ui.html","image":"https://n8plusus.com/portfolio/assets/foundation-ui/foundation-ui-thumb.png","dateCreated":"2020–2026","author":{"@type":"Person","name":"Nathan O'Brien","url":"https://n8plusus.com/"},"about":"BuzzFeed","isPartOf":{"@type":"CollectionPage","name":"N8+US Portfolio","url":"https://n8plusus.com/portfolio/"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portfolio/project.css?v=20260810b" />
+</head>
+<body>
+  <div class="bar"><div class="inner">
+    <span class="bl">
+      <a class="barhome" href="/" aria-label="N8+US home">N8+US</a>
+      <a class="barback" href="/portfolio/">← all work</a>
+    </span>
+    <span class="hlinks">
+      <a class="hlink" href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#linkedin-logo"></use></svg>LinkedIn</a>
+      <a class="hlink solid" href="/resume/resume.pdf" download><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#file-arrow-down"></use></svg>Résumé (PDF)</a>
+    </span>
+  </div></div>
+  <div class="wrap">
+    <main id="project">
+      <header class="phead">
+        <p class="mono meta-line">2020–2026 · BuzzFeed · Frontend lead</p>
+        <h1>Foundation UI — a design system that held</h1>
+        <p class="lede">I led BuzzFeed's publishing tools off their legacy style framework, proposed and built Foundation UI on Bootstrap, and it stayed the working standard for four years without a rewrite — while I shipped into the company-wide React component library used by 79 projects.</p>
+        <div class="chips"><span class="chip">design systems</span><span class="chip">React</span><span class="chip">Bootstrap</span><span class="chip">component libraries</span><span class="chip">Storybook</span><span class="chip">migration</span><span class="chip">design review</span></div>
+        
+      </header>
+      <div class="subsec"><h2>What I built</h2><p>The foundation under BuzzFeed's publishing tools, across a four-year arc. I led the <strong>Solid → Bootstrap migration</strong> in 2020 with two other developers, proposed <strong>Foundation UI (FUI)</strong> in writing in 2021, and led its build through a phased 2022 launch. It stayed the team's working standard for the rest of the platform's life, with no rewrite.</p><ul><li><strong>The migration (2020):</strong> moved PubHub off Solid, BuzzFeed's internal style framework, onto Bootstrap. That groundwork mattered beyond our team — internal tools officially moved off Solid, with other teams following.</li><li><strong>Foundation UI (2021–2022):</strong> a redesign of the post-creation surfaces that standardized form inputs and page patterns into a reusable toolkit — proposed in my 2021 review as &quot;a generalized Bootstrap alternative to Solid,&quot; then built with our designer, PM, and QA.</li><li><strong>The company component library:</strong> separately, I shipped 47 commits into BuzzFeed's shared `react-components` library — consumed by <strong>79 projects</strong> (measured in the monorepo). My components ran where it counted: the callout render unit on the site's highest-traffic page, share components across nine properties, the subscribe button on the main feed.</li></ul></div><div class="subsec"><h2>How it works</h2><p><strong>A battle-tested base, and our effort spent on the delta.</strong> FUI builds on Bootstrap — it already handles most UX needs — so design effort went into our patterns, our form conventions, and our review rubric instead of re-solving solved problems. That choice is most of why it lasted.</p><ul><li><strong>Kitchen-sink first:</strong> every new component was developed, tested, and merged on a kitchen-sink page before touching a real screen — a steady weekly cadence of shippable pieces.</li><li><strong>Feature-flag rollout:</strong> pages adopted the system behind a flag, phased by platform (Facebook Video first, then the rest), so an eight-year-old production tool was re-foundationed in flight.</li><li><strong>Extensible at three levels:</strong> most new features used existing components as-is; some composed off them; and entirely new pages still worked within the system. The foundation absorbed novelty instead of fracturing under it.</li></ul></div><div class="subsec"><h2>How I built it</h2><p><strong>Process was as much of the build as code.</strong> We refined the design review process to put more upfront review responsibility on developers — design attention went to the calls that needed it. Our team's written design principles (&quot;build trust in every interaction,&quot; &quot;improve for efficiency&quot;) were the explicit rubric in design feedback, and significant changes ran through written RFC proposals with comment periods, which I reviewed.</p><p>I documented and coordinated the task breakdown across developers, worked with our designer on feasibility and phasing, and kept the schedule with our PM and QA through launch.</p><p><strong>The honest cost of a versioned library:</strong> shipping a shared-component change meant a version bump, a publish, then updating and deploying each consuming service just to test it — sometimes three services for one change. Living that loop for years is exactly why I later built <a href="https://n8plusus.com/portfolio/sorb" target="_blank" rel="noopener">Sorb</a>, which previews a proposed change in the running app with no publish-deploy cycle at all.</p></div><div class="subsec"><h2>Questions this project answers</h2><p><strong>What makes a design system last?</strong>
+Extensibility you can name. FUI held for four years because most features could use it as-is, the rest could compose off it, and even brand-new pages stayed conformant — and because the base was boring on purpose. Choosing Bootstrap and spending our design budget on the delta beat rebuilding solved problems for novelty's sake.</p><p><strong>How do you retire a legacy system without a big bang?</strong>
+Migrate the foundation in flight: kitchen-sink the components, flag the pages, phase by platform, and let results recruit the rest of the org. Solid wasn't decommissioned by decree — teams moved off it because the replacement was visibly better to build on.</p><p><strong>How do you run quality without a formal design-system council?</strong>
+On the path I worked, peer review was the gate — so the tooling had to carry the governance: scaffolded components with tests, Storybook stories, and README templates by default, written principles as the review rubric, and RFCs for anything significant. Convention did the enforcing.</p><p><strong>What does &quot;reach&quot; mean in a component library?</strong>
+Two different things, and it pays to know which you have. My callout render unit had two consuming projects — and the most traffic in the company, because one of them was the main content page. My share components had nine consumers across every property type. Depth and breadth are different kinds of leverage.</p></div><div class="subsec"><h2>Results</h2><ul><li>FUI remained the working standard for <strong>3–4 years with no rewrite</strong> — and when new draft types arrived (TikTok video, Facebook Reels, Instagram Reels, Instagram Carousels), they shipped quickly <em>because</em> the toolkit existed.</li><li>The Solid → Bootstrap migration spread beyond our team: <strong>internal tools officially moved off the legacy framework</strong>.</li><li>The users had a voice on record: the team ran satisfaction surveys on a six-month health-check cadence (110 responses at peak), and the platform scored <strong>95% user satisfaction</strong> in its final years.</li><li>Peer review on the record: <em>&quot;Nate really excels in technical execution — he takes large projects, breaks them down into chunks, and implements them to completion.&quot;</em> — my team lead.</li></ul></div></main>
+    <footer>
+      <a href="/portfolio/">all work</a> · <a href="https://n8plusus.com">n8plusus.com</a>
+    </footer>
+  </div>
+  <script src="/portfolio/portfolio-render.js?v=20260810b"></script>
+  <script>window.wirePortfolio&&wirePortfolio("project");</script>
+</body>
+</html>
