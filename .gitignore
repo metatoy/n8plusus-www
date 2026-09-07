@@ -6,3 +6,6 @@ npm-debug.log*
 
 # BuzzFeed proprietary case-study SOURCE — never publish as-is
 spec/FUI/
+public/resume/archive/
+*.webloc
+*.bak-*
