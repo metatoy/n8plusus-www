@@ -1,9 +1,21 @@
 # Nathan H O'Brien
 
-**Staff Software Engineer · Creative Engineering · AI-Native / Agentic Systems**
+**Staff Software Engineer · Design Engineer · AI-Native / Agentic Systems**
 Minneapolis, MN (Remote) · n8plusus@gmail.com · 612-208-6868 · [linkedin.com/in/nathanhunsaker](https://linkedin.com/in/nathanhunsaker) · [github.com/nhunsaker](https://github.com/nhunsaker)
 
-Staff Software Engineer specializing in creative engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.
+Staff Software Engineer specializing in design engineering and AI-native agentic systems. A design-trained and engineering-fluent innovator who excels at translating imaginative concepts into production-ready software. Thrives in fast-paced, fluid environments, driving projects from idea to implementation with a focus on pioneering agentic frameworks. Delivers high-impact, AI-driven solutions that solve complex business challenges and accelerate development.
+
+---
+
+## Skills
+
+**AI / Agentic:** LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Chainlit · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code
+
+**Frontend:** React · Next.js · TypeScript · JavaScript · SSR · design systems and design tokens · styled-components · Storybook · automated testing (Playwright) · Chrome extension and Figma plugin development
+
+**Backend / Infra:** Node.js · Python · FastAPI · Temporal (durable workflow orchestration) · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)
+
+**Leadership:** Team building & recruiting · managing & mentoring direct reports · performance reviews · planning & resource management · technical direction & architecture · client pitches & new business · conference speaking
 
 ---
 
@@ -32,7 +44,7 @@ Owned the frontend of the social team's publishing platform for 8+ years as its 
 
 **Performance ratings across BuzzFeed:** Exceeds on Innovation and Quality (2024 and 2025 review cycles).
 
-### Earlier
+### Early career
 
 - **N8+US, Inc · Founder / Technical Consultant** · 2010 to 2015 · Provided technical leadership, architecture, and delivery direct to national brands and agencies: scoping, estimates, and interactive application builds. For Best Buy's Emerging Platforms lab, built ML sentiment analysis over customer tweets, trained against a Google dataset, to show how customers actually experienced Twelpforce, the company's pioneering Twitter customer-service program (2010). Other clients included Oracle, Capital One, BuzzFeed, MNSure, Agosto (Google Global Partner of the Year for Cloud, 2013), and Intelligent Nutrients.
 - **Schematic · Director of Technology (Minneapolis)** · 2008 to 2010 · Served as solutions architect and technical director for the Minneapolis office serving Target. Schematic was then among the premier UX and interactive-engineering firms in the US. Lead role in delivery of the **Target.com navigation redesign** and holiday projects; coordinated delivery across the New York, Los Angeles, and Costa Rica offices; charged with local talent acquisition and recruiting.
@@ -40,18 +52,6 @@ Owned the frontend of the social team's publishing platform for 8+ years as its 
 - **Fallon Worldwide, Martin/Williams, and earlier agency work** · 1995 to 2004 · Freelance and staff web development: BMW.com and BMWFilms.com microsites, the Bahamas.com launch, Timberland, Microsoft, and Scotts; founding member of Martin/Williams Interactive (Target, US Bank, Walker Art Center). Started in web development in 1995.
 
 Early recognition: AIGA Silver and D&AD (British Design and Art Direction) Merit awards, a Microsoft case-study feature, and work featured in *The Web Design WOW! Book*.
-
----
-
-## Skills
-
-**AI / Agentic:** LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Chainlit · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code
-
-**Frontend:** React · Next.js · TypeScript · JavaScript · SSR · design systems and design tokens · styled-components · Storybook · automated testing (Playwright) · Chrome extension and Figma plugin development
-
-**Backend / Infra:** Node.js · Python · FastAPI · Temporal (durable workflow orchestration) · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)
-
-**Leadership:** Team building & recruiting · managing & mentoring direct reports · performance reviews · planning & resource management · technical direction & architecture · client pitches & new business · conference speaking
 
 ---
 

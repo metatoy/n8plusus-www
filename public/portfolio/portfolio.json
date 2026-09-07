@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1",
-    "updated": "2026-08-07",
+    "updated": "2026-09-06",
     "note": "Source of truth for n8plusus.com/portfolio. Index + detail pages render from this. Media paths point at the demo assets for now; migrate to /portfolio/assets/<slug>/ later. Spec: spec/n8plusus/portfolio/portfolio-content-outline.md",
     "eras": [
       {
@@ -84,15 +84,16 @@
     },
     "index": {
       "selected": [
-        "ai-support-triage",
-        "callout",
-        "agentic-migration",
         "sorb",
-        "metatoy-studio"
+        "foundation-ui",
+        "callout",
+        "image-publishing",
+        "ai-support-triage"
       ],
       "more": [
         "pubhub",
-        "image-publishing",
+        "agentic-migration",
+        "metatoy-studio",
         "woords",
         "tattletown"
       ],
@@ -199,6 +200,10 @@
         {
           "title": "What I built",
           "body": "A **design-token bridge between Figma and React**: a Figma plugin, a React SDK, a bridge server, and a capture/resolver layer on a shared contract — plus a hosted, multi-tenant control plane. Edit a token in Figma and see it live in your running React app *before* you merge.\n\nIt runs two ways from one codebase: a **free, local, single-tenant** loop (`sorb dev`) and a **paid, hosted, multi-tenant** platform — the same binary flips modes."
+        },
+        {
+          "title": "Where it came from",
+          "body": "Sorb wasn't a cold start — it's the productized version of a pattern I'd already proven and a pain I'd already lived at BuzzFeed.\n\n- **The architecture, proven:** for the [Callout platform](https://n8plusus.com/portfolio/callout) I designed a JSON contract that one data structure served four ways — form generation, validation, live preview over browser events, and the production render. A teammate built the renderer's first pass against that contract; it held across the team boundary. Sorb's design-surface → event channel → live-preview-in-the-real-renderer shape is the same architecture, generalized.\n- **The gap, seen formally:** I worked with our VP of technology, a senior engineer, and design leadership to evaluate how Figma could stay connected to our codebase — and we found the existing tooling lacking core features. On my own time I started building and evaluating ways to keep the two in sync. That work became Sorb.\n- **The pain, felt personally:** shipping a shared-component change meant version-bump → publish → update and deploy up to three consuming services just to *see* it ([Foundation UI](https://n8plusus.com/portfolio/foundation-ui) has the full story). Sorb's core promise — see a proposed token change in the running app with no publish-deploy cycle — erases my own old bottleneck."
         },
         {
           "title": "How it works",
@@ -331,6 +336,61 @@
           ]
         }
       ]
+    },
+    {
+      "slug": "foundation-ui",
+      "thumb": "/portfolio/assets/foundation-ui/foundation-ui-thumb.png",
+      "era": "buzzfeed",
+      "featured": true,
+      "status": "complete",
+      "title": "Foundation UI — a design system that held",
+      "year": "2020–2026",
+      "role": "Frontend lead",
+      "client": "BuzzFeed",
+      "skills": [
+        "design systems",
+        "React",
+        "Bootstrap",
+        "component libraries",
+        "Storybook",
+        "migration",
+        "design review"
+      ],
+      "summary": "The design-system arc under BuzzFeed's publishing tools: a legacy-framework migration I led, a foundation I proposed and built, and a component library serving 79 projects.",
+      "description": "I led BuzzFeed's publishing tools off their legacy style framework, proposed and built Foundation UI on Bootstrap, and it stayed the working standard for four years without a rewrite — while I shipped into the company-wide React component library used by 79 projects.",
+      "media": [],
+      "roleTypes": [
+        "lead",
+        "design-ux"
+      ],
+      "skillTags": [
+        "frontend",
+        "design-systems"
+      ],
+      "links": [],
+      "sections": [
+        {
+          "title": "What I built",
+          "body": "The foundation under BuzzFeed's publishing tools, across a four-year arc. I led the **Solid → Bootstrap migration** in 2020 with two other developers, proposed **Foundation UI (FUI)** in writing in 2021, and led its build through a phased 2022 launch. It stayed the team's working standard for the rest of the platform's life, with no rewrite.\n\n- **The migration (2020):** moved PubHub off Solid, BuzzFeed's internal style framework, onto Bootstrap. That groundwork mattered beyond our team — internal tools officially moved off Solid, with other teams following.\n- **Foundation UI (2021–2022):** a redesign of the post-creation surfaces that standardized form inputs and page patterns into a reusable toolkit — proposed in my 2021 review as \"a generalized Bootstrap alternative to Solid,\" then built with our designer, PM, and QA.\n- **The company component library:** separately, I shipped 47 commits into BuzzFeed's shared `react-components` library — consumed by **79 projects** (measured in the monorepo). My components ran where it counted: the callout render unit on the site's highest-traffic page, share components across nine properties, the subscribe button on the main feed."
+        },
+        {
+          "title": "How it works",
+          "body": "**A battle-tested base, and our effort spent on the delta.** FUI builds on Bootstrap — it already handles most UX needs — so design effort went into our patterns, our form conventions, and our review rubric instead of re-solving solved problems. That choice is most of why it lasted.\n\n- **Kitchen-sink first:** every new component was developed, tested, and merged on a kitchen-sink page before touching a real screen — a steady weekly cadence of shippable pieces.\n- **Feature-flag rollout:** pages adopted the system behind a flag, phased by platform (Facebook Video first, then the rest), so an eight-year-old production tool was re-foundationed in flight.\n- **Extensible at three levels:** most new features used existing components as-is; some composed off them; and entirely new pages still worked within the system. The foundation absorbed novelty instead of fracturing under it."
+        },
+        {
+          "title": "How I built it",
+          "body": "**Process was as much of the build as code.** We refined the design review process to put more upfront review responsibility on developers — design attention went to the calls that needed it. Our team's written design principles (\"build trust in every interaction,\" \"improve for efficiency\") were the explicit rubric in design feedback, and significant changes ran through written RFC proposals with comment periods, which I reviewed.\n\nI documented and coordinated the task breakdown across developers, worked with our designer on feasibility and phasing, and kept the schedule with our PM and QA through launch.\n\n**The honest cost of a versioned library:** shipping a shared-component change meant a version bump, a publish, then updating and deploying each consuming service just to test it — sometimes three services for one change. Living that loop for years is exactly why I later built [Sorb](https://n8plusus.com/portfolio/sorb), which previews a proposed change in the running app with no publish-deploy cycle at all."
+        },
+        {
+          "title": "Questions this project answers",
+          "body": "**What makes a design system last?**\nExtensibility you can name. FUI held for four years because most features could use it as-is, the rest could compose off it, and even brand-new pages stayed conformant — and because the base was boring on purpose. Choosing Bootstrap and spending our design budget on the delta beat rebuilding solved problems for novelty's sake.\n\n**How do you retire a legacy system without a big bang?**\nMigrate the foundation in flight: kitchen-sink the components, flag the pages, phase by platform, and let results recruit the rest of the org. Solid wasn't decommissioned by decree — teams moved off it because the replacement was visibly better to build on.\n\n**How do you run quality without a formal design-system council?**\nOn the path I worked, peer review was the gate — so the tooling had to carry the governance: scaffolded components with tests, Storybook stories, and README templates by default, written principles as the review rubric, and RFCs for anything significant. Convention did the enforcing.\n\n**What does \"reach\" mean in a component library?**\nTwo different things, and it pays to know which you have. My callout render unit had two consuming projects — and the most traffic in the company, because one of them was the main content page. My share components had nine consumers across every property type. Depth and breadth are different kinds of leverage."
+        },
+        {
+          "title": "Results",
+          "body": "- FUI remained the working standard for **3–4 years with no rewrite** — and when new draft types arrived (TikTok video, Facebook Reels, Instagram Reels, Instagram Carousels), they shipped quickly *because* the toolkit existed.\n- The Solid → Bootstrap migration spread beyond our team: **internal tools officially moved off the legacy framework**.\n- The users had a voice on record: the team ran satisfaction surveys on a six-month health-check cadence (110 responses at peak), and the platform scored **95% user satisfaction** in its final years.\n- Peer review on the record: *\"Nate really excels in technical execution — he takes large projects, breaks them down into chunks, and implements them to completion.\"* — my team lead."
+        }
+      ],
+      "skillsGroups": []
     },
     {
       "slug": "ai-support-triage",
@@ -526,11 +586,11 @@
         },
         {
           "title": "How it works",
-          "body": "A campaign has an action (newsletter signup or link click), the page types it runs on, and layered **typed conditions** — device, referral source, logged-in, max-views-per-user, already-converted, newsletter status, section, tags, quiz, shopping class — plus **triggers** (time delay, exit intent, quiz-complete, engagement, game-level).\n\n- **Selection:** reject anyone who's seen a promo in the last 48h (a global frequency cap) → take active campaigns → filter by every condition → weight-based pick → shuffle to a variant that actually has content.\n- **Live preview** shares the literal production renderer component, and a reader-facing preview link can force a specific campaign onto any live page."
+          "body": "A campaign has an action (newsletter signup or link click), the page types it runs on, and layered **typed conditions** — device, referral source, logged-in, max-views-per-user, already-converted, newsletter status, section, tags, quiz, shopping class — plus **triggers** (time delay, exit intent, quiz-complete, engagement, game-level).\n\n- **Selection:** reject anyone who's seen a promo in the last 48h (a global frequency cap) → take active campaigns → filter by every condition → weight-based pick → shuffle to a variant that actually has content.\n- **Live preview** shares the literal production renderer component, and a reader-facing preview link can force a specific campaign onto any live page.\n\n**Constraint is a feature.** As the tool matured we deliberately walked free-form options back into governed presets: a theme dropdown replaced open-ended background color, body copy switched automatically between white and black based on the background (with accessible contrast computed as CSS variables in the renderer), and spacing and type rules came from the design file as source of truth. The button stayed the one fully editable element — a conscious call about where operators could safely have freedom, and the same judgment a token system encodes: constrain by default, allow freedom only where breakage is acceptable."
         },
         {
           "title": "How I built it",
-          "body": "**Frontend (my build).** The admin app — listing, multi-step wizard, and live preview — in Next.js 14 / React 18: styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, and react-image-crop; tested with Jest + Testing Library (plus a separate integration config) and react-axe accessibility auditing.\n\n**The shared render unit.** I also built and maintained the **Callout render unit** — the `CalloutUnitRenderer` in BuzzFeed's shared React component library, a versioned internal npm package. The *same* component renders the live preview in the admin and the promotion a reader actually sees, so \"what you see is what ships\" is literal, not aspirational. In it I built the popup units (newsletter-signup, link-click), the **trigger system** (a state-machine `useTrigger` handling exit-intent, quiz-complete, and game-level triggers, with pause/resume and race-condition handling), the background-pattern / texture treatments, and device-aware rendering.\n\n**Integrated with and extended the backend.** The selection API was owned by another team; I integrated the admin against it and contributed **targeted API changes** — device-type targeting end to end (API values, admin UI, and the render payload), game-level-complete trigger support, tighter quiz-trigger validation, a new \"Games\" target-page section, and extending `GET /campaigns` to return each campaign's page and targeting conditions. I did not author the selection service itself.\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change landed a checked-in feature spec with a file-by-file plan and acceptance criteria."
+          "body": "**Frontend (my build).** The admin app — listing, multi-step wizard, and live preview — in Next.js 14 / React 18: styled-components, react-hook-form + zod for schema-validated forms, `use-undo` for undo/redo, custom localStorage autosave, and react-image-crop; tested with Jest + Testing Library (plus a separate integration config) and react-axe accessibility auditing.\n\n**The shared render unit.** I also built and maintained the **Callout render unit** — the `CalloutUnitRenderer` in BuzzFeed's shared React component library, a versioned internal npm package. The *same* component renders the live preview in the admin and the promotion a reader actually sees, so \"what you see is what ships\" is literal, not aspirational. In it I built the popup units (newsletter-signup, link-click), the **trigger system** (a state-machine `useTrigger` handling exit-intent, quiz-complete, and game-level triggers, with pause/resume and race-condition handling), the background-pattern / texture treatments, and device-aware rendering.\n\n**Integrated with and extended the backend.** The selection API was owned by another team; I integrated the admin against it and contributed **targeted API changes** — device-type targeting end to end (API values, admin UI, and the render payload), game-level-complete trigger support, tighter quiz-trigger validation, a new \"Games\" target-page section, and extending `GET /campaigns` to return each campaign's page and targeting conditions. I did not author the selection service itself.\n\n**How the work was done:** spec-first and AI-agent-scaffolded — every non-trivial change landed a checked-in feature spec with a file-by-file plan and acceptance criteria.\n\n**The contract came first.** I designed the JSON data structure the whole system speaks — shaped so the admin form could set values under complex rules, validation held end to end, WYSIWYG updates pushed over browser events, and the same data rendered live on site. The renderer's first implementation pass came from a teammate building against that contract; it held across the team boundary, which is the real test of an interface. I took over the render unit's development later. Along the way I worked directly with our designer on the theme system and with the newsletter org — the driving stakeholder for themed callouts — with our PM coordinating the feature work."
         },
         {
           "title": "Questions this project answers",
@@ -675,7 +735,7 @@
         },
         {
           "title": "How I built it",
-          "body": "**Frontend:** React + Redux + React Router, bundled with Webpack and styled in Sass on the company's internal design system; drag-and-drop scheduling (react-dnd, later dnd-kit), real-time queue / planner updates over websockets, and per-platform embeds. The React surface grew to ~160 components across composer, planner, settings, automations, and the SDK.\n\n**Backend:** Python on an async (Tornado) I/O loop, deployed through the company's internal PaaS, with Datadog instrumentation and event messaging for downstream consumers. **Testing:** Jest + Enzyme unit tests and a Selenium-based end-to-end suite.\n\nDecisions that shaped it:\n\n- **Job-loop over a new microservice** for a channel-sync fix — comparable cost, but running it through the existing job loop got Datadog instrumentation, alerting, and a consistent job UX for free. That sync also cut a hot channel-lookup path from ~1,200ms to ~25ms.\n- **Per-user OAuth tokens over a shared system token** — system tokens obscure attribution, share a blast radius on copyright takedowns, and can't be revoked when someone leaves; per-user tokens cost a re-auth step but keep the platform accountable.\n- **Moved de-duplication into the automation router** after real duplicate-publish incidents during a platform outage — a mid-life architecture correction, not a day-one design.\n- **Shipped a narrow automation MVP and iterated in public** (a beta channel) rather than big-bang launching to every page.\n\nEight years in, I designed the agent loop that finally moved this codebase off Python/Tornado onto Next.js — see the Agentic Framework Migration case study."
+          "body": "**Frontend:** React + Redux + React Router, bundled with Webpack and styled in Sass on the company's internal design system; drag-and-drop scheduling (react-dnd, later dnd-kit), real-time queue / planner updates over websockets, and per-platform embeds. The React surface grew to ~160 components across composer, planner, settings, automations, and the SDK.\n\n**Backend:** Python on an async (Tornado) I/O loop, deployed through the company's internal PaaS, with Datadog instrumentation and event messaging for downstream consumers. **Testing:** Jest + Enzyme unit tests and a Selenium-based end-to-end suite.\n\nDecisions that shaped it:\n\n- **Job-loop over a new microservice** for a channel-sync fix — comparable cost, but running it through the existing job loop got Datadog instrumentation, alerting, and a consistent job UX for free. That sync also cut a hot channel-lookup path from ~1,200ms to ~25ms.\n- **Per-user OAuth tokens over a shared system token** — system tokens obscure attribution, share a blast radius on copyright takedowns, and can't be revoked when someone leaves; per-user tokens cost a re-auth step but keep the platform accountable.\n- **Moved de-duplication into the automation router** after real duplicate-publish incidents during a platform outage — a mid-life architecture correction, not a day-one design.\n- **Shipped a narrow automation MVP and iterated in public** (a beta channel) rather than big-bang launching to every page.\n\nEight years in, I designed the agent loop that finally moved this codebase off Python/Tornado onto Next.js — see the Agentic Framework Migration case study.\n\nThat internal design system is its own story: I led its evolution twice — the Solid → Bootstrap migration, then proposing and building the Foundation UI system it ran on for its final four years. Full case study: [Foundation UI — a design system that held](https://n8plusus.com/portfolio/foundation-ui)."
         },
         {
           "title": "Questions this project answers",
@@ -767,7 +827,11 @@
         },
         {
           "title": "3 · Turnkey Sharing",
-          "body": "*(Concept / proposal — my own design, not shipped.)* Turn the proven share-artifact engine into a paved road: a two-pane operator tool (field form + live composited preview) so any team could pick a template, fill content, choose an output shape, and get share artifacts with **no engineering ticket** — the platform-thinking extension of the gen-media win."
+          "body": "*(Concept / proposal — my own design, not shipped.)* Turn the proven share-artifact engine into a paved road: a two-pane operator tool (field form + live composited preview) so any team could pick a template, fill content, choose an output shape, and get share artifacts with **no engineering ticket** — the platform-thinking extension of the gen-media win.\n\nThe direction was validated later: sharing became a formal cross-functional program (the 2025 Sharing Accelerator — engineering, product, design, and editorial leadership), where I built the share experiences across b-pages, quiz results, shopping and product sub-buzzes, and AI-generated results, with the mission of more than doubling the site's share rate."
+        },
+        {
+          "title": "4 · .bio Branded Pages",
+          "body": "The same platform family, applied to brand theming: **one link-in-bio template system serving multiple company brands** — BuzzFeed, Complex, HuffPost, Tasty — each with its own look, feel, and domain.\n\n- Migrated Complex and HuffPost off Later, a paid SaaS, onto the internal .bio service — link-back-to-owned-properties from Instagram and TikTok.\n- Coordinated new routes with the infrastructure team, created branded index pages, and **built the brand configurations so future brands could be added without new engineering** — brand identity encoded as configuration, not per-brand code.\n- The launch had a war story: assets intermittently failing to load in production, with three plausible suspects (a Next.js 11 upgrade, server-side URL rewrites, edge caching). Diagnosed it to cached failures, fixed with targeted cache purges, then documented the deploy process so the next brand wouldn't hit it."
         },
         {
           "title": "How I built it",

@@ -33,6 +33,13 @@ export function renderBody(d) {
 
   if (d.summary) parts.push(`<p class="summary">${mdInline(d.summary)}</p>`);
 
+  // Skills BEFORE Experience (RiseSmart Foundation structure, 2026-09-02).
+  if (d.skills && d.skills.length) {
+    parts.push(sectionLabel('Skills'));
+    parts.push(`<div class="skills">${d.skills.map(s =>
+      `<p><span class="skill-group">${esc(s.group)}:</span> ${mdInline(s.items)}</p>`).join('')}</div>`);
+  }
+
   parts.push(sectionLabel('Experience'));
   for (const job of d.experience || []) {
     parts.push(`<div class="job">
@@ -48,15 +55,10 @@ export function renderBody(d) {
     parts.push(`</div>`);
   }
 
+  // "Early career" is a sub-head within Experience (not its own section rule).
   if (d.earlier && d.earlier.length) {
-    parts.push(`<h3 class="earlier-head">Earlier</h3><ul class="earlier">${d.earlier.map(e => `<li>${mdInline(e)}</li>`).join('')}</ul>`);
+    parts.push(`<h3 class="earlier-head">Early career</h3><ul class="earlier">${d.earlier.map(e => `<li>${mdInline(e)}</li>`).join('')}</ul>`);
     if (d.earlierNote) parts.push(`<p class="earlier-note">${mdInline(d.earlierNote)}</p>`);
-  }
-
-  if (d.skills && d.skills.length) {
-    parts.push(sectionLabel('Skills'));
-    parts.push(`<div class="skills">${d.skills.map(s =>
-      `<p><span class="skill-group">${esc(s.group)}:</span> ${mdInline(s.items)}</p>`).join('')}</div>`);
   }
 
   if (d.education && d.education.length) {
@@ -85,6 +87,9 @@ export function toMarkdown(d) {
   L.push(line + '\n');
   if (d.summary) L.push(d.summary + '\n');
   L.push('---\n');
+  L.push('## Skills\n');
+  for (const s of d.skills || []) L.push(`**${s.group}:** ${s.items}\n`);
+  L.push('---\n');
   L.push('## Experience\n');
   for (const job of d.experience || []) {
     L.push(`### ${job.company} · ${job.tenure}\n`);
@@ -97,14 +102,11 @@ export function toMarkdown(d) {
     if (job.note) L.push(job.note + '\n');
   }
   if (d.earlier && d.earlier.length) {
-    L.push('### Earlier\n');
+    L.push('### Early career\n');
     for (const e of d.earlier) L.push(`- ${e}`);
     L.push('');
     if (d.earlierNote) L.push(d.earlierNote + '\n');
   }
-  L.push('---\n');
-  L.push('## Skills\n');
-  for (const s of d.skills || []) L.push(`**${s.group}:** ${s.items}\n`);
   L.push('---\n');
   L.push('## Education\n');
   for (const e of d.education || []) L.push(e);
