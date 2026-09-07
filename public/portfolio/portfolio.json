@@ -356,8 +356,8 @@
         "migration",
         "design review"
       ],
-      "summary": "The design-system arc under BuzzFeed's publishing tools: a legacy-framework migration I led, a foundation I proposed and built, and a component library serving 79 projects.",
-      "description": "I led BuzzFeed's publishing tools off their legacy style framework, proposed and built Foundation UI on Bootstrap, and it stayed the working standard for four years without a rewrite — while I shipped into the company-wide React component library used by 79 projects.",
+      "summary": "The design-system arc under BuzzFeed's publishing tools: a legacy-framework migration I led, a foundation I implemented on the Bootstrap base I shaped, and a component library serving 79 projects.",
+      "description": "I led BuzzFeed's publishing tools off their legacy style framework, shaped the Bootstrap foundation choice, and implemented Foundation UI — our product designer's redesign — which stayed the working standard for four years without a rewrite, while I shipped into the company-wide React component library used by 79 projects.",
       "media": [],
       "roleTypes": [
         "lead",
@@ -371,7 +371,7 @@
       "sections": [
         {
           "title": "What I built",
-          "body": "The foundation under BuzzFeed's publishing tools, across a four-year arc. I led the **Solid → Bootstrap migration** in 2020 with two other developers, proposed **Foundation UI (FUI)** in writing in 2021, and led its build through a phased 2022 launch. It stayed the team's working standard for the rest of the platform's life, with no rewrite.\n\n- **The migration (2020):** moved PubHub off Solid, BuzzFeed's internal style framework, onto Bootstrap. That groundwork mattered beyond our team — internal tools officially moved off Solid, with other teams following.\n- **Foundation UI (2021–2022):** a redesign of the post-creation surfaces that standardized form inputs and page patterns into a reusable toolkit — proposed in my 2021 review as \"a generalized Bootstrap alternative to Solid,\" then built with our designer, PM, and QA.\n- **The company component library:** separately, I shipped 47 commits into BuzzFeed's shared `react-components` library — consumed by **79 projects** (measured in the monorepo). My components ran where it counted: the callout render unit on the site's highest-traffic page, share components across nine properties, the subscribe button on the main feed."
+          "body": "The foundation under BuzzFeed's publishing tools, across a four-year arc. I led the **Solid → Bootstrap migration** in 2020 with two other developers, then implemented **Foundation UI (FUI)** through a phased 2022 launch. The design was our product designer's; the Bootstrap foundation choice and the build were mine. It stayed the team's working standard for the rest of the platform's life, with no rewrite.\n\n- **The migration (2020):** moved PubHub off Solid, BuzzFeed's internal style framework, onto Bootstrap. That groundwork mattered beyond our team — internal tools officially moved off Solid, with other teams following.\n- **Foundation UI (2021–2022):** a redesign of the post-creation surfaces that standardized form inputs and page patterns into a reusable toolkit — designed by our product designer and implemented by me on the Bootstrap foundation I'd led the team onto, carrying the build with our PM and QA.\n- **The company component library:** separately, I shipped 47 commits into BuzzFeed's shared `react-components` library — consumed by **79 projects** (measured in the monorepo). My components ran where it counted: the callout render unit on the site's highest-traffic page, share components across nine properties, the subscribe button on the main feed."
         },
         {
           "title": "How it works",
