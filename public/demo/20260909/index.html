@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="robots" content="noindex,nofollow,noarchive" />
-<title>Production case deep dive — the PubHub migration, idea to production — Nathan O'Brien</title>
-<meta name="description" content="A private walkthrough of one AI-native design and development workflow, end to end: idea, design and prototype, design system, code, validation, production." />
+<title>PubHub 2015–2026 — the evolution of one platform — Nathan O'Brien</title>
+<meta name="description" content="A private walkthrough of one platform across ten years: Solid to Bootstrap to Foundation UI, the agent-driven migration to Next.js, and what the modern stack unlocked." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -43,7 +43,7 @@
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ',{page_title:'demo-20260909 production case deep dive'});</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ',{page_title:'demo-20260909 PubHub evolution deep dive'});</script>
 </head>
 <body>
   <div class="bar"><div class="inner">
@@ -60,135 +60,132 @@
     <main id="project">
       <header class="phead">
         <span class="private">Private page · prepared for A5 Labs · Wed Sep 9, 2026 · not linked or indexed</span>
-        <p class="mono meta-line">2026 · BuzzFeed PubHub · migration lead, frontend owner since 2015</p>
-        <h1>One workflow, end to end: the agent-driven migration of PubHub</h1>
-        <p class="lede">The production case for the deep dive. One workflow, on one platform I had owned for ten years: moving PubHub's ~70k-line UI service off a decade-old Python/Tornado stack onto Next.js with an agent loop I designed, gated by a human at every consequential decision. Told in the order you asked for: idea, design and prototype, design system, code, validation, production. Other work is in the appendix, clearly separated. Screens marked <span class="mono" style="color:#8a5a00">private</span> are shown here only.</p>
-        <div class="chips"><span class="chip">agentic migration</span><span class="chip">Next.js / React</span><span class="chip">design system preserved</span><span class="chip">human-gated</span><span class="chip">test-gated</span><span class="chip">production</span></div>
-        <nav class="agenda" aria-label="Sections">
-          <a href="#idea"><b>1 · Idea</b>What existed, why now</a>
-          <a href="#prototype"><b>2 · Prototype</b>Spec first, first slice</a>
-          <a href="#system"><b>3 · System</b>What had to be preserved</a>
-          <a href="#code"><b>4 · Code</b>The agent loop, gated</a>
-          <a href="#validation"><b>5 · Validation</b>Tests, side-by-side, stage</a>
-          <a href="#production"><b>6 · Production</b>Shipped, reused</a>
+        <p class="mono meta-line">2015–2026 · BuzzFeed PubHub · frontend owner and domain expert for the whole arc</p>
+        <h1>PubHub, 2015 to 2026: the evolution of one platform, from a legacy style framework to an AI-native stack</h1>
+        <p class="lede">The production case for the deep dive is a platform I owned for ten years and changed three times. First the design system: off the internal framework, onto Bootstrap, then Foundation UI, which held for four years. Then the migration with AI: an agent loop that moved the ~70k-line UI service to Next.js in 8% of the estimate, gated by a human at every consequential decision. Then what the modern stack unlocked. Screens marked <span class="mono" style="color:#8a5a00">private</span> are shown here only; public case studies are linked.</p>
+        <div class="chips"><span class="chip">design systems</span><span class="chip">Solid → Bootstrap → FUI</span><span class="chip">React / Next.js</span><span class="chip">agentic migration</span><span class="chip">human-gated</span><span class="chip">production</span></div>
+        <nav class="agenda" aria-label="Chapters">
+          <a href="#era1"><b>2015–2019</b>The platform, on Solid</a>
+          <a href="#era2"><b>2020–2022</b>Solid → Bootstrap → FUI</a>
+          <a href="#era3"><b>2025–2026</b>The migration, with AI</a>
+          <a href="#era4"><b>2026</b>What it unlocked</a>
+          <a href="#coda"><b>After</b>Where the pattern went</a>
+          <a href="#map"><b>Map</b>Your six steps</a>
         </nav>
         <div class="numbers">
-          <div><div class="v">8%</div><div class="k">of the 61-hour estimate: about five human hours, most of it overnight</div></div>
+          <div><div class="v">4 yrs</div><div class="k">Foundation UI stayed the working standard, no rewrite</div></div>
+          <div><div class="v">8%</div><div class="k">of the 61-hour estimate: ~5 human hours, most of it overnight</div></div>
           <div><div class="v">26→97%</div><div class="k">test coverage raised before the port; ~2,300 tests held green</div></div>
           <div><div class="v">71</div><div class="k">consequential decisions gated to a human, each logged</div></div>
-          <div><div class="v">×12</div><div class="k">similar services queued on the reusable blueprint</div></div>
         </div>
       </header>
 
-      <div class="subsec" id="idea">
-        <p class="step">1 · Idea</p>
-        <h2>What existed, and why the rewrite nobody had time for became possible</h2>
-        <p><strong>PubHub</strong> is BuzzFeed's social-publishing platform: 100+ connected channels, 40+ editors, hundreds of posts a day across six networks and fifteen post types. I owned its frontend for eight-plus years as the domain expert. The UI service was a ~70k-line React app served by a decade-old Python/Tornado backend on the company PaaS. A multi-quarter manual rewrite had sat on the roadmap for years; the team never had the capacity to start it, and every new feature paid the old stack's tax.</p>
-        <p>The idea was not "use AI on the codebase." It was narrower: a behavior-matched Next.js port, one slice at a time, with the existing test suite as the contract, the running production app as the oracle, and me deciding only at the points where judgment was actually required. If that worked once, it would be a method, not a project.</p>
-        <div class="ask"><b>What I personally did:</b> set the goal and the constraints, wrote the plan, designed the agent loop and its gates, made the 71 decisions, and packaged the result as a blueprint. The agent did the typing.</div>
+      <div class="subsec" id="era1">
+        <p class="step">2015–2019 · Chapter 1</p>
+        <h2>The platform, on the internal style framework</h2>
+        <p><strong>PubHub</strong> is BuzzFeed's social-publishing platform: 100+ connected channels, 40+ editors, hundreds of posts a day across six networks and fifteen post types. I joined in 2015 and owned its frontend for the rest of its life: a React app that grew to ~160 components and ~70k lines (composer, planner, settings, automations, an SDK) on a Python/Tornado backend, deployed through the company PaaS.</p>
+        <p>It was built on <strong>Solid</strong>, BuzzFeed's internal style framework. Solid was under-supported, every team re-solved the same UI problems, and Figma-to-code was a manual handoff: designers designed freely, engineers re-implemented by eye. The platform worked (95% user satisfaction in its health checks) but every feature paid a tax to the foundation it stood on.</p>
         <div class="gallery three">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/composer.png" alt="PubHub composer" /><figcaption><span class="pv">private</span><b>Before: composer.</b> Guided flow: channel, post type, media, schedule.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/planner.png" alt="PubHub planner" /><figcaption><span class="pv">private</span><b>Before: planner.</b> Drag-and-drop scheduling with hover preview.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/accounts.png" alt="PubHub connected accounts" /><figcaption><span class="pv">private</span><b>Before: accounts.</b> Self-service channel management.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/composer.png" alt="PubHub composer" /><figcaption><span class="pv">private</span><b>Composer.</b> Guided flow: channel, post type, media, schedule; fifteen post types.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/planner.png" alt="PubHub planner" /><figcaption><span class="pv">private</span><b>Planner.</b> Drag-and-drop scheduling with hover preview of real content.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/accounts.png" alt="PubHub connected accounts" /><figcaption><span class="pv">private</span><b>Accounts.</b> Self-service channel management, tiered tokens per platform.</figcaption></figure>
         </div>
-        <div class="linkrow"><a href="/portfolio/pubhub.html" target="_blank" rel="noopener">Public case study: PubHub (the platform)</a></div>
+        <div class="linkrow"><a href="/portfolio/pubhub.html" target="_blank" rel="noopener">Public case study: PubHub</a></div>
       </div>
 
-      <div class="subsec" id="prototype">
-        <p class="step">2 · Design and prototype</p>
-        <h2>Spec first, with a number on it; then one slice, side by side with production</h2>
-        <p>I did not point an AI at the repo and hope. The design was a written spec: the goal (a behavior-matched port, not a redesign), the port mechanics for each legacy piece, the order of slices, and the rules for when the agent must stop. It broke into <strong>thirteen tasks</strong> against the team's <strong>sixty-one-hour</strong> estimate, so there was a clock to beat and a definition of done before any code moved.</p>
-        <p>The prototype was the first slice: scaffold, mount, SSO, then the API-gateway and image-builder proxies and SSR bootstrap state. Each migrated page rendered next to the production page and had to match. That was the proof the loop could work; everything after was repetition with gates.</p>
+      <div class="subsec" id="era2">
+        <p class="step">2020–2022 · Chapter 2</p>
+        <h2>Solid → Bootstrap → Foundation UI: a design system that held</h2>
+        <p>In 2020 I led PubHub off Solid onto Bootstrap with two other developers: a boring base on purpose, so design effort could go to our patterns, our form conventions, and our review rubric instead of re-solving solved problems. We were the first team to break away; internal tools org-wide moved off Solid afterward because the replacement was visibly better to build on, not by decree.</p>
+        <p>On that foundation I implemented <strong>Foundation UI</strong> (2021–2022), our product designer's redesign of the post-creation surfaces, as a reusable toolkit of standardized inputs and page patterns. The design was hers; the foundation choice and the build were mine. It re-foundationed an eight-year-old production tool in flight and stayed the team's working standard for the rest of the platform's life with no rewrite. When new draft types arrived (TikTok video, Reels, Instagram carousels) they shipped quickly <em>because</em> the toolkit existed.</p>
+        <h3>How it was governed without a council</h3>
+        <ul>
+          <li><strong>Kitchen-sink first:</strong> every component developed, tested, and merged on a kitchen-sink page before touching a real screen; a weekly cadence of shippable pieces.</li>
+          <li><strong>Feature-flag rollout, phased by platform:</strong> Facebook Video first, then the rest.</li>
+          <li><strong>The rubric written down:</strong> the team's design principles as the explicit review criteria, RFCs with comment periods for significant changes, scaffolded components with tests, Storybook stories, and README by default, so peer review could carry quality.</li>
+          <li><strong>Adoption:</strong> the R&amp;R team (6 developers), about four other internal-tools teams, three designers; shared FUI packages consumed across internal projects; the company React component library at 79 consumers.</li>
+        </ul>
+        <div class="gallery two">
+          <figure class="media"><img loading="lazy" src="/portfolio/assets/foundation-ui/foundation-ui-thumb.png" alt="Foundation UI" /><figcaption><b>Foundation UI.</b> Standardized inputs and page patterns on a Bootstrap base; extensible at three levels (use as-is, compose, new page still conformant).</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/preview.png" alt="Shared-library component rendering inside an editor" /><figcaption><span class="pv">private</span><b>The same-component discipline, same era.</b> On the sister Callout tool the editor's preview renders through the literal production component from the shared library. That habit, render the real thing, is what the migration's verification later leaned on.</figcaption></figure>
+        </div>
+        <div class="ask"><b>The honest cost of a versioned library:</b> shipping a shared-component change meant a version bump, a publish, then updating and deploying each consuming service just to test it, sometimes three services for one change. Living that loop for years is why I later built Sorb (coda), and why, when the migration came, the design system was treated as fixed.</div>
+        <div class="linkrow"><a href="/portfolio/foundation-ui.html" target="_blank" rel="noopener">Public case study: Foundation UI</a><a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">FUI Storybook</a><a href="/portfolio/callout.html" target="_blank" rel="noopener">Public case study: Callout</a></div>
+      </div>
+
+      <div class="subsec" id="era3">
+        <p class="step">2025–2026 · Chapter 3 · the deep dive</p>
+        <h2>The migration, with AI: the rewrite nobody had time for</h2>
+        <p>By 2025 the backend's age had put a multi-quarter manual rewrite on the roadmap for years, and the team never had the capacity to start it. The idea was narrower than "use AI on the codebase": a <strong>behavior-matched Next.js port</strong>, one slice at a time, with the existing test suite as the contract, the running production app as the oracle, the design system held fixed, and me deciding only where judgment was actually required. If it worked once it would be a method, not a project.</p>
+
+        <h3>Spec first, with a number on it</h3>
+        <p>I did not point an AI at the repo and hope. The design was a written spec: the goal, the port mechanics for each legacy piece, the order of slices, and the rules for when the agent must stop. Thirteen tasks against the team's <strong>sixty-one-hour</strong> estimate, so there was a clock to beat and a definition of done before any code moved. The prototype was the first slice (scaffold, mount, SSO, the API-gateway and image-builder proxies, SSR bootstrap state), rendered side by side with production until it matched.</p>
         <div class="gallery two">
           <figure class="media"><img loading="lazy" src="/portfolio/assets/agentic-migration/migration-ports.png" alt="Port mechanics" /><figcaption><b>The spec's core table.</b> Each legacy piece (handlers, build, React/Redux, styling, tests) mapped to its Next.js equivalent, gated by the suite. Illustrative, clean-room.</figcaption></figure>
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/agentic-migration/migration-loop.png" alt="The migration loop" /><figcaption><b>The loop as designed.</b> Prep coverage, port a slice, test every commit, verify against production, pause only at real blockers.</figcaption></figure>
+          <figure class="media"><img loading="lazy" src="/portfolio/assets/agentic-migration/migration-loop.png" alt="The migration loop" /><figcaption><b>The loop.</b> Prep coverage, port a slice, test every commit, verify against production, pause only at real blockers.</figcaption></figure>
         </div>
-      </div>
 
-      <div class="subsec" id="system">
-        <p class="step">3 · Design system</p>
-        <h2>What the migration had to preserve, and why the app was ready for it</h2>
-        <p>The port was behavior-matched, so the design system was a constraint, not a deliverable. PubHub's UI sat on <strong>Foundation UI</strong>, the toolkit I had implemented in 2020–2022 on a Bootstrap foundation after leading the team off the legacy internal framework; it had been the working standard for four years with no rewrite, delivered as versioned shared components. That is what made the migration tractable: the components were already a library the new stack could consume, so the agent ported pages and data flow, not the design. Every slice had to render the same components with the same tokens, which the side-by-side check enforced.</p>
-        <div class="gallery two">
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/foundation-ui/foundation-ui-thumb.png" alt="Foundation UI" /><figcaption><b>Foundation UI.</b> Standardized inputs and page patterns; the system the migration carried across unchanged.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/preview.png" alt="Shared-library component rendering in an editor" /><figcaption><span class="pv">private</span><b>Same-component discipline.</b> The team's habit of rendering through the literal production component (here, the Callout render unit inside its editor) is the habit the migration's side-by-side check relies on.</figcaption></figure>
-        </div>
-        <div class="ask"><b>The cost that shaped the idea:</b> shipping a shared-component change meant a version bump, a publish, and updating each consuming service just to test it. A migration that touched the design system would have multiplied that; keeping it fixed kept the loop simple.</div>
-        <div class="linkrow"><a href="/portfolio/foundation-ui.html" target="_blank" rel="noopener">Public case study: Foundation UI</a><a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">FUI Storybook</a></div>
-      </div>
+        <h3>Make the tests trustworthy before touching the framework</h3>
+        <p>At 26% line coverage the suite could not serve as a contract, so worker agents raised it first: <strong>26% → 97%</strong>, about 2,081 generated tests (suite 184 → ~2,265), which surfaced <strong>four real latent bugs</strong> before a single page moved. Thresholds were locked so coverage could not silently regress.</p>
 
-      <div class="subsec" id="code">
-        <p class="step">4 · Code</p>
-        <h2>The agent loop: ported one slice at a time, with a human at every consequential decision</h2>
-        <p>The agent worked the plan in small slices: Tornado request handlers became Next.js server-side data fetching and catch-all routes, the Webpack build became the Next build, React/Redux and the styling layer came across, tests moved with them. It ran free on the typing and <strong>stopped at every consequential decision</strong>: a data-model shape, a proxy edge case, a behavior that did not match. <strong>71 of those</strong>, each logged with the choice and the reason. It ran overnight; I decided in the morning.</p>
-        <h3>The rules that made it safe</h3>
-        <ul>
-          <li><strong>Chrome DevTools as a hard prerequisite:</strong> the agent inspected the running UI itself rather than asking me to eyeball it.</li>
-          <li><strong>Full suite plus lint green on every commit</strong>, or the commit did not land.</li>
-          <li><strong>Every wall became a written-down answer:</strong> a build quirk, a proxy edge case, an SSR gotcha, captured as a learning artifact so the next slice and the next system would not hit it again.</li>
-          <li><strong>My job moved up a level:</strong> designing the loop, setting the gates, deciding at the blockers. About five human hours total.</li>
-        </ul>
+        <h3>The agent loop, gated by a human at every consequential decision</h3>
+        <p>The agent worked the plan in small slices, ran the full suite plus lint on every commit, and verified each migrated page against production. It ran free on the typing and <strong>stopped at every consequential decision</strong>: a data-model shape, a proxy edge case, a behavior that did not match. <strong>71 of those</strong>, each logged with the choice and the reason. Chrome DevTools was a hard prerequisite so the agent inspected the running UI itself. Every wall (a build quirk, an SSR gotcha) became a written-down answer. It ran overnight; I decided in the morning.</p>
+
+        <h3>Result</h3>
+        <p>Nine hundred files, seventy thousand lines, behavior-matched to the original and validated on stage, merged behind flags, in about <strong>8% of the estimate</strong>: about five human hours, tracked on a separate clock from the wall-clock hours the loop ran unattended. Then generalized into a <strong>reusable blueprint</strong> (the agent persona, the decision defaults, the library of answers) queued for about a dozen similar services.</p>
         <div class="linkrow"><a href="/portfolio/agentic-migration.html" target="_blank" rel="noopener">Public case study: agentic migration</a><a href="/portfolio/walkthroughs/migration.html" target="_blank" rel="noopener">▶ Narrated walkthrough, 8 steps</a></div>
       </div>
 
-      <div class="subsec" id="validation">
-        <p class="step">5 · Validation</p>
-        <h2>Trust came from the gates, not from the model</h2>
-        <p><strong>Before the port:</strong> the existing suite could not be trusted as a contract at 26% line coverage, so I fanned out worker agents to raise it first. Coverage went from <strong>26% to 97%</strong> (the agents wrote about 2,081 tests; the suite grew from 184 to ~2,265) and that work surfaced <strong>four real latent bugs</strong> before a single page moved. Thresholds were then locked so coverage could not silently regress.</p>
-        <p><strong>During the port:</strong> the full suite (~2,300 tests) plus lint had to be green on every commit; each migrated page was verified side by side against production; anything that did not match was a blocker, not a note. <strong>After the port:</strong> the whole app was validated on stage, behavior-matched, before it was merged. Nothing merged on the agent's word.</p>
-        <div class="ask"><b>Two clocks:</b> I tracked human hours and wall-clock hours separately against the sixty-one-hour estimate. About five human hours; the rest ran unattended. That distinction is the honest way to say "8%."</div>
-      </div>
-
-      <div class="subsec" id="production">
-        <p class="step">6 · Production</p>
-        <h2>Merged, then turned into a pattern the next twelve services could reuse</h2>
-        <p>Nine hundred files and seventy thousand lines, behavior-matched to the original and validated on stage, in about <strong>8% of the estimated engineering time</strong>. Once PubHub was on the modern stack the team could iterate on core features agentically: a redesigned, personalized home page and new planner filter tools shipped on it.</p>
-        <p>I built it as a pattern, not a one-off. The agent persona, the decision defaults, and the library of written-down answers were generalized into a <strong>reusable blueprint</strong>, queued for about a dozen similar services when the July 2026 layoffs ended the run.</p>
+      <div class="subsec" id="era4">
+        <p class="step">2026 · Chapter 4</p>
+        <h2>What the modern stack unlocked: agentic feature work on a platform that could finally move</h2>
+        <p>Once PubHub was on Next.js the team could iterate on core features agentically, the same loop applied to new work instead of a port. Two shipped; two were in flight when the July 2026 layoffs ended the run.</p>
         <div class="gallery two">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><span class="pv">private</span><b>After: home.</b> The redesigned, personalized home page, built on the migrated stack.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><span class="pv">private</span><b>After: planner.</b> New filter tools, shipped agentically post-migration.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><span class="pv">private</span><b>Shipped: the redesigned, personalized home page.</b> Built on the migrated stack.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><span class="pv">private</span><b>Shipped: new planner filter tools.</b> Delivered agentically post-migration.</figcaption></figure>
         </div>
-      </div>
-
-      <div class="subsec" id="limits">
-        <p class="step">What this case does not claim</p>
-        <h2>Honest limits</h2>
-        <ul class="limits">
-          <li>The blueprint was <strong>queued across twelve services, not yet applied</strong> to them, when the layoffs hit.</li>
-          <li>This was a <strong>behavior-matched port</strong>: the design system was preserved, not generated or changed, by the agent.</li>
-          <li>It was a <strong>one-person loop</strong> on one team; the adoption story for the migration is the blueprint, not a rollout across teams.</li>
-          <li>Diagrams on this page are <strong>illustrative and clean-room</strong>; internal code and tickets are not shown.</li>
+        <h3>The AI-native explorations on the same platform</h3>
+        <ul>
+          <li><strong>Support triage agent (production beta):</strong> PubHub's support load was about one in seven team hours. I spearheaded an agent that classifies, investigates the live system, and drafts the fix and reply, with a person approving every action: <strong>84% handling accuracy</strong> on a golden set of resolved tickets it had never seen, routing raised from 54% to the mid-70s on a locked holdout, a two-key fail-closed write policy, a team-wide month-long production beta.</li>
+          <li><strong>Nudge recommendations (in flight):</strong> a feature-recommendation system for the recommendation queue; proven, not fully implemented at departure.</li>
         </ul>
-      </div>
-
-      <div class="subsec" id="appendix">
-        <p class="step">Appendix · other production work, if you want to go deeper</p>
-        <h2>Three separate projects, each its own story</h2>
-        <p>These are not steps of the workflow above. They are the other places the same principles show up: render through the real thing, gate the AI, measure the result.</p>
-        <h3>Callout: design → code with a live preview through the production renderer</h3>
-        <p>An on-site promotions admin I built from an empty repo as lead author. The operator's preview renders through the same shared-library component that serves readers. As it matured we walked free-form options back into governed presets: theme dropdown, auto-contrast as CSS variables, spacing and type from the design file.</p>
-        <div class="gallery three">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/wizard.png" alt="Callout wizard" /><figcaption><span class="pv">private</span><b>Wizard.</b> Undo/redo, autosave.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/preview.png" alt="Callout live preview" /><figcaption><span class="pv">private</span><b>Live preview.</b> The production render unit, inside the editor.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/live.png" alt="Callout live on site" /><figcaption><span class="pv">private</span><b>Live on site.</b> The same component, reader-facing.</figcaption></figure>
-        </div>
-        <div class="linkrow"><a href="/portfolio/callout.html" target="_blank" rel="noopener">Public case study: Callout</a><a href="/portfolio/walkthroughs/callout.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
-
-        <h3>AI support triage: a production agent, eval-gated, human on every write</h3>
-        <p>Spearheaded on the same team. A golden set of resolved tickets it had never seen (<strong>84% handling accuracy</strong>), routing raised from 54% to the mid-70s on a locked holdout, a two-key fail-closed write policy, and a team-wide month-long production beta with a person approving every action.</p>
         <div class="gallery two">
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/ai-triage/triage-loop.png" alt="Triage loop" /><figcaption><b>The loop.</b> Two-call classification, gated investigator, human gate on every write, correction flywheel.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png" alt="Claim to spec flow" /><figcaption><span class="pv">private</span><b>Claim → triage → spec.</b> The evidence-cited draft, before sign-off.</figcaption></figure>
+          <figure class="media"><img loading="lazy" src="/portfolio/assets/ai-triage/triage-loop.png" alt="Triage loop" /><figcaption><b>Triage loop.</b> Two-call classification, gated investigator, human gate on every write, correction flywheel.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png" alt="Claim to spec flow" /><figcaption><span class="pv">private</span><b>Claim → triage → spec.</b> The evidence-cited draft, before a person signs off.</figcaption></figure>
         </div>
         <div class="linkrow"><a href="/portfolio/ai-support-triage.html" target="_blank" rel="noopener">Public case study: AI support triage</a><a href="/portfolio/walkthroughs/ai-triage.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
+      </div>
 
-        <h3>Sorb: Figma → semantic tokens → the running app, verified before merge (studio, solo)</h3>
-        <p>Where I took the same loop after BuzzFeed, at the design seam. A designer edits a token in Figma, the plugin posts it to a bridge, and the React SDK applies it as CSS custom properties so the real components re-skin live before anyone merges. Tokens modeled primitive → semantic → component; adapters for six UI frameworks; every AI feature proposes, the live app confirms, a person merges.</p>
+      <div class="subsec" id="coda">
+        <p class="step">After BuzzFeed · Coda</p>
+        <h2>Where the pattern went next: Sorb, at the design seam (studio, solo)</h2>
+        <p>The versioned-library loop from chapter 2 and the verify-against-the-running-app rule from chapter 3 became a product. A designer edits a token in Figma, the plugin posts it to a bridge, and the React SDK applies it as CSS custom properties so the real components re-skin live before anyone merges. Tokens modeled primitive → semantic → component; adapters for six UI frameworks; every AI feature proposes, the live app confirms, a person merges. Solo work, said as such; the team-scale evidence is the four chapters above.</p>
         <div class="gallery two">
           <figure class="media"><img loading="lazy" src="/portfolio/assets/sorb/sorb-bridge.png" alt="Sorb live-preview flow" /><figcaption><b>The bridge.</b> Figma plugin → bridge → React SDK; preview never breaks production.</figcaption></figure>
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/sorb/sorb-try-tour.png" alt="try.sorbcloud.com tour" /><figcaption><b>try.sorbcloud.com.</b> Ninety seconds, no install.</figcaption></figure>
+          <figure class="media"><img loading="lazy" src="/portfolio/assets/sorb/sorb-try-tour.png" alt="try.sorbcloud.com tour" /><figcaption><b>try.sorbcloud.com.</b> Ninety seconds, no install, the real plugin against a real storefront.</figcaption></figure>
         </div>
-        <div class="linkrow"><a class="solo" href="https://try.sorbcloud.com" target="_blank" rel="noopener">Live demo: try.sorbcloud.com</a><a href="/portfolio/sorb.html" target="_blank" rel="noopener">Public case study: Sorb</a><a href="/portfolio/walkthroughs/sorb.html" target="_blank" rel="noopener">▶ Walkthrough</a><a href="/portfolio/" target="_blank" rel="noopener">All public work</a></div>
+        <div class="linkrow"><a class="solo" href="https://try.sorbcloud.com" target="_blank" rel="noopener">Live demo: try.sorbcloud.com</a><a href="/portfolio/sorb.html" target="_blank" rel="noopener">Public case study: Sorb</a><a href="/portfolio/walkthroughs/sorb.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
+      </div>
+
+      <div class="subsec" id="map">
+        <p class="step">Reference</p>
+        <h2>How the arc maps to your six steps</h2>
+        <ul>
+          <li><strong>Idea:</strong> chapter 3, the narrow idea of a behavior-matched port as a method; chapter 1 is what existed.</li>
+          <li><strong>Design / prototype:</strong> the written spec with a number on it and the first slice rendered against production (ch. 3); kitchen-sink-first components (ch. 2).</li>
+          <li><strong>Design system:</strong> chapter 2, Foundation UI, held fixed as the migration's constraint.</li>
+          <li><strong>Code:</strong> the agent loop, 71 human-gated decisions (ch. 3).</li>
+          <li><strong>Validation:</strong> coverage 26 → 97% first, suite green per commit, side-by-side with production, stage (ch. 3); health checks and A/B on the platform (ch. 1–2); golden-set evals on the triage agent (ch. 4).</li>
+          <li><strong>Production:</strong> merged behind flags, blueprint for twelve services, features shipped on the new stack (ch. 3–4).</li>
+        </ul>
+        <h3>Honest limits</h3>
+        <ul class="limits">
+          <li>The blueprint was <strong>queued across twelve services, not yet applied</strong> to them, when the layoffs hit; Nudge and the full triage rollout were in flight.</li>
+          <li>The migration was a <strong>behavior-matched port</strong>: the design system was preserved, not generated, by the agent.</li>
+          <li>Figma <strong>Code Connect</strong> was evaluated with our VP of Technology and design leadership, not shipped; that gap is what Sorb was built to close.</li>
+          <li>Diagrams are <strong>illustrative and clean-room</strong>; internal code and tickets are not shown.</li>
+        </ul>
+        <div class="linkrow"><a href="/portfolio/" target="_blank" rel="noopener">All public work</a><a href="/portfolio/image-publishing.html" target="_blank" rel="noopener">Also on PubHub: image publishing + share artifacts (+176% / +82% A/B)</a></div>
       </div>
     </main>
     <footer>
