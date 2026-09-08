@@ -94,7 +94,7 @@
         <span class="private">Prepared for A5 Labs · Wed Sep 9, 2026</span>
         <p class="mono meta-line">2015–2026 · BuzzFeed PubHub · frontend owner and domain expert for the whole arc</p>
         <h1>PubHub, 2015 to 2026: the evolution of one platform, from a legacy style framework to an AI-native stack</h1>
-        <p class="lede">The production case for the deep dive is a platform I owned for ten years and changed three times. First the design system: off the internal framework, onto Bootstrap, then Foundation UI, which held for four years. Then the migration with AI: an agent loop that moved the ~70k-line UI service to Next.js in 8% of the estimate, gated by a human at every consequential decision. Then what the modern stack unlocked. Public case studies and live demos are linked where they exist.</p>
+        <p class="lede">The production case for the deep dive is a platform I owned for ten years and changed three times. First the design system: off the internal framework, onto Bootstrap, then Foundation UI, which held for four years. Then the migration with AI: an agent loop that moved the 70k+ line UI service to Next.js in 8% of the estimate, gated by a human at every consequential decision. Then what the modern stack unlocked. Public case studies and live demos are linked where they exist.</p>
         <div class="chips"><span class="chip">design systems</span><span class="chip">Solid → Bootstrap → FUI</span><span class="chip">React / Next.js</span><span class="chip">agentic migration</span><span class="chip">human-gated</span><span class="chip">production</span></div>
         
         <div class="strip" aria-label="PubHub by the numbers">
@@ -103,13 +103,13 @@
               <div class="head"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#tree-structure-duotone"></use></svg></div><div class="eyebrow">The system · 2016–2026</div></div>
               <div class="big">36<small>services</small></div>
               <div class="unit">One platform, thirty-four satellites: APIs, queue readers, jobs, an extension &mdash; wired over NSQ, publishing to seven social platforms.</div>
-              <div class="facts"><div class="fact"><b>~155</b>contributors, fleet-wide</div><div class="fact"><b>9,806</b>commits over ten years</div></div>
+              <div class="facts"><div class="fact"><b>150+</b>contributors, fleet-wide</div><div class="fact"><b>9,806</b>commits over ten years</div></div>
             </div>
             <div class="chev">&rsaquo;</div>
             <div class="cell">
               <div class="head"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#app-window-duotone"></use></svg></div><div class="eyebrow">The application · pubhub_ui</div></div>
-              <div class="big">~88<small>people</small></div>
-              <div class="unit">The operator app the whole fleet exists to serve: composer, planner, schedules, automations. ~50k lines of React, ten years of change.</div>
+              <div class="big">80+<small>people</small></div>
+              <div class="unit">The operator app the whole fleet exists to serve: composer, planner, schedules, automations. over 50k lines of React, ten years of change.</div>
               <div class="facts"><div class="fact"><b>3,247</b>commits to the UI</div><div class="fact"><b>4–10</b>prod instances, autoscaled</div></div>
             </div>
             <div class="chev">&rsaquo;</div>
@@ -138,7 +138,7 @@
       <div class="subsec" id="era1">
         <p class="step">2015–2019 · Chapter 1</p>
         <h2>The platform, on the internal style framework</h2>
-        <p><strong>PubHub</strong> is BuzzFeed's social-publishing platform: 100+ connected channels, 40+ editors, hundreds of posts a day across six networks and fifteen post types. I joined in 2015 and owned its frontend for the rest of its life: a React app that grew to ~160 components and ~70k lines (composer, planner, settings, automations, an SDK) on a Python/Tornado backend, deployed through the company PaaS.</p>
+        <p><strong>PubHub</strong> is BuzzFeed's social-publishing platform: 100+ connected channels, 40+ editors, hundreds of posts a day across six networks and fifteen post types. I joined in 2015 and owned its frontend for the rest of its life: a React app that grew to over 160 components and 70k+ lines (composer, planner, settings, automations, an SDK) on a Python/Tornado backend, deployed through the company PaaS.</p>
         <p>It was built on <strong>Solid</strong>, BuzzFeed's internal style framework. Solid was under-supported, every team re-solved the same UI problems, and Figma-to-code was a manual handoff: designers designed freely, engineers re-implemented by eye. The platform worked (95% user satisfaction in its health checks) but every feature paid a tax to the foundation it stood on.</p>
         <div class="gallery three">
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-recs-composer.png" alt="PubHub in 2018: evergreen recommendations panel beside the Facebook link post composer" /><figcaption><span class="pv">Oct 2018</span><b>Recommendations &rarr; composer.</b> The evergreen recommendations rail ("drag and drop to reschedule") feeding the Facebook link-post form: account, scheduled-for, caption, preview.</figcaption></figure>
@@ -166,7 +166,7 @@
         </div>
         <h3>The same screen, before and after</h3>
         <div class="gallery two">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2019-before.png" alt="The PubHub planner before the redesign: a bare calendar grid with link-styled post cards" /><figcaption><b>Before (~2019).</b> A bare calendar grid. Link-styled post cards, no application chrome, drag-to-reschedule. Recovered from the internal user guide of the time.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2019-before.png" alt="The PubHub planner before the redesign: a bare calendar grid with link-styled post cards" /><figcaption><b>Before (2019).</b> A bare calendar grid. Link-styled post cards, no application chrome, drag-to-reschedule. Recovered from the internal user guide of the time.</figcaption></figure>
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2020-redesign.png" alt="The PubHub planner after the 2020 redesign: dense week calendar with per-day counts and a recommendations sidebar" /><figcaption><b>After (July 2020, the redesign).</b> The same feature on the system: branded header, channel selector with account badge, week / 4-day toggle, per-day post counts, and a Recommendations sidebar with New / Evergreen tabs, link-vs-video filtering, and per-item revenue and analytics affordances.</figcaption></figure>
         </div>
         <p>Everything the second screen gained &mdash; the nav, the channel selector, view toggles, count badges, tabs,
@@ -216,7 +216,7 @@
         </div>
 
         <h3>Make the tests trustworthy before touching the framework</h3>
-        <p>At 26% line coverage the suite could not serve as a contract, so worker agents raised it first: <strong>26% → 97%</strong>, about 2,081 generated tests (suite 184 → ~2,265), which surfaced <strong>four real latent bugs</strong> before a single page moved. Thresholds were locked so coverage could not silently regress.</p>
+        <p>At 26% line coverage the suite could not serve as a contract, so worker agents raised it first: <strong>26% → 97%</strong>, about 2,081 generated tests (suite 184 → 2,265), which surfaced <strong>four real latent bugs</strong> before a single page moved. Thresholds were locked so coverage could not silently regress.</p>
 
         <h3>The agent loop, gated by a human at every consequential decision</h3>
         <p>The agent worked the plan in small slices, ran the full suite plus lint on every commit, and verified each migrated page against production. It ran free on the typing and <strong>stopped at every consequential decision</strong>: a data-model shape, a proxy edge case, a behavior that did not match. <strong>71 of those</strong>, each logged with the choice and the reason. Chrome DevTools was a hard prerequisite so the agent inspected the running UI itself. Every wall (a build quirk, an SSR gotcha) became a written-down answer. It ran overnight; I decided in the morning.</p>
