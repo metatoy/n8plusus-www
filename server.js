@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import nodemailer from 'nodemailer';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { mintToken, verifyToken, rateLimit, checkContent, logContact } from './contact-guard.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const {
@@ -37,6 +38,17 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 app.get('/health', (_req, res) => res.status(200).send('ok'));
 
+// Minted by the page's JS when the visitor first touches the form; required by POST /api/contact.
+// A client that doesn't run JS (every spam POST we've logged) can't get one.
+app.get('/api/contact-token', (req, res) => {
+  const limit = rateLimit('token', req.ip);
+  if (!limit.ok) {
+    logContact('reject', req, { why: 'token_rate_limited' });
+    return res.status(429).set('Retry-After', String(limit.retryAfterSec)).json({ ok: false, error: 'Too many requests — try again later.' });
+  }
+  res.set('Cache-Control', 'no-store').json({ ok: true, token: mintToken() });
+});
+
 app.post('/api/contact', async (req, res) => {
   const b = req.body || {};
   const name = String(b.name || '').trim();
@@ -44,10 +56,42 @@ app.post('/api/contact', async (req, res) => {
   const message = String(b.message || '').trim();
   const company = String(b.company || '').trim(); // honeypot (hidden field)
 
-  if (company) return res.status(200).json({ ok: true }); // bot — silently accept + drop
+  if (company) {
+    logContact('drop', req, { why: 'honeypot' });
+    return res.status(200).json({ ok: true }); // bot — silently accept + drop
+  }
+
+  // Rate limits before any work: per-IP hourly/daily, plus a global cap so a distributed
+  // flood can't run up the SMTP account.
+  for (const bucket of ['postHour', 'postDay']) {
+    const limit = rateLimit(bucket, req.ip);
+    if (!limit.ok) {
+      logContact('reject', req, { why: bucket === 'postHour' ? 'rate_limited_hour' : 'rate_limited_day' });
+      return res.status(429).set('Retry-After', String(limit.retryAfterSec)).json({ ok: false, error: "That's a few messages already — I'll be in touch. Try again later if it's urgent." });
+    }
+  }
+  const global = rateLimit('postGlobal', 'all');
+  if (!global.ok) {
+    logContact('reject', req, { why: 'rate_limited_global' });
+    return res.status(429).set('Retry-After', String(global.retryAfterSec)).json({ ok: false, error: 'Busy right now — please try again shortly.' });
+  }
+
+  const token = verifyToken(b.token);
+  if (!token.ok) {
+    logContact('reject', req, { why: token.reason });
+    return res.status(400).json({ ok: false, error: 'Session expired — refresh the page and send again.' });
+  }
+
   if (!name || !email || !message) return res.status(400).json({ ok: false, error: 'All fields are required.' });
   if (!EMAIL_RE.test(email) || email.length > 254) return res.status(400).json({ ok: false, error: 'Enter a valid email.' });
   if (message.length > 5000) return res.status(400).json({ ok: false, error: 'Message too long.' });
+
+  const content = checkContent({ name, email, message });
+  if (!content.ok) {
+    logContact('reject', req, { why: content.reason });
+    return res.status(400).json({ ok: false, error: content.error });
+  }
+
   if (!transporter) {
     console.error('[contact] SMTP not configured (SMTP_USER/SMTP_PASS missing)');
     return res.status(500).json({ ok: false, error: 'Mail is not configured yet.' });
@@ -61,6 +105,7 @@ app.post('/api/contact', async (req, res) => {
       subject: `New project inquiry — ${name}`,
       text: `Name:  ${name}\nEmail: ${email}\n\n${message}\n\n— n8plusus.com contact form`,
     });
+    logContact('sent', req, { from: email });
     return res.status(200).json({ ok: true });
   } catch (e) {
     console.error('[contact] sendMail failed:', e.message);

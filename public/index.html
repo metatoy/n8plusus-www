@@ -947,6 +947,31 @@
         if (!form) return;
         var status = document.getElementById("formStatus");
         var btn = document.getElementById("contactSubmit");
+
+        // Anti-spam token: minted server-side the first time someone touches the form.
+        // Blind POSTers don't run this, so they never get one. Minted early because the
+        // server rejects tokens younger than 3s.
+        var tokenAt = 0;
+        var token = null;
+        var minting = null;
+        function mint() {
+          if (minting) return minting;
+          minting = fetch("/api/contact-token", { headers: { Accept: "application/json" } })
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j && j.token) { token = j.token; tokenAt = Date.now(); } })
+            .catch(function () {})
+            .then(function () { minting = null; });
+          return minting;
+        }
+        form.addEventListener("focusin", function () { if (!token) mint(); }, { once: true });
+        // Ready to POST: make sure we hold a token and that it's old enough to be accepted.
+        function ready() {
+          return (token ? Promise.resolve() : mint()).then(function () {
+            var wait = 3200 - (Date.now() - tokenAt);
+            return wait > 0 ? new Promise(function (r) { setTimeout(r, wait); }) : null;
+          });
+        }
+
         form.addEventListener("submit", function (e) {
           e.preventDefault();
           var el = form.elements;
@@ -961,12 +986,26 @@
           var orig = btn.textContent;
           btn.disabled = true;
           btn.textContent = "▸ Sending…";
-          fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          function post() {
+            data.token = token;
+            return fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+              .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, status: r.status, j: j }; }); });
+          }
+          ready()
+            .then(post)
+            .then(function (res) {
+              // Token expired (page left open a while) — mint a fresh one and send once more.
+              if (res.status === 400 && res.j && /Session expired/.test(res.j.error || "")) {
+                token = null;
+                return ready().then(post);
+              }
+              return res;
+            })
             .then(function (res) {
               if (res.ok && res.j && res.j.ok) {
                 status.className = "form-status mono ok";
                 status.textContent = "✓ Sent — I'll be in touch.";
+                token = null; // single-use; a second message mints a fresh one
                 form.reset();
               } else {
                 status.className = "form-status mono err";
