@@ -28,10 +28,31 @@
   .subsec[id]{scroll-margin-top:86px}
   @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
   .agenda a b{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--green-ink);letter-spacing:.06em;margin-bottom:3px}
-  .numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:22px 0 6px}
-  .numbers div{background:#fff;padding:12px 14px}
-  .numbers .v{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:20px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
-  .numbers .k{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.35}
+  .strip{margin:22px 0 6px}
+  .lane{display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr) 22px minmax(0,1.15fr);align-items:stretch}
+  .cell{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+  .cell.me{border:2px solid var(--green);background:#f4f9ea}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-ink);line-height:1.3}
+  .cell .head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .cell .tile{width:40px;height:40px;border-radius:10px;background:#eef2e4;display:grid;place-items:center;flex:0 0 auto;color:var(--green-ink)}
+  .cell.me .tile{background:var(--green);color:var(--ink)}
+  .cell .tile .ico{width:26px;height:26px;display:block}
+  .big{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:40px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .big small{font-size:18px;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:6px}
+  .unit{font-size:13.5px;line-height:1.35;color:var(--text)}
+  .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 14px;margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+  .fact{font-size:12px;color:var(--muted);line-height:1.35}
+  .fact b{display:block;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums}
+  .me .fact b{color:var(--green-ink)}
+  .chev{display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:16px}
+  .share{margin-top:8px;display:flex;flex-direction:column;gap:4px}
+  .share .bar{height:8px;border-radius:99px;background:#e6e2d6;overflow:hidden}.share .fill{height:100%;width:44%;background:var(--green);border-radius:99px}
+  .share .cap{display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+  .rail{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+  .outcomes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .oc{background:#fff;padding:11px 14px;min-width:0}
+  .oc b{display:block;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:20px;color:var(--ink);line-height:1.05;font-variant-numeric:tabular-nums}
+  .oc span{display:block;font-size:12px;color:var(--muted);line-height:1.35;margin-top:4px}
   .step{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);margin:0 0 4px}
   .subsec h2{font-size:22px}
   .subsec h3{font-size:15.5px;margin:18px 0 6px;color:var(--ink)}
@@ -50,7 +71,7 @@
   li{margin:0 0 8px}
   @media (max-width:720px){.agenda{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
     .agenda::-webkit-scrollbar{display:none}
-    .agenda a{flex:0 0 auto;min-width:132px}.numbers{grid-template-columns:1fr 1fr}.gallery.two,.gallery.three{grid-template-columns:1fr}}
+    .agenda a{flex:0 0 auto;min-width:132px}.lane{grid-template-columns:1fr}.chev{transform:rotate(90deg);height:22px}.outcomes{grid-template-columns:repeat(2,minmax(0,1fr))}.big{font-size:34px}.gallery.two,.gallery.three{grid-template-columns:1fr}}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
@@ -76,11 +97,31 @@
         <p class="lede">The production case for the deep dive is a platform I owned for ten years and changed three times. First the design system: off the internal framework, onto Bootstrap, then Foundation UI, which held for four years. Then the migration with AI: an agent loop that moved the ~70k-line UI service to Next.js in 8% of the estimate, gated by a human at every consequential decision. Then what the modern stack unlocked. Public case studies and live demos are linked where they exist.</p>
         <div class="chips"><span class="chip">design systems</span><span class="chip">Solid → Bootstrap → FUI</span><span class="chip">React / Next.js</span><span class="chip">agentic migration</span><span class="chip">human-gated</span><span class="chip">production</span></div>
         
-        <div class="numbers">
-          <div><div class="v">4 yrs</div><div class="k">Foundation UI stayed the working standard, no rewrite</div></div>
-          <div><div class="v">8%</div><div class="k">of the 61-hour estimate: ~5 human hours, most of it overnight</div></div>
-          <div><div class="v">26→97%</div><div class="k">test coverage raised before the port; ~2,300 tests held green</div></div>
-          <div><div class="v">71</div><div class="k">consequential decisions gated to a human, each logged</div></div>
+        <div class="strip" aria-label="PubHub by the numbers">
+          <div class="lane">
+            <div class="cell">
+              <div class="head"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#tree-structure-duotone"></use></svg></div><div class="eyebrow">The system · 2016–2026</div></div>
+              <div class="big">36<small>services</small></div>
+              <div class="unit">One platform, thirty-four satellites: APIs, queue readers, jobs, an extension &mdash; wired over NSQ, publishing to seven social platforms.</div>
+              <div class="facts"><div class="fact"><b>~155</b>contributors, fleet-wide</div><div class="fact"><b>9,806</b>commits over ten years</div></div>
+            </div>
+            <div class="chev">&rsaquo;</div>
+            <div class="cell">
+              <div class="head"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#app-window-duotone"></use></svg></div><div class="eyebrow">The application · pubhub_ui</div></div>
+              <div class="big">~88<small>people</small></div>
+              <div class="unit">The operator app the whole fleet exists to serve: composer, planner, schedules, automations. ~50k lines of React, ten years of change.</div>
+              <div class="facts"><div class="fact"><b>3,247</b>commits to the UI</div><div class="fact"><b>4–10</b>prod instances, autoscaled</div></div>
+            </div>
+            <div class="chev">&rsaquo;</div>
+            <div class="cell me">
+              <div class="head"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#user-gear-duotone"></use></svg></div><div class="eyebrow">The maintainer · #1 contributor</div></div>
+              <div class="big">44%<small>of UI commits</small></div>
+              <div class="unit">1,441 of the UI's 3,247 commits, first in Dec 2016 and last in Jul 2026 &mdash; the frontend's owner and domain expert across all three eras.</div>
+              <div class="share"><div class="bar"><div class="fill"></div></div><div class="cap"><span>me</span><span>87 others</span></div></div>
+              <div class="facts"><div class="fact"><b>#1</b>across all 36 services, 1,787 commits</div><div class="fact"><b>10 yrs</b>on one platform, three foundations</div></div>
+            </div>
+          </div>
+                    </div>
         </div>
       </header>
 
