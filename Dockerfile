@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf 
 COPY package.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 
-COPY server.js ./
+COPY server.js contact-guard.mjs ./
 COPY public ./public
 
 ENV PORT=3000
