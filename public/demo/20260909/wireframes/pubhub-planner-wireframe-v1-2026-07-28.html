@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Planner — Single-Account Calendar (Wireframe)</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333; background: #fff; font-size: 14px;
+  }
+  .titlebar {
+    background: #111; color: #fff; padding: 10px 18px;
+    font-size: 12px; letter-spacing: .06em; font-weight: 600;
+  }
+  .app { padding: 16px 18px 28px; }
+
+  /* toolbar */
+  .toolbar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 10px 12px; margin-bottom: 14px;
+    background: #f4f4f4; border: 1px solid #e6e6e6; border-radius: 6px;
+  }
+  .ctrl {
+    background: #fff; border: 1px solid #ccc; border-radius: 4px;
+    padding: 6px 10px; font-size: 12.5px; color: #333; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .ctrl.btn { color: #333; }
+  .ctrl .caret { color: #999; font-size: 10px; }
+  .datenav { display: inline-flex; align-items: center; gap: 4px; }
+  .datenav button {
+    background: #fff; border: 1px solid #ccc; border-radius: 4px; width: 26px; height: 26px;
+    font-size: 12px; color: #666; cursor: default;
+  }
+  .datenav .today { width: auto; padding: 0 10px; }
+  .spacer { flex: 1; }
+  .pill {
+    background: #fff; border: 1px solid #999; border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; color: #333; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .pill .count { background: #333; color: #fff; border-radius: 999px; padding: 0 6px; font-size: 10.5px; }
+  .toggle-group { display: inline-flex; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; }
+  .toggle-group span { padding: 6px 12px; font-size: 12.5px; color: #666; border-right: 1px solid #ccc; }
+  .toggle-group span:last-child { border-right: none; }
+  .toggle-group span.active { background: #333; color: #fff; }
+
+  /* layout */
+  .body-row { display: flex; gap: 16px; align-items: flex-start; }
+  .calendar-wrap { flex: 1; min-width: 0; overflow-x: auto; border: 1px solid #e6e6e6; border-radius: 6px; }
+  .calendar-grid {
+    display: grid; grid-template-columns: repeat(7, minmax(140px, 1fr));
+    min-width: 980px; position: relative;
+  }
+  .day-col { border-right: 1px solid #e6e6e6; min-height: 460px; position: relative; }
+  .day-col:last-child { border-right: none; }
+  .day-head {
+    padding: 8px 10px; text-align: center; background: #f4f4f4; border-bottom: 1px solid #e6e6e6;
+    position: sticky; top: 0;
+  }
+  .day-head .dow { font-size: 11px; letter-spacing: .04em; color: #999; text-transform: uppercase; }
+  .day-head .num { font-size: 15px; font-weight: 600; color: #333; }
+  .day-head.today .num {
+    display: inline-block; background: #333; color: #fff; border-radius: 50%;
+    width: 22px; height: 22px; line-height: 22px; margin-top: 2px;
+  }
+  .day-body { padding: 10px 8px; display: flex; flex-direction: column; gap: 26px; }
+
+  .post-card {
+    border-radius: 5px; padding: 6px 8px; font-size: 11.5px; cursor: default;
+    position: relative;
+  }
+  .post-card .time { font-size: 10px; color: #999; margin-bottom: 2px; }
+  .post-card .title { font-size: 11.5px; color: #222; line-height: 1.25; }
+  .post-card .badge {
+    display: inline-block; margin-top: 4px; font-size: 9px; letter-spacing: .03em;
+    text-transform: uppercase; padding: 1px 5px; border-radius: 3px;
+  }
+  .post-card.scheduled { background: #f4f4f4; border: 1px solid #ccc; }
+  .post-card.scheduled .badge { background: #e6e6e6; color: #666; border: 1px solid #ccc; }
+  .post-card.published { background: #e6e6e6; border: 1px solid #999; }
+  .post-card.published .badge { background: #999; color: #fff; }
+  .post-card.failed { background: #fff; border: 2px dashed #666; }
+  .post-card.failed .badge { background: #fff; color: #333; border: 1px solid #666; }
+  .post-card.active-hover { border-color: #333; box-shadow: 0 0 0 1px #333; }
+
+  /* hover-preview tooltip, drawn open (static) */
+  .tooltip {
+    position: absolute; top: -12px; left: 100%; margin-left: 10px; width: 220px; z-index: 30;
+    background: #fff; border: 1px solid #333; border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    padding: 10px; font-size: 11.5px;
+  }
+  .tooltip::before {
+    content: ""; position: absolute; left: -7px; top: 22px; width: 12px; height: 12px;
+    background: #fff; border-left: 1px solid #333; border-bottom: 1px solid #333; transform: rotate(45deg);
+  }
+  .tooltip .label {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: .05em; color: #999; margin-bottom: 6px;
+  }
+  .tooltip .thumb {
+    height: 74px; background: #e6e6e6; border: 1px solid #ccc; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; color: #999; font-size: 10.5px;
+    letter-spacing: .04em; margin-bottom: 8px;
+  }
+  .tooltip .headline { font-size: 12.5px; font-weight: 600; color: #222; line-height: 1.3; margin-bottom: 6px; }
+  .tooltip .meta { color: #666; font-size: 11px; margin-bottom: 2px; }
+  .tooltip .via { color: #999; font-size: 10.5px; font-style: italic; }
+
+  /* right rail */
+  .rail { width: 300px; flex-shrink: 0; }
+  .warning-card {
+    background: #f4f4f4; border: 1.5px solid #666; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px;
+  }
+  .warning-card .head { display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12.5px; color: #222; }
+  .warning-card .glyph {
+    width: 16px; height: 16px; border: 1.5px solid #666; border-radius: 50%; display: inline-flex;
+    align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #666;
+  }
+  .warning-card p { margin: 6px 0 10px; font-size: 11.5px; color: #555; line-height: 1.4; }
+  .warning-card button {
+    background: #333; color: #fff; border: none; border-radius: 4px; padding: 6px 12px; font-size: 12px; cursor: default;
+  }
+
+  .rail-panel { border: 1px solid #e6e6e6; border-radius: 6px; }
+  .rail-head {
+    display: flex; align-items: center; justify-content: space-between; padding: 10px 12px;
+    background: #f4f4f4; border-bottom: 1px solid #e6e6e6; border-radius: 6px 6px 0 0;
+  }
+  .rail-head .title { font-size: 13px; font-weight: 600; color: #222; display: flex; align-items: center; gap: 6px; }
+  .rail-head .chevron { font-size: 10px; color: #999; }
+  .rail-controls { display: flex; gap: 6px; padding: 8px 12px; border-bottom: 1px solid #e6e6e6; }
+  .rail-controls .ctrl { font-size: 11px; padding: 4px 8px; }
+  .rec-list { padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; }
+  .rec-card { display: flex; gap: 8px; border: 1px solid #e6e6e6; border-radius: 5px; padding: 8px; }
+  .rec-card .thumb {
+    width: 52px; height: 52px; flex-shrink: 0; background: #e6e6e6; border: 1px solid #ccc; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; font-size: 9px; color: #999;
+  }
+  .rec-card .info { min-width: 0; }
+  .rec-card .fmt {
+    font-size: 9px; text-transform: uppercase; letter-spacing: .04em; color: #999; margin-bottom: 2px;
+  }
+  .rec-card .title { font-size: 12px; color: #222; line-height: 1.25; margin-bottom: 4px; }
+  .rec-card .time { font-size: 10.5px; color: #999; }
+  .rail-footer {
+    display: flex; align-items: center; justify-content: space-between; padding: 8px 12px;
+    border-top: 1px solid #e6e6e6; font-size: 11px; color: #666;
+  }
+
+  .footer-disclaimer {
+    margin-top: 22px; padding-top: 10px; border-top: 1px solid #e6e6e6;
+    font-size: 11px; color: #999; font-style: italic;
+  }
+</style>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+</head>
+<body>
+
+<div class="titlebar">SCREEN 1 — PLANNER · SINGLE-ACCOUNT CALENDAR WITH HOVER-PREVIEW (WIREFRAME, STATIC)</div>
+
+<div class="app">
+
+  <div class="toolbar">
+    <div class="ctrl">@acme_news <span class="caret">▾</span></div>
+    <div class="datenav">
+      <button>‹</button>
+      <span class="ctrl today">Today</span>
+      <button>›</button>
+    </div>
+    <div class="toggle-group">
+      <span class="active">Week</span>
+      <span>4-Day</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="pill">Published by: All <span class="count">2</span> <span class="caret">▾</span></div>
+  </div>
+
+  <div class="body-row">
+
+    <div class="calendar-wrap">
+      <div class="calendar-grid">
+
+        <div class="day-col">
+          <div class="day-head"><div class="dow">Mon</div><div class="num">9</div></div>
+          <div class="day-body">
+            <div class="post-card scheduled">
+              <div class="time">9:00a</div>
+              <div class="title">5 Budget Kitchen Upgrades</div>
+              <span class="badge">Scheduled</span>
+            </div>
+            <div class="post-card published">
+              <div class="time">2:15p</div>
+              <div class="title">Weekend Recipe Roundup</div>
+              <span class="badge">Published</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-col">
+          <div class="day-head today"><div class="dow">Tue</div><div class="num">10</div></div>
+          <div class="day-body">
+            <div class="post-card scheduled">
+              <div class="time">8:30a</div>
+              <div class="title">Office Plant Care Tips</div>
+              <span class="badge">Scheduled</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-col" style="position:relative; overflow:visible;">
+          <div class="day-head"><div class="dow">Wed</div><div class="num">11</div></div>
+          <div class="day-body">
+            <div class="post-card scheduled active-hover">
+              <div class="time">1:30p</div>
+              <div class="title">10 Budget Travel Hacks</div>
+              <span class="badge">Scheduled</span>
+
+              <div class="tooltip">
+                <div class="label">Post preview</div>
+                <div class="thumb">THUMBNAIL PLACEHOLDER</div>
+                <div class="headline">10 Budget Travel Hacks You Haven't Tried Yet</div>
+                <div class="meta">Created by Priya N.</div>
+                <div class="via">via AutoClip</div>
+              </div>
+            </div>
+            <div class="post-card failed">
+              <div class="time">5:00p</div>
+              <div class="title">Q&amp;A Livestream Clip</div>
+              <span class="badge">Failed</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-col">
+          <div class="day-head"><div class="dow">Thu</div><div class="num">12</div></div>
+          <div class="day-body">
+            <div class="post-card scheduled">
+              <div class="time">10:00a</div>
+              <div class="title">Reader Poll: Fall Recipes</div>
+              <span class="badge">Scheduled</span>
+            </div>
+            <div class="post-card scheduled">
+              <div class="time">3:45p</div>
+              <div class="title">Behind the Scenes Clip</div>
+              <span class="badge">Scheduled</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-col">
+          <div class="day-head"><div class="dow">Fri</div><div class="num">13</div></div>
+          <div class="day-body">
+            <div class="post-card published">
+              <div class="time">11:00a</div>
+              <div class="title">Weekly Roundup Video</div>
+              <span class="badge">Published</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-col">
+          <div class="day-head"><div class="dow">Sat</div><div class="num">14</div></div>
+          <div class="day-body">
+            <div class="post-card scheduled">
+              <div class="time">9:15a</div>
+              <div class="title">Weekend Bake-Along</div>
+              <span class="badge">Scheduled</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-col">
+          <div class="day-head"><div class="dow">Sun</div><div class="num">15</div></div>
+          <div class="day-body">
+            <div class="post-card scheduled">
+              <div class="time">12:00p</div>
+              <div class="title">Sunday Reader Mailbag</div>
+              <span class="badge">Scheduled</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="rail">
+      <div class="warning-card">
+        <div class="head"><span class="glyph">!</span> Connection expired</div>
+        <p>@acme_news' Instagram connection needs to be renewed before new posts can publish.</p>
+        <button>Reconnect</button>
+      </div>
+
+      <div class="rail-panel">
+        <div class="rail-head">
+          <div class="title">Recommendations <span class="chevron">▾</span></div>
+        </div>
+        <div class="rail-controls">
+          <div class="ctrl">Sort: Newest <span class="caret">▾</span></div>
+          <div class="ctrl">Bots: All <span class="caret">▾</span></div>
+        </div>
+        <div class="rec-list">
+          <div class="rec-card">
+            <div class="thumb">IMG</div>
+            <div class="info">
+              <div class="fmt">Video</div>
+              <div class="title">Viral Clip: Office Coffee Ranking</div>
+              <div class="time">2h ago · via AutoClip</div>
+            </div>
+          </div>
+          <div class="rec-card">
+            <div class="thumb">IMG</div>
+            <div class="info">
+              <div class="fmt">Image</div>
+              <div class="title">Reader Submission: Desk Setups</div>
+              <div class="time">5h ago · via FeedWatcher</div>
+            </div>
+          </div>
+          <div class="rec-card">
+            <div class="thumb">IMG</div>
+            <div class="info">
+              <div class="fmt">Link</div>
+              <div class="title">Trending: Budget Grocery Lists</div>
+              <div class="time">1d ago · via FeedWatcher</div>
+            </div>
+          </div>
+        </div>
+        <div class="rail-footer">
+          <span>12 of 40</span>
+          <span>Newest ▾</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-disclaimer">
+    Illustrative reconstruction from memory for portfolio purposes. Not a BuzzFeed work product. All data fictional.
+  </div>
+
+</div>
+
+</body>
+</html>

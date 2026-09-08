@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="robots" content="noindex,nofollow,noarchive" />
 <title>PubHub 2015–2026 — the evolution of one platform — Nathan O'Brien</title>
-<meta name="description" content="A private walkthrough of one platform across ten years: Solid to Bootstrap to Foundation UI, the agent-driven migration to Next.js, and what the modern stack unlocked." />
+<meta name="description" content="A walkthrough of one platform across ten years: Solid to Bootstrap to Foundation UI, the agent-driven migration to Next.js, and what the modern stack unlocked." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -14,9 +14,19 @@
   /* page-local additions on top of the portfolio project template */
   .wrap{max-width:900px}
   .private{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#8a5a00;background:#fbf1dc;border:1px solid #efd9a8;border-radius:6px;padding:3px 9px;display:inline-block;margin-bottom:14px}
-  .agenda{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:18px 0 6px}
+  .agenda-sentinel{height:1px;margin:0}
+  .agenda{position:sticky;top:0;z-index:60;display:grid;grid-template-columns:repeat(7,1fr);gap:6px;
+    margin:18px 0 6px;padding:9px 0;background:var(--paper);
+    transition:box-shadow .18s ease,border-color .18s ease}
+  .agenda::before{content:"";position:absolute;left:50%;transform:translateX(-50%);top:0;bottom:0;width:100vw;
+    background:var(--paper);z-index:-1;opacity:0;transition:opacity .18s ease}
+  .agenda.stuck::before{opacity:1;box-shadow:0 8px 20px -16px rgba(35,31,32,.65);border-bottom:1px solid var(--line)}
   .agenda a{display:block;text-decoration:none;border:1px solid var(--line);background:#faf8f2;border-radius:8px;padding:9px 10px;font-size:12.5px;line-height:1.3;color:var(--text)}
   .agenda a:hover{border-color:var(--green);background:#fff}
+  .agenda a[aria-current="true"]{background:#fff;border-color:var(--green);box-shadow:inset 3px 0 0 var(--green)}
+  .agenda a[aria-current="true"] b{color:var(--green)}
+  .subsec[id]{scroll-margin-top:86px}
+  @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
   .agenda a b{display:block;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--green-ink);letter-spacing:.06em;margin-bottom:3px}
   .numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:22px 0 6px}
   .numbers div{background:#fff;padding:12px 14px}
@@ -29,9 +39,8 @@
   .ask b{color:var(--green-ink)}
   .gallery.two{grid-template-columns:1fr 1fr;gap:18px}
   .gallery.three{grid-template-columns:1fr 1fr 1fr;gap:14px}
-  .media.pv-fig img{border-color:#efd9a8}
   .gallery.two .media img,.gallery.three .media img{max-height:440px;object-fit:contain;object-position:top}
-  .media figcaption .pv{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#8a5a00;margin-right:6px}
+  .media figcaption .pv{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:6px}
   .limits li{margin:0 0 6px}
   .linkrow{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 4px}
   .linkrow a{font-size:13px;font-weight:600;color:var(--green-ink);text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 11px}
@@ -39,7 +48,9 @@
   .linkrow a.solo{color:#8a5a00}
   ul{padding-left:20px}
   li{margin:0 0 8px}
-  @media (max-width:720px){.agenda{grid-template-columns:repeat(3,1fr)}.numbers{grid-template-columns:1fr 1fr}.gallery.two,.gallery.three{grid-template-columns:1fr}}
+  @media (max-width:720px){.agenda{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .agenda::-webkit-scrollbar{display:none}
+    .agenda a{flex:0 0 auto;min-width:132px}.numbers{grid-template-columns:1fr 1fr}.gallery.two,.gallery.three{grid-template-columns:1fr}}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
@@ -59,19 +70,12 @@
   <div class="wrap">
     <main id="project">
       <header class="phead">
-        <span class="private">Private page · prepared for A5 Labs · Wed Sep 9, 2026 · not linked or indexed</span>
+        <span class="private">Prepared for A5 Labs · Wed Sep 9, 2026</span>
         <p class="mono meta-line">2015–2026 · BuzzFeed PubHub · frontend owner and domain expert for the whole arc</p>
         <h1>PubHub, 2015 to 2026: the evolution of one platform, from a legacy style framework to an AI-native stack</h1>
-        <p class="lede">The production case for the deep dive is a platform I owned for ten years and changed three times. First the design system: off the internal framework, onto Bootstrap, then Foundation UI, which held for four years. Then the migration with AI: an agent loop that moved the ~70k-line UI service to Next.js in 8% of the estimate, gated by a human at every consequential decision. Then what the modern stack unlocked. Screens marked <span class="mono" style="color:#8a5a00">private</span> are shown here only; public case studies are linked.</p>
+        <p class="lede">The production case for the deep dive is a platform I owned for ten years and changed three times. First the design system: off the internal framework, onto Bootstrap, then Foundation UI, which held for four years. Then the migration with AI: an agent loop that moved the ~70k-line UI service to Next.js in 8% of the estimate, gated by a human at every consequential decision. Then what the modern stack unlocked. Public case studies and live demos are linked where they exist.</p>
         <div class="chips"><span class="chip">design systems</span><span class="chip">Solid → Bootstrap → FUI</span><span class="chip">React / Next.js</span><span class="chip">agentic migration</span><span class="chip">human-gated</span><span class="chip">production</span></div>
-        <nav class="agenda" aria-label="Chapters">
-          <a href="#era1"><b>2015–2019</b>The platform, on Solid</a>
-          <a href="#era2"><b>2020–2022</b>Solid → Bootstrap → FUI</a>
-          <a href="#era3"><b>2025–2026</b>The migration, with AI</a>
-          <a href="#era4"><b>2026</b>What it unlocked</a>
-          <a href="#coda"><b>After</b>Where the pattern went</a>
-          <a href="#map"><b>Map</b>Your six steps</a>
-        </nav>
+        
         <div class="numbers">
           <div><div class="v">4 yrs</div><div class="k">Foundation UI stayed the working standard, no rewrite</div></div>
           <div><div class="v">8%</div><div class="k">of the 61-hour estimate: ~5 human hours, most of it overnight</div></div>
@@ -80,15 +84,26 @@
         </div>
       </header>
 
+      <div class="agenda-sentinel" aria-hidden="true"></div>
+        <nav class="agenda" aria-label="Chapters">
+          <a href="#era1"><b>2015–2019</b>The platform, on Solid</a>
+          <a href="#era2"><b>2020–2022</b>Solid → Bootstrap → FUI</a>
+          <a href="#era3"><b>2025–2026</b>The migration, with AI</a>
+          <a href="#era4"><b>2026</b>What it unlocked</a>
+          <a href="#coda"><b>After</b>Where the pattern went</a>
+          <a href="#running"><b>Live</b>See it running</a>
+          <a href="#map"><b>Map</b>Your six steps</a>
+        </nav>
+
       <div class="subsec" id="era1">
         <p class="step">2015–2019 · Chapter 1</p>
         <h2>The platform, on the internal style framework</h2>
         <p><strong>PubHub</strong> is BuzzFeed's social-publishing platform: 100+ connected channels, 40+ editors, hundreds of posts a day across six networks and fifteen post types. I joined in 2015 and owned its frontend for the rest of its life: a React app that grew to ~160 components and ~70k lines (composer, planner, settings, automations, an SDK) on a Python/Tornado backend, deployed through the company PaaS.</p>
         <p>It was built on <strong>Solid</strong>, BuzzFeed's internal style framework. Solid was under-supported, every team re-solved the same UI problems, and Figma-to-code was a manual handoff: designers designed freely, engineers re-implemented by eye. The platform worked (95% user satisfaction in its health checks) but every feature paid a tax to the foundation it stood on.</p>
         <div class="gallery three">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/composer.png" alt="PubHub composer" /><figcaption><span class="pv">private</span><b>Composer.</b> Guided flow: channel, post type, media, schedule; fifteen post types.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/planner.png" alt="PubHub planner" /><figcaption><span class="pv">private</span><b>Planner.</b> Drag-and-drop scheduling with hover preview of real content.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/f-pubhub/accounts.png" alt="PubHub connected accounts" /><figcaption><span class="pv">private</span><b>Accounts.</b> Self-service channel management, tiered tokens per platform.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-recs-composer.png" alt="PubHub in 2018: evergreen recommendations panel beside the Facebook link post composer" /><figcaption><span class="pv">Oct 2018</span><b>Recommendations &rarr; composer.</b> The evergreen recommendations rail ("drag and drop to reschedule") feeding the Facebook link-post form: account, scheduled-for, caption, preview.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-drag-reschedule.png" alt="PubHub in 2018: a scheduled post card being dragged between time slots in the week grid" /><figcaption><span class="pv">2018</span><b>Drag to reschedule.</b> A scheduled post moved between time slots in the week grid. Link-styled cards, no application chrome.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-rec-card-actions.png" alt="PubHub in 2018: recommendation cards with stats, post and dismiss actions" /><figcaption><span class="pv">2018</span><b>Recommendation cards.</b> Stats / Post / Dismiss on each card &mdash; automation proposing, a human disposing, from the very beginning.</figcaption></figure>
         </div>
         <div class="linkrow"><a href="/portfolio/pubhub.html" target="_blank" rel="noopener">Public case study: PubHub</a></div>
       </div>
@@ -107,8 +122,43 @@
         </ul>
         <div class="gallery two">
           <figure class="media"><img loading="lazy" src="/portfolio/assets/foundation-ui/foundation-ui-thumb.png" alt="Foundation UI" /><figcaption><b>Foundation UI.</b> Standardized inputs and page patterns on a Bootstrap base; extensible at three levels (use as-is, compose, new page still conformant).</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/preview.png" alt="Shared-library component rendering inside an editor" /><figcaption><span class="pv">private</span><b>The same-component discipline, same era.</b> On the sister Callout tool the editor's preview renders through the literal production component from the shared library. That habit, render the real thing, is what the migration's verification later leaned on.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/preview.png" alt="Shared-library component rendering inside an editor" /><figcaption><b>The same-component discipline, same era.</b> On the sister Callout tool the editor's preview renders through the literal production component from the shared library. That habit, render the real thing, is what the migration's verification later leaned on.</figcaption></figure>
         </div>
+        <h3>The same screen, before and after</h3>
+        <div class="gallery two">
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2019-before.png" alt="The PubHub planner before the redesign: a bare calendar grid with link-styled post cards" /><figcaption><b>Before (~2019).</b> A bare calendar grid. Link-styled post cards, no application chrome, drag-to-reschedule. Recovered from the internal user guide of the time.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2020-redesign.png" alt="The PubHub planner after the 2020 redesign: dense week calendar with per-day counts and a recommendations sidebar" /><figcaption><b>After (July 2020, the redesign).</b> The same feature on the system: branded header, channel selector with account badge, week / 4-day toggle, per-day post counts, and a Recommendations sidebar with New / Evergreen tabs, link-vs-video filtering, and per-item revenue and analytics affordances.</figcaption></figure>
+        </div>
+        <p>Everything the second screen gained &mdash; the nav, the channel selector, view toggles, count badges, tabs,
+        radio filters, the card patterns in the sidebar &mdash; is standardized component inventory. A year earlier every
+        one of those would have been hand-built per screen. That is the value of the system in one image pair, without
+        needing a number. Both screenshots are internal documentation from their own moment, not reconstructions.</p>
+
+        <div class="gallery two">
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2020-draft-composer.png" alt="The redesigned PubHub draft detail view in 2020: draft list, composer, and a metadata rail" /><figcaption><span class="pv">Jul 2020</span><b>The draft detail, redesigned.</b> Three columns on the system: the draft list, the composer (account, scheduled-for, caption with a character counter, locked thumbnail, link preview), and a metadata rail &mdash; ID, platform ID, assets, lead producer, label, comments. Below: UTM tracking and brand-sponsor tagging, with Save and Publish Now.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2026-after.png" alt="The PubHub planner in 2026, read-only and empty" /><figcaption><span class="pv">2026</span><b>Six years later.</b> The same shell still standing at the end of the platform's life: nav, channel selector, mode chip, filters, recommendations sidebar with a real empty state. Shown empty and read-only.</figcaption></figure>
+        </div>
+        <p>The 2020 draft view is the clearest single picture of what the system bought: every control on that screen
+        &mdash; inputs, counters, selects, labels, the comment box, the action pair &mdash; is a shared component, not a
+        one-off. Thirteen platform-and-post-type variants of this screen were documented in one week, which is only
+        possible when the parts are standardized.</p>
+
+        <h3>Three eras of the design system, still readable in the codebase</h3>
+        <p>The lineage survives as three directories in one sass tree, which is the clearest evidence that this was a
+        migration rather than a rewrite:</p>
+        <ul>
+          <li><strong>Solid</strong> &mdash; BuzzFeed's internal style guide, the legacy layer. Its documentation site is
+            <a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener">still public today</a>,
+            and it describes itself: <em>"immutable, atomic CSS classes"</em>, under a banner reading
+            <em>"Solid is no longer actively maintained."</em> That is the foundation the platform sat on before 2020,
+            and the reason moving off it mattered.</li>
+          <li><strong>Bootstrap</strong> &mdash; the boring-on-purpose base I led the team onto in 2020: variables,
+            colors, typography, spacing, grid. The primitive and token layer.</li>
+          <li><strong>Foundation UI</strong> &mdash; the product designer's redesign implemented on top of it, dominated
+            by standardized form inputs and page patterns. Plus a <code>depreciated.scss</code> left in place, which is
+            what a real migration looks like: mark and keep, not delete and break.</li>
+        </ul>
+
         <div class="ask"><b>The honest cost of a versioned library:</b> shipping a shared-component change meant a version bump, a publish, then updating and deploying each consuming service just to test it, sometimes three services for one change. Living that loop for years is why I later built Sorb (coda), and why, when the migration came, the design system was treated as fixed.</div>
         <div class="linkrow"><a href="/portfolio/foundation-ui.html" target="_blank" rel="noopener">Public case study: Foundation UI</a><a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">FUI Storybook</a><a href="/portfolio/callout.html" target="_blank" rel="noopener">Public case study: Callout</a></div>
       </div>
@@ -141,8 +191,8 @@
         <h2>What the modern stack unlocked: agentic feature work on a platform that could finally move</h2>
         <p>Once PubHub was on Next.js the team could iterate on core features agentically, the same loop applied to new work instead of a port. Two shipped; two were in flight when the July 2026 layoffs ended the run.</p>
         <div class="gallery two">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><span class="pv">private</span><b>Shipped: the redesigned, personalized home page.</b> Built on the migrated stack.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><span class="pv">private</span><b>Shipped: new planner filter tools.</b> Delivered agentically post-migration.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><b>Shipped: the redesigned, personalized home page.</b> Built on the migrated stack.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><b>Shipped: new planner filter tools.</b> Delivered agentically post-migration.</figcaption></figure>
         </div>
         <h3>The AI-native explorations on the same platform</h3>
         <ul>
@@ -151,7 +201,7 @@
         </ul>
         <div class="gallery two">
           <figure class="media"><img loading="lazy" src="/portfolio/assets/ai-triage/triage-loop.png" alt="Triage loop" /><figcaption><b>Triage loop.</b> Two-call classification, gated investigator, human gate on every write, correction flywheel.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png" alt="Claim to spec flow" /><figcaption><span class="pv">private</span><b>Claim → triage → spec.</b> The evidence-cited draft, before a person signs off.</figcaption></figure>
+          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png" alt="Claim to spec flow" /><figcaption><b>Claim → triage → spec.</b> The evidence-cited draft, before a person signs off.</figcaption></figure>
         </div>
         <div class="linkrow"><a href="/portfolio/ai-support-triage.html" target="_blank" rel="noopener">Public case study: AI support triage</a><a href="/portfolio/walkthroughs/ai-triage.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
       </div>
@@ -165,6 +215,31 @@
           <figure class="media"><img loading="lazy" src="/portfolio/assets/sorb/sorb-try-tour.png" alt="try.sorbcloud.com tour" /><figcaption><b>try.sorbcloud.com.</b> Ninety seconds, no install, the real plugin against a real storefront.</figcaption></figure>
         </div>
         <div class="linkrow"><a class="solo" href="https://try.sorbcloud.com" target="_blank" rel="noopener">Live demo: try.sorbcloud.com</a><a href="/portfolio/sorb.html" target="_blank" rel="noopener">Public case study: Sorb</a><a href="/portfolio/walkthroughs/sorb.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
+      </div>
+
+      <div class="subsec" id="running">
+        <p class="step">Interactive</p>
+        <h2>See it running</h2>
+        <p>Static screens only go so far. These are live and clickable.</p>
+        <ul>
+          <li><strong>PubHub, rebuilt as interactive wireframes</strong> &mdash; the composer, planner, and accounts
+            flows reconstructed clean-room (fictional data, neutral styling) so the product's shape can be clicked
+            through rather than described:
+            <a href="/demo/20260909/wireframes/pubhub-composer-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">composer</a> ·
+            <a href="/demo/20260909/wireframes/pubhub-planner-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">planner</a> ·
+            <a href="/demo/20260909/wireframes/pubhub-accounts-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">accounts</a></li>
+          <li><strong>Callout, live</strong> &mdash; the promotions admin running in the browser:
+            <a href="/portfolio/demo/callout.html" target="_blank" rel="noopener">interactive demo</a> ·
+            <a href="/demo/20260803/pages/callout.html" target="_blank" rel="noopener">walkthrough page</a></li>
+          <li><strong>Foundation UI, the Storybook</strong> &mdash; the component library itself, browsable:
+            <a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">fui-sb.n8plusus.com</a></li>
+          <li><strong>Solid, the legacy layer</strong> &mdash; still online at BuzzFeed:
+            <a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener">solid-docs</a></li>
+          <li><strong>The system map</strong> &mdash; PubHub as a system: 36 services in three rings, the NSQ draft pipeline, what it depends on and what consumes it:
+            <a href="/demo/20260909/system-map.html" target="_blank" rel="noopener">system-map.html</a></li>
+          <li><strong>Sorb</strong> &mdash; the studio successor, 90 seconds, no install:
+            <a href="https://try.sorbcloud.com" target="_blank" rel="noopener">try.sorbcloud.com</a></li>
+        </ul>
       </div>
 
       <div class="subsec" id="map">
@@ -189,9 +264,47 @@
       </div>
     </main>
     <footer>
-      Private page for the A5 Labs conversation · <a href="/portfolio/">public portfolio</a> · <a href="https://n8plusus.com">n8plusus.com</a>
+      Prepared for the A5 Labs conversation · <a href="/portfolio/">public portfolio</a> · <a href="https://n8plusus.com">n8plusus.com</a>
     </footer>
   </div>
+  <script>
+  (function(){
+    var nav=document.querySelector('.agenda'); if(!nav) return;
+    var links=Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+    var sections=links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+    var sentinel=document.querySelector('.agenda-sentinel');
+
+    if(sentinel && 'IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        nav.classList.toggle('stuck', !entries[0].isIntersecting);
+      },{threshold:0}).observe(sentinel);
+    }
+
+    var ticking=false;
+    function setCurrent(i){
+      links.forEach(function(a,n){
+        var on = n===i;
+        if((a.getAttribute('aria-current')==='true')!==on) a.setAttribute('aria-current', on?'true':'false');
+        if(on && nav.scrollWidth>nav.clientWidth){
+          var l=a.offsetLeft, r=l+a.offsetWidth;
+          if(l<nav.scrollLeft || r>nav.scrollLeft+nav.clientWidth) nav.scrollTo({left:Math.max(0,l-16),behavior:'smooth'});
+        }
+      });
+    }
+    function update(){
+      ticking=false;
+      var probe=nav.getBoundingClientRect().height+28, idx=0;
+      for(var i=0;i<sections.length;i++){
+        if(sections[i] && sections[i].getBoundingClientRect().top<=probe) idx=i;
+      }
+      if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4) idx=sections.length-1;
+      setCurrent(idx);
+    }
+    window.addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(update);} },{passive:true});
+    window.addEventListener('resize',update);
+    update();
+  })();
+  </script>
   <script src="/portfolio/portfolio-render.js?v=20260810b"></script>
   <script>window.wirePortfolio&&wirePortfolio("project");</script>
 </body>

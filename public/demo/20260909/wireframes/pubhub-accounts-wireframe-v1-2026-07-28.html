@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accounts — Multi-Platform Manager (Wireframe)</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333; background: #fff; font-size: 14px;
+  }
+  .titlebar {
+    background: #111; color: #fff; padding: 10px 18px;
+    font-size: 12px; letter-spacing: .06em; font-weight: 600;
+  }
+  .app { padding: 18px; }
+  .panes { display: flex; gap: 16px; align-items: flex-start; border: 1px solid #e6e6e6; border-radius: 8px; overflow: hidden; }
+
+  /* left nav */
+  .nav {
+    width: 230px; flex-shrink: 0; background: #f4f4f4; border-right: 1px solid #e6e6e6; padding: 10px 0;
+  }
+  .nav-head { padding: 6px 16px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: #999; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 13px; color: #444; cursor: default;
+  }
+  .nav-item .icon {
+    width: 26px; height: 26px; border: 1px solid #ccc; border-radius: 5px; background: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; flex-shrink: 0;
+  }
+  .nav-item .name { flex: 1; }
+  .nav-item .badge {
+    background: #e6e6e6; color: #555; border: 1px solid #ccc; border-radius: 999px; font-size: 10.5px;
+    padding: 1px 8px; min-width: 18px; text-align: center;
+  }
+  .nav-item.selected { background: #fff; border-left: 3px solid #333; padding-left: 13px; }
+  .nav-item.selected .icon { border-color: #333; background: #333; color: #fff; }
+  .nav-item.selected .name { font-weight: 700; color: #111; }
+  .nav-item.selected .badge { background: #333; color: #fff; border-color: #333; }
+
+  /* right pane */
+  .pane-right { flex: 1; min-width: 0; padding: 20px 22px 24px; }
+  .pane-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;
+  }
+  .pane-head h1 { font-size: 17px; margin: 0; color: #111; }
+  .pane-sub { font-size: 12px; color: #999; margin: 4px 0 16px; }
+  .connect-btn {
+    border: 1px solid #333; border-radius: 5px; background: #333; color: #fff; padding: 8px 16px; font-size: 12.5px;
+  }
+
+  .account-list { display: flex; flex-direction: column; gap: 1px; border: 1px solid #e6e6e6; border-radius: 6px; overflow: hidden; }
+  .account-row {
+    display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; border-bottom: 1px solid #e6e6e6;
+  }
+  .account-row:last-child { border-bottom: none; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%; background: #e6e6e6; border: 1px solid #ccc; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999;
+  }
+  .acct-info { flex: 1; min-width: 0; }
+  .acct-name { font-size: 13.5px; color: #222; font-weight: 600; }
+  .acct-handle { font-size: 11.5px; color: #999; }
+  .star {
+    width: 26px; height: 26px; border: 1px solid #ccc; border-radius: 5px; background: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 13px; color: #ccc; flex-shrink: 0;
+  }
+  .star.on { color: #333; border-color: #333; }
+  .quicklinks { display: flex; gap: 6px; flex-shrink: 0; }
+  .quicklinks span {
+    font-size: 11px; color: #666; border: 1px solid #ccc; border-radius: 4px; padding: 4px 9px; background: #f4f4f4;
+  }
+  .disconnect {
+    font-size: 11.5px; color: #666; border: 1px solid #ccc; border-radius: 4px; padding: 5px 11px; background: #fff;
+    flex-shrink: 0; margin-left: 4px;
+  }
+
+  .footer-disclaimer {
+    margin-top: 22px; padding-top: 10px; border-top: 1px solid #e6e6e6;
+    font-size: 11px; color: #999; font-style: italic; padding-left: 18px; padding-right: 18px;
+  }
+</style>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+</head>
+<body>
+
+<div class="titlebar">SCREEN 3 — MULTI-PLATFORM ACCOUNT MANAGER (WIREFRAME, STATIC)</div>
+
+<div class="app">
+  <div class="panes">
+
+    <div class="nav">
+      <div class="nav-head">Platforms</div>
+      <div class="nav-item">
+        <div class="icon">YT</div>
+        <div class="name">YouTube</div>
+        <div class="badge">3</div>
+      </div>
+      <div class="nav-item selected">
+        <div class="icon">IG</div>
+        <div class="name">Instagram</div>
+        <div class="badge">4</div>
+      </div>
+      <div class="nav-item">
+        <div class="icon">FB</div>
+        <div class="name">Facebook</div>
+        <div class="badge">2</div>
+      </div>
+      <div class="nav-item">
+        <div class="icon">X</div>
+        <div class="name">Twitter</div>
+        <div class="badge">1</div>
+      </div>
+    </div>
+
+    <div class="pane-right">
+      <div class="pane-head">
+        <h1>Instagram accounts</h1>
+        <button class="connect-btn">Connect channels</button>
+      </div>
+      <div class="pane-sub">4 connected accounts</div>
+
+      <div class="account-list">
+        <div class="account-row">
+          <div class="avatar">IMG</div>
+          <div class="acct-info">
+            <div class="acct-name">Acme News</div>
+            <div class="acct-handle">@acme_news</div>
+          </div>
+          <div class="star on">★</div>
+          <div class="quicklinks">
+            <span>Planner</span>
+            <span>Schedule</span>
+            <span>Automations</span>
+          </div>
+          <div class="disconnect">Disconnect</div>
+        </div>
+
+        <div class="account-row">
+          <div class="avatar">IMG</div>
+          <div class="acct-info">
+            <div class="acct-name">Acme Home</div>
+            <div class="acct-handle">@acme_home</div>
+          </div>
+          <div class="star">★</div>
+          <div class="quicklinks">
+            <span>Planner</span>
+            <span>Schedule</span>
+            <span>Automations</span>
+          </div>
+          <div class="disconnect">Disconnect</div>
+        </div>
+
+        <div class="account-row">
+          <div class="avatar">IMG</div>
+          <div class="acct-info">
+            <div class="acct-name">Acme Food &amp; Drink</div>
+            <div class="acct-handle">@acme_foodanddrink</div>
+          </div>
+          <div class="star">★</div>
+          <div class="quicklinks">
+            <span>Planner</span>
+            <span>Schedule</span>
+            <span>Automations</span>
+          </div>
+          <div class="disconnect">Disconnect</div>
+        </div>
+
+        <div class="account-row">
+          <div class="avatar">IMG</div>
+          <div class="acct-info">
+            <div class="acct-name">Acme Travel</div>
+            <div class="acct-handle">@acme_travel</div>
+          </div>
+          <div class="star">★</div>
+          <div class="quicklinks">
+            <span>Planner</span>
+            <span>Schedule</span>
+            <span>Automations</span>
+          </div>
+          <div class="disconnect">Disconnect</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-disclaimer">
+    Illustrative reconstruction from memory for portfolio purposes. Not a BuzzFeed work product. All data fictional.
+  </div>
+</div>
+
+</body>
+</html>

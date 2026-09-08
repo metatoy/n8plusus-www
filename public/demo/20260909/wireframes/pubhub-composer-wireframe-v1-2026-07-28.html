@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Composer — Guided Post Flow (Wireframe)</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #333; background: #fff; font-size: 14px;
+  }
+  .titlebar {
+    background: #111; color: #fff; padding: 10px 18px;
+    font-size: 12px; letter-spacing: .06em; font-weight: 600;
+  }
+  .app { max-width: 880px; margin: 0 auto; padding: 20px 18px 30px; }
+
+  /* stepper */
+  .stepper { display: flex; align-items: center; margin-bottom: 22px; }
+  .step { display: flex; align-items: center; gap: 8px; }
+  .step .dot {
+    width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .step.done .dot { background: #333; color: #fff; }
+  .step.active .dot { background: #fff; border: 2px solid #333; color: #333; }
+  .step.upcoming .dot { background: #f4f4f4; border: 1px solid #ccc; color: #999; }
+  .step .label { font-size: 12px; }
+  .step.done .label { color: #666; }
+  .step.active .label { color: #111; font-weight: 700; }
+  .step.upcoming .label { color: #999; }
+  .step-connector { flex: 1; height: 1px; background: #ccc; margin: 0 10px; }
+
+  /* generic frame */
+  .frame {
+    border: 1px solid #e6e6e6; border-radius: 8px; margin-bottom: 16px; overflow: hidden;
+  }
+  .frame-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 14px; background: #f4f4f4; border-bottom: 1px solid #e6e6e6;
+  }
+  .frame-head .name { font-size: 12px; font-weight: 700; color: #444; letter-spacing: .02em; }
+  .frame-head .tag {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: .05em; padding: 2px 7px; border-radius: 3px;
+  }
+  .frame.done .tag { background: #e6e6e6; color: #666; border: 1px solid #ccc; }
+  .frame.active .tag { background: #333; color: #fff; }
+  .frame.upcoming .tag { background: #f4f4f4; color: #999; border: 1px solid #e6e6e6; }
+  .frame-body { padding: 14px; }
+
+  .frame.done .frame-body { padding: 10px 14px; }
+  .frame.upcoming { opacity: .55; }
+
+  /* step 1 — channel picker (compact, completed) */
+  .search-input {
+    border: 1px solid #ccc; border-radius: 4px; padding: 7px 10px; font-size: 12px; color: #999;
+    margin-bottom: 10px; background: #fff;
+  }
+  .platform-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .platform-group {
+    border: 1px solid #e6e6e6; border-radius: 5px; padding: 7px 10px; font-size: 11.5px; flex: 1; min-width: 150px;
+  }
+  .platform-group .pname { font-weight: 700; color: #444; margin-bottom: 4px; }
+  .platform-group .acct { color: #666; padding: 2px 0; }
+  .platform-group .acct.selected {
+    background: #333; color: #fff; border-radius: 3px; padding: 3px 6px; margin: 2px -6px;
+  }
+
+  /* step 2 — post type (compact, completed) */
+  .type-row { display: flex; gap: 10px; }
+  .type-btn {
+    flex: 1; border: 1px solid #ccc; border-radius: 6px; padding: 12px 8px; text-align: center; font-size: 11.5px; color: #666;
+  }
+  .type-btn .icon {
+    width: 30px; height: 30px; margin: 0 auto 6px; border: 1px solid #ccc; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center; font-size: 13px; color: #999; background: #fff;
+  }
+  .type-btn.selected { border: 2px solid #333; }
+  .type-btn.selected .icon { border-color: #333; background: #333; color: #fff; }
+  .type-btn.selected span.name { color: #111; font-weight: 700; }
+
+  /* step 3 — attach media (ACTIVE, richest) */
+  .dropzone {
+    border: 2px dashed #999; border-radius: 8px; padding: 34px 20px; text-align: center; background: #fafafa;
+    margin-bottom: 14px;
+  }
+  .dropzone .icon {
+    width: 44px; height: 44px; margin: 0 auto 10px; border: 1px solid #ccc; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 18px; color: #999; background: #fff;
+  }
+  .dropzone .primary { font-size: 13px; color: #333; margin-bottom: 4px; }
+  .dropzone .secondary { font-size: 11.5px; color: #999; }
+
+  .divider-or {
+    display: flex; align-items: center; gap: 10px; color: #999; font-size: 11px; margin: 14px 0;
+  }
+  .divider-or::before, .divider-or::after { content: ""; flex: 1; height: 1px; background: #e6e6e6; }
+
+  .link-input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+  .link-input {
+    flex: 1; border: 1px solid #ccc; border-radius: 4px; padding: 8px 10px; font-size: 12px; color: #999; background: #fff;
+  }
+  .link-input-row button {
+    border: 1px solid #ccc; border-radius: 4px; background: #f4f4f4; color: #666; padding: 0 14px; font-size: 12px;
+  }
+
+  .media-preview {
+    display: flex; gap: 12px; align-items: flex-start; border: 1px solid #e6e6e6; border-radius: 6px; padding: 12px; margin-bottom: 10px;
+  }
+  .media-preview .thumb {
+    width: 96px; height: 64px; background: #e6e6e6; border: 1px solid #ccc; border-radius: 4px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 10px; color: #999; text-align: center;
+  }
+  .media-preview .details { flex: 1; }
+  .media-preview .fname { font-size: 12.5px; color: #222; margin-bottom: 4px; }
+  .media-preview .fmeta { font-size: 11px; color: #999; margin-bottom: 8px; }
+  .media-preview .actions { display: flex; gap: 8px; }
+  .media-preview .actions button {
+    border: 1px solid #ccc; border-radius: 4px; background: #fff; color: #666; padding: 4px 10px; font-size: 11.5px;
+  }
+
+  .validation-msg {
+    display: flex; align-items: flex-start; gap: 8px; border: 1px solid #666; border-radius: 5px;
+    background: #f4f4f4; padding: 8px 10px; font-size: 11.5px; color: #444; margin-bottom: 16px;
+  }
+  .validation-msg .glyph {
+    width: 15px; height: 15px; border: 1.5px solid #666; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #666;
+  }
+
+  .step3-footer { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+  .step3-footer .hint { font-size: 11px; color: #999; margin-right: auto; }
+  .step3-footer button {
+    border: 1px solid #333; border-radius: 4px; background: #333; color: #fff; padding: 8px 18px; font-size: 12.5px;
+  }
+  .step3-footer button.secondary { background: #fff; color: #333; }
+
+  /* step 4 — compose & schedule (upcoming, dimmed) */
+  .status-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 12px; color: #666; }
+  .status-header .icon {
+    width: 20px; height: 20px; border: 1px solid #ccc; border-radius: 4px; display: flex; align-items: center;
+    justify-content: center; font-size: 10px; color: #999;
+  }
+  .compose-box {
+    border: 1px solid #e6e6e6; border-radius: 5px; padding: 10px; font-size: 11.5px; color: #999; margin-bottom: 10px;
+    min-height: 46px; background: #fafafa;
+  }
+  .schedule-row {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  .schedule-row .field {
+    flex: 1; border: 1px solid #ccc; border-radius: 4px; padding: 7px 10px; font-size: 11.5px; color: #999; background: #fff;
+  }
+  .step4-footer { display: flex; justify-content: flex-end; gap: 8px; }
+  .step4-footer button {
+    border: 1px solid #ccc; border-radius: 4px; background: #f4f4f4; color: #999; padding: 7px 14px; font-size: 12px;
+  }
+
+  .footer-disclaimer {
+    margin-top: 22px; padding-top: 10px; border-top: 1px solid #e6e6e6;
+    font-size: 11px; color: #999; font-style: italic;
+  }
+</style>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+</head>
+<body>
+
+<div class="titlebar">SCREEN 2 — COMPOSER · GUIDED POST FLOW, STEP 3 OF 4 ACTIVE (WIREFRAME, STATIC)</div>
+
+<div class="app">
+
+  <div class="stepper">
+    <div class="step done"><div class="dot">✓</div><div class="label">Channel</div></div>
+    <div class="step-connector"></div>
+    <div class="step done"><div class="dot">✓</div><div class="label">Post type</div></div>
+    <div class="step-connector"></div>
+    <div class="step active"><div class="dot">3</div><div class="label">Attach media</div></div>
+    <div class="step-connector"></div>
+    <div class="step upcoming"><div class="dot">4</div><div class="label">Compose &amp; schedule</div></div>
+  </div>
+
+  <!-- Step 1 — compact, completed -->
+  <div class="frame done">
+    <div class="frame-head">
+      <span class="name">Step 1 — Pick a channel</span>
+      <span class="tag">Selected</span>
+    </div>
+    <div class="frame-body">
+      <div class="search-input">Search accounts…</div>
+      <div class="platform-row">
+        <div class="platform-group">
+          <div class="pname">YouTube</div>
+          <div class="acct">Acme Media</div>
+        </div>
+        <div class="platform-group">
+          <div class="pname">Instagram</div>
+          <div class="acct selected">@acme_news</div>
+          <div class="acct">@acme_home</div>
+        </div>
+        <div class="platform-group">
+          <div class="pname">Facebook</div>
+          <div class="acct">Acme Media Official</div>
+        </div>
+        <div class="platform-group">
+          <div class="pname">Twitter</div>
+          <div class="acct">@acmemedia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 — compact, completed -->
+  <div class="frame done">
+    <div class="frame-head">
+      <span class="name">Step 2 — Pick post type</span>
+      <span class="tag">Selected: Video</span>
+    </div>
+    <div class="frame-body">
+      <div class="type-row">
+        <div class="type-btn"><div class="icon">▭</div><span class="name">Image</span></div>
+        <div class="type-btn selected"><div class="icon">▶</div><span class="name">Video</span></div>
+        <div class="type-btn"><div class="icon">🔗</div><span class="name">Link</span></div>
+        <div class="type-btn"><div class="icon">▤</div><span class="name">Carousel</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 — ACTIVE, richest -->
+  <div class="frame active">
+    <div class="frame-head">
+      <span class="name">Step 3 — Attach media</span>
+      <span class="tag">Active step</span>
+    </div>
+    <div class="frame-body">
+
+      <div class="dropzone">
+        <div class="icon">↑</div>
+        <div class="primary">Drag and drop media here, or click to upload</div>
+        <div class="secondary">Supports video for the selected channel · up to 4 GB</div>
+      </div>
+
+      <div class="divider-or">or paste a link</div>
+
+      <div class="link-input-row">
+        <div class="link-input">https://…</div>
+        <button>Attach</button>
+      </div>
+
+      <div class="media-preview">
+        <div class="thumb">VIDEO<br>THUMBNAIL</div>
+        <div class="details">
+          <div class="fname">office-coffee-ranking-final.mp4</div>
+          <div class="fmeta">00:42 · 1080×1920 · 86 MB</div>
+          <div class="actions">
+            <button>Remove</button>
+            <button>Retry</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="validation-msg">
+        <span class="glyph">!</span>
+        <span>Aspect ratio 9:16 detected — recommended for Instagram video is 4:5 or 1:1. You can continue, but the preview may crop.</span>
+      </div>
+
+      <div class="step3-footer">
+        <span class="hint">Press Enter to continue</span>
+        <button class="secondary">Back</button>
+        <button>Continue</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Step 4 — upcoming, dimmed -->
+  <div class="frame upcoming">
+    <div class="frame-head">
+      <span class="name">Step 4 — Compose &amp; schedule</span>
+      <span class="tag">Up next</span>
+    </div>
+    <div class="frame-body">
+      <div class="status-header">
+        <span class="icon">▶</span>
+        <span>Video post · Draft</span>
+      </div>
+      <div class="compose-box">Write a caption…</div>
+      <div class="schedule-row">
+        <div class="field">Date — Not set</div>
+        <div class="field">Time — Not set</div>
+      </div>
+      <div class="step4-footer">
+        <button>Save</button>
+        <button>Schedule</button>
+        <button>Publish</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-disclaimer">
+    Illustrative reconstruction from memory for portfolio purposes. Not a BuzzFeed work product. All data fictional.
+  </div>
+
+</div>
+
+</body>
+</html>
