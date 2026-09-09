@@ -369,7 +369,16 @@
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><b>Shipped: the redesigned, personalized home page.</b> Built on the migrated stack.</figcaption></figure>
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><b>Shipped: new planner filter tools.</b> Delivered agentically post-migration.</figcaption></figure>
         </div>
-      </div>
+      
+        <h3>The component layer, rebuilt in the open</h3>
+        <p>Foundation UI sat on a Bootstrap base, and the React implementation of Bootstrap a team would reach for
+        today &mdash; <code>bootstrap-styled/v4</code> &mdash; had stopped being maintained. After the modernization I rebuilt
+        that layer myself, open source: <strong>Bootstrap 5.3.8 in styled-components</strong>, React 18, TypeScript, and a
+        runtime <code>--bs-*</code> token surface, with every component rendered pixel-for-pixel against a vendored
+        Bootstrap oracle by a parity harness. Published MIT as <code>@metatoy/bootstrap-styled</code> v1.0.0. It is the
+        successor to the FUI component layer, and the component set Sorb now binds Figma tokens against.</p>
+        <div class="linkrow"><a href="https://bootstrap-styled.metatoy.com/" target="_blank" rel="noopener">bootstrap-styled: docs and live components</a></div>
+</div>
 
       <div class="subsec" id="coda">
         <p class="step">After BuzzFeed · Coda</p>
