@@ -369,11 +369,6 @@
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><b>Shipped: the redesigned, personalized home page.</b> Built on the migrated stack.</figcaption></figure>
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><b>Shipped: new planner filter tools.</b> Delivered agentically post-migration.</figcaption></figure>
         </div>
-        <div class="gallery two">
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/ai-triage/triage-loop.png" alt="Triage loop" /><figcaption><b>Triage loop.</b> Two-call classification, gated investigator, human gate on every write, correction flywheel.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/d-ai-triage/claim-to-spec-flow.png" alt="Claim to spec flow" /><figcaption><b>Claim → triage → spec.</b> The evidence-cited draft, before a person signs off.</figcaption></figure>
-        </div>
-        <div class="linkrow"><a href="/portfolio/ai-support-triage.html" target="_blank" rel="noopener">Public case study: AI support triage</a><a href="/portfolio/walkthroughs/ai-triage.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
       </div>
 
       <div class="subsec" id="coda">
@@ -416,12 +411,12 @@
           <li><strong>Design / prototype:</strong> the written spec with a number on it and the first slice rendered against production (ch. 3); kitchen-sink-first components (ch. 2).</li>
           <li><strong>Design system:</strong> chapter 2, Foundation UI, held fixed as the migration's constraint.</li>
           <li><strong>Code:</strong> the agent loop, 71 human-gated decisions (ch. 3).</li>
-          <li><strong>Validation:</strong> coverage 26 → 97% first, suite green per commit, side-by-side with production, stage (ch. 3); health checks and A/B on the platform (ch. 1–2); golden-set evals on the triage agent (ch. 4).</li>
+          <li><strong>Validation:</strong> coverage 26 → 97% first, suite green per commit, side-by-side with production, stage (ch. 3); health checks and A/B on the platform (ch. 1&ndash;2).</li>
           <li><strong>Production:</strong> merged behind flags, blueprint for twelve services, features shipped on the new stack (ch. 3–4).</li>
         </ul>
         <h3>Honest limits</h3>
         <ul class="limits">
-          <li>The blueprint was <strong>queued across twelve services, not yet applied</strong> to them, when the layoffs hit; Nudge and the full triage rollout were in flight.</li>
+          <li>The blueprint was <strong>queued across twelve services, not yet applied</strong> to them when the layoffs hit.</li>
           <li>The migration was a <strong>behavior-matched port</strong>: the design system was preserved, not generated, by the agent.</li>
           <li>Figma <strong>Code Connect</strong> was evaluated with our VP of Technology and design leadership, not shipped; that gap is what Sorb was built to close.</li>
           <li>Diagrams are <strong>illustrative and clean-room</strong>; internal code and tickets are not shown.</li>
