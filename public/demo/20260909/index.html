@@ -173,6 +173,10 @@
   .solidfig{margin:22px 0 0}
   .solidfig a{display:block}
   .solidfig img{max-height:420px;object-fit:cover;object-position:top}
+  .sbfig{margin:14px 0 0} .sbfig a{display:block} .sbfig img{max-height:460px;object-fit:contain;object-position:top}
+  .eras{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+  .eras li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .eras .eraico{width:26px;height:26px;flex:0 0 auto;color:var(--green-ink);margin-top:1px}
   .sysmap .h{font-size:18px} .sysmap .top{flex-wrap:wrap;align-items:flex-start;gap:8px 16px}
   .sysmap .name{font-size:13px}
   .sysmap .row1{grid-template-columns:minmax(0,.8fr) 14px minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1.18fr) 14px minmax(0,1.22fr)}
@@ -302,11 +306,7 @@
           <li><strong>The rubric written down:</strong> the team's design principles as the explicit review criteria, RFCs with comment periods for significant changes, scaffolded components with tests, Storybook stories, and README by default, so peer review could carry quality.</li>
           <li><strong>Adoption:</strong> the R&amp;R team (6 developers), about four other internal-tools teams, three designers; shared FUI packages consumed across internal projects; the company React component library at 79 consumers.</li>
         </ul>
-        <div class="gallery two">
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/foundation-ui/foundation-ui-thumb.png" alt="Foundation UI" /><figcaption><b>Foundation UI.</b> Standardized inputs and page patterns on a Bootstrap base; extensible at three levels (use as-is, compose, new page still conformant).</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/g-callout/preview.png" alt="Shared-library component rendering inside an editor" /><figcaption><b>The same-component discipline, same era.</b> On the sister Callout tool the editor's preview renders through the literal production component from the shared library. That habit, render the real thing, is what the migration's verification later leaned on.</figcaption></figure>
-        </div>
-        <h3>The same screen, before and after</h3>
+                <h3>The same screen, before and after</h3>
         <div class="gallery two">
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2019-before.png" alt="The PubHub planner before the redesign: a bare calendar grid with link-styled post cards" /><figcaption><b>Before (2019).</b> A bare calendar grid. Link-styled post cards, no application chrome, drag-to-reschedule. Recovered from the internal user guide of the time.</figcaption></figure>
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2020-redesign.png" alt="The PubHub planner after the 2020 redesign: dense week calendar with per-day counts and a recommendations sidebar" /><figcaption><b>After (July 2020, the redesign).</b> The same feature on the system: branded header, channel selector with account badge, week / 4-day toggle, per-day post counts, and a Recommendations sidebar with New / Evergreen tabs, link-vs-video filtering, and per-item revenue and analytics affordances.</figcaption></figure>
@@ -316,33 +316,33 @@
         one of those would have been hand-built per screen. That is the value of the system in one image pair, without
         needing a number. Both screenshots are internal documentation from their own moment, not reconstructions.</p>
 
-        <div class="gallery two">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2020-draft-composer.png" alt="The redesigned PubHub draft detail view in 2020: draft list, composer, and a metadata rail" /><figcaption><span class="pv">Jul 2020</span><b>The draft detail, redesigned.</b> Three columns on the system: the draft list, the composer (account, scheduled-for, caption with a character counter, locked thumbnail, link preview), and a metadata rail &mdash; ID, platform ID, assets, lead producer, label, comments. Below: UTM tracking and brand-sponsor tagging, with Save and Publish Now.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/planner-2026-after.png" alt="The PubHub planner in 2026, read-only and empty" /><figcaption><span class="pv">2026</span><b>Six years later.</b> The same shell still standing at the end of the platform's life: nav, channel selector, mode chip, filters, recommendations sidebar with a real empty state. Shown empty and read-only.</figcaption></figure>
-        </div>
-        <p>The 2020 draft view is the clearest single picture of what the system bought: every control on that screen
-        &mdash; inputs, counters, selects, labels, the comment box, the action pair &mdash; is a shared component, not a
-        one-off. Thirteen platform-and-post-type variants of this screen were documented in one week, which is only
-        possible when the parts are standardized.</p>
+        <h3>The kitchen sink, still hosted</h3>
+        <p>Every new component was built, reviewed, and merged on a kitchen-sink page before it touched a real screen, so
+        the inventory was always browsable on its own. That page survives as a hosted Storybook: 95 stories across
+        foundations, buttons, inputs, components, and status. The copy in it is the platform's real copy, which is why
+        a button story reads &ldquo;Turn X all auto-publishing / auto-scheduling immediately.&rdquo;</p>
+        <figure class="media sbfig"><a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener"><img loading="lazy" src="/demo/20260909/assets/fui-storybook-buttons.png" alt="The Foundation UI Storybook: sidebar listing foundations, buttons, inputs and components, with the button variants story rendered" /></a><figcaption><span class="pv">Foundation UI &middot; hosted Storybook</span><b>The component inventory, browsable.</b> The left rail is the system: foundations (borders, colors, SVG, typography), buttons, inputs, components, status. Click through to the live build.</figcaption></figure>
+
+        
 
         <h3>Three eras of the design system, still readable in the codebase</h3>
         <p>The lineage survives as three directories in one sass tree, which is the clearest evidence that this was a
         migration rather than a rewrite:</p>
-        <ul>
-          <li><strong>Solid</strong> &mdash; BuzzFeed's internal style guide, the legacy layer. Its documentation site is
+        <ul class="eras">
+          <li><svg class="eraico" aria-hidden="true"><use href="/portfolio/icons.svg#archive-duotone"></use></svg><div><strong>Solid</strong> &mdash; BuzzFeed's internal style guide, the legacy layer. Its documentation site is
             <a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener">still public today</a>,
             and it describes itself: <em>"immutable, atomic CSS classes"</em>, under a banner reading
             <em>"Solid is no longer actively maintained."</em> That is the foundation the platform sat on before 2020,
-            and the reason moving off it mattered.</li>
-          <li><strong>Bootstrap</strong> &mdash; the boring-on-purpose base I led the team onto in 2020: variables,
-            colors, typography, spacing, grid. The primitive and token layer.</li>
-          <li><strong>Foundation UI</strong> &mdash; the product designer's redesign implemented on top of it, dominated
+            and the reason moving off it mattered.</div></li>
+          <li><svg class="eraico" aria-hidden="true"><use href="/portfolio/icons.svg#swatches-duotone"></use></svg><div><strong>Bootstrap</strong> &mdash; the boring-on-purpose base I led the team onto in 2020: variables,
+            colors, typography, spacing, grid. The primitive and token layer.</div></li>
+          <li><svg class="eraico" aria-hidden="true"><use href="/portfolio/icons.svg#textbox-duotone"></use></svg><div><strong>Foundation UI</strong> &mdash; the product designer's redesign implemented on top of it, dominated
             by standardized form inputs and page patterns. Plus a <code>depreciated.scss</code> left in place, which is
-            what a real migration looks like: mark and keep, not delete and break.</li>
+            what a real migration looks like: mark and keep, not delete and break.</div></li>
         </ul>
 
         <div class="ask"><b>The honest cost of a versioned library:</b> shipping a shared-component change meant a version bump, a publish, then updating and deploying each consuming service just to test it, sometimes three services for one change. Living that loop for years is why I later built Sorb (coda), and why, when the migration came, the design system was treated as fixed.</div>
-        <div class="linkrow"><a href="/portfolio/foundation-ui.html" target="_blank" rel="noopener">Public case study: Foundation UI</a><a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">FUI Storybook</a><a href="/portfolio/callout.html" target="_blank" rel="noopener">Public case study: Callout</a></div>
+        <div class="linkrow"><a href="/portfolio/foundation-ui.html" target="_blank" rel="noopener">Public case study: Foundation UI</a><a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">FUI Storybook (kitchen sink)</a></div>
       </div>
 
       <div class="subsec" id="era3">
