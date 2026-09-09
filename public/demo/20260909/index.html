@@ -175,6 +175,23 @@
   .solidfig{margin:22px 0 0}
   .solidfig a{display:block}
   .solidfig img{max-height:420px;object-fit:cover;object-position:top}
+  .wip{display:inline-block;vertical-align:middle;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#8a5a00;background:#fff4dc;border:1px solid #efd9a6;border-radius:99px;padding:2px 8px;margin-left:4px;white-space:nowrap}
+  .runlist{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:10px}
+  .runlist li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px;line-height:1.45}
+  .runlist li b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+  .runlist li b i{font-style:normal;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);margin-left:6px}
+  .runlist li span{display:block;font-size:13.5px;color:var(--text)}
+  .runlist a{color:var(--green-ink);font-weight:600}
+  .steps{margin:14px 0 6px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .steps-head,.steprow{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:0}
+  .steps-head{background:var(--paper);border-bottom:1px solid var(--line)}
+  .steps-head span{padding:10px 14px;font-weight:700;font-size:13px;color:var(--ink)}
+  .steps-head span em{display:block;font-style:normal;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);margin-top:2px}
+  .steprow{border-bottom:1px solid var(--line)} .steprow:last-child{border-bottom:0}
+  .steprow>p{margin:0;padding:12px 14px;font-size:13.5px;line-height:1.45;color:var(--text);border-left:1px solid var(--line)}
+  .stepname{padding:12px 14px;display:flex;align-items:flex-start;gap:9px;font-weight:700;font-size:13.5px;color:var(--ink);background:#faf8f2}
+  .stepname b{flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:var(--green);color:var(--ink);display:grid;place-items:center;font-family:"JetBrains Mono",monospace;font-size:11.5px}
+  @media (max-width:720px){.steps-head{display:none}.steprow{grid-template-columns:1fr}.steprow>p{border-left:0;border-top:1px dashed var(--line)}}
   .bsfig{margin:14px 0 4px} .bsfig a{display:block} .bsfig img{max-height:520px;object-fit:contain;object-position:top}
   .teamfig{margin:18px 0 4px} .teamfig img{max-height:520px;object-fit:cover;object-position:center}
   .eras{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
@@ -358,14 +375,14 @@
         <p>The agent worked the plan in slices, ran the full suite on every commit, and checked each page against production. It ran free on the typing and <strong>stopped at every consequential decision</strong>: a data-model shape, a proxy edge case, a behavior that did not match. <strong>71 of those</strong>, each logged with the choice and the reason. Every wall became a written-down answer. It ran overnight; I decided in the morning.</p>
 
         <h3>Result</h3>
-        <p>Nine hundred files, seventy thousand lines, behavior-matched and validated on stage, merged behind flags, in about <strong>8% of the estimate</strong>: roughly five human hours, on a separate clock from the hours the loop ran unattended. Then generalized into a <strong>reusable blueprint</strong> queued for about a dozen similar services.</p>
+        <p>Nine hundred files, seventy thousand lines, behavior-matched and validated on stage, merged behind flags, in about <strong>8% of the estimate</strong>: roughly five human hours, on a separate clock from the hours the loop ran unattended. Then generalized into a <strong>reusable blueprint</strong> queued for about a dozen similar services. <span class="wip">in progress</span></p>
         <div class="linkrow"><a href="/portfolio/agentic-migration.html" target="_blank" rel="noopener">Public case study: agentic migration</a><a href="/portfolio/walkthroughs/migration.html" target="_blank" rel="noopener">▶ Narrated walkthrough, 8 steps</a></div>
       </div>
 
       <div class="subsec" id="era4">
         <p class="step">2026 · Chapter 4</p>
         <h2>What the modern stack unlocked: agentic feature work on a platform that could finally move</h2>
-        <p>Once PubHub was on Next.js the team could iterate on core features agentically, the same loop applied to new work instead of a port. Two shipped; two were in flight when the July 2026 layoffs ended the run.</p>
+        <p>Once PubHub was on Next.js the team could iterate on core features agentically, the same loop applied to new work instead of a port. Two shipped; two were in flight when the July 2026 layoffs ended the run. <span class="wip">in progress</span></p>
         <div class="gallery two">
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/home-redesign.png" alt="Redesigned PubHub home page on the new stack" /><figcaption><b>Shipped: the redesigned, personalized home page.</b> Built on the migrated stack.</figcaption></figure>
           <figure class="media pv-fig"><img loading="lazy" src="/demo/20260803/assets/portfolio/e-migration/planner-filters.png" alt="Planner with new filter controls" /><figcaption><b>Shipped: new planner filter tools.</b> Delivered agentically post-migration.</figcaption></figure>
@@ -395,42 +412,73 @@
       <div class="subsec" id="running">
         <p class="step">Interactive</p>
         <h2>See it running</h2>
-        <p>Static screens only go so far. These are live and clickable.</p>
-        <ul>
-          <li><strong>PubHub, rebuilt as interactive wireframes</strong> &mdash; the composer, planner, and accounts
-            flows reconstructed clean-room (fictional data, neutral styling) so the product's shape can be clicked
-            through rather than described:
-            <a href="/demo/20260909/wireframes/pubhub-composer-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">composer</a> ·
-            <a href="/demo/20260909/wireframes/pubhub-planner-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">planner</a> ·
-            <a href="/demo/20260909/wireframes/pubhub-accounts-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">accounts</a></li>          <li><strong>Foundation UI, the Storybook</strong> &mdash; the component library itself, browsable:
-            <a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">fui-sb.n8plusus.com</a></li>
-          <li><strong>Solid, the legacy layer</strong> &mdash; still online at BuzzFeed:
-            <a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener">solid-docs</a></li>
-          <li><strong>The system map</strong> &mdash; PubHub as a system: two core services, one event bus, 34 satellites, what it depends on and what consumes it:
-            <a href="/demo/20260909/system-map.html" target="_blank" rel="noopener">system-map.html</a></li>
-          <li><strong>Sorb</strong> &mdash; the studio successor, 90 seconds, no install:
-            <a href="https://try.sorbcloud.com" target="_blank" rel="noopener">try.sorbcloud.com</a></li>
+        <p>Static screens only go so far. Everything below is live and clickable, grouped by the chapter it belongs to.</p>
+        <ul class="runlist">
+          <li><b>The product <i>ch. 1</i></b>
+            <span>The composer, planner, and accounts flows, reconstructed clean-room so the product's shape can be clicked through:
+            <a href="/demo/20260909/wireframes/pubhub-composer-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">composer</a> &middot;
+            <a href="/demo/20260909/wireframes/pubhub-planner-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">planner</a> &middot;
+            <a href="/demo/20260909/wireframes/pubhub-accounts-wireframe-v1-2026-07-28.html" target="_blank" rel="noopener">accounts</a>.
+            The written case study: <a href="/portfolio/pubhub.html" target="_blank" rel="noopener">PubHub</a>.</span></li>
+          <li><b>The system <i>ch. 1</i></b>
+            <span>Two core services, one event bus, 34 satellites, what it depends on and what consumes it:
+            <a href="/demo/20260909/system-map.html" target="_blank" rel="noopener">the system map, full page</a>.</span></li>
+          <li><b>The design system, all three eras <i>ch. 2</i></b>
+            <span>Solid, the legacy layer, still online at BuzzFeed:
+            <a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener">solid-docs</a>.
+            Foundation UI as a browsable component library:
+            <a href="https://fui-sb.n8plusus.com" target="_blank" rel="noopener">FUI Storybook</a>,
+            and the kitchen sink inside the running app:
+            <a href="https://pubhub.n8plusus.com/ui/fui" target="_blank" rel="noopener">PubHub demo, kitchen sink</a>.
+            The written case study: <a href="/portfolio/foundation-ui.html" target="_blank" rel="noopener">Foundation UI</a>.</span></li>
+          <li><b>The migration, with AI <i>ch. 3</i></b>
+            <span>The full account of the port and the numbers behind it:
+            <a href="/portfolio/agentic-migration.html" target="_blank" rel="noopener">agentic migration</a>,
+            or the eight-step
+            <a href="/portfolio/walkthroughs/migration.html" target="_blank" rel="noopener">narrated walkthrough</a>.</span></li>
+          <li><b>The component layer after modernization <i>ch. 4</i></b>
+            <span>Bootstrap 5 rebuilt in styled-components, every component rendered live beside its code:
+            <a href="https://bootstrap-styled.metatoy.com/" target="_blank" rel="noopener">bootstrap-styled docs</a>.</span></li>
+          <li><b>Where the pattern went next <i>coda</i></b>
+            <span>The Figma plugin against a real storefront, ninety seconds, no install:
+            <a href="https://try.sorbcloud.com" target="_blank" rel="noopener">try.sorbcloud.com</a>,
+            with a <a href="/portfolio/walkthroughs/sorb.html" target="_blank" rel="noopener">narrated walkthrough</a>.</span></li>
         </ul>
       </div>
 
       <div class="subsec" id="map">
         <p class="step">Reference</p>
-        <h2>How the arc maps to your six steps</h2>
-        <ul>
-          <li><strong>Idea:</strong> chapter 3, the narrow idea of a behavior-matched port as a method; chapter 1 is what existed.</li>
-          <li><strong>Design / prototype:</strong> the written spec with a number on it and the first slice rendered against production (ch. 3); kitchen-sink-first components (ch. 2).</li>
-          <li><strong>Design system:</strong> chapter 2, Foundation UI, held fixed as the migration's constraint.</li>
-          <li><strong>Code:</strong> the agent loop, 71 human-gated decisions (ch. 3).</li>
-          <li><strong>Validation:</strong> coverage 26 → 97% first, suite green per commit, side-by-side with production, stage (ch. 3); health checks and A/B on the platform (ch. 1&ndash;2).</li>
-          <li><strong>Production:</strong> merged behind flags, blueprint for twelve services, features shipped on the new stack (ch. 3–4).</li>
-        </ul>
-        <h3>Honest limits</h3>
-        <ul class="limits">
-          <li>The blueprint was <strong>queued across twelve services, not yet applied</strong> to them when the layoffs hit.</li>
-          <li>The migration was a <strong>behavior-matched port</strong>: the design system was preserved, not generated, by the agent.</li>
-          <li>Figma <strong>Code Connect</strong> was evaluated with our VP of Technology and design leadership, not shipped; that gap is what Sorb was built to close.</li>
-          <li>Diagrams are <strong>illustrative and clean-room</strong>; internal code and tickets are not shown.</li>
-        </ul>
+        <h2>Two AI-driven projects, read against your six steps</h2>
+        <p>Both ran on the same platform, a year apart, with the same rule: the agent does the typing, a person makes
+        every consequential call, and the running app is the judge. The first rebuilt the foundation. The second used
+        that foundation to ship features. Each step below names what that stage actually was in both.</p>
+        <div class="steps">
+          <div class="steps-head"><span></span><span>The migration <em>2025&ndash;26 &middot; chapter 3</em></span><span>The modernization <em>2026 &middot; chapter 4</em></span></div>
+
+          <div class="steprow"><div class="stepname"><b>1</b>Idea</div>
+            <p>Not "use AI on the codebase." A behavior-matched port of a 70k-line React app to Next.js, one slice at a time, with the existing test suite as the contract. If it worked once, it was a method rather than a project.</p>
+            <p>Once the platform could move, apply the same loop to feature work instead of a port: a redesigned home page, new planner filters, and the smaller asks that had waited years for capacity.</p></div>
+
+          <div class="steprow"><div class="stepname"><b>2</b>Design / prototype</div>
+            <p>A written spec before any code: port mechanics for each legacy piece, the order of slices, and the rules for when the agent must stop. Thirteen tasks against a sixty-one-hour estimate. The prototype was the first slice, rendered side by side with production until it matched.</p>
+            <p>Feature asks went to the designer as written requests composed from the existing library: which alerts, icons, and buttons to reuse, with the live stage UI screenshotted as the reference, so the sketch dropped in without new primitives.</p></div>
+
+          <div class="steprow"><div class="stepname"><b>3</b>Design system</div>
+            <p>Foundation UI was held fixed as the migration's constraint. The agent preserved the system; it did not generate one. Every migrated screen had to look like the screen it replaced.</p>
+            <p>The Bootstrap React layer underneath had stopped being maintained, so it was rebuilt in the open as bootstrap-styled: Bootstrap 5 in styled-components with a runtime token surface, checked pixel-for-pixel against Bootstrap itself.</p></div>
+
+          <div class="steprow"><div class="stepname"><b>4</b>Code</div>
+            <p>The agent worked the plan in slices, ran the full suite on every commit, and stopped at every consequential decision: a data-model shape, a proxy edge case, a behavior that did not match. Seventy-one of those, each logged with the choice and the reason. It ran overnight; decisions were made in the morning.</p>
+            <p>The same loop, now against a modern stack that could actually be changed. Features were built agentically on the migrated app, with the human gate kept exactly where it was.</p></div>
+
+          <div class="steprow"><div class="stepname"><b>5</b>Validation</div>
+            <p>Coverage raised first, 26% to 97%, about 2,081 generated tests that surfaced four real latent bugs before a page moved. Then suite green per commit, each page verified against production, and the whole thing validated on stage.</p>
+            <p>The platform's own instruments carried over: health checks, A/B on the publishing pipeline, and the same suite-per-commit rule. A feature was not done until the running app said so.</p></div>
+
+          <div class="steprow"><div class="stepname"><b>6</b>Production</div>
+            <p>Merged behind flags in about 8% of the estimate, roughly five human hours. Generalized into a reusable blueprint and queued for about a dozen similar services. <span class="wip">in progress</span></p>
+            <p>Two features shipped on the new stack; two more were in flight when the July 2026 layoffs ended the run. <span class="wip">in progress</span> The component layer lives on as a published, MIT-licensed library.</p></div>
+        </div>
         <div class="linkrow"><a href="/portfolio/" target="_blank" rel="noopener">All public work</a><a href="/portfolio/image-publishing.html" target="_blank" rel="noopener">Also on PubHub: image publishing + share artifacts (+176% / +82% A/B)</a></div>
       </div>
     </main>
