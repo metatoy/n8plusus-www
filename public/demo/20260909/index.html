@@ -72,6 +72,119 @@
   @media (max-width:720px){.agenda{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
     .agenda::-webkit-scrollbar{display:none}
     .agenda a{flex:0 0 auto;min-width:132px}.lane{grid-template-columns:1fr}.chev{transform:rotate(90deg);height:22px}.outcomes{grid-template-columns:repeat(2,minmax(0,1fr))}.big{font-size:34px}.gallery.two,.gallery.three{grid-template-columns:1fr}}
+  /* system map (ported from Claude Design) */
+  .sysmap{display:block;--paper:#f1efe8;--card:#ffffff;--ink:#231f20;--text:#2a2622;--muted:#6f6b62;--line:#e2ddcf;--green:#8dc63f;--green-ink:#46701e;--green-soft:#f4f9ea;--tile:#eef2e4;--bus:#e6efd3}
+  .sysmap .map{font-family:"Space Grotesk",system-ui,sans-serif;color:var(--text);background:var(--paper);padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+  .sysmap code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.92em}
+  .sysmap .top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+  .sysmap .eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--green-ink)}
+  .sysmap .h{font-weight:700;font-size:20px;color:var(--ink);letter-spacing:-.01em;margin-top:4px;line-height:1.15}
+  .sysmap .legend{display:flex;gap:8px;flex:0 0 auto}
+  .sysmap .lg{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:5px 9px 5px 22px;border-radius:99px;border:1px solid var(--line);background:var(--card);position:relative}
+  .sysmap .lg::before{content:"";position:absolute;left:8px;top:50%;width:9px;height:9px;border-radius:3px;transform:translateY(-50%);background:var(--card);border:1.5px solid var(--line)}
+  .sysmap .lg.core::before{border-color:var(--green);background:var(--green-soft)}
+  .sysmap .lg.sat::before{border-color:var(--ink)}
+  .sysmap .lg.outside::before{border-style:dashed;border-color:var(--muted);background:var(--paper)}
+  .sysmap .tile{width:38px;height:38px;border-radius:10px;background:var(--tile);display:grid;place-items:center;flex:0 0 auto;color:var(--green-ink)}
+  .sysmap .tile.sm{width:30px;height:30px;border-radius:8px}
+  .sysmap .tile.dark{background:var(--green);color:var(--ink)}
+  .sysmap .ico{width:24px;height:24px;display:block}
+  .sysmap .ico.sm{width:18px;height:18px}
+  .sysmap .tile.sm .ico{width:19px;height:19px}
+  .sysmap .name{font-weight:700;font-size:14px;color:var(--ink);line-height:1.2;overflow-wrap:break-word;min-width:0}
+  .sysmap .role{font-size:12px;color:var(--text);line-height:1.3;margin-top:0;text-wrap:pretty}
+  .sysmap .sub{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--muted);line-height:1.35;margin-top:3px;display:flex;flex-wrap:wrap;gap:2px 0}
+  .sysmap .sub span{white-space:normal}
+  .sysmap .sub span:not(:last-child)::after{content:"·";margin:0 5px;color:#b9b4a6}
+  .sysmap .row1{display:grid;grid-template-columns:minmax(0,.9fr) 16px minmax(0,1fr) 16px minmax(0,1.06fr) 16px minmax(0,1.12fr) 16px minmax(0,1.4fr);align-items:stretch}
+  .sysmap .node{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px 12px;display:flex;flex-direction:column;gap:5px;min-width:0}
+  .sysmap .nhd{display:flex;flex-wrap:wrap;align-items:center;gap:6px 9px;margin-bottom:2px}
+  .sysmap .nhd .tile{width:32px;height:32px;border-radius:9px}
+  .sysmap .nhd .tile .ico{width:20px;height:20px}
+  .sysmap .node.core{border:2px solid var(--green);background:var(--green-soft)}
+  .sysmap .node.api{position:relative}
+  .sysmap .node.api::after{content:"";position:absolute;left:50%;bottom:-26px;height:24px;border-left:2px solid var(--green)}
+  .sysmap .node.api::before{content:"events";position:absolute;left:calc(50% + 8px);bottom:-22px;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--green-ink);letter-spacing:.04em}
+  .sysmap .node.outside{border:1px dashed var(--muted);background:var(--paper)}
+  .sysmap .node.outside .tile{background:#e9e6dc;color:var(--ink)}
+  .sysmap .node.sat{border-color:var(--ink)}
+  .sysmap .arr,.sysmap .sarr{display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:15px}
+  .sysmap .sarr{font-size:11px}
+  .sysmap .platrow{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+  .sysmap .plat{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--muted);min-width:0;text-align:center;letter-spacing:-.01em}
+  .sysmap .plat span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sysmap .ptile{width:28px;height:28px;border-radius:7px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink)}
+  .sysmap .plat .ico{width:18px;height:18px}
+  .sysmap .busrow{display:grid;grid-template-columns:1fr;position:relative;margin-top:10px}
+  .sysmap .bus{background:var(--bus);border:1px solid #cfdcb1;border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none}
+  .sysmap .bus:hover{border-color:var(--green)}
+  .sysmap .moretoggle{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+  .sysmap .morebtn{flex:0 0 auto;display:inline-flex;align-items:center;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);background:var(--card);border:1px solid #cfdcb1;border-radius:99px;padding:5px 10px;white-space:nowrap}
+  .sysmap .morebtn .t-close{display:none}
+  .sysmap .moretoggle:checked ~ .busrow .t-close{display:inline}
+  .sysmap .moretoggle:checked ~ .busrow .t-open{display:none}
+  .sysmap .more{display:none}
+  .sysmap .moretoggle:checked ~ .more{display:contents}
+  .sysmap .buslabel{display:flex;align-items:center;gap:8px;flex:0 0 215px;padding-right:12px;border-right:1px solid #cfdcb1}
+  .sysmap .buslabel b{display:block;font-size:12.5px;color:var(--ink);line-height:1.2}
+  .sysmap .buslabel span{display:block;font-size:10.5px;color:var(--muted);line-height:1.3;margin-top:2px}
+  .sysmap .btile{width:26px;height:26px;border-radius:7px;background:var(--green);color:var(--ink);display:grid;place-items:center;flex:0 0 auto}
+  .sysmap .btile .ico{width:16px;height:16px}
+  .sysmap .bushead{display:flex;align-items:center;gap:10px}
+  .sysmap .journey{background:rgba(255,255,255,.7);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:12px}
+  .sysmap .jlabel{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);writing-mode:vertical-rl;transform:rotate(180deg);flex:0 0 auto}
+  .sysmap .stages{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1fr);flex:1;align-items:center;padding-right:10px}
+  .sysmap .stage{display:flex;align-items:center;gap:6px;min-width:0}
+  .sysmap .stage div.txt{min-width:0}
+  .sysmap .stile{width:24px;height:24px;border-radius:6px;background:var(--card);border:1px solid #cfdcb1;display:grid;place-items:center;color:var(--green-ink);flex:0 0 auto}
+  .sysmap .stile .ico{width:14px;height:14px}
+  .sysmap .stage b{display:block;font-size:11.5px;color:var(--ink);line-height:1.15;white-space:nowrap}
+  .sysmap .stage span{display:block;font-family:"JetBrains Mono",monospace;font-size:8.5px;color:var(--muted);line-height:1.25;overflow-wrap:anywhere;margin-top:1px}
+  .sysmap .rail{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .sysmap .fgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+  .sysmap .fcell{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px 12px;display:flex;flex-direction:column;gap:3px;min-width:0}
+  .sysmap .ftop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .sysmap .fcell .tile.sm{width:26px;height:26px;border-radius:7px}
+  .sysmap .fcell .tile.sm .ico{width:16px;height:16px}
+  .sysmap .flabel{font-weight:700;font-size:13px;color:var(--ink);line-height:1.2}
+  .sysmap .fnum{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:36px;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-bottom:4px}
+  .sysmap .fnum small{display:block;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:12px;color:var(--ink);margin-top:3px;letter-spacing:0}
+  .sysmap .fcell .role{color:var(--muted);font-size:11.5px;text-wrap:pretty;margin-top:1px}
+  .sysmap .neigh{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .sysmap .ncell{border:1px dashed var(--muted);border-radius:12px;padding:12px 14px;background:var(--paper);display:flex;flex-direction:column;gap:9px;min-width:0}
+  .sysmap .nhead{display:flex;flex-direction:column;gap:3px}
+  .sysmap .ntag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink)}
+  .sysmap .minis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px}
+  .sysmap .mini{display:flex;gap:8px;align-items:flex-start;min-width:0}
+  .sysmap .mini .tile{background:#e9e6dc;color:var(--ink)}
+  .sysmap .mini b{display:block;font-size:12px;color:var(--ink);line-height:1.2}
+  .sysmap .mini span{display:block;font-size:11px;color:var(--muted);line-height:1.3;margin-top:1px}
+  .sysmap .foot{font-size:11.5px;color:var(--muted);line-height:1.4;text-wrap:pretty}
+  @media (max-width:1000px){.sysmap .name{font-size:13px}
+  .sysmap .buslabel{flex-basis:180px}
+  .sysmap .buslabel span{display:none}
+  .sysmap .stages{grid-template-columns:auto 10px auto 10px auto 10px auto 10px auto 10px auto 10px auto;justify-content:space-between}
+  .sysmap .sarr{font-size:10px}}
+  .sysmap{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:18px 0 0}
+  .sysmap .map{padding:16px 18px 18px}
+  .sysmap-fig{margin:0 0 6px}
+  .sysmap-fig>figcaption{font-size:12.5px;color:var(--muted);line-height:1.4;margin:8px 2px 0}
+  .sysmap-fig>figcaption b{color:var(--ink)}
+  .solidfig{margin:22px 0 0}
+  .solidfig a{display:block}
+  .solidfig img{max-height:420px;object-fit:cover;object-position:top}
+  .sysmap .h{font-size:18px} .sysmap .top{flex-wrap:wrap;align-items:flex-start;gap:8px 16px}
+  .sysmap .name{font-size:13px}
+  .sysmap .row1{grid-template-columns:minmax(0,.8fr) 14px minmax(0,1fr) 14px minmax(0,1fr) 14px minmax(0,1.18fr) 14px minmax(0,1.22fr)}
+  .sysmap .buslabel{flex-basis:170px} .sysmap .buslabel span{display:none}
+  .sysmap .stages{grid-template-columns:auto 10px auto 10px auto 10px auto 10px auto 10px auto 10px auto;justify-content:space-between} .sysmap .sarr{font-size:10px}
+  .sysmap .fgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sysmap .bus{flex-wrap:wrap;gap:10px 14px}
+  .sysmap .stages{flex:1 1 380px;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding-right:0}
+  .sysmap .sarr{display:none}
+  .sysmap .stage{flex-direction:column;align-items:center;gap:4px;text-align:center}
+  .sysmap .stage b{font-size:10.5px;white-space:normal;line-height:1.1}
+  .sysmap .morebtn{margin-left:auto}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
@@ -140,12 +253,41 @@
         <h2>The platform, on the internal style framework</h2>
         <p><strong>PubHub</strong> is BuzzFeed's social-publishing platform: 100+ connected channels, 40+ editors, hundreds of posts a day across six networks and fifteen post types. I joined in 2015 and owned its frontend for the rest of its life: a React app that grew to over 160 components and 70k+ lines (composer, planner, settings, automations, an SDK) on a Python/Tornado backend, deployed through the company PaaS.</p>
         <p>It was built on <strong>Solid</strong>, BuzzFeed's internal style framework. Solid was under-supported, every team re-solved the same UI problems, and Figma-to-code was a manual handoff: designers designed freely, engineers re-implemented by eye. The platform worked (95% user satisfaction in its health checks) but every feature paid a tax to the foundation it stood on.</p>
-        <div class="gallery three">
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-recs-composer.png" alt="PubHub in 2018: evergreen recommendations panel beside the Facebook link post composer" /><figcaption><span class="pv">Oct 2018</span><b>Recommendations &rarr; composer.</b> The evergreen recommendations rail ("drag and drop to reschedule") feeding the Facebook link-post form: account, scheduled-for, caption, preview.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-drag-reschedule.png" alt="PubHub in 2018: a scheduled post card being dragged between time slots in the week grid" /><figcaption><span class="pv">2018</span><b>Drag to reschedule.</b> A scheduled post moved between time slots in the week grid. Link-styled cards, no application chrome.</figcaption></figure>
-          <figure class="media pv-fig"><img loading="lazy" src="/demo/20260909/assets/ph-2018-rec-card-actions.png" alt="PubHub in 2018: recommendation cards with stats, post and dismiss actions" /><figcaption><span class="pv">2018</span><b>Recommendation cards.</b> Stats / Post / Dismiss on each card &mdash; automation proposing, a human disposing, from the very beginning.</figcaption></figure>
+        <figure class="sysmap-fig">
+          <div class="sysmap"><div class="map">
+        <div class="top"><div><div class="eyebrow">PubHub · 2016–2026 · 36 services in one monorepo</div><div class="h">Two core services, one event bus, a fleet of satellites</div></div><div class="legend"><span class="lg core">core</span><span class="lg sat">PubHub satellite</span><span class="lg outside">shared or outside</span></div></div>
+        <div class="row1">
+  <div class="node outside"><div class="nhd"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#users-duotone"></use></svg></div><div class="name">Editors</div></div><div class="role">40+ editors, 100+ channels</div><div class="sub"><span>publish to seven networks</span></div></div>
+  <div class="arr">&rarr;</div>
+  <div class="node core"><div class="nhd"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#app-window-duotone"></use></svg></div><div class="name">pubhub_ui</div></div><div class="role">The operator app · React</div><div class="sub"><span>composer</span><span>planner</span><span>schedules</span><span>automations</span></div></div>
+  <div class="arr">&rarr;</div>
+  <div class="node core api"><div class="nhd"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#database-duotone"></use></svg></div><div class="name">pubhub_api</div></div><div class="role">System of record · Tornado</div><div class="sub"><span>MySQL</span><span>Redis</span><span>S3</span><span>4–20 instances</span></div></div>
+  <div class="arr">&rarr;</div>
+  <div class="node sat"><div class="nhd"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#key-duotone"></use></svg></div><div class="name">platform_proxy_api</div></div><div class="role">Per-platform token chain</div><div class="sub"><span>one credential path per network</span></div></div>
+  <div class="arr">&rarr;</div>
+  <div class="node outside plats"><div class="nhd"><div class="tile"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#share-network-duotone"></use></svg></div><div class="name">Seven social platforms</div></div><div class="platrow"><div class="plat" title="Instagram"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#instagram-logo-duotone"></use></svg></div></div><div class="plat" title="TikTok"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#tiktok-logo-duotone"></use></svg></div></div><div class="plat" title="Facebook"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#facebook-logo-duotone"></use></svg></div></div><div class="plat" title="Threads"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#threads-logo-duotone"></use></svg></div></div><div class="plat" title="YouTube"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#youtube-logo-duotone"></use></svg></div></div><div class="plat" title="Pinterest"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#pinterest-logo-duotone"></use></svg></div></div><div class="plat" title="X"><div class="ptile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#x-logo-duotone"></use></svg></div></div></div></div>
+</div>
+        <input type="checkbox" id="mapmore" class="moretoggle" aria-label="Show the rest of the system map">
+<div class="busrow">
+  <label for="mapmore" class="bus">
+    <div class="buslabel"><div class="btile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#queue-duotone"></use></svg></div><div><b>NSQ event bus</b><span>32 of 36 services publish or subscribe · one draft's journey, one queue reader per stage</span></div></div>
+    <div class="stages"><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#newspaper-duotone"></use></svg></div><div class="txt"><b>CMS event</b></div></div><div class="sarr">&rarr;</div><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#funnel-duotone"></use></svg></div><div class="txt"><b>Screen</b></div></div><div class="sarr">&rarr;</div><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#git-branch-duotone"></use></svg></div><div class="txt"><b>Match</b></div></div><div class="sarr">&rarr;</div><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#path-duotone"></use></svg></div><div class="txt"><b>Create</b></div></div><div class="sarr">&rarr;</div><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#broadcast-duotone"></use></svg></div><div class="txt"><b>Publish</b></div></div><div class="sarr">&rarr;</div><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#bell-duotone"></use></svg></div><div class="txt"><b>Notify</b></div></div><div class="sarr">&rarr;</div><div class="stage"><div class="stile"><svg class="ico sm" aria-hidden="true"><use href="/portfolio/icons.svg#slack-logo-duotone"></use></svg></div><div class="txt"><b>Slack</b></div></div></div>
+    <span class="morebtn"><span class="t-open">See more &darr;</span><span class="t-close">Close &times;</span></span>
+  </label>
+</div>
+        <div class="more">
+        <div class="fleet"><div class="rail">The rest of the fleet · 34 satellites, all Python or Node, all in one monorepo</div><div class="fgrid"><div class="fcell"><div class="ftop"><div class="fnum">7</div><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#plugs-duotone"></use></svg></div></div><div class="flabel">satellite APIs</div><div class="role">rules, images, metascraping, dates, extension, triage</div></div><div class="fcell"><div class="ftop"><div class="fnum">11</div><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#queue-duotone"></use></svg></div></div><div class="flabel">queue readers</div><div class="role">one per platform and pipeline stage</div></div><div class="fcell"><div class="ftop"><div class="fnum">5</div><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#arrows-left-right-duotone"></use></svg></div></div><div class="flabel">bridges</div><div class="role">video, notifications, Slack, CMS</div></div><div class="fcell"><div class="ftop"><div class="fnum">6</div><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#clock-duotone"></use></svg></div></div><div class="flabel">scheduled jobs</div><div class="role">tokens, automations, backfills</div></div><div class="fcell"><div class="ftop"><div class="fnum">2</div><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#webhooks-logo-duotone"></use></svg></div></div><div class="flabel">event ingresses</div><div class="role">platform webhooks, Slack events</div></div><div class="fcell"><div class="ftop"><div class="fnum">1</div><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#puzzle-piece-duotone"></use></svg></div></div><div class="flabel">Chrome extension</div><div class="role">publish from any web page</div></div></div></div>
+        <div class="neigh">
+  <div class="ncell"><div class="nhead"><span class="ntag">&larr; depends on</span><div class="name">About ten shared platform services</div></div><div class="minis"><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#image-duotone"></use></svg></div><div><b>template_image_api</b><span>share cards and image templates</span></div></div><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#video-duotone"></use></svg></div><div><b>video_api</b><span>video assets, publishing, rights</span></div></div><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#users-duotone"></use></svg></div><div><b>teams_api</b><span>tenants, users, permissions</span></div></div><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#shield-check-duotone"></use></svg></div><div><b>sso_proxy · api_gateway</b><span>auth in front of the app</span></div></div></div></div>
+  <div class="ncell"><div class="nhead"><span class="ntag">consumed by &rarr;</span><div class="name">24 application services read PubHub data</div></div><div class="minis"><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#magnifying-glass-duotone"></use></svg></div><div><b>omnisearch</b><span>search indexing, five workers</span></div></div><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#robot-duotone"></use></svg></div><div><b>triage agent · AI hub</b><span>the 2026 agentic layer</span></div></div><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#newspaper-duotone"></use></svg></div><div><b>Apple News · .bio editor · feeds</b><span>syndication surfaces</span></div></div><div class="mini"><div class="tile sm"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#cpu-duotone"></use></svg></div><div><b>and 20 more</b><span>dashboards, transcripts, quizzes</span></div></div></div></div>
+</div>
+        <div class="foot">Read left to right for a request, then down for an event. Editors work in the React app; the API owns the data; every publish goes through the token proxy to a network. Anything asynchronous rides NSQ, where the automation pipeline turns a CMS event into a scheduled, published, and acknowledged post without a person in the loop. Counts are from the repository at July 2026; not every service is drawn.</div>
         </div>
-        <div class="linkrow"><a href="/portfolio/pubhub.html" target="_blank" rel="noopener">Public case study: PubHub</a></div>
+      </div></div>
+          <figcaption><b>PubHub as a system, July 2026.</b> Read left to right for a request, then down for an event. Click the event bus to expand the rest of the fleet, what it depends on, and what consumes it.</figcaption>
+        </figure>
+        <figure class="media solidfig"><a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener"><img loading="lazy" src="/demo/20260909/assets/solid-docs-buttons.png" alt="The Solid documentation site, Buttons page: primary and secondary button classes with code samples" /></a><figcaption><span class="pv">Solid · still online at BuzzFeed</span><b>The foundation the platform sat on.</b> Solid's documentation is still public: immutable, atomic CSS classes, a Sketch template, SASS variables and mixins, and a banner saying it is no longer maintained. Every PubHub screen before 2020 was assembled from these classes by hand.</figcaption></figure>
+        <div class="linkrow"><a href="/portfolio/pubhub.html" target="_blank" rel="noopener">Public case study: PubHub</a><a href="https://www.buzzfeed.com/static-assets/solid-docs/index.html" target="_blank" rel="noopener">Solid docs (BuzzFeed)</a><a href="/demo/20260909/system-map.html" target="_blank" rel="noopener">System map, full page</a></div>
       </div>
 
       <div class="subsec" id="era2">
