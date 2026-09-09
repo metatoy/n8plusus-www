@@ -175,6 +175,7 @@
   .solidfig{margin:22px 0 0}
   .solidfig a{display:block}
   .solidfig img{max-height:420px;object-fit:cover;object-position:top}
+  .teamfig{margin:18px 0 4px} .teamfig img{max-height:520px;object-fit:cover;object-position:center}
   .eras{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
   .eras li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
   .eras .eraico{width:26px;height:26px;flex:0 0 auto;color:var(--green-ink);margin-top:1px}
@@ -343,6 +344,8 @@
         <p class="step">2025–2026 · Chapter 3 · the deep dive</p>
         <h2>The migration, with AI: the rewrite nobody had time for</h2>
         <p>By 2025 the backend's age had put a multi-quarter manual rewrite on the roadmap for years, and the team never had the capacity to start it. The idea was narrower than "use AI on the codebase": a <strong>behavior-matched Next.js port</strong>, one slice at a time, with the existing test suite as the contract, the running production app as the oracle, the design system held fixed, and me deciding only where judgment was actually required. If it worked once it would be a method, not a project.</p>
+
+        <figure class="media teamfig"><img loading="lazy" src="/demo/20260909/assets/pubhub-team-birthday.jpg" alt="A generated group portrait: the PubHub team standing around a table with a PubHub birthday cake, the BuzzFeed arrow as a balloon head, and yellow reaction balloons reading LOL, win, cute, wtf, omg" /><figcaption><b>Ten years of a platform people cared about.</b> A generated group portrait from the migration's own summary folder &mdash; the arrow, the reaction balloons, a PubHub cake. Worth remembering that the thing being rewritten was somebody's daily tool, not a repository.</figcaption></figure>
 
         <h3>Spec first, with a number on it</h3>
         <p>I did not point an AI at the repo and hope. The design was a written spec: the goal, the port mechanics for each legacy piece, the order of slices, and the rules for when the agent must stop. Thirteen tasks against the team's <strong>sixty-one-hour</strong> estimate, so there was a clock to beat and a definition of done before any code moved. The prototype was the first slice (scaffold, mount, SSO, the API-gateway and image-builder proxies, SSR bootstrap state), rendered side by side with production until it matched.</p>
