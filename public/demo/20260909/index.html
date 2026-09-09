@@ -175,6 +175,7 @@
   .solidfig{margin:22px 0 0}
   .solidfig a{display:block}
   .solidfig img{max-height:420px;object-fit:cover;object-position:top}
+  .bsfig{margin:14px 0 4px} .bsfig a{display:block} .bsfig img{max-height:520px;object-fit:contain;object-position:top}
   .teamfig{margin:18px 0 4px} .teamfig img{max-height:520px;object-fit:cover;object-position:center}
   .eras{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
   .eras li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
@@ -377,6 +378,7 @@
         runtime <code>--bs-*</code> token surface, with every component rendered pixel-for-pixel against a vendored
         Bootstrap oracle by a parity harness. Published MIT as <code>@metatoy/bootstrap-styled</code> v1.0.0. It is the
         successor to the FUI component layer, and the component set Sorb now binds Figma tokens against.</p>
+        <figure class="media bsfig"><a href="https://bootstrap-styled.metatoy.com/docs/components/button/" target="_blank" rel="noopener"><img loading="lazy" src="/demo/20260909/assets/bootstrap-styled-docs.jpg" alt="The bootstrap-styled documentation site, Button page: contextual and outline variants rendered live beside copyable code" /></a><figcaption><span class="pv">bootstrap-styled v1.0.0 &middot; live docs</span><b>Components rendered live, with the code beside them.</b> The button page: eight contextual variants, outline variants, sizes and polymorphism, each rendered from the library itself rather than pictured.</figcaption></figure>
         <div class="linkrow"><a href="https://bootstrap-styled.metatoy.com/" target="_blank" rel="noopener">bootstrap-styled: docs and live components</a></div>
 </div>
 
@@ -384,8 +386,7 @@
         <p class="step">After BuzzFeed · Coda</p>
         <h2>Where the pattern went next: Sorb, at the design seam (studio, solo)</h2>
         <p>The versioned-library loop from chapter 2 and the verify-against-the-running-app rule from chapter 3 became a product. A designer edits a token in Figma, the plugin posts it to a bridge, and the React SDK applies it as CSS custom properties so the real components re-skin live before anyone merges. Tokens modeled primitive → semantic → component; adapters for six UI frameworks; every AI feature proposes, the live app confirms, a person merges. Solo work, said as such; the team-scale evidence is the four chapters above.</p>
-        <div class="gallery two">
-          <figure class="media"><img loading="lazy" src="/portfolio/assets/sorb/sorb-bridge.png" alt="Sorb live-preview flow" /><figcaption><b>The bridge.</b> Figma plugin → bridge → React SDK; preview never breaks production.</figcaption></figure>
+        <div class="gallery">
           <figure class="media"><img loading="lazy" src="/portfolio/assets/sorb/sorb-try-tour.png" alt="try.sorbcloud.com tour" /><figcaption><b>try.sorbcloud.com.</b> Ninety seconds, no install, the real plugin against a real storefront.</figcaption></figure>
         </div>
         <div class="linkrow"><a class="solo" href="https://try.sorbcloud.com" target="_blank" rel="noopener">Live demo: try.sorbcloud.com</a><a href="/portfolio/sorb.html" target="_blank" rel="noopener">Public case study: Sorb</a><a href="/portfolio/walkthroughs/sorb.html" target="_blank" rel="noopener">▶ Walkthrough</a></div>
