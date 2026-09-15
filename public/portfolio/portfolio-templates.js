@@ -194,7 +194,19 @@
   function projectInnerHTML(p) {
     const skills = (p.skills || []).map((s) => `<span class="chip">${esc(s)}</span>`).join("");
     const links = (p.links || []).map((l) => `<a class="ext" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`).join("");
-    const wtHtml = p.walkthrough
+    // One slot, directly after "What I built", for the thing that shows the work moving. It holds
+    // either a self-hosted walkthrough player or a YouTube video. `video` wins when both are set,
+    // so switching is a one-field edit rather than a template change.
+    //
+    // The two size themselves completely differently. The player knows its own height and posts it
+    // back over `wt-height` (see wireWalkthrough in portfolio-render.js); a cross-origin YouTube
+    // frame can post nothing, so it gets a fixed 16:9 box from CSS instead.
+    const ytId = p.video ? String(p.video).match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/) : null;
+    const wtHtml = ytId
+      // youtube-nocookie defers YouTube's cookies until the viewer actually presses play, and
+      // rel=0 keeps the end screen on this channel instead of advertising competitors.
+      ? `<div class="walkthrough-sec"><figure class="media embed video-embed"><iframe src="https://www.youtube-nocookie.com/embed/${esc(ytId[1])}?rel=0" title="${esc(p.title)} walkthrough" loading="lazy" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe></figure></div>`
+      : p.walkthrough
       ? `<div class="walkthrough-sec"><figure class="media embed walkthrough-embed"><iframe class="wt-iframe" src="${esc(p.walkthrough)}" title="${esc(p.title)} walkthrough" loading="lazy" scrolling="no"></iframe></figure></div>`
       : "";
     const secArr = (p.sections || []).map(renderSection);
