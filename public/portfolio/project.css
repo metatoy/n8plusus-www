@@ -52,6 +52,34 @@
   .media-phone{width:200px}
   .media-phone .phone-frame{display:block;width:200px;aspect-ratio:9/19;border-radius:26px;border:7px solid #1c1a19;overflow:hidden;background:#000;box-shadow:0 4px 14px rgba(35,31,32,.22)}
   .media-phone .phone-frame img{width:100%;height:100%;object-fit:cover;object-position:top center;border:0;border-radius:0;box-shadow:none;background:#000}
+  /* wide flow diagram — a pipeline drawn at thumbnail size is unreadable, so this one
+     runs full column width and still opens in the lightbox */
+  .flowfig{margin:14px 0 16px}
+  .flowfig img{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .flowfig figcaption{font-size:12.5px;color:var(--muted);margin-top:6px}
+  /* stepped carousel (cs![] blocks) — one image per step, captions from data- attributes.
+     Lived in one page's <head> until 2026-09-15, where every `npm run build` deleted it. */
+  .cs{margin:16px 0 18px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;outline:none}
+  .cs:focus-visible{box-shadow:0 0 0 3px #d9e8bd}
+  .cs-stage{position:relative;width:100%;aspect-ratio:16/10;background:#faf8f2;display:grid;place-items:center;overflow:hidden;cursor:pointer;border-bottom:1px solid var(--line)}
+  .cs-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:14px;box-sizing:border-box;animation:csEnter .4s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes csEnter{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+  .cs-stage img.cs-small{padding:38px 0}
+  .cs-progress{height:3px;background:rgba(0,0,0,.08)}
+  .cs-progressFill{height:100%;width:0;background:var(--green);transition:width .3s}
+  .cs-caption{padding:15px 20px 6px}
+  .cs-captionTitle{margin:0 0 4px;font-size:18px;font-weight:700;color:var(--ink);line-height:1.2}
+  .cs-captionBody{margin:0;color:var(--text);line-height:1.5;font-size:14.5px;max-width:62ch}
+  .cs-controls{display:flex;align-items:center;gap:9px;padding:9px 20px 16px}
+  .cs-ctrlBtn{border:1px solid var(--line);background:transparent;color:var(--ink);width:38px;height:38px;border-radius:999px;display:grid;place-items:center;cursor:pointer;font:600 15px "Space Grotesk",sans-serif;transition:border-color .15s,color .15s}
+  .cs-ctrlBtn:hover{border-color:var(--green-ink);color:var(--green-ink)}
+  .cs-spacer{flex:1}
+  .cs-dots{display:flex;gap:7px}
+  .cs-dot{width:9px;height:9px;padding:0;border:none;border-radius:999px;background:#cfc9bb;cursor:pointer;transition:background .15s,transform .15s}
+  .cs-dot:hover{transform:scale(1.15)}
+  .cs-dot.active{background:var(--green-ink)}
+  .cs-stepLabel{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:3px}
+  @media (prefers-reduced-motion:reduce){.cs-stage img{animation:none}}
   /* keep gallery videos a sane size */
   .gallery .media video{max-width:420px;margin:0 auto}
   /* lightbox */

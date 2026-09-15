@@ -15,14 +15,58 @@
 
   function fmt(s) {
     return esc(s)
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
       .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
       .replace(/\*([^*]+)\*/g, "<em>$1</em>")
       .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
   }
 
+  // A stepped carousel: one <img> per step, captions carried on data- attributes so the
+  // markup is complete before any script runs. Source form is a header line plus one line
+  // per step, which keeps a seven-step walkthrough readable in portfolio.json:
+  //
+  //   cs![<dom-id> :: <aria-label>]
+  //   - <src>[!small] :: <step title> :: <step body>
+  //
+  // Wired by wireCarousels() in portfolio-render.js; styles live in project.css. Both are
+  // loaded by every generated page, which is why this is a template block and not a
+  // hand-edit to one page's <head> and <body> — that is exactly what `npm run build`
+  // used to throw away.
+  function carousel(head, steps) {
+    const parts = head.split(" :: ");
+    const id = parts[0].trim();
+    const label = parts.slice(1).join(" :: ").trim();
+    const items = steps.map((line) => {
+      const f = line.replace(/^\s*-\s+/, "").split(" :: ");
+      const src = f[0].trim();
+      return { small: /!small$/.test(src), src: src.replace(/!small$/, ""), title: (f[1] || "").trim(), body: f.slice(2).join(" :: ").trim() };
+    });
+    const imgs = items
+      .map((it, i) => `<img class="cs-poster${it.small ? " cs-small" : ""}" src="${esc(it.src)}" alt="${esc(it.title)}" data-title="${esc(it.title)}" data-body="${esc(it.body)}"${i ? " hidden" : ""} />`)
+      .join("");
+    const dots = items
+      .map((it, i) => `<button type="button" class="cs-dot${i ? "" : " active"}" data-i="${i}" role="tab" aria-label="Step ${i + 1}: ${esc(it.title)}"></button>`)
+      .join("");
+    return `<div class="cs"${id ? ` id="${esc(id)}"` : ""}${label ? ` aria-label="${esc(label)}"` : ""} tabindex="0">
+  <div class="cs-stage" title="Click to advance">${imgs}</div>
+  <div class="cs-progress"><div class="cs-progressFill"></div></div>
+  <div class="cs-caption"><h3 class="cs-captionTitle"></h3><p class="cs-captionBody"></p></div>
+  <div class="cs-controls">
+    <button type="button" class="cs-ctrlBtn" data-act="prev" aria-label="Previous step">&larr;</button>
+    <button type="button" class="cs-ctrlBtn" data-act="next" aria-label="Next step">&rarr;</button>
+    <span class="cs-spacer"></span>
+    <div class="cs-dots" role="tablist" aria-label="Jump to step">${dots}</div>
+    <span class="cs-stepLabel"></span>
+  </div>
+</div>`;
+  }
+
   function md(s) {
     return String(s || "").split(/\n{2,}/).map((block) => {
       const lines = block.split("\n");
+      if (/^cs!\[[^\]]*\]\s*$/.test(lines[0] || "")) {
+        return carousel(lines[0].trim().slice(4, -1), lines.slice(1).filter((l) => /^\s*-\s+/.test(l)));
+      }
       if (lines.length && lines.every((l) => /^\s*-\s+/.test(l))) {
         return "<ul>" + lines.map((l) => `<li>${fmt(l.replace(/^\s*-\s+/, ""))}</li>`).join("") + "</ul>";
       }
@@ -41,6 +85,15 @@
         const label = parts.length > 1 ? parts[0] : pthm[1];
         const cap = parts.length > 1 ? parts.slice(1).join(" :: ") : pthm[1];
         return `<figure class="media media-thumb media-phone"><span class="phone-frame"><img loading="lazy" src="${esc(pthm[2])}" alt="${esc(cap)}" /></span><figcaption>${esc(label)} <span class="mt-cta">expand</span></figcaption></figure>`;
+      }
+      // f![caption :: alt](src) — a wide flow diagram. Same expand affordance as t!, but
+      // full-bleed rather than thumbnail-sized, because a pipeline drawn small is unreadable.
+      const flow = block.trim().match(/^f!\[([^\]]*)\]\(([^)]+)\)$/);
+      if (flow) {
+        const parts = flow[1].split(" :: ");
+        const cap = parts[0];
+        const alt = parts.length > 1 ? parts.slice(1).join(" :: ") : parts[0];
+        return `<figure class="media flowfig"><img loading="lazy" src="${esc(flow[2])}" alt="${esc(alt)}" /><figcaption>${esc(cap)} <span class="mt-cta">expand</span></figcaption></figure>`;
       }
       const thm = block.trim().match(/^t!\[([^\]]*)\]\(([^)]+)\)$/);
       if (thm) {

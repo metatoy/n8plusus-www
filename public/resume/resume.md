@@ -9,13 +9,13 @@ Staff Software Engineer specializing in design engineering and AI-native agentic
 
 ## Skills
 
-**AI / Agentic:** LLM orchestration and multi-agent workflows · MCP servers · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Chainlit · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code
+**AI / Agentic:** LLM orchestration and multi-agent workflows · MCP servers · evaluation frameworks and golden-set testing · RAG and hybrid retrieval (pgvector, embeddings, semantic + full-text) · AI observability (run traces, cost and latency per run, human-gate audit trails) · agentic migration pipelines · production LLM API integration · prompt and agent design · LangChain · Claude and OpenAI APIs · Claude Code, Copilot, and ChatGPT via VS Code
 
-**Frontend:** React · Next.js · TypeScript · JavaScript · SSR · design systems and design tokens · styled-components · Storybook · automated testing (Playwright) · Chrome extension and Figma plugin development
+**Frontend:** React · Next.js · TypeScript · JavaScript · design systems and design tokens · accessibility (WCAG 2.2 AA, axe) · Playwright (end-to-end testing) · styled-components · Storybook · SSR · Chrome extension and Figma plugin development
 
-**Backend / Infra:** Node.js · Python · FastAPI · Temporal (durable workflow orchestration) · PostgreSQL · Redis · Firestore · S3/CDN · Docker · GitHub Actions CI · OAuth (Okta, Clerk) · Stripe · Datadog · self-hosted PaaS (Coolify)
+**Backend / Infra:** Python · Node.js · Java · Go (service integration) · FastAPI · PostgreSQL · Redis · Docker · AWS · GCP · Azure · Azure OpenAI · CI/CD (GitHub Actions) · Temporal (durable workflow orchestration) · OAuth 2.1 (Okta, Clerk) · observability (Datadog, Sentry) · Stripe
 
-**Leadership:** Team building & recruiting · managing & mentoring direct reports · performance reviews · planning & resource management · technical direction & architecture · client pitches & new business · conference speaking
+**Delivery & Leadership:** Solutions architecture · requirements & estimates · project planning & resource allocation · sprint planning & ticket writing · mentoring & technical direction · client & executive communication · team building & recruiting · conference speaking
 
 ---
 

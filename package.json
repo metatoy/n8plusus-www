@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "N8+US, Inc. consulting site \u2014 static site + contact form handler (Migadu SMTP).",
+  "description": "N8+US, Inc. consulting site — static site + contact form handler (Migadu SMTP).",
   "scripts": {
     "start": "node server.js",
     "build": "node scripts/sync-walkthrough.mjs --if-present && node build-portfolio.mjs && node scripts/inject-ga.mjs --write",
     "ga": "node scripts/inject-ga.mjs",
-    "test": "node scripts/test-contact-guard.mjs && node scripts/test-walkthrough-sync.mjs",
+    "test": "node scripts/test-contact-guard.mjs && node scripts/test-walkthrough-sync.mjs && node build-portfolio.mjs --check",
     "sync:walkthrough": "node scripts/sync-walkthrough.mjs"
   },
   "engines": {

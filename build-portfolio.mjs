@@ -2,8 +2,16 @@
 // content baked in from portfolio.json, so every project has its own URL
 // (/portfolio/<slug>.html) for tracking, SEO, and progressive first paint.
 //
-// Run:  node build-portfolio.mjs   (or `npm run build`)
+// Run:  node build-portfolio.mjs           (or `npm run build`)
+//       node build-portfolio.mjs --check   verify, don't write — wired into `npm test`
 // Regenerate whenever portfolio.json or the templates change.
+//
+// These pages are GENERATED. Editing one by hand works right up until the next build, which
+// silently deletes the edit. That happened twice: image-publishing's four case-study sections,
+// its three carousels and their <style>/<script> blocks, and foundation-ui's six screenshots,
+// all lived only in the committed HTML. --check makes that a test failure on the spot: the
+// content belongs in portfolio.json, and anything the markup language cannot express belongs
+// in portfolio-templates.js / project.css / portfolio-render.js, which every page already loads.
 import { createRequire } from "node:module";
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -16,7 +24,7 @@ const PUB = join(__dirname, "public");
 const _mod = require(join(PUB, "portfolio", "portfolio-templates.js"));
 const PF = _mod && _mod.projectInnerHTML ? _mod : globalThis.PF;
 
-const V = "20260810b"; // asset cache-bust; bump when css/js change
+const V = "20260915a"; // asset cache-bust; bump when css/js change
 const ORIGIN = "https://n8plusus.com"; // canonical host (non-www), consistent with the homepage
 const data = JSON.parse(readFileSync(join(PUB, "portfolio", "portfolio.json"), "utf8"));
 
@@ -81,12 +89,34 @@ ${GA_SNIPPET}</head>
 `;
 };
 
+const check = process.argv.includes("--check");
 let n = 0;
+const stale = [];
 for (const p of data.projects || []) {
   if (!p.slug) continue;
-  const out = join(PUB, "portfolio", `${p.slug}.html`);
-  writeFileSync(out, page(p));
+  const rel = `portfolio/${p.slug}.html`;
+  const out = join(PUB, rel);
+  const html = page(p);
   n++;
-  console.log("wrote", `portfolio/${p.slug}.html`);
+  if (!check) {
+    writeFileSync(out, html);
+    console.log("wrote", rel);
+    continue;
+  }
+  let onDisk = null;
+  try { onDisk = readFileSync(out, "utf8"); } catch { /* missing counts as stale */ }
+  if (onDisk !== html) stale.push({ rel, reason: onDisk === null ? "not generated yet" : "differs from portfolio.json + templates" });
 }
-console.log(`\n✓ generated ${n} project pages`);
+
+if (!check) {
+  console.log(`\n✓ generated ${n} project pages`);
+} else if (stale.length) {
+  console.error("portfolio-build: FAIL — committed pages do not match what the generator produces:");
+  for (const s of stale) console.error(`  ${s.rel} — ${s.reason}`);
+  console.error("\n  These pages are generated. Do not hand-edit them: put prose in portfolio.json,");
+  console.error("  and anything the markup language cannot express in portfolio-templates.js /");
+  console.error("  project.css / portfolio-render.js. Then: node build-portfolio.mjs");
+  process.exit(1);
+} else {
+  console.log(`portfolio-build: OK — ${n} pages match portfolio.json + templates`);
+}
