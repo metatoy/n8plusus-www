@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>GitHub Next · 17 Sep 2026 — demo index — Nathan O'Brien</title>
+<meta name="description" content="Jumping-off links for the GitHub Next conversation: the live harness, the pull requests it opened, the tutorial, and the engine." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portfolio/project.css?v=20260915a" />
+<style>
+  /* An index, not a case study. Everything here is a link and the sentence you say while it loads.
+     The A5 Labs page (/demo/20260909/) is the other kind on purpose: that one had to carry a
+     ten-year platform story to someone who had not seen it. This one opens tabs. */
+  .wrap{max-width:820px}
+  .private{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:#8a5a00;background:#fbf1dc;border:1px solid #efd9a8;
+    border-radius:6px;padding:3px 9px;display:inline-block;margin-bottom:14px}
+  .tabs{list-style:none;margin:18px 0 0;padding:0;counter-reset:tab}
+  .tabs li{counter-increment:tab;border-top:1px solid var(--line);padding:18px 0 16px}
+  .tabs li:last-child{border-bottom:1px solid var(--line)}
+  .tabs a.t{display:flex;gap:14px;align-items:baseline;text-decoration:none;color:var(--ink)}
+  .tabs a.t:hover h3{color:var(--green-ink)}
+  .tabs .num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--green-ink);
+    flex:0 0 auto;padding-top:3px}
+  .tabs h3{margin:0;font-size:18px;font-weight:600;line-height:1.25}
+  .tabs .url{display:block;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);
+    margin-top:4px;word-break:break-all}
+  .tabs .say{margin:9px 0 0 32px;font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:64ch}
+  .tabs .say b{font-weight:600;color:var(--ink)}
+  .tabs .also{margin:8px 0 0 32px;font-size:12.5px;color:var(--muted)}
+  .tabs .also a{color:var(--green-ink)}
+  .rest{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:9px}
+  .rest li{font-size:14px;line-height:1.5}
+  .rest a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .rest a:hover{text-decoration:underline}
+  .rest span{color:var(--muted)}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--muted);margin:34px 0 0}
+</style>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+</head>
+<body>
+  <div class="bar"><div class="inner">
+    <span class="bl">
+      <a class="barhome" href="/" aria-label="N8+US home">N8+US</a>
+      <a class="barback" href="/portfolio/">← all work</a>
+    </span>
+  </div></div>
+  <div class="wrap">
+    <main id="project">
+      <header class="phead">
+        <span class="private">Private · for a conversation on 17 Sep 2026</span>
+        <p class="mono meta-line">GitHub Next · demo index</p>
+        <h1>Five tabs, in the order I would open them</h1>
+        <p class="lede">A framework where AI-built work earns autonomy through gated fidelity rungs.
+          In August that was an experiment I was running. It is a live system now, so the rest of
+          this page is the thing itself rather than a description of it.</p>
+      </header>
+
+      <ol class="tabs">
+        <li>
+          <a class="t" href="https://harness.n8plusus.com/" target="_blank" rel="noopener">
+            <span class="num">01</span>
+            <span><h3>The harness, running</h3>
+              <span class="url">harness.n8plusus.com</span></span>
+          </a>
+          <p class="say">A sentence typed into a web page becomes a written spec, then drawings in a
+            real Figma file, then something clickable, then real code, then a flagged pull request.
+            <b>A person decides every step that cannot be taken back.</b> The vessel is a poker app
+            that really exists.</p>
+          <p class="also">Start at the visitor door —
+            <a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">/build/</a>
+            — or the nine-chapter narrated version:
+            <a href="https://harness.n8plusus.com/walkthrough/" target="_blank" rel="noopener">/walkthrough/</a></p>
+        </li>
+
+        <li>
+          <a class="t" href="https://github.com/metatoy/fls-harness-demo/pull/9" target="_blank" rel="noopener">
+            <span class="num">02</span>
+            <span><h3>A pull request it opened, and merged</h3>
+              <span class="url">github.com/metatoy/fls-harness-demo/pull/9</span></span>
+          </a>
+          <p class="say">Merged 13 Sep. 87 lines across 4 files, the project's own tests re-run here
+            rather than taken on the agent's word. <b>It merged with its feature flag off in both
+            environments</b> — which is the only reason an automated merge is defensible. Turning the
+            flag on is a separate decision, made later, by a person, outside the system entirely.</p>
+          <p class="also">Three merged from the ladder: #5, #9, #11. (#10 is mine, by hand — the fork
+            was deploying upstream’s product.)</p>
+        </li>
+
+        <li>
+          <a class="t" href="https://github.com/metatoy/fls-harness-demo/pull/7" target="_blank" rel="noopener">
+            <span class="num">03</span>
+            <span><h3>One still sitting at a gate</h3>
+              <span class="url">github.com/metatoy/fls-harness-demo/pull/7</span></span>
+          </a>
+          <p class="say">The half people skip. Four of these are parked waiting on a person, and they are
+            parked <b>on purpose</b> — that is the system working, not the system stalling.
+            Nothing here advances on optimism: a check that did not run is never reported as passed.</p>
+          <p class="also">Also open: #4, #6, #8. (#1 is older and its run died at the last rung — the seam
+            that produced it is closed now.)</p>
+        </li>
+
+        <li>
+          <a class="t" href="https://github.com/nhunsaker/github-triage-agent-tutorial" target="_blank" rel="noopener">
+            <span class="num">04</span>
+            <span><h3>The triage tutorial</h3>
+              <span class="url">github.com/nhunsaker/github-triage-agent-tutorial</span></span>
+          </a>
+          <p class="say">An agent that triages issues, taught as chapters you complete rather than
+            read. Rough cut, public, honest about what is finished.</p>
+          <p class="also">A green run:
+            <a href="https://github.com/nhunsaker/github-triage-agent-tutorial/actions/runs/33524587364" target="_blank" rel="noopener">triage #33524587364</a></p>
+        </li>
+
+        <li>
+          <a class="t" href="https://github.com/nhunsaker/fidelity-ladder-system" target="_blank" rel="noopener">
+            <span class="num">05</span>
+            <span><h3>The engine</h3>
+              <span class="url">github.com/nhunsaker/fidelity-ladder-system</span></span>
+          </a>
+          <p class="say">MIT, and installable. The core pulls zero web dependencies, so the pattern
+            travels without the server.</p>
+          <p class="also"><code>pip install fidelity-ladder</code> —
+            <a href="https://pypi.org/project/fidelity-ladder/" target="_blank" rel="noopener">PyPI 0.9.0</a></p>
+        </li>
+      </ol>
+
+      <p class="kicker">If there is time</p>
+      <ul class="rest">
+        <li><a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a>
+          <span>— how it works and what it cost, with the walkthrough embedded</span></li>
+        <li><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg" target="_blank" rel="noopener">The walkthrough on YouTube</a>
+          <span>— four minutes, narrated, if screen-sharing fails</span></li>
+        <li><a href="https://pocket-stage.n8plusus.com/" target="_blank" rel="noopener">What it last built</a>
+          <span>— the staged app; the features are behind flags that are off</span></li>
+        <li><a href="https://n8plusus.com/portfolio/">The rest of the work</a>
+          <span>— design systems, publishing platforms, a shipped iOS game</span></li>
+        <li><a href="https://n8plusus.com/resume/resume.pdf">Résumé (PDF)</a></li>
+      </ul>
+
+      <p class="soon-note mono" style="margin-top:34px">Nothing on this page is staged. Every link
+        goes to the running thing, and the pull requests were opened by the system, not by me.</p>
+    </main>
+    <footer>
+      <a href="/portfolio/">all work</a> · <a href="https://n8plusus.com">n8plusus.com</a>
+    </footer>
+  </div>
+</body>
+</html>
