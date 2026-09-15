@@ -90,9 +90,18 @@
   #pf-lightbox .lb-close:hover{opacity:1}
   .media.embed iframe{width:100%;min-height:520px;border:1px solid var(--line);border-radius:10px;display:block;background:#fff;box-shadow:0 2px 8px rgba(35,31,32,.06)}
   /* walkthrough player embed: the player supplies its own frame, so the iframe is borderless */
-  .walkthrough-sec{margin-top:22px}
+  /* The player is built for a 1248px stage (vendor/pilot.css .page) and the article column is
+     776px, so inside the column every scene renders at 62% and the type inside the SVGs goes with
+     it. This breaks the embed out of the column to the player's own width, centred, and never
+     narrower than the column it came from. */
+  .walkthrough-sec{margin-top:22px;
+    width:max(100%, min(1248px, calc(100vw - 44px)));
+    margin-left:50%; transform:translateX(-50%)}
   .walkthrough-embed{margin:0}
   .walkthrough-embed iframe{border:none;box-shadow:none;background:transparent;min-height:360px;transition:height .2s ease}
+  /* YouTube embed: cross-origin, so it can never tell us its height. Fixed 16:9 box instead. */
+  .video-embed{margin:0}
+  .video-embed iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:none;border-radius:10px;background:#000;box-shadow:0 2px 8px rgba(35,31,32,.06)}
   .media figcaption{color:var(--muted);font-size:12.5px;margin-top:8px;line-height:1.5}
   .media figcaption b{color:var(--ink);font-weight:600}
   /* collapsible diagram */
