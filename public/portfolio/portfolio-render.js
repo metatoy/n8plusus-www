@@ -61,11 +61,54 @@
     });
   }
 
+  // stepped carousels (cs![] blocks). The markup ships complete — every step's image,
+  // title and body are already in the HTML — so this only moves between them. Nothing
+  // here is required for the content to be readable if the script never runs.
+  function wireCarousels(root) {
+    root.querySelectorAll(".cs").forEach((cs) => {
+      const imgs = [...cs.querySelectorAll(".cs-poster")];
+      const dots = [...cs.querySelectorAll(".cs-dot")];
+      const n = imgs.length;
+      if (!n) return;
+      const title = cs.querySelector(".cs-captionTitle");
+      const body = cs.querySelector(".cs-captionBody");
+      const label = cs.querySelector(".cs-stepLabel");
+      const fill = cs.querySelector(".cs-progressFill");
+      let i = 0;
+      const go = (k) => {
+        i = (k + n) % n;
+        imgs.forEach((im, j) => {
+          im.hidden = j !== i;
+          // restart the enter animation on the step being shown
+          if (j === i) { im.style.animation = "none"; void im.offsetWidth; im.style.animation = ""; }
+        });
+        title.textContent = imgs[i].getAttribute("data-title");
+        body.textContent = imgs[i].getAttribute("data-body");
+        label.textContent = "Step " + (i + 1) + " / " + n;
+        fill.style.width = ((i + 1) / n) * 100 + "%";
+        dots.forEach((d, j) => {
+          d.classList.toggle("active", j === i);
+          if (j === i) d.setAttribute("aria-selected", "true"); else d.removeAttribute("aria-selected");
+        });
+      };
+      cs.querySelector(".cs-stage").addEventListener("click", () => go(i + 1));
+      cs.querySelector('[data-act="prev"]').addEventListener("click", (e) => { e.stopPropagation(); go(i - 1); });
+      cs.querySelector('[data-act="next"]').addEventListener("click", (e) => { e.stopPropagation(); go(i + 1); });
+      dots.forEach((d) => d.addEventListener("click", () => go(+d.getAttribute("data-i"))));
+      cs.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(i + 1); }
+        if (e.key === "ArrowLeft") go(i - 1);
+      });
+      go(0);
+    });
+  }
+
   function wireAll(root) {
     if (!root) return;
     wireFeatures(root);
     wireLightbox(root);
     wireWalkthrough(root);
+    wireCarousels(root);
   }
 
   // attach interactivity to already-baked content (static per-project pages)
