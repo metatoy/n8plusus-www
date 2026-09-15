@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fidelity Ladder System | Embedded walkthrough</title>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/brand/tokens.css">
+  <link rel="stylesheet" href="vendor/pilot.css">
+  <link rel="stylesheet" href="walkthrough.css">
+</head>
+<body class="full-walkthrough">
+  <main class="page embed-page"><header class="masthead"><a class="brand" href="index.html"><img src="vendor/brand/png/mark-full.png" width="48" height="48" alt=""><span>FIDELITY<br>LADDER</span></a><span class="pilot-tag">EMBED PREVIEW</span></header><section class="embed-section" aria-labelledby="embed-title"><p class="eyebrow">FROM INTENT TO EVIDENCE</p><h1 id="embed-title">Fidelity Ladder System.</h1><iframe class="embed-frame" src="index.html?embed" title="Fidelity Ladder System narrated walkthrough" allow="autoplay"></iframe><a class="embed-return" href="index.html">Open standalone walkthrough</a></section></main>
+  <script type="module">
+    const frame = document.querySelector('iframe');
+    window.addEventListener('message', (event) => {
+      if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+      const message = event.data;
+      if (!message || message.type !== 'wt-height' || message.id !== 'fls-walkthrough') return;
+      if (typeof message.height !== 'number' || !Number.isFinite(message.height)) return;
+      frame.style.height = `${Math.max(300, Math.min(4000, Math.ceil(message.height)))}px`;
+    });
+  </script>
+</body>
+</html>

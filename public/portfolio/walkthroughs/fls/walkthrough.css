@@ -1,0 +1,1436 @@
+.full-walkthrough h1 { font-size: 36px; }
+.full-walkthrough .chapter-heading { padding-top: 24px; }
+.full-walkthrough .wt-transport { flex-wrap: wrap; gap: 12px; }
+.full-walkthrough .wt-chapter { display: flex; gap: 12px; align-items: center; flex-basis: 100%; border-top: 1px solid var(--line); padding-top: 12px; }
+.full-walkthrough .wt-chapter select { flex: 1; width: 100%; max-width: none; min-width: 0; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: white; color: var(--ink); font-size: 14px; }
+.full-walkthrough .wt-cues { grid-template-columns: repeat(var(--cue-count, 5), minmax(0, 1fr)); }
+.full-walkthrough .wt-captionBody { max-width: 90ch; }
+.story-scene .scene-heading { min-height: 88px; }
+.story-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 28px; }
+.story-surface { min-width: 0; display: flex; flex-direction: column; min-height: 430px; }
+.story-annotation { min-width: 0; border-left: 1px solid var(--line); padding-left: 24px; display: flex; flex-direction: column; }
+.story-annotation > .eyebrow { font-size: 10px; }
+.story-annotation h3 { font-size: 28px; margin: 12px 0 28px; line-height: 1.2; }
+.story-code { border-block: 1px solid var(--line); padding: 16px 0; }
+.story-code > span { display: block; font: 11px var(--mono); color: #686255; margin-bottom: 16px; }
+.story-code code { display: block; white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.8 var(--mono); color: var(--blue); }
+.story-note { border-left: 3px solid #fdb913; padding-left: 14px; font-size: 16px; line-height: 1.65; margin-top: 24px; }
+.story-counter { display: flex; gap: 12px; margin-top: auto; padding-top: 28px; font: 12px var(--mono); color: #686255; }
+.story-counter > span:first-child { color: var(--blue); font-weight: 600; }
+.scene-provenance { margin: auto 0 0; padding-top: 24px; font: 10px/1.6 var(--mono); color: #686255; }
+.story-surface ol { list-style: none; margin: 0; padding: 0; }
+.story-surface li[data-node] { transition: border-color 150ms; }
+.node-label { font: 10px/1.6 var(--mono); color: #686255; }
+.node-marker { font: 12px var(--mono); color: #686255; }
+.story-surface li h3 { margin: 0 0 6px; font-size: 18px; line-height: 1.3; }
+.story-surface li p { margin: 0; font-size: 14px; line-height: 1.55; color: #615d52; }
+.policy-chain li, .workflow-chain li, .build-chain li, .recap-principles li, .stop-outcomes li { display: grid; grid-template-columns: 80px minmax(0, 1fr) 20px; gap: 12px; padding: 18px 12px; border-bottom: 1px solid var(--line); border-left: 3px solid transparent; }
+.story-surface li.active-node { border-left-color: var(--blue); background: #e8f0f8; }
+.policy-boundary { display: flex; align-items: center; gap: 14px; padding: 18px 12px; border: 1px solid var(--line); margin-top: 24px; }
+.policy-boundary p { font-size: 14px; line-height: 1.5; margin: 6px 0 0; }
+.boundary-icon { font-size: 36px; color: #a9251e; }
+.stop-label { margin-left: auto; font: 11px var(--mono); color: #a9251e; }
+.story-policy[data-phase="3"] .policy-boundary, .story-policy[data-phase="4"] .policy-boundary { border-color: #a9251e; background: #fff0ed; }
+.story-policy[data-phase="4"] .policy-chain li { border-left-color: var(--blue); }
+.pocket-identity { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 24px; background: #1a1817; color: #ede9e4; }
+.pocket-identity strong { font-size: 32px; }
+.pocket-identity strong span { color: #39d0e8; }
+.pocket-identity > span { font: 10px/1.6 var(--mono); color: #b4ada6; }
+.request-sheet { padding: 28px 24px; border: 1px solid var(--line); background: white; }
+.request-sheet h3 { font-size: 28px; line-height: 1.3; margin: 16px 0; }
+.request-sheet p { font-size: 16px; line-height: 1.5; margin-bottom: 0; color: #615d52; }
+.artifact-stops { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 24px 0 !important; }
+.artifact-stops li { padding: 12px 4px; border-top: 3px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+.artifact-stops span { font: 11px var(--mono); color: #686255; }
+.artifact-stops strong { font-size: 11px; font-weight: 500; }
+.story-request[data-phase="2"] .artifact-stops li, .story-request[data-phase="3"] .artifact-stops li { border-top-color: var(--blue); }
+.boundary-strip { display: flex; justify-content: space-between; gap: 8px; font: 11px var(--mono); color: var(--blue); padding: 16px 0; }
+.workflow-name h3 { font: 22px/1.4 var(--mono); overflow-wrap: anywhere; margin: 12px 0 16px; }
+.workflow-chain li { padding-block: 12px; }
+.signal-set { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 20px; }
+.signal-set span { font: 12px var(--mono); padding: 8px 10px; border-bottom: 2px solid #d7d2c6; }
+.story-workflow[data-phase="2"] .signal-set span { border-color: var(--blue); color: var(--blue); }
+.story-workflow[data-phase="3"] .workflow-chain li:nth-child(3) { background: #fff4d3; border-color: #7a5c07; }
+.spec-sheet { padding: 20px; border: 1px solid var(--line); background: #fff; }
+.spec-sheet ul { padding-left: 18px; margin-bottom: 0; }
+.spec-sheet li { font-size: 14px; line-height: 1.65; margin-top: 8px; }
+.wire-options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding-top: 20px; }
+.wire-option { border: 1px solid #b2ac9f; border-radius: 4px; min-width: 0; background: white; }
+.wire-option header, .wire-option footer { padding: 10px; font: 10px/1.5 var(--mono); background: #efeee8; }
+.wire-copy { padding: 16px 12px; }
+.wire-copy > span { font-size: 11px; color: #686255; }
+.wire-copy strong { display: block; font-size: 18px; margin-top: 12px; }
+.wire-copy p { font-size: 12px; line-height: 1.5; }
+.wire-action { border: 1px solid var(--line); margin: 0 12px 16px; padding: 10px; font-size: 12px; }
+.story-wireframes[data-phase="2"] .chosen, .story-wireframes[data-phase="3"] .chosen { outline: 3px solid #005eb8; outline-offset: -2px; }
+.profile-fields { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 20px; font: 12px var(--mono); color: var(--blue); }
+.token-source { padding: 20px; background: #1a1817; color: #ede9e4; }
+.token-source .eyebrow { color: #b4ada6; font-size: 10px; }
+.token-swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+.token-swatches i { display: block; height: 44px; border: 1px solid #686255; border-radius: 3px; }
+.token-swatches code { display: block; font: 10px var(--mono); margin-top: 10px; }
+.build-chain { margin-top: 12px !important; }
+.evidence-checks { padding-top: 20px; font-size: 12px; }
+.evidence-checks > span { font: 11px var(--mono); color: #686255; }
+.evidence-checks ul { display: flex; flex-wrap: wrap; gap: 8px 20px; padding-left: 16px; }
+.stop-current { border-bottom: 3px solid #fdb913; padding: 12px 0 20px; }
+.stop-current strong { font-size: 28px; display: block; margin-top: 12px; }
+.stop-current p { font-size: 14px; line-height: 1.5; }
+.stop-outcomes li { grid-template-columns: 80px minmax(0, 1fr); }
+.stop-outcomes .node-marker { display: none; }
+.story-stops[data-phase="2"] .stop-outcomes li:nth-child(2), .story-stops[data-phase="3"] .stop-outcomes li:nth-child(3) { border-color: #a9251e; background: #fff0ed; }
+.budget-boundary { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 20px; font: 11px/1.7 var(--mono); }
+.budget-boundary strong { color: #a9251e; }
+.release-package { background: white; border: 1px solid var(--line); border-radius: 4px; }
+.release-package header { padding: 20px; border-bottom: 1px solid var(--line); }
+.release-package h3 { font-size: 24px; margin: 12px 0 8px; }
+.release-package header > span:last-child { font: 11px var(--mono); color: #686255; }
+.release-package ul { padding: 0 20px 12px 36px; font-size: 14px; line-height: 1.8; }
+.draft-label { font: 11px var(--mono); padding: 4px 6px; color: #6d5203; background: #fff4d3; }
+.release-lanes { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 12px; padding-top: 28px; }
+.release-lanes h3 { font-size: 20px; line-height: 1.3; margin: 12px 0; }
+.release-lanes p { font-size: 14px; line-height: 1.6; }
+.release-lanes .eyebrow { font-size: 10px; }
+.release-gate { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 16px; border-inline: 1px dashed #a9251e; color: #a9251e; }
+.release-gate strong { font: 10px/1.6 var(--mono); text-align: center; }
+.release-gate > span { font-size: 32px; }
+.release-footer { display: flex; flex-wrap: wrap; gap: 12px; padding: 20px 0 0; font: 10px var(--mono); color: #686255; }
+.recap-mark { display: flex; align-items: center; gap: 24px; padding: 12px 0 24px; }
+.recap-mark img { object-fit: contain; }
+.recap-mark h3 { margin: 0; font-size: 32px; line-height: 1.15; }
+.explore-links { display: flex; flex-wrap: wrap; gap: 12px 24px; padding-top: 24px; }
+.explore-links a { display: inline-flex; gap: 12px; align-items: center; min-height: 44px; color: var(--blue); font-size: 14px; }
+.chapter-overview { background: var(--paper); border-block: 1px solid var(--line); margin-top: 24px; }
+.chapter-overview summary { min-height: 56px; padding: 20px 0; font-size: 14px; cursor: pointer; }
+#total-duration { float: right; font: 12px var(--mono); color: #686255; }
+#chapter-list { margin: 0; padding: 0 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 24px; list-style: none; }
+#chapter-list button { text-align: left; min-height: 48px; width: 100%; padding: 8px; border: 0; border-left: 3px solid transparent; background: transparent; color: var(--ink); font-size: 14px; line-height: 1.5; }
+#chapter-list button[aria-current="true"] { border-color: var(--blue); color: var(--blue); background: #e8f0f8; }
+.embedded .chapter-overview { display: none; }
+.full-walkthrough .embed-frame { height: 1100px; }
+@media (max-width: 1100px) {
+  .story-grid { gap: 20px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  .story-annotation { padding-left: 20px; }
+  .policy-chain li, .workflow-chain li, .build-chain li, .recap-principles li { grid-template-columns: minmax(0, 1fr) 20px; gap: 8px; }
+  .node-label { grid-column: 1 / -1; }
+  .stop-outcomes li { grid-template-columns: 1fr; }
+  .request-sheet h3 { font-size: 24px; }
+}
+@media (max-width: 850px) {
+  .full-walkthrough h1 { font-size: 32px; }
+  #chapter-list { grid-template-columns: 1fr 1fr; }
+  .release-lanes { grid-template-columns: 1fr; gap: 16px; }
+  .release-gate { border-inline: 0; border-block: 1px dashed #a9251e; flex-direction: row; padding: 10px; }
+}
+@media (max-width: 700px) {
+  .story-grid { display: flex; flex-direction: column; gap: 28px; }
+  .story-surface { min-height: 0; }
+  .story-annotation { border-left: 0; border-top: 1px solid var(--line); padding: 24px 0 0; }
+  .story-annotation h3 { font-size: 24px; margin: 8px 0 20px; }
+  .story-note { margin-bottom: 0; }
+  .story-counter { display: none; }
+  .full-walkthrough .wt-chapter { order: 4; }
+  .full-walkthrough .wt-chapter select { font-size: 12px; padding: 8px 4px; }
+  .full-walkthrough .wt-chapter { gap: 8px; font-size: 12px; }
+  .recap-mark { gap: 16px; }
+  .recap-mark img { width: 72px; height: 72px; }
+  .recap-mark h3 { font-size: 28px; }
+  .wire-options { gap: 12px; }
+  .wire-copy strong { font-size: 16px; }
+  .request-sheet { padding: 24px 16px; }
+  .request-sheet h3 { font-size: 24px; }
+  .artifact-stops strong { font-size: 10px; }
+  .boundary-strip { font-size: 10px; }
+  #chapter-list { grid-template-columns: 1fr; }
+  .full-walkthrough .embed-frame { height: 1800px; }
+}
+/* ── walkthrough v2 surfaces ─────────────────────────────────────────────────────────────────
+   Built on the shared `rows()` markup so they inherit .story-surface li[data-node] styling and
+   need only what is genuinely new. Per-chapter bespoke CSS is what made the first version
+   expensive to restructure. */
+
+.concept-rows li[data-node] { border-left: 3px solid var(--line); padding: 11px 0 11px 16px; margin-bottom: 9px; display: flex; gap: 14px; align-items: baseline; }
+
+/* Chapter 1: the cost of finding out late. */
+/* The ramp is carried by the BAR, never by text opacity. Fading the labels (.4/.55/.7) read as
+   "cost rising" and failed WCAG AA contrast on three of the five cells — caught by the axe run at
+   all four widths. A decorative gradient cannot fail contrast; grey-on-grey text can. */
+.cost-scale { display: flex; gap: 2px; margin-top: auto; padding-top: 18px; }
+.cost-scale span, .cost-scale strong { flex: 1; text-align: center; font: 10px var(--mono); letter-spacing: .1em; color: #4a4438; padding: 9px 3px; background: var(--band, #edeae1); }
+.cost-scale strong { color: #f5f3ee; background: #a9251e; }
+.cost-ramp { height: 5px; margin-top: 3px; background: linear-gradient(90deg, #d7d2c6 0%, #c9b99a 45%, #a9251e 100%); }
+.cost-legend { display: flex; justify-content: space-between; font: 10px var(--mono); letter-spacing: .08em; color: #686255; margin: 7px 0 0; }
+.story-problem[data-phase="3"] .cost-scale span:nth-child(1) { color: var(--blue); font-weight: 600; opacity: 1; }
+
+/* Chapter 2: the tighten-only cascade. */
+.cascade { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--line); font: 11px var(--mono); letter-spacing: .12em; color: #686255; }
+.cascade i { font-style: normal; color: var(--line); }
+.cascade b { margin-left: auto; font-weight: 600; color: var(--blue); letter-spacing: .08em; }
+.story-ladder[data-phase="2"] .cascade { color: var(--ink); border-top-color: var(--blue); }
+
+/* Chapter 3: it ends at a gate. */
+.gate-foot { display: flex; align-items: center; gap: 13px; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--line); }
+.gate-foot p { margin: 0; font-size: 15px; line-height: 1.5; }
+.gate-mark { width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: #2b2823; color: #f5f3ee; border-radius: 2px; }
+.story-gates[data-phase="4"] .gate-foot { border-top-color: var(--blue); }
+
+/* Chapters 4-8: the captured screens. The frame is deliberately plain — the screenshot is the
+   evidence, and a decorated border around evidence reads as an advertisement for it. */
+.shot { margin: 0 0 16px; }
+.shot img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 3px; background: #f8f5ec; }
+.shot figcaption { font: 11px var(--mono); letter-spacing: .06em; color: #686255; margin-top: 8px; }
+
+/* ══ shared scene furniture ══════════════════════════════════════════════════════════════════
+   The hybrid the founder approved (option 1c): the drawing stays bare, and the framing around it
+   is the admin surface's. Written once here rather than per chapter, because every chapter needs
+   the same three parts — where you are, what you are looking at, and a hairline under both — and
+   nine copies of a label style is how nine chapters drift apart again.
+
+   --muted, not #8a8175. The design first used the admin surface's own #8a8175 for the right-hand
+   label; it is 3.46:1 on paper and fails AA at any size these labels are set at. */
+.story-scene .slab { font: 600 9.5px var(--mono); letter-spacing: .2em; fill: var(--muted); }
+.story-scene .slab-r { text-anchor: end; letter-spacing: .14em; }
+.story-scene .fline { stroke: var(--line); stroke-width: 1; }
+/* The ruled ground. DS-A calls it "the schoolroom-chart accent" and it is drawn as an SVG pattern
+   rather than the design system's CSS background: these SVGs are width:100%, so viewBox units are
+   not pixels and a CSS background would not stay registered to the plot. Each scene declares its
+   own pattern ids — the player swaps one scene's markup for another's, so a shared `gp` would be
+   whichever chapter happened to define it. */
+.story-scene .plot { stroke: none; }
+
+/* PAPER, NOT WHITE. The player's own card (`.wt`, in pilot.css) is #ffffff, which DS-A rules out
+   in as many words: "grounds warm-neutral (paper/charcoal, never #000/#fff)". One line at `.wt`
+   would fix it everywhere, but that line changes all nine chapters at once and pilot.css is shared
+   with five portfolio walkthroughs — it is a decision, not a side effect of polishing a chapter.
+   So the ground is listed per POLISHED chapter, and the list is the progress bar: when it reaches
+   nine, the whole thing collapses into one rule on `.wt` and this comment goes with it. */
+.pb-wrap, .lad-wrap, .gt-wrap, .rq-wrap, .wf-wrap, .pv-wrap, .bd-wrap, .sh-wrap, .yt-wrap { background: var(--paper); }
+
+/* THE TWO PHOTO CHAPTERS HAVE TO ASK FOR THEIR MARGINS. The drawn chapters get theirs free: their
+   svg is centred in a fixed-height stage, which leaves about 55px of slack above and below. These
+   two size their stage to their own content, so without padding the furniture ends up pressed
+   against the card — measured at 5px and 3px on chapter 6, and 6px on chapter 4's header. Same
+   labels, same page, a tenth of the air.
+   28px rather than 55px: matching the drawn chapters exactly would add 110px to the two chapters
+   that are already the tallest in the piece, and the eye is reading "is this deliberate", not
+   counting pixels. */
+.rq-wrap, .pv-wrap { padding-block: 28px; }
+
+/* ══ chapter 1 — "The expensive place to be wrong" ════════════════════════════════════════════
+   Beats 0 / 5600 / 8700 / 12100, chapter runs 19775. Same conventions as chapter 2: absolute
+   delays off the narration clock, `both` fill, nothing loops, composed at rest.
+
+   POLISHED AGAINST DESIGN SYSTEM A — see the header of scene-problem.mjs for the argument. Every
+   colour below is now a token. The ones this block used to hardcode (#6f6a5d for --muted, #eae5da
+   for the gridlines, ink used as a stroke) were approximations of a system this walkthrough
+   already ships; pilot.css now aliases the whole palette so no scene has to guess again. */
+
+.pb-wrap { width: 100%; height: 100%; display: flex; align-items: center;
+  --pb-settle: cubic-bezier(0.22,1,0.36,1); --pb-travel: cubic-bezier(0.45,0,0.25,1); --pb-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.pb { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; }
+.pb-svg { width: 100%; height: auto; font-family: var(--mono); }
+
+.pb-svg .base { stroke: #b9b1a0; stroke-width: 1; }
+/* The column rules are transparent now — the ruling underneath already carries the grid, and a
+   second set on top of it reads as a mistake. They stay in the DOM because beat 4 lifts column
+   one's to blue, and that lift is the chapter's closing gesture. */
+.pb-svg .grid { stroke: transparent; stroke-width: 1; }
+.pb-svg .cnum { font-size: 11px; fill: var(--blue); font-weight: 600; text-anchor: middle; }
+.pb-svg .cname { font: 600 11px var(--display); fill: var(--ink); text-anchor: middle; }
+.pb-svg .dot { fill: var(--gate); }
+
+/* The two questions take the DISPLAY voice. They are the chapter's argument, not its annotation,
+   and no scene in this piece had used the second voice the system runs on. */
+.pb-svg .rlab { font: 600 12px var(--display); letter-spacing: 0; }
+.pb-svg .row-works .rlab { fill: #123a5e; }
+.pb-svg .rlab-2 { fill: #5c4708; }
+.pb-svg .band { fill: #eef4fa; }
+.pb-svg .band-rule { fill: var(--blue); }
+.pb-svg .band-2 { fill: #fdf0cf; }
+.pb-svg .band-rule-2 { fill: var(--yellow); }
+
+/* ── beat 1 · 0.0s — the curve draws, and the far end is named ────────────────────────────── */
+/* Charcoal, not ink: DS-A reserves ink for type. */
+.pb-svg .curve { fill: none; stroke: var(--gate); stroke-width: 2.5; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: pb-draw 2600ms var(--pb-travel) 200ms both; }
+@keyframes pb-draw { to { stroke-dashoffset: 0; } }
+.pb-svg .dot { opacity: 0; animation: pb-in 300ms var(--pb-settle) both; }
+.pb-svg .q0 .dot { animation-delay: 400ms; } .pb-svg .q1 .dot { animation-delay: 900ms; }
+.pb-svg .q2 .dot { animation-delay: 1400ms; } .pb-svg .q3 .dot { animation-delay: 1900ms; }
+.pb-svg .q4 .dot { animation-delay: 2400ms; }
+@keyframes pb-in { to { opacity: 1; } }
+
+.pb-svg .peak-dot { fill: none; stroke: var(--red); stroke-width: 2.5; opacity: 0;
+  transform-box: fill-box; transform-origin: center; animation: pb-stamp 420ms var(--pb-ack) 2900ms both; }
+@keyframes pb-stamp { from { opacity: 0; transform: scale(2.4); } to { opacity: 1; transform: scale(1); } }
+/* INK, not red. #e63329 on paper is 3.89:1 and this is an 11px label, so red type fails AA here.
+   The ring is a graphical object and passes at 3:1, so the state is still red and the words are
+   still legible — which is the division DS-A asks for anyway. */
+.pb-svg .peak-label { font: 700 11px var(--display); fill: var(--ink); text-anchor: middle;
+  opacity: 0; animation: pb-in 340ms ease-out 3200ms both; }
+
+/* ── beat 2 · 5.6s — correctness is answered, all the way across ──────────────────────────── */
+.pb-svg .row-works .rlab { opacity: 0; animation: pb-in 320ms ease-out 5700ms both; }
+.pb-svg .row-works .band, .pb-svg .row-works .band-rule { opacity: 0; animation: pb-in 420ms var(--pb-settle) 5600ms both; }
+.pb-svg .tick { fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0; animation: pb-in 240ms var(--pb-ack) both; }
+.pb-svg .k0 { animation-delay: 6000ms; } .pb-svg .k1 { animation-delay: 6180ms; }
+.pb-svg .k2 { animation-delay: 6360ms; } .pb-svg .k3 { animation-delay: 6540ms; }
+.pb-svg .k4 { animation-delay: 6720ms; }
+
+/* ── beat 3 · 8.7s — direction is not. One mark, sitting at the expensive end. ────────────── */
+.pb-svg .rlab-2 { opacity: 0; animation: pb-in 320ms ease-out 8800ms both; }
+.pb-svg .row-right .band, .pb-svg .row-right .band-rule { opacity: 0; animation: pb-in 420ms var(--pb-settle) 8700ms both; }
+/* 26px and bold, so this one clears the 3:1 large-text threshold and keeps the red. */
+.pb-svg .qmark { font: 900 26px var(--display); fill: var(--red); text-anchor: middle;
+  opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: pb-qin 420ms var(--pb-ack) 9100ms both, pb-move 1100ms var(--pb-travel) 12400ms both; }
+@keyframes pb-qin { from { opacity: 0; transform: scale(1.9); } to { opacity: 1; transform: scale(1); } }
+
+/* ── beat 4 · 12.1s — the turn. The question moves to where it is cheap to ask. ───────────── */
+@keyframes pb-move { to { transform: translateX(-716px); } }
+.pb-svg .cheap { font-size: 10px; fill: var(--blue); text-anchor: middle; letter-spacing: .04em;
+  opacity: 0; animation: pb-in 360ms ease-out 13400ms both; }
+.pb-svg .q0 .grid { animation: pb-lift 500ms var(--pb-settle) 13400ms both; }
+@keyframes pb-lift { to { stroke: var(--blue); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pb-svg *, .pb-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .pb-svg .dot, .pb-svg .peak-dot, .pb-svg .peak-label, .pb-svg .tick, .pb-svg .band,
+  .pb-svg .band-rule, .pb-svg .rlab, .pb-svg .qmark, .pb-svg .cheap { opacity: 1 !important; }
+  .pb-svg .curve { stroke-dashoffset: 0 !important; }
+}
+
+/* ══ chapter 2 — "It only moves one way" · the v3 proof scene ═════════════════════════════════
+   Delays are ABSOLUTE ms from the chapter's start, because the player scrubs every animation's
+   currentTime off the narration clock. Beats: 0 / 5500 / 12400 / 19600, chapter runs 22100.
+   Everything uses `both`, so scrubbing to 0 shows the opening state and the end holds the final
+   composition — which is also what a reduced-motion viewer gets. Nothing loops.
+
+   Every drawn line uses pathLength="1" so dash animations are geometry-independent. The first pass
+   hardcoded dasharray lengths by eye; where the real path was longer, the remainder stayed visible
+   and stray red fragments showed on beats that had not started yet. */
+
+/* [house lens #13] The curves are named once rather than hand-picked per rule. There is no
+   --motion-* scale in the FLS brand tokens yet; if one lands, these three should move into it. */
+/* One rule, not two. `.lad-wrap` was declared twice, eighty lines apart — the easings up here and
+   the layout down at the bottom — which is how a scene ends up with a ground in one place and
+   none in the other. */
+.lad-wrap { width: 100%; height: 100%; display: flex; align-items: center;
+  --lad-settle: cubic-bezier(0.22,1,0.36,1); --lad-travel: cubic-bezier(0.45,0,0.25,1); --lad-ack: cubic-bezier(0.2,1.12,0.35,1); }
+/* `width: 100%` is load-bearing: .lad is a flex ITEM of .lad-wrap, so without it the figure
+   shrinks to its content and the scene renders postage-stamp-sized in the corner of the stage.
+   Missed on the first pass because the verification screenshots captured the .lad-svg ELEMENT,
+   which crops to the element and cannot show that it is tiny within the page. Capture the stage. */
+.lad { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; }
+.lad-svg { width: 100%; height: auto; font-family: var(--mono); }
+
+/* The cells are filled now, so they read as cards pinned to the ruled ground rather than as
+   windows cut into it — and the coarse blocks have paper behind them instead of graph rules. */
+.lad-svg .tile { fill: var(--paper); stroke: var(--line); stroke-width: 1; }
+/* charcoal, not ink: DS-A reserves ink for TYPE, and these are fills. */
+.lad-svg .coarse rect, .lad-svg .fine rect { fill: var(--gate); }
+.lad-svg .vec { fill: none; stroke: var(--gate); stroke-width: 2.5; stroke-linejoin: miter; }
+.lad-svg .num { font-size: 11px; fill: var(--blue); font-weight: 600; }
+/* the display voice: these five words are the chapter's argument, not its annotation. */
+.lad-svg .name { font: 600 12px var(--display); fill: var(--ink); }
+.lad-svg .note { font-size: 10px; fill: var(--muted); letter-spacing: .04em; }
+.lad-svg .axis { font-size: 9.5px; fill: var(--muted); letter-spacing: .18em; }
+.lad-svg .axis-r { text-anchor: end; }
+.lad-svg .rule line { stroke: var(--line); stroke-width: 1; }
+
+/* ── beat 1 · 0.0s — the cells lay down, left to right, all coarse ────────────────────────── */
+/* The cells do NOT fade in, and that is a decision rather than an omission.
+   They used to, staggered — which meant the stage was EMPTY at rest, because `both` fill shows an
+   animation's `from` state before its delay. Anyone landing on the chapter paused, or scrubbed to
+   the start, saw a blank frame and reasonably concluded the thing was broken. That happened.
+   Against the house lens's last question — if this animation were deleted, what would the viewer
+   fail to understand? — the lay-down taught nothing. The RESOLVE teaches everything. So the
+   subject is simply present, and only what carries meaning moves. */
+.lad-svg .rule line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: lad-draw 900ms var(--lad-travel) 100ms both; }
+@keyframes lad-draw { to { stroke-dashoffset: 0; } }
+@keyframes lad-in { to { opacity: 1; } }
+
+/* ── beat 2 · 5.5s — each cell RESOLVES in turn, coarse giving way to fine ────────────────── */
+.lad-svg .fine, .lad-svg .vec { opacity: 0; animation: lad-in 620ms var(--lad-settle) both; }
+.lad-svg .coarse { opacity: 1; animation: lad-out 620ms var(--lad-settle) both; }
+.lad-svg .c0 .fine, .lad-svg .c0 .vec, .lad-svg .c0 .coarse, .lad-svg .c0 .tile { animation-delay: 5600ms; }
+.lad-svg .c1 .fine, .lad-svg .c1 .vec, .lad-svg .c1 .coarse, .lad-svg .c1 .tile { animation-delay: 6500ms; }
+.lad-svg .c2 .fine, .lad-svg .c2 .vec, .lad-svg .c2 .coarse, .lad-svg .c2 .tile { animation-delay: 7400ms; }
+.lad-svg .c3 .fine, .lad-svg .c3 .vec, .lad-svg .c3 .coarse, .lad-svg .c3 .tile { animation-delay: 8300ms; }
+.lad-svg .c4 .fine, .lad-svg .c4 .vec, .lad-svg .c4 .coarse, .lad-svg .c4 .tile { animation-delay: 9200ms; }
+@keyframes lad-out { to { opacity: 0; } }
+.lad-svg .cell .tile { animation: lad-sharpen 620ms var(--lad-settle) both; }
+@keyframes lad-sharpen { from { stroke: var(--line); } to { stroke: var(--muted); } }
+
+/* ── beat 3 · 12.4s — direction, placed in the gaps the row already has ──────────────────── */
+.lad-svg .chev { fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: 0; animation: lad-in 300ms var(--lad-ack) both; }
+.lad-svg .k0 { animation-delay: 12600ms; } .lad-svg .k1 { animation-delay: 12760ms; }
+.lad-svg .k2 { animation-delay: 12920ms; } .lad-svg .k3 { animation-delay: 13080ms; }
+
+/* GATED SHUT UNTIL THEY ARE DUE. Any dashed-on stroke with a ROUND linecap paints that cap even
+   when the visible dash length is zero — so each of these sat on the stage as a stray red dot,
+   the ring's for nearly seven seconds before the ring was due and the skip ring's for a second and
+   a half above the arc. The round cap is worth keeping: with a butt cap the ring's dash seam leaves
+   a visible notch at twelve o'clock. So the caps stay and the elements are simply not there yet.
+   This is the same failure the top of this block warns about — stray red fragments on beats that
+   have not started — reintroduced by a linecap rather than by a dasharray. */
+.lad-svg .back-ring, .lad-svg .back-bar, .lad-svg .skip-ring, .lad-svg .skip-bar { opacity: 0; }
+
+/* The one backward step, forbidden. Small and local: this is a STEP back, not a leap.
+   Three moves in order, because the order is the sentence: the move appears, the sign closes
+   around it, the bar strikes it. Drawing the ring before the bar matters — a bar that lands first
+   reads as a slash, which is the thing this replaced. */
+.lad-svg .back-arrow { fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: 0; animation: lad-in 300ms ease-out 13700ms both; }
+.lad-svg .back-ring { fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1;
+  transform-box: fill-box; transform-origin: center; transform: rotate(-90deg);
+  animation: lad-draw 420ms var(--lad-travel) 13950ms both, lad-in 1ms linear 13950ms both; }
+.lad-svg .back-bar { fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: lad-draw 240ms var(--lad-travel) 14320ms both, lad-in 1ms linear 14320ms both; }
+.lad-svg .back-label { font-size: 10px; fill: var(--muted); letter-spacing: .04em; text-anchor: middle; opacity: 0; animation: lad-in 300ms ease-out 14500ms both; }
+
+/* ── beat 4 · 19.6s — one move, 2.5 seconds. A jump to the end is refused. ────────────────── */
+/* The same three moves as the back step, in the same order: the move is made, the sign closes
+   around it, the bar strikes it. Here the move is the whole arc, so the arrowhead lands with the
+   line rather than after it — an arc that arrives and only then sprouts a head reads as two
+   events. The ring is PAPER-FILLED: it masks the arc at the apex, so the leap stops at the sign
+   instead of running behind it. */
+.lad-svg .skip-arc { fill: none; stroke: var(--red); stroke-width: 2.5; stroke-dasharray: 1; stroke-dashoffset: 1; animation: lad-draw 820ms var(--lad-travel) 19700ms both; }
+.lad-svg .skip-head { fill: none; stroke: var(--red); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0; animation: lad-in 200ms var(--lad-ack) 20340ms both; }
+/* The mask FADES IN WITH THE RING, and that is the whole point of the extra animation.
+   A static `fill: var(--paper)` is painted from frame one, so the circle was punching a hole in
+   the arc a full second before the circle itself existed — the leap drew, and arrived at its
+   arrowhead, with an unexplained gap already sitting at its apex. The gap is meant to be something
+   the sign DOES to the arc, not a condition the arc was born with. */
+.lad-svg .skip-ring { fill: var(--paper); fill-opacity: 0; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  transform-box: fill-box; transform-origin: center; transform: rotate(-90deg);
+  animation: lad-draw 400ms var(--lad-travel) 20620ms both,
+             lad-mask 400ms var(--lad-travel) 20620ms both,
+             lad-in 1ms linear 20620ms both; }
+@keyframes lad-mask { to { fill-opacity: 1; } }
+.lad-svg .skip-bar { fill: none; stroke: var(--red); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: lad-draw 230ms var(--lad-travel) 20980ms both, lad-in 1ms linear 20980ms both; }
+
+
+/* [house lens #2] Fail safe, in CSS, not only in JS.
+   The player cancels or end-jumps these under reduced motion — but that is a script, and a script
+   can fail to run. Motion that is only disabled by JS is motion that plays by default for exactly
+   the person who asked for none. This is the floor underneath it: everything snaps to its composed
+   final state, which is the same frame the JS path produces. */
+@media (prefers-reduced-motion: reduce) {
+  .lad-svg *, .lad-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .lad-svg .coarse { opacity: 0 !important; }
+  .lad-svg .fine, .lad-svg .vec, .lad-svg .chev, .lad-svg .axis,
+  .lad-svg .back-arrow, .lad-svg .back-label, .lad-svg .skip-head,
+  .lad-svg .back-ring, .lad-svg .back-bar, .lad-svg .skip-ring, .lad-svg .skip-bar { opacity: 1 !important; }
+  .lad-svg .rule line, .lad-svg .back-ring, .lad-svg .back-bar,
+  .lad-svg .skip-arc, .lad-svg .skip-ring, .lad-svg .skip-bar { stroke-dashoffset: 0 !important; }
+  .lad-svg .skip-ring { fill-opacity: 1 !important; }
+}
+
+/* ══ chapter 2's two voices — the system's own faces ═════════════════════════════════════════
+   COARSE and RESOLVED are set in the two textures Design System A names, so the words PERFORM the
+   thesis they label instead of describing it. DS-A §3: "PIXEL · gappy squares (the machine)" and
+   "VECTOR · Archivo (resolved)".
+
+   These used to be Bitmax Plain and Akzidenz Grotesk Black out of the font catalog. That was
+   off-system and it cost a gate: both are licensed faces, the walkthrough deploys to a public site,
+   and public is Tier 3 under the Font Catalog Agent License — needing Brand/Legal sign-off that had
+   not been sought. vendor.mjs therefore stripped the faces AND their @font-face rules from the
+   mirror, so the chapter has never once rendered in them where anyone could see it.
+
+   Silkscreen is the pixel face the design system itself specifies and loads, from Google Fonts,
+   under the OFL. Archivo 900 is already the system's display voice and already loaded. So this is
+   more on-system than what it replaces, not less — and the Tier 3 gate is simply gone. The catalog
+   faces are no longer referenced anywhere in this walkthrough; fonts/usage-log.json records the
+   close-out.
+
+   DS-A confines the pixel texture to the mark and says it must never set running text. Two
+   letterspaced words labelling an axis are an annotation, not running text — the same place the
+   system puts its own mono. */
+.lad-svg .axis-l { font-family: 'Silkscreen', var(--mono); font-size: 11px; letter-spacing: .08em; }
+.lad-svg .axis-r { font-family: var(--display); font-size: 12px; font-weight: 900; letter-spacing: .16em; }
+
+/* ══ chapter 3 — "It ends at a gate" ══════════════════════════════════════════════════════════
+   Beats 0 / 4500 / 15500 / 22500 / 25800, chapter runs 28839. Beat 2 is ELEVEN seconds, so it
+   carries a sequence rather than a held annotation: climb, two verdicts, a third that will not
+   answer, and a halt. Same conventions as chapters 1 and 2 — absolute delays, `both` fill,
+   composed at rest, nothing loops. */
+
+.gt-wrap { width: 100%; height: 100%; display: flex; align-items: center;
+  --gt-settle: cubic-bezier(0.22,1,0.36,1); --gt-travel: cubic-bezier(0.45,0,0.25,1); --gt-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.gt { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; }
+.gt-svg { width: 100%; height: auto; font-family: var(--mono); }
+
+/* retired into the furniture, which carries this chapter's title now */
+.gt-svg .ax { display: none; }
+.gt-svg .lane { stroke: var(--line); stroke-width: 1; }
+.gt-svg .cnum { font-size: 11px; fill: var(--blue); font-weight: 600; text-anchor: middle; }
+/* the display voice: the five step names are the chapter's subject, not its annotation. */
+.gt-svg .cname { font: 600 11px var(--display); fill: var(--ink); text-anchor: middle; }
+.gt-svg .post { stroke: var(--muted); stroke-width: 2; }
+/* Phosphor icons, drawn on their own 256 grid and scaled at the point of use. Stroke weight is
+   set in ICON-LOCAL units, so 26 here is 26/256 of whatever size the scene asked for — which is
+   how a 24px figure and a 26px verdict end up with visually matched line weights without either
+   one being hand-tuned. `.pip` is the question mark's dot, the one filled part in the set. */
+.gt-svg .ic { fill: none; stroke-width: 26; stroke-linecap: round; stroke-linejoin: round; }
+.gt-svg .ic .pip { fill: currentColor; stroke: none; }
+
+.gt-svg .who { color: var(--muted); stroke: var(--muted); }
+/* The verdicts were 12px text. As TEXT, red at 3.89:1 on paper fails AA at that size, which is why
+   the question mark was moved to ink. As ICONS they are graphical objects, and the threshold for
+   those is 3:1 — which red clears. So the mark goes back to red, legally this time, and the gate it
+   belongs to turns red in the same frame. Same colour, different rule, because it is a different
+   kind of thing now. */
+.gt-svg .verdict { color: var(--blue); stroke: var(--blue); }
+.gt-svg .v2 { color: var(--red); stroke: var(--red); }
+
+/* ── beat 1 · 0.0s — the gates, and who opens them ────────────────────────────────────────── */
+.gt-svg .gate { opacity: 0; animation: gt-in 380ms var(--gt-settle) both; }
+.gt-svg .g0 { animation-delay: 300ms; } .gt-svg .g1 { animation-delay: 560ms; }
+.gt-svg .g2 { animation-delay: 820ms; } .gt-svg .g3 { animation-delay: 1080ms; }
+.gt-svg .g4 { animation-delay: 1340ms; }
+@keyframes gt-in { to { opacity: 1; } }
+
+/* ── beat 2 · 4.5s — the climb, the verdicts, and the halt (11s of room) ──────────────────── */
+/* The token passes gate 1 and 2, then stops dead at gate 3. Held there for the rest of the beat:
+   the pause IS the content — "anything uncertain stops and waits". */
+.gt-svg .tok { fill: var(--blue); animation: gt-climb 6200ms var(--gt-travel) 4700ms both; }
+@keyframes gt-climb {
+  0%   { opacity: 0; transform: translate(60px, 150px); }
+  8%   { opacity: 1; }
+  30%  { transform: translate(115px, 150px); }
+  58%  { transform: translate(294px, 150px); }
+  100% { opacity: 1; transform: translate(473px, 150px); }
+}
+.gt-svg .verdict { opacity: 0; animation: gt-in 260ms var(--gt-ack) both; }
+.gt-svg .v0 { animation-delay: 6600ms; } .gt-svg .v1 { animation-delay: 8400ms; }
+.gt-svg .v2 { animation-delay: 11200ms; }
+/* gates 4 and 5 never get a verdict in this chapter — the run never reaches them */
+.gt-svg .v3, .gt-svg .v4 { animation: none; opacity: 0; }
+
+.gt-svg .g2 .post { animation: gt-shut 400ms var(--gt-settle) 11200ms both; }
+@keyframes gt-shut { to { stroke: var(--red); stroke-width: 3.5; } }
+/* likewise ink: this is running text at 10.5px, the one size red cannot legally be. */
+.gt-svg .halt { font-size: 10.5px; fill: var(--ink); font-weight: 600; letter-spacing: .03em;
+  opacity: 0; animation: gt-in 320ms ease-out 11700ms both; }
+
+/* ── beat 3 · 15.5s — back one step, and a note left behind ───────────────────────────────── */
+.gt-svg .tok { animation: gt-climb 6200ms var(--gt-travel) 4700ms both, gt-drop 900ms var(--gt-settle) 15700ms both; }
+@keyframes gt-drop { to { transform: translate(294px, 150px); } }
+.gt-svg .lesson-arc { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: gt-draw 620ms var(--gt-travel) 16400ms both; }
+@keyframes gt-draw { to { stroke-dashoffset: 0; } }
+.gt-svg .lesson-tag { font-size: 10px; fill: var(--muted); letter-spacing: .03em; opacity: 0;
+  animation: gt-in 340ms ease-out 17000ms both; }
+
+/* ── beat 4 · 22.5s — every step was priced. A bar, never a figure: see the note in the scene. */
+/* --muted, not --line. These bars ARE beat 4's content — "every step says what it cost" — and at
+   --line they are 1.3:1 on paper, which is a mark you cannot see making a claim you cannot check.
+   Quiet was the intent; invisible was the result. They stay unlabelled and they stay small; they
+   are simply legible now. (No figure, ever: see the note at the top of scene-gates.mjs.) */
+.gt-svg .price { fill: var(--muted); opacity: 0; transform-box: fill-box; transform-origin: left center;
+  animation: gt-price 300ms var(--gt-settle) both; }
+@keyframes gt-price { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+.gt-svg .p0 { animation-delay: 22900ms; } .gt-svg .p1 { animation-delay: 23100ms; }
+.gt-svg .p2 { animation-delay: 23300ms; } .gt-svg .p3 { animation-delay: 23500ms; }
+.gt-svg .p4 { animation-delay: 23700ms; }
+
+/* ── beat 5 · 25.8s — the gates take the emphasis ─────────────────────────────────────────── */
+.gt-svg .post { animation: gt-keep 500ms var(--gt-settle) 25900ms both; }
+@keyframes gt-keep { to { stroke: var(--blue); stroke-width: 3; } }
+.gt-svg .g2 .post { animation: gt-shut 400ms var(--gt-settle) 11200ms both, gt-keep-red 500ms var(--gt-settle) 25900ms both; }
+@keyframes gt-keep-red { to { stroke: var(--red); stroke-width: 3.5; } }
+.gt-svg .keep { font: 600 12px var(--display); fill: var(--blue); text-anchor: end; letter-spacing: 0;
+  opacity: 0; animation: gt-in 420ms ease-out 26000ms both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gt-svg *, .gt-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .gt-svg .gate, .gt-svg .tok, .gt-svg .halt, .gt-svg .lesson-tag,
+  .gt-svg .price, .gt-svg .keep, .gt-svg .v0, .gt-svg .v1, .gt-svg .v2 { opacity: 1 !important; }
+  .gt-svg .lesson-arc { stroke-dashoffset: 0 !important; }
+}
+
+/* ══ chapter 4 — "Request" · the camera over a real capture ═══════════════════════════════════
+   Beats 0 / 7700 / 15200 / 25200, chapter runs 26462. Unlike the concept scenes this one moves a
+   window over one screenshot rather than animating drawn parts. There is no keyframe and no
+   transition here: scene-request.mjs computes the camera from the narration clock and writes one
+   `transform` per frame, so dragging the voice drags the picture and pausing freezes it — the same
+   contract the animated chapters get from the player's WAAPI scrub, reached a different way.
+
+   NO PIXEL VALUES BELOW THE FRAME. `.rq-shot` is `width: 100%` of a stage that is about 1180px in
+   the real player, not the 960 the regions are authored against. The first pass laid the image out
+   at a fixed `2880px` and every frame quietly showed a quarter more of the screenshot than it asked
+   for — a band of empty page down the right of every shot. Sizing the image as a PERCENTAGE of the
+   frame makes the scale factors mean what they say at any stage width. */
+
+/* The furniture is HTML here, not SVG. Every other chapter draws its own labels inside the
+   viewBox; this one frames a photograph, so the header and footer are real elements around the
+   frame. Same two rows, same tone, same §n · EYEBROW / TITLE pattern as chapters 1-3.
+   And no display voice in this chapter, which is the right call rather than an omission: the
+   words on screen are the product's own, inside the capture. There is nothing here for Archivo to
+   say that the screenshot is not already saying. */
+.rq-wrap { width: 100%; height: 100%; display: flex; align-items: center; }
+.rq { margin: 0; width: 100%; }
+/* 4.583% is not a guess — it is 44/960, the exact inset every drawn chapter's furniture sits at
+   inside its own viewBox. Those labels start at x=44 of a 960-unit box and their hairline runs
+   44..916; at a 1182px stage that lands on 54.2px, and 54.2/1182 is 4.583%. Written as a
+   percentage so it tracks the drawn chapters at any width instead of only at this one.
+   Without it the header and footer ran flush to the card's outer edge while every other chapter's
+   furniture had air around it — the labels read as falling off the sides. */
+.rq-head, .rq-cap { margin-inline: 4.583%; }
+.rq-head { display: flex; align-items: baseline; gap: 14px; padding-bottom: 7px; margin-bottom: 12px;
+  border-bottom: 1px solid var(--line); }
+/* 11.5px, not the 9.5px the SVG chapters declare, and they end up the SAME SIZE on screen.
+   Chapters 1-3 set 9.5px inside a 960-unit viewBox that renders about 1182px wide — a factor of
+   1.23, so their furniture arrives at roughly 11.7px. This chapter's furniture is real HTML and
+   gets no such scaling, so 9.5 here would be a fifth smaller than the identical label one chapter
+   earlier. Matching the RENDERED size is the point; matching the declared number would have been
+   the drift. (It tracks exactly at desktop width and drifts slightly as the stage narrows —
+   unavoidable while one is drawn and the other is typeset.) */
+.rq-head .slab { font: 600 11.5px var(--mono); letter-spacing: .2em; color: var(--muted); }
+.rq-head .slab-r { margin-left: auto; letter-spacing: .14em; }
+.rq-shot { position: relative; width: 100%; aspect-ratio: 960 / 560; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 3px; background: var(--paper); }
+
+/* THE SPOTLIGHT. A hole in a scrim, made the cheap way: a box-shadow with a spread wider than the
+   frame paints everything OUTSIDE this element and nothing inside it, so one element is both the
+   mask and the marker. The scrim is paper at 68% rather than a dark veil — this is a light
+   screenshot on a light ground, and dimming it with black would make the chapter look like a modal
+   had opened over the product. Quieting it toward the page keeps the thing on screen looking like
+   the thing it is.
+   Its position is written per frame by render(), in percentages of the frame, so it stays welded
+   to whatever the camera is showing. */
+.rq-mark { position: absolute; z-index: 1; pointer-events: none;
+  border: 2px solid var(--blue); border-radius: 3px;
+  box-shadow: 0 0 0 9999px rgba(245, 243, 238, .68); }
+
+/* 300% = three frame-widths across the capture's 2880 source pixels, so `scale(960/w)` puts
+   exactly `w` source pixels across the frame. Keep this in step with AR and SRC_W in
+   scene-request.mjs — they are two halves of one number. */
+.rq-shot img { position: absolute; top: 0; left: 0; width: 300%; height: auto;
+  transform-origin: 0 0; image-rendering: auto; will-change: transform; }
+
+/* The quiet tone is --muted, which is where #6f6a5d was heading by hand. It started life as the
+   admin surface's #8a8375 — 3.46:1 on paper, failing AA at every size used here — and axe only
+   caught it once a caption rendered it as HTML text; the same tone was failing silently as SVG
+   annotation in three other chapters, where axe does not look. */
+.rq-cap { display: flex; align-items: baseline; gap: 14px; margin-top: 11px; min-height: 18px; }
+.rq-tag { font: 11.5px var(--mono); letter-spacing: .14em; color: var(--muted); flex-shrink: 0; }
+.rq-foot { margin-left: auto; font: 600 11.5px var(--mono); letter-spacing: .2em; color: var(--muted);
+  flex-shrink: 0; }
+.rq-note { font: 12px var(--mono); color: var(--ink); opacity: 0; position: absolute;
+  transition: opacity 260ms ease-out; }
+.rq-note.on { opacity: 1; position: static; }
+
+/* The camera is already still under reduced motion — render() holds each beat's resting frame and
+   cuts. Only the caption cross-fade is left to silence. */
+@media (prefers-reduced-motion: reduce) {
+  .rq-note { transition: none !important; }
+}
+
+/* ══ chapter 5 — "Three rough shapes" ═════════════════════════════════════════════════════════
+   Beats 0 / 6142 / 12771 / 17937, chapter runs 19461. Drawn rather than photographed — see the note
+   at the top of scene-wireframe.mjs: the real capture of this step is three paragraphs of prose,
+   and the sentence it has to carry is "they differ in shape, not in wording".
+
+   The two-beat spine: beat 1 lays down what the three candidates SHARE, beat 2 lands the one thing
+   that differs. So the difference is watched, not asserted. Same conventions as chapters 1-3 —
+   absolute delays, `both` fill, composed at rest, nothing loops. */
+
+.wf-wrap { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
+  --wf-settle: cubic-bezier(0.22,1,0.36,1); --wf-travel: cubic-bezier(0.45,0,0.25,1); --wf-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.wf { margin: 0; width: 100%; }
+.wf-svg { width: 100%; height: auto; font-family: var(--mono); }
+/* 4.583% = 44/960, the exact inset the drawn content sits at inside the viewBox. This caption is
+   real HTML OUTSIDE the svg, so it gets none of that and was running flush to the card's outer
+   edge while every label above it started an inch in. Chapter 4 hit the same thing. The rule for
+   the whole piece: SVG content is inset by the viewBox, HTML content is not, and the two have to
+   be made to agree. Written as a percentage so it tracks at any stage width, not just this one. */
+.wf-cap { display: flex; align-items: baseline; gap: 14px; margin-top: 11px; min-height: 18px; margin-inline: 4.583%; }
+.wf-tag { font: 11.5px var(--mono); letter-spacing: .14em; color: var(--muted); }
+/* ONE bottom row, not two. The chapter marker was a slab inside the svg and the provenance tag was
+   HTML underneath it, so the scene ended on two stacked lines of chrome saying different halves of
+   the same thing. Chapters 1-3 have no HTML caption so their marker belongs in the svg; chapters 4
+   and 5 do, so it belongs here beside the tag. The rule is one bottom row, wherever it can live. */
+.wf-foot { margin-left: auto; font: 600 11.5px var(--mono); letter-spacing: .2em; color: var(--muted); flex-shrink: 0; }
+
+.wf-svg .ax { font-size: 9.5px; fill: var(--muted); letter-spacing: .18em; }
+.wf-svg .ax-r { text-anchor: end; }
+.wf-svg .snum { font-size: 9.5px; fill: var(--blue); letter-spacing: .18em; font-weight: 600; }
+/* THE DISPLAY VOICE WAS NEVER ARRIVING HERE. This asked for `var(--sans, inherit)` and --sans is
+   defined nowhere in this project — pilot.css calls it --display — so the fallback won every time
+   and inherit resolved to the var(--mono) set on .wf-svg. The three shape titles are the chapter's
+   entire argument and they have been rendering in the annotation voice since the day they shipped.
+   Same failure as `var(--red, #e63329)` with no --red: a fallback quietly doing all the work. */
+.wf-svg .stitle { font: 600 11px var(--display); fill: var(--ink); }
+.wf-svg .sheet { fill: var(--paper-2); stroke: var(--line); stroke-width: 1; }
+.wf-svg .plate { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+/* The name and the chip count — the parts all three candidates SHARE, which is beat 1's whole
+   claim. At --line they were 1.25:1 on the card ground: a mark you cannot see making a point you
+   cannot check, the same defect chapter 3's price bars had. --muted at .8 composites to 3.26:1,
+   clearing the 3:1 a graphical object needs while staying visibly lighter than the plate (4.74)
+   and the blue figure (5.3). The bb separates itself by being BLUE and by moving, not by being
+   darker than everything else. */
+.wf-svg .nm, .wf-svg .chips { fill: var(--muted); opacity: .8; }
+.wf-svg .split { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.wf-svg .pod { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+
+/* The one element that moves between candidates. Same fill, same height, near enough the same
+   width in all three, so the eye can follow it across the row — that tracking IS the argument. */
+.wf-svg .bb { fill: var(--blue); }
+
+/* ── beat 1 · 0.0s — three frames, and the seat they all share ────────────────────────────── */
+.wf-svg .card { opacity: 0; animation: wf-in 460ms var(--wf-settle) both; }
+.wf-svg .k0 { animation-delay: 300ms; }
+@keyframes wf-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+/* Cards two and three carry three animations, so every one of their timings is declared together
+   in LONGHAND further down. Giving them an `animation-delay` here would be a lie — the shorthand
+   below would reset it, which is exactly the bug that shipped. */
+
+/* The bb is authored INSIDE the card, so it inherits the card's entrance. Held back to beat 2. */
+.wf-svg .lands { opacity: 0; animation: wf-land 420ms var(--wf-ack) both; }
+.wf-svg .key { opacity: 0; animation: wf-in 380ms var(--wf-settle) 6500ms both; }
+.wf-svg .k0 .lands { animation-delay: 6500ms; }
+.wf-svg .k1 .lands { animation-delay: 8100ms; }
+.wf-svg .k2 .lands { animation-delay: 9700ms; }
+@keyframes wf-land { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* ── beat 3 · 12.8s — one is taken, and the taking is the artifact ────────────────────────── */
+.wf-svg .badge { opacity: 0; animation: wf-in 300ms var(--wf-settle) 13100ms both; }
+.wf-svg .badge-bar { fill: var(--ink); }
+.wf-svg .badge-txt { font-size: 9.5px; fill: var(--gate-text); letter-spacing: .16em; font-weight: 600; }
+.wf-svg .k0 .sheet { animation: wf-pick 380ms var(--wf-settle) 13100ms both; }
+@keyframes wf-pick { to { stroke: var(--ink); stroke-width: 2; } }
+
+/* Cards 2 and 3 recede as the pick lands — then beat 4 brings them back. The recede is what makes
+   beat 4 a MOVE rather than a caption: something has to go quiet before coming back can be seen. */
+@keyframes wf-recede { to { opacity: .34; } }
+
+/* ── beat 4 · 17.9s — 1.5s, one move: the other two are still here ────────────────────────── */
+@keyframes wf-kept { to { opacity: .82; } }
+
+/* ── cards two and three, all three of their animations in one place ──────────────────────────
+   THIS IS WHY THE CHAPTER PLAYED IN THE WRONG ORDER. These two carry an entrance, a recede and a
+   return, and each extra beat re-declared the `animation` SHORTHAND to add one. A shorthand resets
+   every longhand it does not mention — so each re-declaration silently threw away the
+   `animation-delay: 1450ms / 2600ms` set for the entrance further up, and cards two and three
+   appeared at 0ms while card one waited its 300ms. The last two arrived first, every time, and
+   the beat that is supposed to read left-to-right read right-to-left.
+   Longhand, with one delay list per card, so the stagger cannot be clobbered by a later beat. */
+.wf-svg .k1, .wf-svg .k2 {
+  animation-name: wf-in, wf-recede, wf-kept;
+  animation-duration: 460ms, 420ms, 520ms;
+  animation-timing-function: var(--wf-settle), var(--wf-settle), var(--wf-settle);
+  animation-fill-mode: both, both, both;
+}
+.wf-svg .k1 { animation-delay: 1450ms, 13400ms, 18100ms; }
+.wf-svg .k2 { animation-delay: 2600ms, 13400ms, 18100ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wf-svg *, .wf-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .wf-svg .card, .wf-svg .lands, .wf-svg .badge, .wf-svg .key { opacity: 1 !important; }
+  /* The composed rest state keeps the pick reading: the two that were not taken stay on the page,
+     quieter than the one that was. An absence would say they were deleted. */
+  .wf-svg .k1, .wf-svg .k2 { opacity: .82 !important; }
+}
+
+/* ══ chapter 6 — "Preview" · the one chapter where the screenshot is the evidence ═════════════
+   Beats 0 / 8603 / 15790 / 21339 / 27051, chapter runs 28604. The argument for the shape of this
+   one is at the top of scene-preview.mjs; the short version is that its sentence is "a clickable
+   version", and a drawing of a clickable thing proves nothing — so the capture holds the middle of
+   the stage at its own size and the drawn layer works around it.
+
+   THE CROP IS THE ANSWER TO "TAKES UP TOO MUCH ROOM", NOT A ZOOM. shots/preview.png is a 1x
+   1400px capture, so there is no resolution to spend on magnification the way chapter 4 spends the
+   2880px request capture. Instead 584 source pixels of the table's own panel are laid across 460
+   viewBox units — at the ~1184px stage the player renders, 0.97x, near enough 1:1 that nothing is
+   resampled upward and the "25.0bb" third line reads at the size the product actually draws it.
+
+   NO PIXEL VALUES HERE THAT ARE NOT ALSO IN THE MODULE. Every translate below is a viewBox-unit
+   figure computed in scene-preview.mjs from the probed source coordinates and exported as
+   `previewGeometry`; they are two halves of one number and drift silently if edited apart. The
+   ring offsets are CHECK.x - FOLD.x and CALL.x - FOLD.x; the cursor stops are P_FOLD / P_CHECK /
+   P_CALL; the note's carry is NOTE_DX / NOTE_DY.
+
+   Absolute delays off the narration clock, `both` fill, composed at rest, nothing loops. */
+
+.pv-wrap { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
+  --pv-settle: cubic-bezier(0.22,1,0.36,1); --pv-travel: cubic-bezier(0.45,0,0.25,1); --pv-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.pv { margin: 0; width: 100%; }
+.pv-svg { width: 100%; height: auto; font-family: var(--mono); }
+/* One bottom row, inset to 4.583% — 44/960, where the drawn content sits. This caption is real
+   HTML outside the svg, so it gets none of the viewBox inset and was running flush to the card's
+   outer edge while every label above it started an inch in. The chapter marker joins it here
+   rather than becoming a second slab inside the svg: two stacked rows of chrome saying different
+   halves of the same thing is what chapter 5 had. */
+.pv-cap { display: flex; align-items: baseline; gap: 14px; margin: 11px 0 0; min-height: 18px;
+  margin-inline: 4.583%; }
+.pv-tag { font: 11.5px var(--mono); letter-spacing: .14em; color: var(--muted); }
+.pv-foot { margin-left: auto; font: 600 11.5px var(--mono); letter-spacing: .2em; color: var(--muted); flex-shrink: 0; }
+
+.pv-svg .ax { font-size: 9.5px; fill: var(--muted); letter-spacing: .18em; }
+
+/* ── the frame and what is in it ──────────────────────────────────────────────────────────── */
+/* Chapter 5's card stock. Beat 1 opens on the surface chapter 5 closed on, and the photograph
+   fades up over it — so the frame never changes, only what is inside it. */
+.pv-svg .pv-sheet { fill: var(--paper-2); }
+.pv-svg .pv-shot { opacity: 0; animation: pv-fade 1300ms var(--pv-travel) 2700ms both; }
+
+/* SHAPE 01 as chapter 5 drew it, in the place the real seat will be: plate, name, chip count,
+   the fixed-height pod, and the bb on a third line. Same palette as the .wf- block on purpose. */
+.pv-svg .pv-plate { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+.pv-svg .pv-quiet, .pv-svg .pv-chips { fill: var(--line); }
+.pv-svg .pv-pod { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.pv-svg .pv-bb { fill: var(--blue); }
+.pv-svg .pv-seed > * { opacity: 0; }
+
+/* ── beat 1 · 0.0s — the drawing arrives, the photograph arrives under it, the drawing leaves ──
+   The drawing lands top-down the way the screen reads: pot, board, seat, actions. It is drawn WHOLE
+   rather than seat-only, because the seat alone left five sixths of the sheet blank and a blank
+   sheet says the drawing is not worth looking at. */
+.pv-svg .pv-s-pot   { animation: pv-in 340ms var(--pv-settle) 200ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+.pv-svg .pv-s-cards { animation: pv-in 380ms var(--pv-settle) 400ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+.pv-svg .pv-s-plate { animation: pv-in 400ms var(--pv-settle) 640ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+.pv-svg .pv-s-nm    { animation: pv-in 280ms var(--pv-settle) 900ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+.pv-svg .pv-s-chips { animation: pv-in 300ms var(--pv-settle) 1080ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+.pv-svg .pv-s-pod   { animation: pv-in 300ms var(--pv-settle) 1300ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+/* The bb is held 420ms past the rest of the drawing, so the last mark to leave the stage is the one
+   standing on the line chapter 5 asked for. That half-second is the whole continuity of the piece. */
+.pv-svg .pv-s-bb    { animation: pv-in 380ms var(--pv-ack) 1540ms both, pv-out 700ms var(--pv-settle) 3420ms both; }
+.pv-svg .pv-s-turn  { animation: pv-in 280ms var(--pv-settle) 1700ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+.pv-svg .pv-s-btn   { animation: pv-in 400ms var(--pv-settle) 1820ms both, pv-out 700ms var(--pv-settle) 3000ms both; }
+
+/* The border draws itself on. pathLength="1" and a dashoffset of 1 -> 0, never a dasharray in user
+   units — the rect's perimeter changes the moment the crop does. */
+.pv-svg .pv-edge { fill: none; stroke: var(--line); stroke-width: 1.4; stroke-dasharray: 1 1.2; stroke-dashoffset: 1;
+  animation: pv-draw 620ms var(--pv-travel) 0ms both, pv-out 620ms var(--pv-settle) 16060ms both; }
+
+/* Something you can actually press. One ring, moved between three buttons that are the same width
+   to within 1.5 units, rather than three rings fading in and out of each other. */
+.pv-svg .pv-hover { fill: none; stroke: var(--paper); stroke-width: 1.6; opacity: 0;
+  animation: pv-in-plain 260ms var(--pv-settle) 4950ms both,
+             pv-ring-check 500ms var(--pv-travel) 5700ms both,
+             pv-ring-call 500ms var(--pv-travel) 6300ms both,
+             pv-ring-press 240ms var(--pv-ack) 7000ms both,
+             pv-ring-quiet 700ms var(--pv-settle) 13200ms both; }
+@keyframes pv-ring-check { to { transform: translateX(141px); } }
+@keyframes pv-ring-call { to { transform: translateX(282.78px); } }
+@keyframes pv-ring-press { to { stroke-width: 2.6; } }
+/* By beat 2 the question has stopped being "can you press it". The ring goes quiet rather than
+   away: the pointer resting on the primary is the chapter's only evidence that this thing runs,
+   and the reduced-motion still would lose it. */
+@keyframes pv-ring-quiet { to { opacity: .38; } }
+
+.pv-svg .pv-press { fill: none; stroke: var(--paper); stroke-width: 2; opacity: 0;
+  transform-box: fill-box; transform-origin: center; transform: scale(.14);
+  animation: pv-press 900ms var(--pv-travel) 7000ms both; }
+/* 0% must be INVISIBLE, not the ripple's opening opacity. `both` fill means the 0% keyframe is what
+   the element shows for the whole seven seconds before the press — an opening `from { opacity:.95 }`
+   parked a small bright ring on the Call button from the first frame of the chapter. */
+@keyframes pv-press { 0% { opacity: 0; transform: scale(.14); } 10% { opacity: .95; } 100% { opacity: 0; transform: scale(1); } }
+
+.pv-svg .pv-cursor { opacity: 0; transform: translate(900px, 250px);
+  animation: pv-in-plain 250ms linear 4150ms both,
+             pv-cur-fold 820ms var(--pv-travel) 4200ms both,
+             pv-cur-check 520ms var(--pv-travel) 5680ms both,
+             pv-cur-call 520ms var(--pv-travel) 6280ms both; }
+.pv-svg .pv-cursor path { fill: var(--paper); stroke: var(--ink); stroke-width: 1; stroke-linejoin: round; }
+@keyframes pv-cur-fold { to { transform: translate(318.6px, 429.88px); } }
+@keyframes pv-cur-check { to { transform: translate(460.16px, 429.88px); } }
+@keyframes pv-cur-call { to { transform: translate(601.38px, 429.88px); } }
+
+/* ── beat 2 · 8.6s — the question is somebody's ───────────────────────────────────────────── */
+/* Chapter 3's gate figure, scaled up. The same actor who opens every gate is the one being asked,
+   so it is the same drawing rather than a second way of saying "a person". */
+.pv-svg .pv-who { opacity: 0; animation: pv-in 520ms var(--pv-settle) 8880ms both; }
+.pv-svg .pv-who { color: var(--ink); stroke: var(--ink); }
+.pv-svg .pv-who .ic { fill: none; stroke-width: 26; stroke-linecap: round; stroke-linejoin: round; }
+.pv-svg .pv-sight { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 1 1.2; stroke-dashoffset: 1;
+  animation: pv-draw 900ms var(--pv-travel) 9520ms both; }
+.pv-svg .pv-sight-head { fill: var(--muted); opacity: 0; animation: pv-in-plain 300ms var(--pv-settle) 10320ms both; }
+.pv-svg .pv-ask { font-size: 30px; font-weight: 700; fill: var(--blue); text-anchor: middle; opacity: 0;
+  animation: pv-pop 460ms var(--pv-ack) 10620ms both; }
+
+/* ── beat 3 · 15.8s — the line goes provisional, and so does everything it contains ────────── */
+/* Solid hands over to dashed on the same rect. A static 5 5 dasharray is fine here where an
+   animated one is not: nothing is being revealed, so a changed perimeter cannot strand a fragment. */
+.pv-svg .pv-edge-dash { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 5 5; opacity: 0;
+  animation: pv-in-plain 620ms var(--pv-settle) 16060ms both, pv-march 1400ms linear 25400ms both; }
+/* The step running again, said in the oldest convention there is for "in progress". Finite, because
+   the player cancels infinite animations outright under reduced motion — a loop has no last frame. */
+@keyframes pv-march { to { stroke-dashoffset: -40; } }
+
+.pv-svg .pv-ghost rect { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 4; opacity: 0; }
+.pv-svg .pv-gseat  { animation: pv-in-plain 460ms var(--pv-settle) 17180ms both; }
+.pv-svg .pv-gcards { animation: pv-in-plain 440ms var(--pv-settle) 18240ms both; }
+.pv-svg .pv-gb0 { animation: pv-in-plain 380ms var(--pv-settle) 19080ms both; }
+.pv-svg .pv-gb1 { animation: pv-in-plain 380ms var(--pv-settle) 19340ms both; }
+.pv-svg .pv-gb2 { animation: pv-in-plain 380ms var(--pv-settle) 19600ms both; }
+
+/* ── beat 4 · 21.3s — your words, and the way back into this same step ─────────────────────── */
+.pv-svg .pv-note { opacity: 0; animation: pv-in 420ms var(--pv-settle) 21640ms both,
+                                          pv-carry 1300ms var(--pv-travel) 22320ms both; }
+.pv-svg .pv-note rect { fill: var(--paper-2); stroke: var(--ink); stroke-width: 1.2; }
+.pv-svg .pv-note .pv-note-line { fill: var(--line); stroke: none; }
+@keyframes pv-carry { to { transform: translate(394px, 254px); } }
+
+.pv-svg .pv-loop { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linecap: butt;
+  stroke-dasharray: 1 1.2; stroke-dashoffset: 1; animation: pv-draw 2000ms var(--pv-travel) 22600ms both; }
+.pv-svg .pv-loop-head { fill: var(--blue); opacity: 0; animation: pv-pop 380ms var(--pv-ack) 24720ms both; }
+
+/* ── beat 5 · 27.1s — 1.55s, one move: both other ways out run into a stop ─────────────────── */
+.pv-svg .pv-refuse { opacity: 0; animation: pv-in-plain 200ms linear 27180ms both; }
+.pv-svg .pv-ref-arm { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 1 1.2; stroke-dashoffset: 1;
+  animation: pv-draw 420ms var(--pv-travel) 27200ms both; }
+.pv-svg .pv-ref-head { fill: var(--muted); opacity: 0; animation: pv-in-plain 200ms var(--pv-settle) 27540ms both; }
+.pv-svg .pv-stop { stroke: var(--red); stroke-width: 3.4; stroke-linecap: butt; opacity: 0;
+  animation: pv-pop 240ms var(--pv-ack) 27640ms both; }
+
+@keyframes pv-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes pv-in-plain { to { opacity: 1; } }
+@keyframes pv-out { to { opacity: 0; } }
+@keyframes pv-fade { to { opacity: 1; } }
+@keyframes pv-pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pv-draw { to { stroke-dashoffset: 0; } }
+
+/* The composed rest state is the chapter's whole argument in one still: the real preview inside a
+   dashed frame, its parts outlined as placeholders, a pointer resting on the button it pressed, the
+   person who was asked, and three ways out of the step — one taken, two stopped. The drawing from
+   beat 1 is gone, because by the end it has become the thing it was drawing. */
+@media (prefers-reduced-motion: reduce) {
+  .pv-svg *, .pv-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .pv-svg .pv-shot, .pv-svg .pv-edge-dash, .pv-svg .pv-ghost rect, .pv-svg .pv-who,
+  .pv-svg .pv-ask, .pv-svg .pv-sight-head, .pv-svg .pv-note, .pv-svg .pv-loop-head,
+  .pv-svg .pv-refuse, .pv-svg .pv-ref-head, .pv-svg .pv-stop, .pv-svg .pv-cursor { opacity: 1 !important; }
+  .pv-svg .pv-seed > *, .pv-svg .pv-edge, .pv-svg .pv-press { opacity: 0 !important; }
+  .pv-svg .pv-hover { opacity: .38 !important; stroke-width: 2.6 !important; transform: translateX(282.78px) !important; }
+  .pv-svg .pv-cursor { transform: translate(601.38px, 429.88px) !important; }
+  .pv-svg .pv-note { transform: translate(394px, 254px) !important; }
+  .pv-svg .pv-sight, .pv-svg .pv-loop, .pv-svg .pv-ref-arm { stroke-dashoffset: 0 !important; }
+}
+
+/* ══ chapter 7 — "Build" ══════════════════════════════════════════════════════════════════════
+   Beats 0 / 7152 / 15906 / 21746 / 26912, chapter runs 28134. Beat 2 is 8.8s — the longest here —
+   so it carries a SEQUENCE, the way chapter 3's eleven-second beat does: a claim travels, is
+   stopped at a line it cannot cross, and the code goes under that line to be run again on this
+   side. The mark that comes out of THAT run is the one that lands in the slot.
+
+   The stop is ink, never red. The agent's tests really did pass; what is refused is the word, not
+   the run, and red would say the agent lied — a different and untrue chapter.
+
+   Every figure and name on screen is off the real run: 4 files / 88 lines from the code card and
+   the ship card, `exp-35` from both, `?flags-hero-stack-depth=true` from flags.json and the engine
+   that builds the stage link. Same conventions as chapters 1-5 — absolute delays, `both` fill,
+   composed at rest, nothing loops. */
+
+/* Chapter 5's centring, not chapter 3's. `align-items: center` on a wrap whose height resolves to
+   auto does nothing, so at 390px the scene pins to the top of a 564px stage with four hundred
+   pixels of nothing under it — measured, on this stage, against .gt- which does exactly that. A
+   column that justifies its content centres at every width. */
+.bd-wrap { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
+  --bd-settle: cubic-bezier(0.22,1,0.36,1); --bd-travel: cubic-bezier(0.45,0,0.25,1); --bd-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.bd { margin: 0; width: 100%; }
+.bd-svg { width: 100%; height: auto; font-family: var(--mono); }
+
+.bd-svg .ax { font-size: 9.5px; fill: var(--muted); letter-spacing: .18em; }
+.bd-svg .key { font-size: 9.5px; fill: var(--muted); letter-spacing: .16em; }
+.bd-svg .tag { font-size: 10px; fill: var(--muted); letter-spacing: .04em; }
+.bd-svg .sheet { fill: var(--paper-2); stroke: var(--line); stroke-width: 1; }
+.bd-svg .sheet.dash { fill: var(--paper-2); stroke: var(--muted); stroke-dasharray: 4 3; }
+.bd-svg .bd-code line { stroke: var(--line); stroke-width: 3; stroke-linecap: round; }
+.bd-svg .bd-file { fill: var(--muted); }
+.bd-svg .bd-wrote { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linecap: round; }
+.bd-svg .bd-own-track, .bd-svg .bd-bar-track { fill: none; stroke: var(--muted); stroke-width: 1; }
+/* Colour is doing argument work here, so it is worth stating: BLUE is what this side produced —
+   the code, the re-run, the verdict that counts, the line that appears in the app. GREY is the
+   agent's own run and the word that came out of it. That is why the bar inside the copy is grey
+   and the identical bar past the line is blue; they are the same tests, run by different parties,
+   and the chapter is about which of the two results is evidence. */
+.bd-svg .bd-own-fill { fill: var(--muted); }
+.bd-svg .bd-bar-fill { fill: var(--blue); }
+.bd-svg .bd-lane { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; }
+.bd-svg .bd-cross, .bd-svg .bd-rise { fill: none; stroke: var(--muted); stroke-width: 1.6; }
+.bd-svg .bd-stop { stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; }
+.bd-svg .bd-claim-box { fill: var(--paper-2); stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 3 2.5; }
+.bd-svg .bd-claim-tick { font-size: 12px; font-weight: 700; fill: var(--muted); text-anchor: middle; }
+.bd-svg .bd-slot { fill: none; stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 3 3; }
+.bd-svg .bd-verdict rect { fill: var(--blue); }
+.bd-svg .bd-verdict text { font-size: 15px; font-weight: 700; fill: var(--gate-text); text-anchor: middle; }
+.bd-svg .bd-fig { font-size: 15px; fill: var(--ink); }
+.bd-svg .bd-plate-box { fill: var(--paper); stroke: var(--line); stroke-width: 1; }
+.bd-svg .bd-urlbar { fill: var(--paper-2); }
+.bd-svg .bd-host { font-size: 11px; fill: var(--muted); }
+.bd-svg .bd-param { font-size: 11px; fill: var(--blue); font-weight: 600; }
+.bd-svg .bd-param-rule { fill: var(--blue); }
+.bd-svg .bd-furn { fill: var(--line); }
+.bd-svg .bd-seat { fill: none; stroke: var(--muted); stroke-width: 1.4; }
+.bd-svg .bd-nm, .bd-svg .bd-chips { fill: var(--line); }
+.bd-svg .bd-bb { fill: var(--blue); }
+.bd-svg .bd-arc { fill: none; stroke: var(--blue); stroke-width: 1.3; }
+
+@keyframes bd-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bd-rise-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes bd-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes bd-fill { from { opacity: 1; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+
+/* ── beat 1 · 0.0s — a copy detaches, and four files are written inside it ─────────────────── */
+.bd-svg .ax { opacity: 0; animation: bd-in 300ms ease-out 200ms both; }
+.bd-svg .bd-proj { opacity: 0; animation: bd-rise-in 420ms var(--bd-settle) 350ms both; }
+.bd-svg .bd-code { opacity: 0; animation: bd-in 380ms ease-out 700ms both; }
+
+/* The copy slides out of the project and stops clear of it. The gap it leaves IS the isolation —
+   there is no connector drawn back, because nothing it does reaches the project. */
+.bd-svg .bd-copy { opacity: 0; animation: bd-detach 620ms var(--bd-travel) 1200ms both; }
+@keyframes bd-detach { from { opacity: 0; transform: translate(-142px, -20px); } to { opacity: 1; transform: none; } }
+
+/* Four marks, not four names: the capture names three of the four paths and cuts off before the
+   fourth. Four marks is the honest drawing; four names would be three and a lie. */
+.bd-svg .bd-file { opacity: 0; animation: bd-in 240ms var(--bd-settle) both; }
+.bd-svg .f0 { animation-delay: 2300ms; } .bd-svg .f1 { animation-delay: 2800ms; }
+.bd-svg .f2 { animation-delay: 3300ms; } .bd-svg .f3 { animation-delay: 3800ms; }
+.bd-svg .bd-wrote { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bd-draw 420ms var(--bd-travel) both; }
+.bd-svg .w0 { animation-delay: 2380ms; } .bd-svg .w1 { animation-delay: 2880ms; }
+.bd-svg .w2 { animation-delay: 3380ms; } .bd-svg .w3 { animation-delay: 3880ms; }
+
+/* "and runs the project's own tests" — the agent's run, inside the copy. */
+.bd-svg .bd-own-track { opacity: 0; animation: bd-in 260ms ease-out 4800ms both; }
+.bd-svg .bd-own-fill { transform-box: fill-box; transform-origin: left center; opacity: 0;
+  animation: bd-fill 800ms var(--bd-travel) 5000ms both; }
+.bd-svg .bd-claim-in { opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: bd-pop 340ms var(--bd-ack) 5800ms both; }
+@keyframes bd-pop { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: none; } }
+
+/* ── beat 2 · 7.15s — the claim is stopped; the code goes under and is run again (8.8s) ────── */
+.bd-svg .bd-lane { opacity: 0; animation: bd-in 300ms ease-out 7200ms both; }
+.bd-svg .bd-key-claim { opacity: 0; animation: bd-in 280ms ease-out 7300ms both; }
+.bd-svg .bd-claim { animation: bd-carry 1500ms var(--bd-travel) 7500ms both; }
+@keyframes bd-carry { from { transform: translate(306px, 106px); } to { transform: translate(518px, 106px); } }
+
+.bd-svg .bd-stop { transform-box: fill-box; transform-origin: center; opacity: 0;
+  animation: bd-shut 300ms var(--bd-settle) 8900ms both; }
+@keyframes bd-shut { from { opacity: 0; transform: scaleY(.2); } to { opacity: 1; transform: none; } }
+/* It goes quiet, not wrong. */
+.bd-svg .bd-claim-box { animation: bd-quiet-box 420ms var(--bd-settle) 9200ms both; }
+@keyframes bd-quiet-box { from { stroke: var(--muted); } to { stroke: var(--line); } }
+.bd-svg .bd-claim-tick { animation: bd-quiet-tick 420ms var(--bd-settle) 9200ms both; }
+@keyframes bd-quiet-tick { from { fill: var(--muted); } to { fill: var(--line); } }
+
+.bd-svg .bd-cross { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bd-draw 900ms var(--bd-travel) 9600ms both; }
+.bd-svg .bd-key-run { opacity: 0; animation: bd-in 280ms ease-out 10300ms both; }
+.bd-svg .bd-bar-track { opacity: 0; animation: bd-in 260ms ease-out 10350ms both; }
+.bd-svg .bd-bar-fill { transform-box: fill-box; transform-origin: left center; opacity: 0;
+  animation: bd-fill 2400ms linear 10650ms both; }
+.bd-svg .bd-rise { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bd-draw 420ms var(--bd-travel) 13050ms both; }
+/* The slot is drawn empty from the start of the beat, so the claim is visibly headed somewhere it
+   never arrives. It only closes — solid, blue — around the result that was actually produced. */
+.bd-svg .bd-slot { opacity: 0; animation: bd-in 320ms ease-out 7600ms both, bd-took 360ms var(--bd-settle) 13300ms both; }
+@keyframes bd-took { from { stroke: var(--muted); stroke-width: 1.4; } to { stroke: var(--blue); stroke-width: 2; stroke-dasharray: none; } }
+.bd-svg .bd-verdict { opacity: 0; animation: bd-land 460ms var(--bd-ack) 13250ms both; }
+@keyframes bd-land { from { opacity: 0; transform: translate(828px, 126px); } to { opacity: 1; transform: translate(828px, 102px); } }
+
+/* ── beat 3 · 15.9s — the receipt is real, and is not the deliverable ──────────────────────── */
+.bd-svg .bd-receipt-in { opacity: 0; animation: bd-rise-in 380ms var(--bd-settle) 16100ms both; }
+.bd-svg .bd-receipt { animation: bd-put-down 520ms var(--bd-settle) 18000ms both; }
+@keyframes bd-put-down { from { opacity: 1; } to { opacity: .45; } }
+.bd-svg .bd-plate { opacity: 0; animation: bd-open 700ms var(--bd-settle) 18300ms both; }
+@keyframes bd-open { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.bd-svg .bd-host { opacity: 0; animation: bd-in 340ms ease-out 19100ms both; }
+.bd-svg .bd-app { opacity: 0; animation: bd-in 480ms var(--bd-settle) 19500ms both; }
+
+/* ── beat 4 · 21.75s — the parameter arrives on the link, and the change appears ───────────── */
+/* It slides in from the host, attached to the link; nobody types it. The engine records the stage
+   URL with the flag already set, because a bare link shows the app looking unchanged. */
+.bd-svg .bd-param { opacity: 0; animation: bd-arrive 420ms var(--bd-settle) 22000ms both; }
+@keyframes bd-arrive { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
+.bd-svg .bd-param-rule { transform-box: fill-box; transform-origin: left center; opacity: 0;
+  animation: bd-fill 380ms var(--bd-settle) 22350ms both; }
+.bd-svg .bd-arc { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bd-draw 620ms var(--bd-travel) 22650ms both; }
+.bd-svg .bd-bb { opacity: 0; animation: bd-drop-in 380ms var(--bd-ack) 23300ms both; }
+@keyframes bd-drop-in { from { opacity: 0; transform: translateY(-7px); } to { opacity: 1; transform: none; } }
+.bd-svg .bd-plate-box { animation: bd-focus 500ms var(--bd-settle) 24400ms both; }
+@keyframes bd-focus { from { stroke: var(--line); stroke-width: 1; } to { stroke: var(--ink); stroke-width: 1.4; } }
+
+/* ── beat 5 · 26.9s — 1.2s, one move: the machinery goes quiet, the openable thing is left ─── */
+.bd-svg .bd-top { animation: bd-hush 620ms var(--bd-settle) 27050ms both; }
+@keyframes bd-hush { from { opacity: 1; } to { opacity: .32; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-svg *, .bd-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .bd-svg .ax, .bd-svg .bd-proj, .bd-svg .bd-code, .bd-svg .bd-copy, .bd-svg .bd-file,
+  .bd-svg .bd-own-track, .bd-svg .bd-own-fill, .bd-svg .bd-claim-in, .bd-svg .bd-lane,
+  .bd-svg .bd-key-claim, .bd-svg .bd-key-run, .bd-svg .bd-stop, .bd-svg .bd-bar-track,
+  .bd-svg .bd-bar-fill, .bd-svg .bd-slot, .bd-svg .bd-verdict, .bd-svg .bd-receipt-in,
+  .bd-svg .bd-plate, .bd-svg .bd-host, .bd-svg .bd-app, .bd-svg .bd-param,
+  .bd-svg .bd-param-rule, .bd-svg .bd-bb { opacity: 1 !important; }
+  .bd-svg .bd-wrote, .bd-svg .bd-cross, .bd-svg .bd-rise, .bd-svg .bd-arc { stroke-dashoffset: 0 !important; }
+  /* The composed rest state is the end of the chapter, not the start of it: the machinery is
+     quiet, the receipt is put down, and the link is what you are left looking at. */
+  .bd-svg .bd-top { opacity: .32 !important; }
+  .bd-svg .bd-receipt { opacity: .45 !important; }
+}
+
+/* ══ chapter 8 — "Ship" ═══════════════════════════════════════════════════════════════════════
+   Beats 0 / 7651 / 12074 / 17194 / 20143, chapter runs 25522. See the head of scene-ship.mjs for
+   the argument; the rule that governs every line below is that THE FLAG NEVER MOVES. There is no
+   keyframe anywhere in this block that rotates, translates or recolours a `.lever` toward its far
+   contact, and the two levers are the last thing standing at full strength on the final frame.
+
+   Same conventions as chapters 1-5 — absolute delays off the narration clock, `both` fill, composed
+   at rest, nothing loops, every drawn path on pathLength="1". */
+
+.sh-wrap { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
+  --sh-settle: cubic-bezier(0.22,1,0.36,1); --sh-travel: cubic-bezier(0.45,0,0.25,1); --sh-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.sh { margin: 0; width: 100%; }
+.sh-svg { width: 100%; height: auto; font-family: var(--mono); }
+/* One bottom row, inset to 4.583% — 44/960, where the drawn content sits. HTML outside the svg
+   gets none of the viewBox inset; this caption was running flush to the card's outer edge. */
+.sh-cap { display: flex; align-items: baseline; gap: 14px; margin-top: 11px; min-height: 18px; margin-inline: 4.583%; }
+.sh-foot { margin-left: auto; font: 600 11.5px var(--mono); letter-spacing: .2em; color: var(--muted); flex-shrink: 0; }
+.sh-tag { font: 11.5px var(--mono); letter-spacing: .14em; color: var(--muted); }
+
+.sh-svg .ax { font-size: 9.5px; fill: var(--muted); letter-spacing: .18em; }
+.sh-svg .mlabel, .sh-svg .blabel, .sh-svg .elabel { font-size: 9.5px; fill: var(--muted); letter-spacing: .1em; }
+.sh-svg .mainline { stroke: var(--line); stroke-width: 1.6; }
+.sh-svg .branch, .sh-svg .trunk, .sh-svg .arm { fill: none; stroke: var(--muted); stroke-width: 1.6;
+  stroke-dasharray: 1; stroke-dashoffset: 1; }
+.sh-svg .post { stroke: var(--muted); stroke-width: 2; }
+.sh-svg .who { color: var(--muted); stroke: var(--muted); }
+.sh-svg .outwho { color: var(--gate); stroke: var(--gate); }
+/* Phosphor geometry, stroke weight in the icon's own 256-unit space so a 22px gate figure and a
+   26px person outside the boundary keep matched line weights without either being hand-tuned —
+   identical to chapter 3, because it is the same icon doing the same job. */
+.sh-svg .ic { fill: none; stroke-width: 26; stroke-linecap: round; stroke-linejoin: round; }
+.sh-svg .ok { color: var(--blue); stroke: var(--blue); }
+.sh-svg .tok rect, .sh-svg .node { fill: var(--blue); }
+.sh-svg .ring { fill: none; stroke: var(--blue); stroke-width: 1.6; }
+.sh-svg .backarc { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.sh-svg .arrow { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; }
+.sh-svg .plate { fill: var(--paper-2); stroke: var(--line); stroke-width: 1; }
+/* Three bars, not one slab: a solid block of blue at this size outweighed the merge node
+   and the pulse, and "code" reads better as lines than as a brick. */
+.sh-svg .code rect { fill: var(--blue); }
+
+/* The feature flag. Two contacts and a lever hinged on the NEAR one, raised clear of the far one, and
+   nothing drawn past the far contact at all. `.term` is hollow because it is a terminal nothing
+   reaches — filling it would say current gets there. */
+.sh-svg .outlet { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.sh-svg .contact { fill: var(--muted); }
+.sh-svg .term { fill: var(--paper); stroke: var(--muted); stroke-width: 1.4; }
+.sh-svg .lever { stroke: var(--muted); stroke-width: 2.8; stroke-linecap: round; }
+.sh-svg .live { fill: none; stroke: var(--blue); stroke-width: 1.5; }
+.sh-svg .pulse { fill: var(--blue); }
+
+.sh-svg .bound { fill: none; stroke: var(--muted); stroke-width: 1.3; stroke-dasharray: 5 5; }
+/* No `.outwho` paint here. The figure is Phosphor geometry now, styled by the `.ic` rule above
+   like every other person in the piece; the hand-drawn version's `circle { fill }` survived the
+   swap and filled the icon's head into a solid blob. Deleted, not overridden. */
+.sh-svg .reach { fill: none; stroke: var(--muted); stroke-width: 1.3; stroke-dasharray: 2.5 4; stroke-linecap: round; }
+
+@keyframes sh-in { to { opacity: 1; } }
+@keyframes sh-draw { to { stroke-dashoffset: 0; } }
+@keyframes sh-rise { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+
+/* ── beat 1 · 0.0s — the branch, the yes that did the work, and the merge (8s of room) ─────── */
+/* The main line is NOT animated: at t=0 the stage is the project before this change, which is a
+   composed opening rather than a blank one. */
+.sh-svg .branch { animation: sh-draw 900ms var(--sh-travel) 670ms both; }
+.sh-svg .blabel { opacity: 0; animation: sh-in 320ms ease-out 1628ms both; }
+.sh-svg .g0 { opacity: 0; animation: sh-in 380ms var(--sh-settle) 2203ms both; }
+.sh-svg .ok { opacity: 0; animation: sh-in 300ms var(--sh-ack) 3161ms both; }
+
+/* The change, walking its own branch and merging. The path is keyframed rather than offset-path'd
+   because the player scrubs `currentTime`, and a plain transform track scrubs exactly.
+   Keyframed off the REAL path, not sketched over it. Six stops cut both corners: linear
+   interpolation between two points either side of an arc is a chord, so the dot left the line it
+   was supposed to be walking. These 25 stops are sampled from the same two cubics `.branch` is
+   drawn from (M150 112 C 150 136, 160 150, 184 150 H 328 C 362 150, 362 136, 362 112), at equal
+   arc length. Measured worst deviation from the real path: 12.57 user units before, 0.36 after.
+   The --sh-travel ease is baked into the POSITIONS, which is why the timing function below is
+   linear: a per-keyframe ease across 25 stops eases in and out of each one and the dot pulses. */
+.sh-svg .tok { opacity: 0; animation: sh-run 2400ms linear 4023ms both, sh-absorb 260ms ease-in 6245ms both; }
+@keyframes sh-run {
+  0%        { opacity: 0; transform: translate(150.00px, 112.02px); }
+  2.0833%   { transform: translate(150.00px, 112.20px); }
+  4.1667%   { transform: translate(150.00px, 112.82px); }
+  6.25%     { transform: translate(150.02px, 113.90px); }
+  8.3333%   { opacity: 1; transform: translate(150.07px, 115.51px); }
+  10.4167%  { transform: translate(150.20px, 117.70px); }
+  12.5%     { transform: translate(150.48px, 120.56px); }
+  14.5833%  { transform: translate(151.02px, 124.12px); }
+  16.6667%  { transform: translate(152.05px, 128.47px); }
+  18.75%    { transform: translate(153.95px, 133.58px); }
+  20.8333%  { transform: translate(157.32px, 139.17px); }
+  22.9167%  { transform: translate(162.94px, 144.47px); }
+  25%       { transform: translate(171.15px, 148.32px); }
+  27.0833%  { transform: translate(181.48px, 149.95px); }
+  29.1667%  { transform: translate(193.35px, 150.00px); }
+  31.25%    { transform: translate(206.42px, 150.00px); }
+  33.3333%  { transform: translate(220.38px, 150.00px); }
+  35.4167%  { transform: translate(234.76px, 150.00px); }
+  37.5%     { transform: translate(249.07px, 150.00px); }
+  39.5833%  { transform: translate(262.87px, 150.00px); }
+  41.6667%  { transform: translate(275.87px, 150.00px); }
+  43.75%    { transform: translate(287.90px, 150.00px); }
+  45.8333%  { transform: translate(298.90px, 150.00px); }
+  47.9167%  { transform: translate(308.91px, 150.00px); }
+  50%       { transform: translate(317.96px, 150.00px); }
+  52.0833%  { transform: translate(326.14px, 150.00px); }
+  54.1667%  { transform: translate(333.53px, 149.86px); }
+  56.25%    { transform: translate(340.17px, 149.22px); }
+  58.3333%  { transform: translate(346.02px, 147.96px); }
+  60.4167%  { transform: translate(351.05px, 145.97px); }
+  62.5%     { transform: translate(355.04px, 143.19px); }
+  64.5833%  { transform: translate(357.86px, 139.83px); }
+  66.6667%  { transform: translate(359.62px, 136.30px); }
+  68.75%    { transform: translate(360.65px, 132.90px); }
+  70.8333%  { transform: translate(361.24px, 129.79px); }
+  72.9167%  { transform: translate(361.58px, 126.97px); }
+  75%       { transform: translate(361.77px, 124.45px); }
+  77.0833%  { transform: translate(361.88px, 122.22px); }
+  79.1667%  { transform: translate(361.94px, 120.25px); }
+  81.25%    { transform: translate(361.97px, 118.53px); }
+  83.3333%  { transform: translate(361.99px, 117.06px); }
+  85.4167%  { transform: translate(361.99px, 115.78px); }
+  87.5%     { transform: translate(362.00px, 114.73px); }
+  89.5833%  { transform: translate(362.00px, 113.85px); }
+  91.6667%  { transform: translate(362.00px, 113.16px); }
+  93.75%    { transform: translate(362.00px, 112.63px); }
+  95.8333%  { transform: translate(362.00px, 112.27px); }
+  97.9167%  { transform: translate(362.00px, 112.05px); }
+  100%      { transform: translate(362.00px, 112.00px); }
+}
+/* Implicit `from`, so this composes on top of sh-run's opacity instead of resetting it — the same
+   pattern chapter 3's gt-drop uses. */
+@keyframes sh-absorb { to { opacity: 0; } }
+.sh-svg .node { opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: sh-node 360ms var(--sh-ack) 6283ms both; }
+@keyframes sh-node { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+
+/* ── beat 2 · 8.0s — where it lands, and the state it lands in ────────────────────────────── */
+.sh-svg .trunk { animation: sh-draw 620ms var(--sh-travel) 7921ms both; }
+.sh-svg .arm { animation: sh-draw 300ms var(--sh-travel) both; }
+.sh-svg .a0 { animation-delay: 8541ms; } .sh-svg .a1 { animation-delay: 9057ms; }
+.sh-svg .env { opacity: 0; animation: sh-rise 420ms var(--sh-settle) both; }
+.sh-svg .e0 { animation-delay: 8644ms; } .sh-svg .e1 { animation-delay: 9161ms; }
+
+/* The flag arrives ALREADY OPEN. It fades and drops in; it does not rotate into position,
+   because a lever swinging up into the open would be showing a feature being switched off, and
+   nothing in this chapter turns anything either way. */
+.sh-svg .sw { opacity: 0; animation: sh-rise 420ms var(--sh-settle) both; }
+.sh-svg .s0 { animation-delay: 9883ms; } .sh-svg .s1 { animation-delay: 10451ms; }
+
+/* ── beat 3 · 12.3s — the code moves. The line dies at the open contact. ───────────────────── */
+.sh-svg .code { opacity: 0; animation: sh-land 440ms var(--sh-settle) both; }
+@keyframes sh-land { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+.sh-svg .e0 .code { animation-delay: 12392ms; } .sh-svg .e1 .code { animation-delay: 13070ms; }
+
+/* One dot per row, travelling the outlet and STOPPING on the near contact. It parks there for the
+   rest of the chapter: live this far, dead after. */
+/* Authored per row rather than parameterised by a custom property: a var() inside a keyframe's
+   `transform` is exactly the shape that silently invalidates an animation shorthand, and this
+   scene cannot afford a dead beat 3. Two short keyframe sets are cheaper than that risk. */
+.sh-svg .pulse { opacity: 0; }
+.sh-svg .q0 { animation: sh-pulse0 900ms var(--sh-travel) 13846ms both; }
+.sh-svg .q1 { animation: sh-pulse1 900ms var(--sh-travel) 14525ms both; }
+@keyframes sh-pulse0 {
+  0%   { opacity: 0; transform: translate(692px, 211px); }
+  14%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(724px, 211px); }
+}
+@keyframes sh-pulse1 {
+  0%   { opacity: 0; transform: translate(692px, 279px); }
+  14%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(724px, 279px); }
+}
+.sh-svg .s0 .outlet { animation: sh-draw 300ms var(--sh-travel) 9883ms both, sh-hot 320ms ease-out 14525ms both; }
+.sh-svg .s1 .outlet { animation: sh-draw 300ms var(--sh-travel) 10451ms both, sh-hot 320ms ease-out 15203ms both; }
+@keyframes sh-hot { to { stroke: var(--blue); } }
+.sh-svg .live { opacity: 0; animation: sh-in 300ms var(--sh-ack) both; }
+.sh-svg .s0 .live { animation-delay: 14815ms; } .sh-svg .s1 .live { animation-delay: 15494ms; }
+
+/* The levers take the weight at the end of the beat: they are the reason nothing continues. */
+.sh-svg .lever { animation: sh-lev 420ms var(--sh-settle) 16075ms both; }
+@keyframes sh-lev { to { stroke: var(--gate); stroke-width: 3.1; } }
+
+/* ── beat 4 · 17.6s — 2.9s. The gate arrives AFTER, and points backward. ───────────────────── */
+.sh-svg .g1 { opacity: 0; animation: sh-in 380ms var(--sh-settle) 17544ms both; }
+.sh-svg .backarc { animation: sh-draw 640ms var(--sh-travel) 18100ms both; }
+.sh-svg .arrow { opacity: 0; animation: sh-in 240ms ease-out 18708ms both; }
+.sh-svg .ring { opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: sh-node 380ms var(--sh-ack) 18910ms both; }
+
+/* ── beat 5 · 20.5s — the boundary, and the person on the other side of it ─────────────────── */
+.sh-svg .bound { opacity: 0; transform-box: fill-box; transform-origin: center;
+  animation: sh-bound 560ms var(--sh-settle) 20474ms both; }
+@keyframes sh-bound { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
+/* "All of this" becomes one object and steps back. The flags are deliberately NOT in this
+   group — they are what the final frame is about. */
+.sh-svg .sys { animation: sh-quiet 700ms var(--sh-settle) 21172ms both; }
+@keyframes sh-quiet { to { opacity: .45; } }
+.sh-svg .outwho { opacity: 0; animation: sh-rise 420ms var(--sh-settle) 22069ms both; }
+/* The reaches stop ~18px short of the levers and never arrive. The gap is the claim. */
+.sh-svg .reach { opacity: 0; animation: sh-reach 460ms var(--sh-settle) both; }
+@keyframes sh-reach { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+.sh-svg .r1 { animation-delay: 22767ms; } .sh-svg .r0 { animation-delay: 23166ms; }
+/* Last move of the chapter: the two open levers. Implicit `from`, so it composes on sh-lev. */
+.sh-svg .lever { animation: sh-lev 420ms var(--sh-settle) 16075ms both, sh-hold 520ms var(--sh-settle) 24064ms both; }
+@keyframes sh-hold { to { stroke-width: 3.6; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .sh-svg *, .sh-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .sh-svg .branch, .sh-svg .trunk, .sh-svg .arm, .sh-svg .outlet, .sh-svg .backarc { stroke-dashoffset: 0 !important; }
+  .sh-svg .blabel, .sh-svg .gate, .sh-svg .ok, .sh-svg .node, .sh-svg .ring, .sh-svg .arrow,
+  .sh-svg .env, .sh-svg .code, .sh-svg .sw, .sh-svg .pulse, .sh-svg .live,
+  .sh-svg .bound, .sh-svg .outwho, .sh-svg .reach { opacity: 1 !important; }
+  /* The composed rest state: the system quiet inside its boundary, both flags still off, and
+     the person who would flip them standing outside it. The token is gone because it merged. */
+  .sh-svg .sys { opacity: .45 !important; }
+  .sh-svg .tok { opacity: 0 !important; }
+}
+
+/* ══ chapter 9 — "Your turn" · the close ══════════════════════════════════════════════════════
+   Beats 0 / 8557 / 17462 / 25113, chapter runs 28865. The fourth reading of the same five columns
+   the concept chapters stand on (X0 44 / GAP 179 / W 142) — see the head of scene-your-turn.mjs
+   for why it is a re-reading and not a replay: the people are the subject rather than the
+   furniture, the names are the run's own, and beat 2's pass travels right to left.
+
+   Same conventions as chapters 1-5 — absolute delays off the narration clock, `both` fill, nothing
+   loops, composed at rest. The scaffold (lane, nodes, labels, empty spend slots) is present from
+   frame 0 and never animates; only what carries meaning moves. That is chapter 2's lesson: an
+   animation whose deletion costs the viewer no understanding should not be there, and a stage that
+   is blank when scrubbed to zero reads as broken.
+
+   TWO ANIMATIONS PER PROPERTY, NEVER THREE. Beat 3 removes and restores things that beat 1 already
+   drew, so everything that dies and comes back is wrapped: `.hand` / `.seg` / `.fill` own their
+   beat-1 arrival, and `.hand-life` / `.seg-life` / `.fill-life` own the beat-3 removal and return.
+   Both life animations use an implicit `from`, so each is transparent before its own delay — an
+   explicit `from` on the later one would fill backwards and force its start value from time 0. */
+
+.yt-wrap { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;
+  --yt-settle: cubic-bezier(0.22,1,0.36,1); --yt-travel: cubic-bezier(0.45,0,0.25,1); --yt-ack: cubic-bezier(0.2,1.12,0.35,1); }
+.yt { margin: 0; width: 100%; }
+.yt-svg { width: 100%; height: auto; font-family: var(--mono); }
+
+.yt-svg .ax { font-size: 9.5px; fill: var(--muted); letter-spacing: .18em; }
+.yt-svg .lane { stroke: var(--line); stroke-width: 1; }
+.yt-svg .node { fill: none; stroke: var(--muted); stroke-width: 1.2; }
+.yt-svg .cnum { font-size: 11px; fill: var(--blue); font-weight: 600; text-anchor: middle; }
+.yt-svg .cname { font-size: 10px; fill: var(--muted); text-anchor: middle; }
+
+/* The people are in the charcoal and at full weight — chapter 3's figures were muted hairlines standing
+   beside the thing that mattered. Here they ARE the thing that matters, so they carry the darkest
+   value in the frame and the steps underneath them are the quiet ones. */
+.yt-svg .fig { color: var(--gate); stroke: var(--gate); }
+/* Stroke weight in the icon's own 256-unit space, so the chapter-3 gate figure and this one keep
+   matched line weights at different sizes without either being hand-tuned. */
+.yt-svg .ic { fill: none; stroke-width: 26; stroke-linecap: round; stroke-linejoin: round; }
+.yt-svg .contact { fill: none; stroke: var(--blue); stroke-width: 2; stroke-linecap: round; }
+.yt-svg .seg { fill: none; stroke: var(--blue); stroke-width: 2.4; stroke-linecap: round; }
+
+.yt-svg .slot { fill: none; stroke: var(--line); stroke-width: 1; }
+.yt-svg .fill { fill: var(--line); }
+.yt-svg .reader line { stroke: var(--gate); stroke-width: 1.2; }
+.yt-svg .reader path { fill: var(--gate); }
+
+/* ── beat 1 · 0.0s — five people, and a lane that only advances out of a stroke ───────────── */
+.yt-svg .fig { opacity: 0; animation: yt-in 260ms var(--yt-settle) both; }
+.yt-svg .contact { stroke-dasharray: 1; stroke-dashoffset: 1; animation: yt-draw 300ms var(--yt-travel) both; }
+@keyframes yt-in { to { opacity: 1; } }
+@keyframes yt-draw { to { stroke-dashoffset: 0; } }
+.yt-svg .h0 .fig { animation-delay: 348ms; }  .yt-svg .h0 .contact { animation-delay: 533ms; }
+.yt-svg .h1 .fig { animation-delay: 1646ms; } .yt-svg .h1 .contact { animation-delay: 1831ms; }
+.yt-svg .h2 .fig { animation-delay: 2943ms; } .yt-svg .h2 .contact { animation-delay: 3129ms; }
+.yt-svg .h3 .fig { animation-delay: 4241ms; } .yt-svg .h3 .contact { animation-delay: 4427ms; }
+.yt-svg .h4 .fig { animation-delay: 5539ms; } .yt-svg .h4 .contact { animation-delay: 5725ms; }
+
+.yt-svg .seg { stroke-dasharray: 1; stroke-dashoffset: 1; animation: yt-draw 420ms var(--yt-travel) both; }
+.yt-svg .s0 .seg { animation-delay: 1043ms; }  .yt-svg .s1 .seg { animation-delay: 2341ms; }
+.yt-svg .s2 .seg { animation-delay: 3639ms; } .yt-svg .s3 .seg { animation-delay: 4937ms; }
+
+/* The spend accrues AS the run goes, quietly, in the placeholder tone — so beat 2 can be about
+   reading it back rather than about its arrival. "On the page the whole way" is a claim about
+   duration, and duration is only visible if the thing was there the whole time. */
+.yt-svg .fill { transform-box: fill-box; transform-origin: left center;
+  animation: yt-spend 320ms var(--yt-settle) both, yt-read 320ms var(--yt-settle) both; }
+@keyframes yt-spend { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
+.yt-svg .f0 .fill { animation-delay: 881ms, 15462ms; }
+.yt-svg .f1 .fill { animation-delay: 2179ms, 13999ms; }
+.yt-svg .f2 .fill { animation-delay: 3477ms, 12537ms; }
+.yt-svg .f3 .fill { animation-delay: 4774ms, 11074ms; }
+.yt-svg .f4 .fill { animation-delay: 6072ms, 9612ms; }
+
+/* ── beat 2 · 7.4s — the audit runs the other way ─────────────────────────────────────────── */
+/* Linear, and slow: 846 user units in six seconds. A scanner that eases through the middle would
+   pass the five bars at times that no longer match when each one lights, and the whole point of
+   the pass is that the line and the bar it is over are the same event. */
+@keyframes yt-read { to { fill: var(--gate); } }
+.yt-svg .reader { opacity: 0;
+  animation: yt-in 300ms ease-out 8691ms both, yt-scan 6000ms linear 8921ms both, yt-gone 350ms ease-in 15888ms both; }
+@keyframes yt-scan { to { transform: translateX(-846px); } }
+@keyframes yt-gone { to { opacity: 0; } }
+
+/* ── beat 3 · 15.1s — take the people away and there is nothing there ─────────────────────── */
+/* The removal is the argument. For roughly two seconds the stage holds five bare steps, an empty
+   lane and five empty spend slots: that is an agent left alone. Then two people come back and the
+   record rebuilds only as far as they reach — two steps lit, three still unspent — which is
+   "being wrong is cheap" as a picture instead of a caption. Then the rest return. */
+@keyframes yt-back { to { opacity: 1; } }
+.yt-svg .hand-life { animation: yt-gone 620ms var(--yt-settle) both, yt-back 420ms var(--yt-ack) both; }
+.yt-svg .h0 { animation-delay: 17661ms, 21026ms; }
+.yt-svg .h1 { animation-delay: 17758ms, 21200ms; }
+.yt-svg .h2 { animation-delay: 17856ms, 23415ms; }
+.yt-svg .h3 { animation-delay: 17954ms, 23589ms; }
+.yt-svg .h4 { animation-delay: 18052ms, 23762ms; }
+
+.yt-svg .seg-life { animation: yt-gone 400ms var(--yt-settle) both, yt-back 380ms var(--yt-settle) both; }
+.yt-svg .s0 { animation-delay: 17769ms, 21352ms; }
+.yt-svg .s1 { animation-delay: 17856ms, 23632ms; }
+.yt-svg .s2 { animation-delay: 17943ms, 23806ms; }
+.yt-svg .s3 { animation-delay: 18030ms, 23980ms; }
+
+.yt-svg .fill-life { animation: yt-gone 400ms var(--yt-settle) both, yt-back 380ms var(--yt-settle) both; }
+.yt-svg .f0 { animation-delay: 17878ms, 21569ms; }
+.yt-svg .f1 { animation-delay: 17965ms, 21700ms; }
+.yt-svg .f2 { animation-delay: 18052ms, 23849ms; }
+.yt-svg .f3 { animation-delay: 18138ms, 24023ms; }
+.yt-svg .f4 { animation-delay: 18225ms, 24197ms; }
+
+/* ── beat 4 · 22.2s — 2.8s, one move: the lane nobody has run yet ─────────────────────────── */
+/* The chapter's title, drawn. The record above it stays — an empty row that REPLACED the record
+   would have thrown away the evidence the previous three beats spent 22 seconds building. */
+.yt-svg .next-ax { text-anchor: end; }
+.yt-svg .next-lane { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 6; }
+.yt-svg .next-node { fill: none; stroke: var(--line); stroke-width: 1.2; }
+.yt-svg .wait { fill: none; stroke: var(--blue); stroke-width: 1.8; stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: yt-draw 420ms var(--yt-travel) 26296ms both; }
+.yt-svg .wait-contact { fill: none; stroke: var(--blue); stroke-width: 1.8; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1; animation: yt-draw 280ms var(--yt-travel) 26630ms both; }
+.yt-svg .next { opacity: 0; animation: yt-next 500ms var(--yt-settle) 25361ms both; }
+@keyframes yt-next { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+
+/* The two destinations, as real anchors rather than drawn words — the strings and hrefs are the
+   ones the factory recap surface already carried. They do NOT animate: an opacity-0 link is
+   focusable text with no contrast, and the axe run lands exactly on a cue boundary. */
+.yt-close { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 24px; margin-inline: 4.583%;
+  margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+.yt-close .recap-mark { padding: 0; gap: 0; flex-shrink: 0; }
+.yt-close .recap-mark img { width: 52px; height: 52px; }
+.yt-close .yt-links { padding-top: 0; gap: 4px 24px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .yt-svg *, .yt-wrap * { animation-duration: 1ms !important; animation-delay: 0ms !important; }
+  .yt-svg .fig, .yt-svg .hand-life, .yt-svg .seg-life, .yt-svg .fill-life, .yt-svg .next { opacity: 1 !important; }
+  .yt-svg .contact, .yt-svg .seg, .yt-svg .wait, .yt-svg .wait-contact { stroke-dashoffset: 0 !important; }
+  .yt-svg .fill { opacity: 1 !important; transform: none !important; fill: var(--gate) !important; }
+  .yt-svg .next { transform: none !important; }
+  /* The reading line is GONE in the composed final frame, not parked. It is an instrument that
+     ran, not part of the record — leaving it on the stage would say the audit is still going. */
+  .yt-svg .reader { opacity: 0 !important; }
+}
+
+/* The chapter marker rides in the close row rather than a caption strip of its own: the mark and
+   the two links are what the piece ends on, and furniture printed below them would be an epilogue
+   after the epilogue. */
+.yt-close .yt-foot { margin-left: auto; font: 600 11.5px var(--mono); letter-spacing: .2em;
+  color: var(--muted); flex-shrink: 0; }

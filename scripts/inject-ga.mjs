@@ -6,6 +6,14 @@
 //
 // Generated project pages (/portfolio/<slug>.html) get the tag from build-portfolio.mjs
 // instead — this script is for the hand-written pages.
+//
+// EXCLUDED: public/portfolio/walkthroughs/fls/ — a DEPLOY TARGET of the FLS walkthrough, whose
+// single source is fls-harness/deploy/walkthrough/. It must stay byte-identical to that source or
+// `npm test` fails (scripts/test-walkthrough-sync.mjs), which is the whole point of the guard.
+// Injecting here would mutate a generated artifact and diverge the two servers' copies.
+// The cost, stated plainly: no GA inside that walkthrough's iframe, unlike the other five —
+// visits to /portfolio/fidelity-ladder.html are still tracked by the page itself. To change this,
+// add GA to the SOURCE in fls-harness and re-sync; do not tag the copy.
 import { readFileSync, writeFileSync, readdirSync, statSync } from "node:fs";
 import { join, dirname, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,10 +24,14 @@ const PUB = join(ROOT, "public");
 
 import { GA_ID, GA_SNIPPET } from "./ga.mjs";
 
+// Deploy targets of artifacts sourced from another repo: byte-identical or the guard fails.
+const NO_TOUCH = [join(PUB, "portfolio", "walkthroughs", "fls")];
+
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {
     const p = join(dir, name);
     if (name === "node_modules" || name.startsWith(".")) return [];
+    if (NO_TOUCH.some((skip) => p === skip || p.startsWith(skip + "/"))) return [];
     return statSync(p).isDirectory() ? walk(p) : p.endsWith(".html") ? [p] : [];
   });
 
