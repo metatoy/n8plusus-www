@@ -223,7 +223,7 @@
           "body": "- **Real merged pull requests.** Requests filed as plain English issues climbed the full ladder and merged into a live product — three merged, five parked at a gate waiting on a person, which is the system working as designed.\n- **A measured false-advance rate of ~10%** — 7–14% across five clean runs (N=27 seeds, 14 wrong-direction, 3 vessels, two-pass labels). **13 of 14 wrong-direction seeds are caught at or before the rung where they were knowable**, and the false-catch control was 7.7%: the judge leaves good work alone. The residual is one characterised blind spot, not noise. Labels were a disciplined second pass by one author, not an independent co-labeller — the number is published with that caveat rather than without it.\n- **Open source and installable** — MIT on GitHub, `fidelity-ladder` on PyPI, with the engine's public surface versioned and web-free.\n- **A nine-chapter narrated walkthrough** (above) that follows one request the whole way, from the problem to the merge."
         }
       ],
-      "thumb": "/portfolio/assets/fidelity-ladder/fls-thumb.png",
+      "thumb": "/portfolio/assets/fidelity-ladder/fls-thumb.jpg",
       "media": [
         {
           "type": "image",
