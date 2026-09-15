@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1",
-    "updated": "2026-09-07",
+    "updated": "2026-09-14",
     "note": "Source of truth for n8plusus.com/portfolio. Index + detail pages render from this. Media paths point at the demo assets for now; migrate to /portfolio/assets/<slug>/ later. Spec: spec/n8plusus/portfolio/portfolio-content-outline.md",
     "eras": [
       {
@@ -84,6 +84,7 @@
     },
     "index": {
       "selected": [
+        "fidelity-ladder",
         "sorb",
         "foundation-ui",
         "callout",
@@ -98,6 +99,18 @@
         "tattletown"
       ],
       "inProduction": [
+        {
+          "label": "Fidelity Ladder — live harness",
+          "url": "https://harness.n8plusus.com/",
+          "sub": "watch a request climb, gate by gate",
+          "icon": "code"
+        },
+        {
+          "label": "fidelity-ladder on PyPI",
+          "url": "https://pypi.org/project/fidelity-ladder/",
+          "sub": "pip install · MIT · web-free core",
+          "icon": "package"
+        },
         {
           "label": "@sorb on npm",
           "url": "https://www.npmjs.com/org/sorb",
@@ -138,6 +151,94 @@
     }
   },
   "projects": [
+    {
+      "slug": "fidelity-ladder",
+      "walkthrough": "/portfolio/walkthroughs/fls/index.html?embed",
+      "era": "metatoy",
+      "featured": true,
+      "status": "complete",
+      "title": "Fidelity Ladder System — agentic builds that earn their autonomy",
+      "year": "2026",
+      "role": "Founder & Engineer",
+      "client": "Metatoy",
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Temporal",
+        "Claude Code",
+        "MCP",
+        "GitHub App",
+        "Figma API",
+        "React",
+        "evals",
+        "Azure",
+        "Caddy"
+      ],
+      "roleTypes": [
+        "solo",
+        "lead",
+        "fullstack"
+      ],
+      "skillTags": [
+        "ai-agents",
+        "generative-ai",
+        "backend",
+        "frontend"
+      ],
+      "summary": "A typed request climbs from spec to merged pull request, and a person approves every rung.",
+      "description": "An agentic build system where the unit of iteration is design fidelity, not a code diff. A request climbs spec → wireframe → prototype → pull request → merge, each rung producing an artifact a human can judge in seconds, with autonomy dialled independently per rung. Open source under MIT, published on PyPI, and running against a real product.",
+      "links": [
+        {
+          "label": "Live harness",
+          "url": "https://harness.n8plusus.com/"
+        },
+        {
+          "label": "Source (MIT)",
+          "url": "https://github.com/nhunsaker/fidelity-ladder-system"
+        },
+        {
+          "label": "PyPI",
+          "url": "https://pypi.org/project/fidelity-ladder/"
+        }
+      ],
+      "sections": [
+        {
+          "title": "What I built",
+          "body": "**Code is the most expensive medium in which to discover you built the wrong thing.**\n\nEvery agentic coding loop I could find starts at code and verifies *correctness* — does it compile, do the tests pass. None of them verify *direction*: whether the thing being built is the right thing. Product teams solved that decades ago, which is why design processes exist at all, and agentic tooling skipped straight to \"generate the pull request.\"\n\nThe **Fidelity Ladder System** puts the ladder back. A request climbs **spec → wireframe → prototype → pull request → merge**. Each rung produces an artifact a person can judge in seconds rather than minutes, and **autonomy is dialled independently per rung** — the agent runs free where being wrong is cheap, and gates hard where the blast radius is real.\n\nIt is open source under MIT, published on PyPI, and it has opened real pull requests on a real product."
+        },
+        {
+          "title": "How it works",
+          "body": "One file governs an installation: an **ANCHOR** that states the north star, the non-negotiables, the per-rung autonomy dial, and the budget ceilings. Constraints cascade **tighten-only** — a run may make a rule stricter, never looser.\n\nA request is admitted, then climbs:\n\n- **Spec** — a structured brief whose acceptance criteria are compiled into machine-checkable stubs. Prose that cannot be compiled fails closed rather than pretending to be a gate.\n- **Wireframe** — real frames in Figma, built by an agent through a deliberately narrow tool surface, then re-linted against what the agent claimed it made.\n- **Prototype** — a clickable demo against a design system, cheap enough to throw away.\n- **Pull request** — an agent builds in a worktree, the checks run, and a draft PR opens with the evidence attached.\n- **Merge** — a person, always. Nothing here merges itself.\n\nEvery advance is a human decision with the reasons on screen, and **a refused action has to say so** — refusals are recorded outcomes, not errors."
+        },
+        {
+          "title": "How I built it",
+          "body": "A Python engine (FastAPI, pydantic) with a React admin, deployed behind Caddy on a small cloud VM.\n\n- **Durable by construction.** Runs execute as **Temporal** workflows, so a restart, a timeout, or a dropped connection resumes instead of losing a climb. Retries check for progress before spending again.\n- **Agentic rungs run Claude Code** against the Figma and GitHub APIs under **declared output contracts** — a rung demands fenced JSON and fails loudly when it gets prose instead. An artifact is an artifact; a paragraph claiming one is not.\n- **Guardrails are structural, not prompted.** The agent's shell is stripped of every credential-shaped environment variable before it starts, tool surfaces are narrowed per rung, and budget ceilings refuse rather than creep.\n- **Two-column cost accounting** on every run: metered dollars beside a normalised shadow cost, so a subscription lane never hides the real number.\n- The importable core pulls **zero web dependencies** — `pip install fidelity-ladder` gets the pattern without the server."
+        },
+        {
+          "title": "Questions this project answers",
+          "body": "- **When should an agent be allowed to proceed on its own?** Per rung, earned — free where a mistake costs a glance, gated where it costs a production incident.\n- **What does an agentic loop iterate on?** Fidelity, not diffs. The cheapest place to be wrong is the earliest one.\n- **How do you know the gates work?** You measure them. The system ships with its own bench and publishes the number with its bounds attached.\n- **What stops a request that should never be built?** A refusal that is recorded and explained, rather than a silent success."
+        },
+        {
+          "title": "Results",
+          "body": "- **Real merged pull requests.** Requests filed as plain English issues climbed the full ladder and merged into a live product — three merged, five parked at a gate waiting on a person, which is the system working as designed.\n- **A measured false-advance rate of ~10%** — 7–14% across five clean runs (N=27 seeds, 14 wrong-direction, 3 vessels, two-pass labels). **13 of 14 wrong-direction seeds are caught at or before the rung where they were knowable**, and the false-catch control was 7.7%: the judge leaves good work alone. The residual is one characterised blind spot, not noise. Labels were a disciplined second pass by one author, not an independent co-labeller — the number is published with that caveat rather than without it.\n- **Open source and installable** — MIT on GitHub, `fidelity-ladder` on PyPI, with the engine's public surface versioned and web-free.\n- **A nine-chapter narrated walkthrough** (above) that follows one request the whole way, from the problem to the merge."
+        }
+      ],
+      "thumb": "/portfolio/assets/fidelity-ladder/fls-thumb.png",
+      "media": [
+        {
+          "type": "image",
+          "src": "/portfolio/assets/fidelity-ladder/fls-build.png",
+          "title": "The build rung",
+          "description": "An agent builds in its own worktree while the checks run. The rung reports what it changed and what it cost, and the advance is a person's decision."
+        },
+        {
+          "type": "image",
+          "src": "/portfolio/assets/fidelity-ladder/fls-ship.png",
+          "title": "Ship means merged",
+          "description": "The last rung opens a draft pull request with its evidence attached and stops. Nothing here merges itself."
+        }
+      ]
+    },
     {
       "slug": "sorb",
       "walkthrough": "/portfolio/walkthroughs/sorb.html",

@@ -1,0 +1,489 @@
+{
+  "id": "fls-walkthrough",
+  "title": "Fidelity Ladder System",
+  "status": "full-build-awaiting-review",
+  "voice": {
+    "name": "User-selected voice",
+    "id": "nyfVCF0XNA1BwwJ7FiP2",
+    "model": "eleven_multilingual_v2",
+    "format": "mp3_44100_128",
+    "settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.75,
+      "style": 0,
+      "use_speaker_boost": true
+    }
+  },
+  "manifest": [
+    {
+      "id": "problem",
+      "title": "The expensive place to be wrong",
+      "body": "Code is the most expensive place to discover you built the wrong thing. Plenty of tools can tell you whether code works. Almost nothing tells you whether it was worth building — and that question is cheapest to answer before anyone writes a line of it. This is the Fidelity Ladder System, running against a product that really exists.",
+      "scene": "problem",
+      "audio": "./audio/problem-01337d04b759.mp3",
+      "durationMs": 19775,
+      "cues": [
+        {
+          "label": "COST",
+          "phrase": "the most expensive place",
+          "atMs": 0
+        },
+        {
+          "label": "WORKS",
+          "phrase": "whether code works",
+          "atMs": 5608
+        },
+        {
+          "label": "RIGHT",
+          "phrase": "worth building",
+          "atMs": 8696
+        },
+        {
+          "label": "EARLY",
+          "phrase": "before anyone writes a line",
+          "atMs": 12086
+        }
+      ],
+      "recording": {
+        "scriptHash": "dd84ab78eee1ef841d1e572e2bf170c3c027b745d049e599342a9d64d2263b3d",
+        "audioHash": "01337d04b759edde13bcc43a12b1f34f92659632d927d17b3d104ee77bc04a27",
+        "durationMs": 19775,
+        "generatedAt": "2026-09-14T00:03:44.463Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/problem-01337d04b759.alignment.json"
+      }
+    },
+    {
+      "id": "ladder",
+      "title": "It only moves one way",
+      "body": "So the work climbs. A request becomes a written spec, then drawings, then something you can click, then real code — and every step is cheap to be wrong at compared to the one after it. It only moves one way. The rules only ever get stricter as they pass down, never looser, and nothing gets to skip a step because it feels confident.",
+      "scene": "ladder",
+      "audio": "./audio/ladder-8499c0758b6e.mp3",
+      "durationMs": 22100,
+      "cues": [
+        {
+          "label": "CLIMB",
+          "phrase": "the work climbs",
+          "atMs": 0
+        },
+        {
+          "label": "REAL",
+          "phrase": "something you can click",
+          "atMs": 5457
+        },
+        {
+          "label": "RATCHET",
+          "phrase": "only moves one way",
+          "atMs": 12434
+        },
+        {
+          "label": "NO SKIP",
+          "phrase": "skip a step",
+          "atMs": 19644
+        }
+      ],
+      "recording": {
+        "scriptHash": "0a242c3b0b1140fe56937b073bbaa026dd6fdd95ed96566afb2c72f4c91a474e",
+        "audioHash": "8499c0758b6e43c9bd812ba4bf4c65ba06ade74d28369e155bf5ae6532ea8a99",
+        "durationMs": 22100,
+        "generatedAt": "2026-09-14T00:03:49.760Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/ladder-8499c0758b6e.alignment.json"
+      }
+    },
+    {
+      "id": "gates",
+      "title": "It ends at a gate",
+      "body": "A person decides every step that cannot be taken back. Nothing advances on optimism: a check that did not run is never reported as passed, and anything uncertain stops and waits. When a step fails, the work drops back down and writes down what it learned, so the next attempt knows more than the last. And every step says what it cost. The value here is the gates that are kept, not the ones removed.",
+      "scene": "gates",
+      "audio": "./audio/gates-dd7ab8816d05.mp3",
+      "durationMs": 28839,
+      "cues": [
+        {
+          "label": "HUMAN",
+          "phrase": "cannot be taken back",
+          "atMs": 0
+        },
+        {
+          "label": "CLOSED",
+          "phrase": "advances on optimism",
+          "atMs": 4481
+        },
+        {
+          "label": "DESCEND",
+          "phrase": "drops back down",
+          "atMs": 15511
+        },
+        {
+          "label": "COST",
+          "phrase": "says what it cost",
+          "atMs": 22524
+        },
+        {
+          "label": "KEEP",
+          "phrase": "gates that are kept",
+          "atMs": 25821
+        }
+      ],
+      "recording": {
+        "scriptHash": "5b0f7735ef1a6008c2eb3ed02cd0209d8fcd061a79b78397bdc404dc5180ff58",
+        "audioHash": "dd7ab8816d05a52842a87287ba1fcb4ca707a2ec1e82a1cadc9e562de5b31bce",
+        "durationMs": 28839,
+        "generatedAt": "2026-09-14T00:03:55.637Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/gates-dd7ab8816d05.alignment.json"
+      }
+    },
+    {
+      "id": "request",
+      "title": "Request",
+      "body": "Here is the same system from the outside. You give a name and a shared passcode, so the record says who asked. Then you type one sentence about Pocket, a poker app that really exists: what you want changed, and how you would know it worked. Nothing runs until you press the button, and only one request runs at a time. It gets checked against what this product is for — and it can come back asking for more to go on.",
+      "scene": "request",
+      "audio": "./audio/request-36cdbe24a3c9.mp3",
+      "durationMs": 26462,
+      "cues": [
+        {
+          "label": "WHO",
+          "phrase": "a name and a shared passcode",
+          "atMs": 0
+        },
+        {
+          "label": "ASK",
+          "phrase": "one sentence about Pocket",
+          "atMs": 7709
+        },
+        {
+          "label": "CONSENT",
+          "phrase": "Nothing runs until you press",
+          "atMs": 15233
+        },
+        {
+          "label": "GATE",
+          "phrase": "more to go on",
+          "atMs": 25206
+        }
+      ],
+      "recording": {
+        "scriptHash": "7d5bed904b6db3743c7725c11b30b037cf251cd1175c511b78604532d5d44005",
+        "audioHash": "36cdbe24a3c9d7e7e42f30a0859025df4cb6d0c09669b3781cec2fa93390dc7e",
+        "durationMs": 26462,
+        "generatedAt": "2026-09-14T00:04:01.320Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/request-36cdbe24a3c9.alignment.json"
+      }
+    },
+    {
+      "id": "wireframe",
+      "title": "Wireframe",
+      "body": "The first thing back is three rough shapes. They are real drawings in a real design file, and they differ in shape rather than in wording — three different answers, not three ways of saying one. You pick the one you want built. The other two stay on the page afterwards, so you can still see what was not taken.",
+      "scene": "wireframe",
+      "audio": "./audio/wireframe-447e95db105b.mp3",
+      "durationMs": 19461,
+      "cues": [
+        {
+          "label": "THREE",
+          "phrase": "three rough shapes",
+          "atMs": 0
+        },
+        {
+          "label": "DISTINCT",
+          "phrase": "differ in shape",
+          "atMs": 6142
+        },
+        {
+          "label": "PICK",
+          "phrase": "pick the one you want built",
+          "atMs": 12771
+        },
+        {
+          "label": "KEPT",
+          "phrase": "what was not taken",
+          "atMs": 17937
+        }
+      ],
+      "recording": {
+        "scriptHash": "dec59dd0018eb6c75274a0f9616b6551c03972cb4ffa24d670c31599085f9547",
+        "audioHash": "447e95db105b94a16b8eac280d3c765684628dec7603c00778eb37305ea5f8fc",
+        "durationMs": 19461,
+        "generatedAt": "2026-09-14T00:04:05.959Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/wireframe-447e95db105b.alignment.json"
+      }
+    },
+    {
+      "id": "preview",
+      "title": "Preview",
+      "body": "Next comes a clickable version of the shape you picked, built from the product's own design system. It asks a plain question: is this the right thing? The preview is a throwaway — it exists so you can judge the direction before anyone writes real code. If it is wrong, you say what to change, and that sends the step back to be done again with your note attached. It does not start over, and it does not skip ahead.",
+      "scene": "preview",
+      "audio": "./audio/preview-1ecf2e8492f1.mp3",
+      "durationMs": 28604,
+      "cues": [
+        {
+          "label": "CLICK",
+          "phrase": "a clickable version",
+          "atMs": 0
+        },
+        {
+          "label": "ASK",
+          "phrase": "is this the right thing",
+          "atMs": 8603
+        },
+        {
+          "label": "THROWAWAY",
+          "phrase": "before anyone writes real code",
+          "atMs": 15790
+        },
+        {
+          "label": "REVISE",
+          "phrase": "sends the step back",
+          "atMs": 21339
+        },
+        {
+          "label": "BOUNDED",
+          "phrase": "does not skip ahead",
+          "atMs": 27051
+        }
+      ],
+      "recording": {
+        "scriptHash": "a86e2a00efba2aefff522f52ba4fc5e3c5d02c27c45d4b6d4c8b44d4f58df9ff",
+        "audioHash": "1ecf2e8492f1a311b37aad4b94d81b26bb92a867c4b636bdea150e41adedd57c",
+        "durationMs": 28604,
+        "generatedAt": "2026-09-14T00:04:11.949Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/preview-1ecf2e8492f1.alignment.json"
+      }
+    },
+    {
+      "id": "build",
+      "title": "Build",
+      "body": "Then it writes the code, in an isolated copy of the project, and runs the project's own tests. It does not take the agent's word that they passed; the tests are run again here, and that result is the one that counts. What comes back is not a receipt. It is your change, running on a copy of the real app, with the switch already flipped on in the link so you can actually see it. While the checks run, nothing needs you.",
+      "scene": "build",
+      "audio": "./audio/build-3ce832e58957.mp3",
+      "durationMs": 28134,
+      "cues": [
+        {
+          "label": "ISOLATED",
+          "phrase": "an isolated copy",
+          "atMs": 0
+        },
+        {
+          "label": "EVIDENCE",
+          "phrase": "take the agent's word",
+          "atMs": 7152
+        },
+        {
+          "label": "OPENABLE",
+          "phrase": "not a receipt",
+          "atMs": 15906
+        },
+        {
+          "label": "SWITCH",
+          "phrase": "already flipped on",
+          "atMs": 21746
+        },
+        {
+          "label": "WAIT",
+          "phrase": "nothing needs you",
+          "atMs": 26912
+        }
+      ],
+      "recording": {
+        "scriptHash": "cab96a5cb4daefe85245170340ca3c33c1c89a2814ed8bca44178c6814100d77",
+        "audioHash": "3ce832e58957e37702e82d588422dd038fead912a229d647efc2017604426772",
+        "durationMs": 28134,
+        "generatedAt": "2026-09-14T00:04:17.954Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/build-3ce832e58957.alignment.json"
+      }
+    },
+    {
+      "id": "ship",
+      "title": "Ship",
+      "body": "The yes you just gave is the one that merges it. That is safe to ask for once, because every change arrives with its feature flag off in both environments — merging moves the code, it does not release the feature. Only then does it show you what it did and ask you to sign off. Turning the flag on is a separate decision, made later, by a person, outside all of this.",
+      "scene": "ship",
+      "audio": "./audio/ship-035347efa7d9.mp3",
+      "durationMs": 25522,
+      "cues": [
+        {
+          "label": "THE YES",
+          "phrase": "The yes you just gave",
+          "atMs": 0
+        },
+        {
+          "label": "OFF",
+          "phrase": "feature flag off in both environments",
+          "atMs": 7651
+        },
+        {
+          "label": "MOVES",
+          "phrase": "does not release the feature",
+          "atMs": 12074
+        },
+        {
+          "label": "SIGN",
+          "phrase": "sign off",
+          "atMs": 17194
+        },
+        {
+          "label": "LATER",
+          "phrase": "a separate decision",
+          "atMs": 20143
+        }
+      ],
+      "recording": {
+        "scriptHash": "b0cce83c69b7a2cee9b9e25ea9f7573e3aae772dda162d927d3a56bd8d12e0b9",
+        "audioHash": "035347efa7d9fa9fa4a6936cc5a82a83beacb75d45bb8b3ea793528b5000d87c",
+        "durationMs": 25522,
+        "generatedAt": "2026-09-14T22:17:56.939Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/ship-035347efa7d9.alignment.json"
+      }
+    },
+    {
+      "id": "your-turn",
+      "title": "Your turn",
+      "body": "Five steps, and a person decided every one of them. The cost is on the page the whole way, because a system that hides what it spends is asking to be trusted instead of checked. None of this makes an agent safer to leave alone. It makes being wrong cheap, and it keeps clear ownership of every decision. You can go and run one yourself, or read the whole thing — it is open source.",
+      "scene": "your-turn",
+      "audio": "./audio/your-turn-6fa455ae1337.mp3",
+      "durationMs": 28865,
+      "cues": [
+        {
+          "label": "FIVE",
+          "phrase": "a person decided every one",
+          "atMs": 0
+        },
+        {
+          "label": "COST",
+          "phrase": "hides what it spends",
+          "atMs": 8557
+        },
+        {
+          "label": "HONEST",
+          "phrase": "makes being wrong cheap",
+          "atMs": 17462
+        },
+        {
+          "label": "OPEN",
+          "phrase": "read the whole thing",
+          "atMs": 25113
+        }
+      ],
+      "recording": {
+        "scriptHash": "296efd644044e05c7d4fee2ce0501df58e1fd421f5a31a94ac6222319d059073",
+        "audioHash": "6fa455ae133782ff35422555ac8080bd5809a5f1eb6b6bcbcd932fdfac64cb6b",
+        "durationMs": 28865,
+        "generatedAt": "2026-09-14T20:46:38.443Z",
+        "generationSettings": {
+          "name": "User-selected voice",
+          "id": "nyfVCF0XNA1BwwJ7FiP2",
+          "model": "eleven_multilingual_v2",
+          "format": "mp3_44100_128",
+          "settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75,
+            "style": 0,
+            "use_speaker_boost": true
+          }
+        },
+        "cueTiming": "ElevenLabs character timestamps, anchored to manifest phrases; listening review pending",
+        "alignment": "./audio/your-turn-6fa455ae1337.alignment.json"
+      }
+    }
+  ]
+}

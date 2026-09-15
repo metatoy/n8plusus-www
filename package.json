@@ -6,9 +6,10 @@
   "description": "N8+US, Inc. consulting site \u2014 static site + contact form handler (Migadu SMTP).",
   "scripts": {
     "start": "node server.js",
-    "build": "node build-portfolio.mjs && node scripts/inject-ga.mjs --write",
+    "build": "node scripts/sync-walkthrough.mjs --if-present && node build-portfolio.mjs && node scripts/inject-ga.mjs --write",
     "ga": "node scripts/inject-ga.mjs",
-    "test": "node scripts/test-contact-guard.mjs"
+    "test": "node scripts/test-contact-guard.mjs && node scripts/test-walkthrough-sync.mjs",
+    "sync:walkthrough": "node scripts/sync-walkthrough.mjs"
   },
   "engines": {
     "node": ">=20"
