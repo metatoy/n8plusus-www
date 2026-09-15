@@ -91,13 +91,18 @@
           if (j === i) d.setAttribute("aria-selected", "true"); else d.removeAttribute("aria-selected");
         });
       };
-      cs.querySelector(".cs-stage").addEventListener("click", () => go(i + 1));
+      // Focus on click, so the keys work from the moment you touch it. Without this the carousel
+      // only answers the keyboard after a tab-stop, and nobody tabs to a picture.
+      cs.querySelector(".cs-stage").addEventListener("click", () => { cs.focus(); go(i + 1); });
       cs.querySelector('[data-act="prev"]').addEventListener("click", (e) => { e.stopPropagation(); go(i - 1); });
       cs.querySelector('[data-act="next"]').addEventListener("click", (e) => { e.stopPropagation(); go(i + 1); });
       dots.forEach((d) => d.addEventListener("click", () => go(+d.getAttribute("data-i"))));
+      // ← back · → forward · Esc back to the first step. Every one calls preventDefault: a focused
+      // carousel that also scrolls the page under you is worse than one that ignores the key.
       cs.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); go(i + 1); }
-        if (e.key === "ArrowLeft") go(i - 1);
+        else if (e.key === "ArrowLeft") { e.preventDefault(); go(i - 1); }
+        else if (e.key === "Escape") { e.preventDefault(); go(0); }
       });
       go(0);
     });

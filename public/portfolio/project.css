@@ -1,6 +1,6 @@
 :root{
     --ink:#231f20; --paper:#f1efe8; --card:#ffffff;
-    --text:#2a2622; --muted:#6f6b62; --line:#e2ddcf;
+    --text:#2a2622; --muted:#6f6b62; --line:#e2ddcf; --band:#e7e2d5;
     --green:#8dc63f; --green-ink:#46701e;
   }
   *{box-sizing:border-box}
@@ -57,9 +57,33 @@
   .flowfig{margin:14px 0 16px}
   .flowfig img{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff}
   .flowfig figcaption{font-size:12.5px;color:var(--muted);margin-top:6px}
+  /* Same breakout as .cs--wide: a system diagram rendered into the 776px reading column
+     puts its 12.5px labels at about 8px. */
+  .flowfig--wide{width:max(100%, min(1248px, calc(100vw - 44px)));margin-left:50%;transform:translateX(-50%)}
+
+  /* LETTERBOX for the three breakout elements.
+     A figure wider than the 776px column otherwise reads as one that escaped it. The band gives
+     the widening somewhere to sit: a full-bleed stripe of --band behind the element, 26px proud
+     of it top and bottom, so the page looks like it opens up rather than springs a leak.
+
+     One element, no wrapper: box-shadow paints a 100vmax spread in every direction and clip-path
+     then keeps only the side bars. The clip is flush top and bottom (0) so the colour never
+     extends past the element's own height — it fills the gutters beside it and nothing else.
+     Anything the element paints outside its box is clipped too; the carousel's 3px focus ring
+     is the only such thing here, and it reads fine against the band. */
+  .pf-band,
+  .flowfig--wide,
+  .cs--wide,
+  .walkthrough-sec{clip-path:inset(0 -100vmax);box-shadow:0 0 0 100vmax var(--band)}
   /* stepped carousel (cs![] blocks) — one image per step, captions from data- attributes.
      Lived in one page's <head> until 2026-09-15, where every `npm run build` deleted it. */
   .cs{margin:16px 0 18px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;outline:none}
+  /* A carousel of full application screenshots. Same breakout as .walkthrough-sec — a 1243px-wide
+     window rendered into a 776px column is unreadable, and the point of these is that you can read
+     what is on the screen. */
+  .cs--wide{width:max(100%, min(1248px, calc(100vw - 44px)));margin-left:50%;transform:translateX(-50%)}
+  .cs--wide .cs-stage{aspect-ratio:1243/1030}
+  .cs--wide .cs-stage img{padding:0}
   .cs:focus-visible{box-shadow:0 0 0 3px #d9e8bd}
   .cs-stage{position:relative;width:100%;aspect-ratio:16/10;background:#faf8f2;display:grid;place-items:center;overflow:hidden;cursor:pointer;border-bottom:1px solid var(--line)}
   .cs-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:14px;box-sizing:border-box;animation:csEnter .4s cubic-bezier(.2,.7,.2,1) both}
@@ -74,6 +98,10 @@
   .cs-ctrlBtn{border:1px solid var(--line);background:transparent;color:var(--ink);width:38px;height:38px;border-radius:999px;display:grid;place-items:center;cursor:pointer;font:600 15px "Space Grotesk",sans-serif;transition:border-color .15s,color .15s}
   .cs-ctrlBtn:hover{border-color:var(--green-ink);color:var(--green-ink)}
   .cs-spacer{flex:1}
+  /* Keys nobody knows about are keys nobody uses. Quiet, and it steps out of the way when
+     the carousel is too narrow to spare the room. */
+  .cs-keys{font-size:11.5px;color:var(--muted);letter-spacing:.02em;margin-left:4px}
+  @media (max-width:560px){.cs-keys{display:none}}
   .cs-dots{display:flex;gap:7px}
   .cs-dot{width:9px;height:9px;padding:0;border:none;border-radius:999px;background:#cfc9bb;cursor:pointer;transition:background .15s,transform .15s}
   .cs-dot:hover{transform:scale(1.15)}
