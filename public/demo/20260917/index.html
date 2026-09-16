@@ -43,12 +43,11 @@
 
   /* Organised by project rather than by tab order: a project is the unit he will ask about, and
      its links belong under it instead of scattered across a numbered list. */
-  /* The three problems, above the four answers. Unnumbered on purpose: they are three faces of
-     one problem rather than a sequence, and a numbered list would claim an order that is not there. */
-  .probs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0 26px;
-    margin:30px 0 0}
-  .prob{list-style:none;margin:13px 0 0;padding:0;display:grid;gap:13px}
-  .prob li{font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:70ch}
+  /* Why the ladder exists, sat between what it is and what to open — the order a person says it
+     out loud. Unnumbered on purpose: three faces of one problem, not a sequence, and numbering
+     would claim an order that is not there. */
+  .prob{list-style:none;margin:11px 0 0;padding:0;display:grid;gap:12px}
+  .prob li{font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:66ch}
   .prob b{font-weight:600;color:var(--ink)}
 
   /* Each project opens on a band of --band, the same stripe the portfolio pages put behind a
@@ -100,8 +99,18 @@
           this page is the thing itself rather than a description of it.</p>
       </header>
 
-      <div class="probs">
-        <p class="kicker" style="margin-top:0">What I was trying to solve</p>
+
+      <section class="proj">
+        <div class="proj-h">
+          <h2>Fidelity Ladder System</h2>
+          <span class="badge">featured demo, live</span>
+        </div>
+        <p class="lede2">A sentence typed into a web page becomes a written spec, then drawings in a
+          real Figma file, then something clickable, then real code, then a flagged pull request.
+          <b>A person decides every step that cannot be taken back.</b> The vessel is a poker app that
+          really exists.</p>
+
+        <p class="kicker">What I was trying to solve</p>
         <ul class="prob">
           <li><b>More ideas than judgment.</b> AI made exploring ten directions cheap and choosing
             between them no easier. The problem is not generating more, it is finding the right one
@@ -114,17 +123,6 @@
             and return work of a quality you can plan around. Output that is sometimes excellent,
             sometimes wrong, and never the same price is not something a team can build on.</li>
         </ul>
-      </div>
-
-      <section class="proj">
-        <div class="proj-h">
-          <h2>Fidelity Ladder System</h2>
-          <span class="badge">featured demo, live</span>
-        </div>
-        <p class="lede2">A sentence typed into a web page becomes a written spec, then drawings in a
-          real Figma file, then something clickable, then real code, then a flagged pull request.
-          <b>A person decides every step that cannot be taken back.</b> The vessel is a poker app that
-          really exists.</p>
 
         <table class="links">
           <tr>
