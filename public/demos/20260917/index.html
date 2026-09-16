@@ -52,6 +52,31 @@
   .steps .m{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted);
     font-weight:400}
   .steps .no{color:var(--muted);font-style:italic}
+
+  /* Organised by project rather than by tab order: a project is the unit he will ask about, and
+     its links belong under it instead of scattered across a numbered list. */
+  .proj{border-top:1px solid var(--line);padding:26px 0 4px}
+  .proj:first-of-type{border-top:0;padding-top:10px}
+  .proj-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .proj h2{margin:0;font-size:21px;font-weight:700;line-height:1.2}
+  .proj .badge{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--green-ink);border:1px solid #cfe0a8;border-radius:999px;
+    padding:2px 9px}
+  .proj .lede2{margin:10px 0 0;font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:66ch}
+  .proj .lede2 b{font-weight:600;color:var(--ink)}
+  .links{margin:14px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
+  .links th,.links td{text-align:left;padding:7px 18px 7px 0;border-top:1px solid var(--line);
+    vertical-align:baseline}
+  .links tr:first-child th,.links tr:first-child td{border-top:0}
+  .links th{font-weight:600;color:var(--ink);white-space:nowrap;width:1%}
+  .links a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .links a:hover{text-decoration:underline}
+  .links .u{display:block;font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    color:var(--muted);font-weight:400;margin-top:2px;overflow-wrap:anywhere}
+  /* The link column needs a floor or the monospace URLs break mid-word. */
+  .links td:first-of-type{min-width:246px}
+  .links .n{color:var(--muted)}
+  .steps{margin-left:0}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
@@ -69,115 +94,118 @@
       <header class="phead">
         <span class="private">Private · for a conversation on 17 Sep 2026</span>
         <p class="mono meta-line">GitHub Next · demo index</p>
-        <h1>Five tabs, in the order I would open them</h1>
+        <h1>Two projects, and the links that open them</h1>
         <p class="lede">A framework where AI-built work earns autonomy through gated fidelity rungs.
           In August that was an experiment I was running. It is a live system now, so the rest of
           this page is the thing itself rather than a description of it.</p>
       </header>
 
-      <ol class="tabs">
-        <li>
-          <a class="t" href="https://harness.n8plusus.com/" target="_blank" rel="noopener">
-            <span class="num">01</span>
-            <span><h3>The harness, running</h3>
-              <span class="url">harness.n8plusus.com</span></span>
-          </a>
-          <p class="say">A sentence typed into a web page becomes a written spec, then drawings in a
-            real Figma file, then something clickable, then real code, then a flagged pull request.
-            <b>A person decides every step that cannot be taken back.</b> The vessel is a poker app
-            that really exists.</p>
-          <p class="also">Start at the visitor door —
-            <a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">/build/</a>
-            — or the nine-chapter narrated version:
-            <a href="https://harness.n8plusus.com/walkthrough/" target="_blank" rel="noopener">/walkthrough/</a></p>
-          <table class="steps">
-            <tr>
-              <th>Request</th>
-              <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">the form a person types into</a></td>
-              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=71s" target="_blank" rel="noopener" class="m">video 1:11</a></td>
-            </tr>
-            <tr>
-              <th>Wireframe</th>
-              <td><span class="no">no public link &mdash; it lives in Figma and the signed-in workbench</span></td>
-              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=98s" target="_blank" rel="noopener" class="m">video 1:38</a></td>
-            </tr>
-            <tr>
-              <th>Preview</th>
-              <td><a href="https://harness.n8plusus.com/runs/38/preview" target="_blank" rel="noopener">the clickable throwaway, still up</a></td>
-              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=117s" target="_blank" rel="noopener" class="m">video 1:57</a></td>
-            </tr>
-            <tr>
-              <th>Build</th>
-              <td><a href="https://github.com/metatoy/fls-harness-demo/pull/12/files" target="_blank" rel="noopener">8 files, 394 lines, the project&rsquo;s own tests</a></td>
-              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=146s" target="_blank" rel="noopener" class="m">video 2:26</a></td>
-            </tr>
-            <tr>
-              <th>Ship</th>
-              <td><a href="https://pocket-stage.n8plusus.com/stats?flags-weak-spot=true" target="_blank" rel="noopener">the built feature, flag on for one browser</a></td>
-              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=174s" target="_blank" rel="noopener" class="m">video 2:54</a></td>
-            </tr>
-          </table>
-        </li>
+      <section class="proj">
+        <div class="proj-h">
+          <h2>Fidelity Ladder System</h2>
+          <span class="badge">the lead bet, running</span>
+        </div>
+        <p class="lede2">A sentence typed into a web page becomes a written spec, then drawings in a
+          real Figma file, then something clickable, then real code, then a flagged pull request.
+          <b>A person decides every step that cannot be taken back.</b> The vessel is a poker app that
+          really exists.</p>
 
-        <li>
-          <a class="t" href="https://github.com/metatoy/fls-harness-demo/pull/12" target="_blank" rel="noopener">
-            <span class="num">02</span>
-            <span><h3>A pull request it opened, and merged</h3>
-              <span class="url">github.com/metatoy/fls-harness-demo/pull/12</span></span>
-          </a>
-          <p class="say">Merged 15 Sep. 394 lines across 8 files, the project's own tests re-run here
-            rather than taken on the agent's word. The body carries the spec it was built against, five
-            numbered acceptance criteria, and a table telling the reviewer what each state actually does. <b>It merged with its feature flag off in both
-            environments</b> — which is the only reason an automated merge is defensible. Turning the
-            flag on is a separate decision, made later, by a person, outside the system entirely.</p>
-          <p class="also">Four merged from the ladder: #5, #9, #11, #12. (#10 is mine, by hand — the
-            fork was deploying upstream’s product.)</p>
-        </li>
+        <table class="links">
+          <tr>
+            <th>Running</th>
+            <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">The visitor door</a>
+              <span class="u">harness.n8plusus.com/build/</span></td>
+            <td class="n">Type a change and watch it climb. The operator console is behind a sign-in.</td>
+          </tr>
+          <tr>
+            <th>Merged</th>
+            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/12" target="_blank" rel="noopener">Pull request #12</a>
+              <span class="u">fls-harness-demo/pull/12</span></td>
+            <td class="n">394 lines, 8 files, 15 Sep. The body carries the spec, five acceptance
+              criteria, and a table saying merging releases nothing. <b>It merged with its flag off in
+              both environments</b> &mdash; the only reason an automated merge is defensible. Four have
+              merged: #5, #9, #11, #12.</td>
+          </tr>
+          <tr>
+            <th>Parked</th>
+            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/7" target="_blank" rel="noopener">Pull request #7</a>
+              <span class="u">fls-harness-demo/pull/7</span></td>
+            <td class="n">The half people skip. Five are waiting on a person, <b>on purpose</b>. Also
+              open: #1, #4, #6, #8.</td>
+          </tr>
+          <tr>
+            <th>The engine</th>
+            <td><a href="https://github.com/nhunsaker/fidelity-ladder-system" target="_blank" rel="noopener">nhunsaker/fidelity-ladder-system</a>
+              <span class="u">MIT &middot; <a href="https://pypi.org/project/fidelity-ladder/" target="_blank" rel="noopener">pip install fidelity-ladder</a></span></td>
+            <td class="n">The core pulls zero web dependencies, so the pattern travels without the
+              server. The README opens with the four-minute walkthrough.</td>
+          </tr>
+          <tr>
+            <th>If sharing dies</th>
+            <td><a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a>
+              <span class="u">n8plusus.com/portfolio/fidelity-ladder.html</span></td>
+            <td class="n">The same run as a 15-step carousel, plus the architecture of the box it runs
+              on. Or the <a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg" target="_blank" rel="noopener">narrated walkthrough</a>, four minutes.</td>
+          </tr>
+        </table>
 
-        <li>
-          <a class="t" href="https://github.com/metatoy/fls-harness-demo/pull/7" target="_blank" rel="noopener">
-            <span class="num">03</span>
-            <span><h3>One still sitting at a gate</h3>
-              <span class="url">github.com/metatoy/fls-harness-demo/pull/7</span></span>
-          </a>
-          <p class="say">The half people skip. Five of these are parked waiting on a person, and they are
-            parked <b>on purpose</b> — that is the system working, not the system stalling.
-            Nothing here advances on optimism: a check that did not run is never reported as passed.</p>
-          <p class="also">Also open: #1, #4, #6, #8. (#1 is the oldest and its run died at the last
-            step — the seam that produced it is closed now.)</p>
-        </li>
+        <p class="kicker" style="margin-top:26px">One run, step by step</p>
+        <table class="steps">
+          <tr>
+            <th>Request</th>
+            <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">the form a person types into</a></td>
+            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=71s" target="_blank" rel="noopener" class="m">video 1:11</a></td>
+          </tr>
+          <tr>
+            <th>Wireframe</th>
+            <td><span class="no">no public link &mdash; it lives in Figma and the signed-in workbench</span></td>
+            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=98s" target="_blank" rel="noopener" class="m">video 1:38</a></td>
+          </tr>
+          <tr>
+            <th>Preview</th>
+            <td><a href="https://harness.n8plusus.com/runs/38/preview" target="_blank" rel="noopener">the clickable throwaway, still up</a></td>
+            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=117s" target="_blank" rel="noopener" class="m">video 1:57</a></td>
+          </tr>
+          <tr>
+            <th>Build</th>
+            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/12/files" target="_blank" rel="noopener">8 files, 394 lines, the project&rsquo;s own tests</a></td>
+            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=146s" target="_blank" rel="noopener" class="m">video 2:26</a></td>
+          </tr>
+          <tr>
+            <th>Ship</th>
+            <td><a href="https://pocket-stage.n8plusus.com/stats?flags-weak-spot=true" target="_blank" rel="noopener">the built feature, flag on for one browser</a></td>
+            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=174s" target="_blank" rel="noopener" class="m">video 2:54</a></td>
+          </tr>
+        </table>
+      </section>
 
-        <li>
-          <a class="t" href="https://github.com/nhunsaker/github-triage-agent-tutorial" target="_blank" rel="noopener">
-            <span class="num">04</span>
-            <span><h3>The triage tutorial</h3>
-              <span class="url">github.com/nhunsaker/github-triage-agent-tutorial</span></span>
-          </a>
-          <p class="say">An agent that triages issues, taught as chapters you complete rather than
-            read. Rough cut, public, honest about what is finished.</p>
-          <p class="also">A green run:
-            <a href="https://github.com/nhunsaker/github-triage-agent-tutorial/actions/runs/33524587364" target="_blank" rel="noopener">triage #33524587364</a></p>
-        </li>
-
-        <li>
-          <a class="t" href="https://github.com/nhunsaker/fidelity-ladder-system" target="_blank" rel="noopener">
-            <span class="num">05</span>
-            <span><h3>The engine</h3>
-              <span class="url">github.com/nhunsaker/fidelity-ladder-system</span></span>
-          </a>
-          <p class="say">MIT, and installable. The core pulls zero web dependencies, so the pattern
-            travels without the server.</p>
-          <p class="also"><code>pip install fidelity-ladder</code> —
-            <a href="https://pypi.org/project/fidelity-ladder/" target="_blank" rel="noopener">PyPI 0.9.0</a></p>
-        </li>
-      </ol>
+      <section class="proj">
+        <div class="proj-h">
+          <h2>GitHub triage agent tutorial</h2>
+          <span class="badge">rough cut, public</span>
+        </div>
+        <p class="lede2">The two-phase triage agent rebuilt on stock GitHub &mdash; Issues, Actions,
+          labels, one Python script, one ruleset &mdash; and taught as chapters you complete rather
+          than read, with the tests as the progress meter.</p>
+        <table class="links">
+          <tr>
+            <th>The repo</th>
+            <td><a href="https://github.com/nhunsaker/github-triage-agent-tutorial" target="_blank" rel="noopener">nhunsaker/github-triage-agent-tutorial</a>
+              <span class="u">github.com/nhunsaker/github-triage-agent-tutorial</span></td>
+            <td class="n">Honest about what is finished: the Copilot-seat layer is wired, not yet
+              verified on a seat.</td>
+          </tr>
+          <tr>
+            <th>A green run</th>
+            <td><a href="https://github.com/nhunsaker/github-triage-agent-tutorial/actions/runs/33524587364" target="_blank" rel="noopener">triage #33524587364</a>
+              <span class="u">Actions &middot; the agent running on the platform&rsquo;s own primitives</span></td>
+            <td class="n">Routing went 30.9% &rarr; 84.0% on the rulebook it had never seen.</td>
+          </tr>
+        </table>
+      </section>
 
       <p class="kicker">If there is time</p>
       <ul class="rest">
-        <li><a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a>
-          <span>— how it works and what it cost, with the walkthrough embedded</span></li>
-        <li><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg" target="_blank" rel="noopener">The walkthrough on YouTube</a>
-          <span>— four minutes, narrated, if screen-sharing fails</span></li>
         <li><a href="https://pocket-stage.n8plusus.com/" target="_blank" rel="noopener">What it last built</a>
           <span>— the staged app; the features are behind flags that are off</span></li>
         <li><a href="https://n8plusus.com/portfolio/">The rest of the work</a>
