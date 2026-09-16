@@ -11,7 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/portfolio/project.css?v=20260915a" />
 <style>
-  /* An index, not a case study. Everything here is a link and the sentence you say while it loads.
+  /* /demo/20260917/ — beside 20260803 and 20260909, and in the GA4 "n8plusus /demo pages" report
+     under its page_title. An index, not a case study. Everything here is a link and the sentence you say while it loads.
      The A5 Labs page (/demo/20260909/) is the other kind on purpose: that one had to carry a
      ten-year platform story to someone who had not seen it. This one opens tabs. */
   .wrap{max-width:820px}
@@ -80,7 +81,7 @@
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ',{page_title:'demo-20260917 GitHub Next index'});</script>
 </head>
 <body>
   <div class="bar"><div class="inner">
@@ -291,5 +292,22 @@
       <a href="/portfolio/">all work</a> · <a href="https://n8plusus.com">n8plusus.com</a>
     </footer>
   </div>
+  <!-- A page that is nothing but links wants to know which of them got opened. One listener, one
+       event per click: the link, its row label and the project it sits under, so the GA4 event
+       table reads like this page does. Beacon transport, or a target=_blank click can outrun the hit. -->
+  <script>
+  document.getElementById('project').addEventListener('click',function(e){
+    var a=e.target.closest('a[href]');if(!a||typeof gtag!=='function')return;
+    var tr=a.closest('tr'),th=tr&&tr.querySelector('th'),sec=a.closest('section');
+    var h2=sec&&sec.querySelector('h2');
+    gtag('event','demo_link',{
+      link_url:a.href,
+      link_text:(a.textContent||'').trim().slice(0,100),
+      link_row:th?th.textContent.trim():'',
+      link_project:h2?h2.textContent.trim():'page',
+      transport_type:'beacon'
+    });
+  });
+  </script>
 </body>
 </html>
