@@ -39,6 +39,19 @@
   .rest span{color:var(--muted)}
   .kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.07em;
     text-transform:uppercase;color:var(--muted);margin:34px 0 0}
+  /* The five steps of one run, each one openable. Named the way a visitor sees them — never the
+     ladder's internal vocabulary. The video column is the fallback when a link will not load or
+     when there is no public surface for that step, which is true of Wireframe. */
+  .steps{margin:12px 0 0 32px;border-collapse:collapse;font-size:13.5px}
+  .steps th,.steps td{text-align:left;padding:6px 18px 6px 0;border-top:1px solid var(--line);
+    vertical-align:baseline}
+  .steps tr:first-child th,.steps tr:first-child td{border-top:0}
+  .steps th{font-weight:600;color:var(--ink);white-space:nowrap}
+  .steps a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .steps a:hover{text-decoration:underline}
+  .steps .m{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted);
+    font-weight:400}
+  .steps .no{color:var(--muted);font-style:italic}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
@@ -77,20 +90,48 @@
             <a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">/build/</a>
             — or the nine-chapter narrated version:
             <a href="https://harness.n8plusus.com/walkthrough/" target="_blank" rel="noopener">/walkthrough/</a></p>
+          <table class="steps">
+            <tr>
+              <th>Request</th>
+              <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">the form a person types into</a></td>
+              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=71s" target="_blank" rel="noopener" class="m">video 1:11</a></td>
+            </tr>
+            <tr>
+              <th>Wireframe</th>
+              <td><span class="no">no public link &mdash; it lives in Figma and the signed-in workbench</span></td>
+              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=98s" target="_blank" rel="noopener" class="m">video 1:38</a></td>
+            </tr>
+            <tr>
+              <th>Preview</th>
+              <td><a href="https://harness.n8plusus.com/runs/38/preview" target="_blank" rel="noopener">the clickable throwaway, still up</a></td>
+              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=117s" target="_blank" rel="noopener" class="m">video 1:57</a></td>
+            </tr>
+            <tr>
+              <th>Build</th>
+              <td><a href="https://github.com/metatoy/fls-harness-demo/pull/12/files" target="_blank" rel="noopener">8 files, 394 lines, the project&rsquo;s own tests</a></td>
+              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=146s" target="_blank" rel="noopener" class="m">video 2:26</a></td>
+            </tr>
+            <tr>
+              <th>Ship</th>
+              <td><a href="https://pocket-stage.n8plusus.com/stats?flags-weak-spot=true" target="_blank" rel="noopener">the built feature, flag on for one browser</a></td>
+              <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=174s" target="_blank" rel="noopener" class="m">video 2:54</a></td>
+            </tr>
+          </table>
         </li>
 
         <li>
-          <a class="t" href="https://github.com/metatoy/fls-harness-demo/pull/9" target="_blank" rel="noopener">
+          <a class="t" href="https://github.com/metatoy/fls-harness-demo/pull/12" target="_blank" rel="noopener">
             <span class="num">02</span>
             <span><h3>A pull request it opened, and merged</h3>
-              <span class="url">github.com/metatoy/fls-harness-demo/pull/9</span></span>
+              <span class="url">github.com/metatoy/fls-harness-demo/pull/12</span></span>
           </a>
-          <p class="say">Merged 13 Sep. 87 lines across 4 files, the project's own tests re-run here
-            rather than taken on the agent's word. <b>It merged with its feature flag off in both
+          <p class="say">Merged 15 Sep. 394 lines across 8 files, the project's own tests re-run here
+            rather than taken on the agent's word. The body carries the spec it was built against, five
+            numbered acceptance criteria, and a table telling the reviewer what each state actually does. <b>It merged with its feature flag off in both
             environments</b> — which is the only reason an automated merge is defensible. Turning the
             flag on is a separate decision, made later, by a person, outside the system entirely.</p>
-          <p class="also">Three merged from the ladder: #5, #9, #11. (#10 is mine, by hand — the fork
-            was deploying upstream’s product.)</p>
+          <p class="also">Four merged from the ladder: #5, #9, #11, #12. (#10 is mine, by hand — the
+            fork was deploying upstream’s product.)</p>
         </li>
 
         <li>
@@ -99,11 +140,11 @@
             <span><h3>One still sitting at a gate</h3>
               <span class="url">github.com/metatoy/fls-harness-demo/pull/7</span></span>
           </a>
-          <p class="say">The half people skip. Four of these are parked waiting on a person, and they are
+          <p class="say">The half people skip. Five of these are parked waiting on a person, and they are
             parked <b>on purpose</b> — that is the system working, not the system stalling.
             Nothing here advances on optimism: a check that did not run is never reported as passed.</p>
-          <p class="also">Also open: #4, #6, #8. (#1 is older and its run died at the last rung — the seam
-            that produced it is closed now.)</p>
+          <p class="also">Also open: #1, #4, #6, #8. (#1 is the oldest and its run died at the last
+            step — the seam that produced it is closed now.)</p>
         </li>
 
         <li>
