@@ -184,9 +184,11 @@
           <h2>GitHub triage agent tutorial</h2>
           <span class="badge">rough cut, public</span>
         </div>
-        <p class="lede2">The two-phase triage agent rebuilt on stock GitHub &mdash; Issues, Actions,
-          labels, one Python script, one ruleset &mdash; and taught as chapters you complete rather
-          than read, with the tests as the progress meter.</p>
+        <p class="lede2">The two-phase triage agent rebuilt on <b>stock GitHub, for free</b> &mdash;
+          Issues, Actions, labels, one Python script, one ruleset. No servers, no training infra, no
+          bespoke stack. Taught as chapters you complete rather than read, with the test suite as the
+          progress meter: a fresh clone runs green with one skip per unwritten chapter, and the skips
+          tick down as you build.</p>
         <table class="links">
           <tr>
             <th>The repo</th>
@@ -196,10 +198,21 @@
               verified on a seat.</td>
           </tr>
           <tr>
+            <th>What it costs</th>
+            <td><span class="no">nothing, for eight of the ten layers</span></td>
+            <td class="n">Layers 0&ndash;5 and 8&ndash;9 run <b>entirely free</b> on a GitHub account:
+              the rulebook, the Actions wiring, the evidence dossiers, and the flywheel. Layer 6 wants
+              one API key and a few cents an issue; layer 7 wants a Copilot seat. <b>The LLM is layer
+              six on purpose</b> &mdash; the tutorial shows how far the deterministic half gets you
+              before anyone reaches for a model.</td>
+          </tr>
+          <tr>
             <th>A green run</th>
             <td><a href="https://github.com/nhunsaker/github-triage-agent-tutorial/actions/runs/33524587364" target="_blank" rel="noopener">triage #33524587364</a>
               <span class="u">Actions &middot; the agent running on the platform&rsquo;s own primitives</span></td>
-            <td class="n">Routing went 30.9% &rarr; 84.0% on the rulebook it had never seen.</td>
+            <td class="n">Routing starts near 30%, and layer 3 is what makes it not-30%. It walls out
+              around 80% &mdash; <b>the wall is the point</b>, and layer 8 is the flywheel that turns
+              human corrections into the rules that move it.</td>
           </tr>
         </table>
       </section>
