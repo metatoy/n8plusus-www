@@ -40,22 +40,17 @@
   .rest span{color:var(--muted)}
   .kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.07em;
     text-transform:uppercase;color:var(--muted);margin:34px 0 0}
-  /* The five steps of one run, each one openable. Named the way a visitor sees them — never the
-     ladder's internal vocabulary. The video column is the fallback when a link will not load or
-     when there is no public surface for that step, which is true of Wireframe. */
-  .steps{margin:12px 0 0 32px;border-collapse:collapse;font-size:13.5px}
-  .steps th,.steps td{text-align:left;padding:6px 18px 6px 0;border-top:1px solid var(--line);
-    vertical-align:baseline}
-  .steps tr:first-child th,.steps tr:first-child td{border-top:0}
-  .steps th{font-weight:600;color:var(--ink);white-space:nowrap}
-  .steps a{color:var(--green-ink);text-decoration:none;font-weight:600}
-  .steps a:hover{text-decoration:underline}
-  .steps .m{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted);
-    font-weight:400}
-  .steps .no{color:var(--muted);font-style:italic}
 
   /* Organised by project rather than by tab order: a project is the unit he will ask about, and
      its links belong under it instead of scattered across a numbered list. */
+  /* The three problems, above the four answers. Unnumbered on purpose: they are three faces of
+     one problem rather than a sequence, and a numbered list would claim an order that is not there. */
+  .probs{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0 26px;
+    margin:30px 0 0}
+  .prob{list-style:none;margin:13px 0 0;padding:0;display:grid;gap:13px}
+  .prob li{font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:70ch}
+  .prob b{font-weight:600;color:var(--ink)}
+
   .proj{border-top:1px solid var(--line);padding:26px 0 4px}
   .proj:first-of-type{border-top:0;padding-top:10px}
   .proj-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
@@ -77,7 +72,6 @@
   /* The link column needs a floor or the monospace URLs break mid-word. */
   .links td:first-of-type{min-width:246px}
   .links .n{color:var(--muted)}
-  .steps{margin-left:0}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
@@ -101,10 +95,26 @@
           this page is the thing itself rather than a description of it.</p>
       </header>
 
+      <div class="probs">
+        <p class="kicker" style="margin-top:0">What I was trying to solve</p>
+        <ul class="prob">
+          <li><b>More ideas than judgment.</b> AI made exploring ten directions cheap and choosing
+            between them no easier. The problem is not generating more, it is finding the right one
+            and growing confidence in it a step at a time &mdash; instead of discovering at the pull
+            request that the whole thing was pointed the wrong way.</li>
+          <li><b>One funnel, for people and for agents.</b> Both need somewhere to put an idea, and it
+            has to be grounded in what the company, the team and the project already said they were
+            for. Ungrounded, the cheapest thing to produce is work nobody asked for.</li>
+          <li><b>A known price and a predictable floor.</b> Every step should cost a knowable amount
+            and return work of a quality you can plan around. Output that is sometimes excellent,
+            sometimes wrong, and never the same price is not something a team can build on.</li>
+        </ul>
+      </div>
+
       <section class="proj">
         <div class="proj-h">
           <h2>Fidelity Ladder System</h2>
-          <span class="badge">the lead bet, running</span>
+          <span class="badge">featured demo, live</span>
         </div>
         <p class="lede2">A sentence typed into a web page becomes a written spec, then drawings in a
           real Figma file, then something clickable, then real code, then a flagged pull request.
@@ -113,71 +123,37 @@
 
         <table class="links">
           <tr>
-            <th>Running</th>
+            <th>Build</th>
             <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">The visitor door</a>
               <span class="u">harness.n8plusus.com/build/</span></td>
             <td class="n">Type a change and watch it climb. The operator console is behind a sign-in.</td>
           </tr>
           <tr>
-            <th>Merged</th>
-            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/12" target="_blank" rel="noopener">Pull request #12</a>
-              <span class="u">fls-harness-demo/pull/12</span></td>
-            <td class="n">394 lines, 8 files, 15 Sep. The body carries the spec, five acceptance
-              criteria, and a table saying merging releases nothing. <b>It merged with its flag off in
-              both environments</b> &mdash; the only reason an automated merge is defensible. Four have
-              merged: #5, #9, #11, #12.</td>
+            <th>Finished</th>
+            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/26" target="_blank" rel="noopener">Pull request #26</a>
+              <span class="u">fls-harness-demo/pull/26</span></td>
+            <td class="n">336 lines, 6 files, 16 Sep, written as <b>three commits a reviewer can read
+              in order</b> rather than one wall of diff. The body carries the spec, the acceptance
+              criteria, and a table saying merging releases nothing. <b>The ladder took it as far as it
+              goes on its own</b> &mdash; the merge is a person&rsquo;s decision and nobody has made it.
+              Four others have merged: #5, #9, #11, #12.</td>
           </tr>
           <tr>
-            <th>Parked</th>
-            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/7" target="_blank" rel="noopener">Pull request #7</a>
-              <span class="u">fls-harness-demo/pull/7</span></td>
-            <td class="n">The half people skip. Five are waiting on a person, <b>on purpose</b>. Also
-              open: #1, #4, #6, #8.</td>
-          </tr>
-          <tr>
-            <th>The engine</th>
+            <th>Code</th>
             <td><a href="https://github.com/nhunsaker/fidelity-ladder-system" target="_blank" rel="noopener">nhunsaker/fidelity-ladder-system</a>
               <span class="u">MIT &middot; <a href="https://pypi.org/project/fidelity-ladder/" target="_blank" rel="noopener">pip install fidelity-ladder</a></span></td>
             <td class="n">The core pulls zero web dependencies, so the pattern travels without the
               server. The README opens with the four-minute walkthrough.</td>
           </tr>
           <tr>
-            <th>If sharing dies</th>
+            <th>Presentation</th>
             <td><a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a>
               <span class="u">n8plusus.com/portfolio/fidelity-ladder.html</span></td>
-            <td class="n">The same run as a 15-step carousel, plus the architecture of the box it runs
-              on. Or the <a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg" target="_blank" rel="noopener">narrated walkthrough</a>, four minutes.</td>
+            <td class="n">The same run as a 15-step carousel, the operator console as a second one,
+              plus the architecture of the box it runs on. Or the <a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg" target="_blank" rel="noopener">narrated walkthrough</a>, four minutes.</td>
           </tr>
         </table>
 
-        <p class="kicker" style="margin-top:26px">One run, step by step</p>
-        <table class="steps">
-          <tr>
-            <th>Request</th>
-            <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">the form a person types into</a></td>
-            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=71s" target="_blank" rel="noopener" class="m">video 1:11</a></td>
-          </tr>
-          <tr>
-            <th>Wireframe</th>
-            <td><span class="no">no public link &mdash; it lives in Figma and the signed-in workbench</span></td>
-            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=98s" target="_blank" rel="noopener" class="m">video 1:38</a></td>
-          </tr>
-          <tr>
-            <th>Preview</th>
-            <td><a href="https://harness.n8plusus.com/runs/38/preview" target="_blank" rel="noopener">the clickable throwaway, still up</a></td>
-            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=117s" target="_blank" rel="noopener" class="m">video 1:57</a></td>
-          </tr>
-          <tr>
-            <th>Build</th>
-            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/12/files" target="_blank" rel="noopener">8 files, 394 lines, the project&rsquo;s own tests</a></td>
-            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=146s" target="_blank" rel="noopener" class="m">video 2:26</a></td>
-          </tr>
-          <tr>
-            <th>Ship</th>
-            <td><a href="https://pocket-stage.n8plusus.com/stats?flags-weak-spot=true" target="_blank" rel="noopener">the built feature, flag on for one browser</a></td>
-            <td><a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg&amp;t=174s" target="_blank" rel="noopener" class="m">video 2:54</a></td>
-          </tr>
-        </table>
       </section>
 
       <section class="proj">
