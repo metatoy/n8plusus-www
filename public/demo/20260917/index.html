@@ -59,6 +59,41 @@
   .bank li:last-child{margin-bottom:0}
   .bank li::marker{color:var(--green-ink)}
   .bank b{font-weight:600;color:var(--ink)}
+  /* The read-more under an idea: a report, folded. The summary is the only thing that renders until
+     opened, so the list stays a list. Inside, headings step down two levels so the page's own
+     hierarchy is not disturbed, and every table scrolls in its own box. */
+  .more{margin:10px 0 2px}
+  .more summary{cursor:pointer;font-weight:600;color:var(--green-ink);font-size:13.5px;list-style:none;
+    display:inline-flex;align-items:center;gap:7px}
+  .more summary::-webkit-details-marker{display:none}
+  .more summary::before{content:"";width:0;height:0;border-left:6px solid var(--green-ink);
+    border-top:5px solid transparent;border-bottom:5px solid transparent;transition:transform .15s}
+  .more[open] summary::before{transform:rotate(90deg)}
+  .more summary:focus-visible{outline:2px solid #8dc63f;outline-offset:3px;border-radius:3px}
+  .report{margin:12px 0 4px;padding:16px 18px 6px;background:#fbfaf6;border:1px solid var(--line);border-radius:10px;
+    font-size:13.5px;line-height:1.6;color:#3f3a34}
+  .rep-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 6px}
+  .rep-title{font-size:17px;font-weight:700;color:var(--ink);line-height:1.3;margin:0 0 6px}
+  .report h4{font-size:15px;font-weight:700;color:var(--ink);margin:22px 0 6px;line-height:1.3}
+  .report h5{font-size:13.5px;font-weight:600;color:var(--ink);margin:16px 0 4px}
+  .report p{margin:0 0 10px;max-width:72ch}
+  .report ul,.report ol{margin:0 0 10px;padding-left:20px;max-width:72ch}
+  .report li{margin:0 0 5px} .report li::marker{color:var(--green-ink)}
+  .report strong{font-weight:600;color:var(--ink)}
+  .report code{font-family:"JetBrains Mono",monospace;font-size:12px;background:#f0ece1;padding:1px 4px;border-radius:3px}
+  .report pre{font-family:"JetBrains Mono",monospace;font-size:12px;line-height:1.5;background:#231f20;color:#f1efe8;
+    padding:12px 14px;border-radius:8px;overflow-x:auto;margin:0 0 12px}
+  .report pre code{background:none;padding:0;color:inherit}
+  .report .tw{overflow-x:auto;margin:0 0 12px}
+  .report table{border-collapse:collapse;width:100%;font-size:12.5px}
+  .report th,.report td{text-align:left;padding:6px 12px 6px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.45}
+  .report thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);font-weight:500;border-top:0;padding-top:0}
+  .report hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+  .report a{color:var(--green-ink);text-decoration:none;overflow-wrap:anywhere} .report a:hover{text-decoration:underline}
+  .bank .why{display:block;margin-top:5px;font-size:13.5px;line-height:1.55;color:var(--muted)}
+  .bank .why i{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-ink);margin-right:4px}
   .solve{margin:12px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
   .solve th,.solve td{text-align:left;padding:10px 18px 11px 0;border-top:1px solid var(--line);
     vertical-align:top;line-height:1.55}
@@ -333,23 +368,594 @@
       <h3 class="sub"><span aria-hidden="true">💡</span> Idea bank</h3>
       <p class="bank-lede">Open questions, none of them built. The ones I would want to work on next.</p>
       <ul class="bank">
-        <li><b>Adoption at the moment of need.</b> Inside a running system, can an agent notice a
-          practice or a piece of business value that already exists elsewhere in the company, and
-          offer it at the point where someone is most likely to take it?</li>
-        <li><b>A co-pilot that learns the person.</b> People think, work and write code differently.
-          Can an assistant learn one person&rsquo;s way of working well enough to strengthen it, and
-          fill the gaps where it is thin &mdash; rather than pulling everyone toward the same average?</li>
-        <li><b>The diagram, in motion.</b> System diagrams work, and some people learn by watching
-          rather than reading. Can an agent build a cheap animation that explains a system &mdash; the
-          same walkthrough as the diagram, played rather than read?</li>
-        <li><b>Workflows that keep learning.</b> A workflow is set up once and left alone. Can it be
-          tuned from its own history at setup, and keep improving as the system around it changes?</li>
         <li><b>Picture the result before building it.</b> Change a token from white to blue today and
           nothing warns you that a button with a black background just lost its contrast &mdash; the
           agent has to build the project, boot a headless browser, take a screenshot and read it. Can
-          it flag that before any of that happens?</li>
+          it flag that before any of that happens?
+          <span class="why"><i>Why it is worth researching.</i> Every agent verifies by building and looking, and
+          since June every one of those cycles is metered. Catching the failure before the build is a cost
+          lever and a trust lever at once &mdash; and the design-token layer is where the answer already
+          lives.</span>
+          <details class="more">
+            <summary>Read the findings report</summary>
+            <div class="report">
+              <p class="rep-eyebrow">Agentic report &middot; 16 Sep 2026, &sect;11 added 17 Sep &middot; written by an agent from the question above, to be read without the originating chat</p>
+              <p class="rep-title">Code Simulation: Can agents predict rendered-output impact without building and rendering?</p>
+<p><strong>Findings report.</strong> Date: 2026-09-16. Scope: client-side HTML, CSS, and (as a boundary case) client-side scripting.
+Self-contained: written to be read without the originating chat.</p>
+<hr>
+<h4>1. The question, as it evolved</h4>
+<ol>
+<li><strong>Specific.</strong> If a design token changes from white to blue, can an agent say "there is a button with a black
+   background, and blue text on it would be hard to read" <em>before</em> building the project, booting headless Chrome,
+   screenshotting, and analyzing the image?</li>
+<li><strong>General.</strong> A human engineer remembers how the code looks when rendered and imagines how a change would look.
+   How do we give agents that faculty in a generalized way, scoped to client-side HTML, CSS, and scripting?</li>
+<li><strong>Resources.</strong> For an average website, if an agent reviewed the codebase and the rendered output, what would it
+   cost to train so it could model the impact of HTML and CSS changes? Assume a two-tier design: an expensive
+   offline process using larger models (WebDreamer, Beyond DOM, MobileDreamer class) that produces a cheap, fast
+   LLM response for the everyday case.</li>
+</ol>
+<h4>2. Findings in brief</h4>
+<ul>
+<li><strong>The human faculty is not simulation.</strong> A senior engineer does not render the app in their head. They hold a
+  memory of rendered scenes, a sparse causal index from code to appearance, a cheap local imagination applied to a
+  remembered patch, and calibrated doubt about when to go look. Replicating the faculty means replicating those
+  four things, not pixel-level mental rendering.</li>
+<li><strong>The LLM already has the local imagination.</strong> It knows blue on black is low contrast. What it lacks is grounding:
+  a memory of <em>this</em> app and an index linking <em>this</em> variable to <em>that</em> button. Fix memory and index, and most of
+  the imagination is already present.</li>
+<li><strong>The render is cheap; the loop is expensive.</strong> Chrome lays out a page in tens of milliseconds. The cost that
+  hurts is rebuild, boot, screenshot, and a vision model reading a picture back into facts that were available as
+  data. The fix is to render once per commit, capture <em>structurally</em>, and answer every later question from the
+  capture.</li>
+<li><strong>For HTML and CSS only, training is optional.</strong> The browser is a free, exact oracle, so ground truth costs
+  nothing to generate. The one training investment that clearly pays is a small interpretation model that reads
+  a compact scene description plus computed deltas and speaks like a designer. A general "render-delta" model is
+  justified only for never-rendered code, no-browser environments, or design-search loops evaluating thousands of
+  candidates per second.</li>
+<li><strong>Nobody ships this.</strong> Closest shipped thing is Chromatic TurboSnap (selects which stories to re-render; still
+  render-based; cannot say what will go wrong). Closest research is WebDreamer (LLM as world model for web
+  <em>actions</em>), Beyond DOM (layout relations predicted from source without rendering), and MobileDreamer (next GUI
+  state prediction). None predicts the visual consequence of a style change from data before rendering.</li>
+<li><strong>Excluding client-side scripting is the single biggest cost saver.</strong> With no runtime state to explore, the
+  world is deterministic and fully enumerable per state set. The state-transition world model (MobileDreamer class)
+  drops out entirely and returns the day JavaScript is added to scope.</li>
+</ul>
+<h4>3. What the human actually does</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Faculty</th>
+<th>What it is</th>
+<th>How it formed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Episodic scene memory</td>
+<td>Compressed, semantic, hierarchical: "dark header, white cards on gray, black primary button with white text"</td>
+<td>Looking at the running app many times</td>
+</tr>
+<tr>
+<td>Causal index (code to appearance)</td>
+<td>Sparse graph: "button text comes from that variable through the primary class"</td>
+<td>Reading code, and mostly changing things and watching what moved</td>
+</tr>
+<tr>
+<td>Local imagination</td>
+<td>Propagate the change through the index to a remembered patch, then apply a learned predicate: "blue on black, hard to read"</td>
+<td>Innate visual priors plus experience</td>
+</tr>
+<tr>
+<td>Calibrated doubt</td>
+<td>Knows which memories are stale; goes and looks when stakes or uncertainty are high; every look updates memory</td>
+<td>Being burned</td>
+</tr>
+</tbody>
+</table></div>
+<p>Humans are bad at predicting the layout of a page they have never seen from its CSS. The advantage is memory of
+having seen it, plus knowing what matters.</p>
+<h4>4. What the LLM is missing (and what it is not missing)</h4>
+<p>Missing:</p>
+<ol>
+<li><strong>Persistent visual memory of the app.</strong> Each session starts blind. Screenshots are consumed as tokens and
+   forgotten across context boundaries. The agent has never "lived with" the app.</li>
+<li><strong>A code-to-appearance index.</strong> It can grep for consumers on demand, but that is slow and incomplete: cascade,
+   inheritance, runtime class toggling, JS-computed styles.</li>
+<li><strong>Calibrated uncertainty about visual state.</strong> It will confidently assert what a page looks like from code and be
+   wrong.</li>
+<li><strong>Cheap access to the render.</strong> The only way to look is the full loop.</li>
+</ol>
+<p>Not missing: the visual-semantic priors. Given a correct, compact description of the current scene, the model's
+existing judgment ("blue on black is low contrast", "40 characters wrap in a 200 pixel column", "radius larger
+than half the height becomes a pill") is usable. Research on LLMs predicting program execution (CRUXEval and
+similar) shows they are mediocre at simulating execution; rendering is execution. The conclusion is: do not have
+the model simulate, give it tools and memory.</p>
+<h4>5. General architecture for client-side web</h4>
+<p>Five faculties. Each is buildable today.</p>
+<h5>5.1 Structured scene memory, captured as a side effect of every real render</h5>
+<ul>
+<li>Not pixels. The DOM with computed styles and boxes, per route and per state (viewport, theme, hover, focus,
+  data fixtures). Chrome DevTools Protocol <code>DOMSnapshot.captureSnapshot</code> returns the whole document's DOM, computed
+  styles, and layout in one call. Playwright exposes the accessibility tree the same way.</li>
+<li>Stored on disk keyed by commit, invalidated by build. Alongside it, an LLM-written <strong>semantic summary</strong> per page,
+  hierarchical like human memory, small enough to sit in context. Keep both: the full snapshot for computation,
+  the summary for reasoning and retrieval.</li>
+<li><strong>Every screenshot an e2e suite already takes is a wasted capture.</strong> Save the structured snapshot next to it and
+  the memory builds itself for free.</li>
+</ul>
+<h5>5.2 Dependency graph from source to rendered property</h5>
+<ul>
+<li><strong>Static layer:</strong> which rules reference which custom properties; which selectors matched which nodes (from the
+  capture); which component produced which DOM (source maps, React fiber, data attributes); which modules import
+  which (bundler graph, as TurboSnap uses).</li>
+<li><strong>Dynamic layer:</strong> which props and state toggle which classes or inline styles. Learned by <strong>perturbation</strong>,
+  exactly how humans learn it: change an input in the loaded page, diff the capture, record the edge.</li>
+<li>Mental model: the rendered page is a spreadsheet where every visual property is a cell with a formula over code.
+  Change an input cell, recompute dependents.</li>
+</ul>
+<h5>5.3 Tiered oracle for the effect of a change</h5>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Handles</th>
+<th>Mechanism</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Algebraic</td>
+<td>color, opacity, border, shadow, font-weight</td>
+<td>substitution into the provenance graph; predicates are formulas (WCAG and APCA contrast, visibility, border contrast)</td>
+<td>milliseconds, no browser</td>
+</tr>
+<tr>
+<td>B. Partial layout</td>
+<td>spacing, size, font-size, copy changes</td>
+<td>re-run layout on the affected subtree with a fast engine (Yoga, Taffy) using font metrics cached from the capture or read from font files</td>
+<td>milliseconds to tens of ms</td>
+</tr>
+<tr>
+<td>C. Slice render</td>
+<td>images, canvas, complex composition</td>
+<td>keep one browser warm against the dev server; render only the affected route or story; cost is a reload, not a boot</td>
+<td>hundreds of ms</td>
+</tr>
+<tr>
+<td>D. Perceptual judgment</td>
+<td>"looks cluttered", "hierarchy is off"</td>
+<td>vision model on a <strong>crop</strong> of the affected region, never the whole page</td>
+<td>one small vision call</td>
+</tr>
+</tbody>
+</table></div>
+<p>The LLM never emulates a browser. It picks the tier, reads findings, and interprets. Color tokens never move
+layout, so a stale snapshot is fully valid for tier A. Some geometry is still predictable from the snapshot
+without layout: radius beyond half the element height clamps to a pill; text width scales near-linearly with
+font size, so overflow is estimable.</p>
+<h5>5.4 Calibrated confidence and a look policy</h5>
+<ul>
+<li>Every finding carries how it was computed: <strong>exact</strong> (tier A), <strong>estimated</strong> (tier B), or <strong>guessed</strong> (model
+  prior).</li>
+<li>Every scene carries staleness: commit distance, and whether the changed files are in the graph.</li>
+<li>Policy: verify by real render when confidence is low and stakes are high (shipping); skip when confidence is
+  high and the agent is exploring.</li>
+</ul>
+<h5>5.5 Learning from disagreement</h5>
+<p>When a real render contradicts a prediction, the graph is missing an edge. Record it. The model of the specific
+app gets denser over time, which is what a long-tenured engineer has that a new hire does not.</p>
+<h5>5.6 The analogy that makes the design obvious</h5>
+<p>A type checker does not run the program to find type errors, and it does not imagine running it either. It keeps
+a symbolic model and checks constraints. A contrast check is a type check for color tokens. It can be pushed to a
+<strong>token type system</strong>: declare pairings (text-on-inverse belongs on surface-inverse, the way Material's
+"on-primary" convention works) and check a proposed change against declared pairs before any snapshot exists.</p>
+<h4>6. Prior art, placed honestly</h4>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Work</th>
+<th>What it does</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chromatic TurboSnap</strong></td>
+<td>Git history plus bundler dependency graph selects which Storybook stories to re-snapshot</td>
+<td>Closest shipped thing. Selection, not prediction. Their monorepo guidance admits a shared theme file flags everything.</td>
+</tr>
+<tr>
+<td><strong>"Token-aware visual regression"</strong> (2026 design-systems writing)</td>
+<td>Test suites know which components use which tokens and re-validate only those</td>
+<td>Still selective re-rendering. Does not say what will go wrong.</td>
+</tr>
+<tr>
+<td><strong>stylelint-color-contrast</strong> and stylelint issue #786</td>
+<td>Static CSS contrast lint</td>
+<td>Only works when color and background sit in the same rule. Dead end for composed UIs; the core issue closed on that limitation.</td>
+</tr>
+<tr>
+<td><strong>WebDreamer</strong> (OSU, TMLR 2025)</td>
+<td>LLM as world model: imagine the outcome of a web <em>action</em> in natural language, then act. Trained Dreamer-7B matches GPT-4o on the task</td>
+<td>The method (imagine, then verify) and the evidence that a narrow world model can be small. Targets navigation, not appearance.</td>
+</tr>
+<tr>
+<td><strong>Beyond DOM</strong> (AI journal, Sept 2025)</td>
+<td>Neural model predicts eight spatial relationships between element pairs from HTML and CSS source alone, no rendering</td>
+<td>Direct render prediction from code, at coarse resolution. Fallback for never-rendered code.</td>
+</tr>
+<tr>
+<td><strong>MobileDreamer</strong> (2026)</td>
+<td>Generative sketch world model predicting next GUI state for mobile agents</td>
+<td>The state-transition tier. Out of scope while scripting is excluded.</td>
+</tr>
+<tr>
+<td><strong>Design2Code, VisRefiner, UICopilot, ArtifactsBench</strong></td>
+<td>Screenshot-to-code and generative UI benchmarks</td>
+<td>Opposite direction. Not render prediction.</td>
+</tr>
+<tr>
+<td><strong>Figma-side plugins (Stark, etc.)</strong></td>
+<td>Contrast checks inside the design file</td>
+<td>Design-time, not the running app.</td>
+</tr>
+<tr>
+<td><strong>GameNGen, Genie</strong></td>
+<td>Neural game engines</td>
+<td>Prove neural renderers can be learned; nobody replaces an existing fast deterministic engine with one.</td>
+</tr>
+<tr>
+<td><strong>Lightpanda</strong></td>
+<td>Headless browser without a renderer</td>
+<td>Faster boot for DOM and JS; cannot answer visual questions.</td>
+</tr>
+<tr>
+<td><strong>Stylo, Taffy, Yoga</strong></td>
+<td>Servo's style engine as a crate; Rust and C++ flex/grid engines</td>
+<td>Cascade and layout outside Chrome for tier B.</td>
+</tr>
+</tbody>
+</table></div>
+<p>The gap: "predict the consequence of a style change in the real app, from data, before rendering." No one found
+is working on it in that form.</p>
+<h4>7. Resource estimates</h4>
+<p><strong>Assumed average site:</strong> mid-size marketing site or app. About 100 routes or stories, a couple thousand DOM nodes
+per page, a few hundred CSS custom properties, 8 state variants (two viewports, two themes, two interaction
+states). All figures below are order-of-magnitude estimates, not quotes.</p>
+<h5>7.1 Per-site learning (retrieval, not weights)</h5>
+<p>The agent's review of the rendered output builds scene memory. Its review of the code builds the provenance
+index. Neither needs a gradient update.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Mechanism</th>
+<th>Cost for the assumed site</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capture</td>
+<td>Warm headless Chrome; one CDP document snapshot per route and state: DOM, computed styles, boxes, matched rules</td>
+<td>800 snapshots; under 10 minutes with 4 browser instances</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Structured JSON, gzipped</td>
+<td>Roughly 200 MB per commit</td>
+</tr>
+<tr>
+<td>Index</td>
+<td>Variable to rule to node to component to route, plus the reverse; effective background composited through ancestors</td>
+<td>Seconds to minutes of CPU</td>
+</tr>
+<tr>
+<td>Semantic summaries</td>
+<td>Frontier model writes a short hierarchical description per page from the serialized scene</td>
+<td>About 1M input tokens, once per commit</td>
+</tr>
+<tr>
+<td>Perturbation edges</td>
+<td>Mutate a variable in the loaded page, re-read computed styles, record what moved</td>
+<td>100K samples in under an hour on 8 instances</td>
+</tr>
+</tbody>
+</table></div>
+<p>Whole pass: under an hour and a few tens of dollars per commit, incremental afterward because only changed routes
+need recapture.</p>
+<h5>7.2 The fast tier: what the small model reads</h5>
+<p>Never feed the fast model HTML and CSS source; resolving source to appearance is the browser's job. It gets a
+<strong>scene card</strong> for the affected region plus the oracle's computed deltas:</p>
+<pre><code>region: pricing/hero/cta-button   theme: dark   viewport: 390
+role: button   box: 160x44   text: &quot;Start free&quot;
+text-color:  #FFFFFF  &lt;- --btn-primary-fg &lt;- --color-fg
+background:  #000000  effective, own fill  &lt;- --surface-inverse
+font: 16px / 600
+contrast: 21.0  AA pass
+
+proposed: --color-fg  #FFFFFF -&gt; #1E40AF
+oracle:   contrast 21.0 -&gt; 2.4   AA fail   affects 3 regions
+</code></pre>
+<p>The model turns that into: "the primary button's text goes blue on black and drops well below AA; the same
+happens on the dark footer links." Input about a thousand tokens. A self-hosted 3B model on one consumer GPU
+answers in under a second; a hosted small model costs a fraction of a cent. The oracle did the imagining; the
+model interprets and prioritizes.</p>
+<h5>7.3 If you train: three options, ranked</h5>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What it buys</th>
+<th>Data</th>
+<th>Compute</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Interpretation fine-tune</strong> of a 1 to 3B model</td>
+<td>Reliable, consistent, designer-voiced findings from oracle output; runs locally</td>
+<td>10 to 50K examples generated by a frontier model from real oracle output</td>
+<td>Single GPU, hours; low hundreds of dollars</td>
+<td>Do this first, if anything</td>
+</tr>
+<tr>
+<td><strong>General render-delta model</strong>, distilled across sites</td>
+<td>Predicts structured deltas for never-rendered code, without a browser, or at thousands of evaluations per second</td>
+<td>5 to 20M perturbation samples across 2 to 10K sites; formula labels (contrast, overflow, occlusion, tap size, visibility) are free; perceptual labels from a vision model on a 200K-crop subset</td>
+<td>Data generation: hundreds of dollars. Labels: low thousands. A 3B full fine-tune or 7B LoRA on an 8-GPU node: low-to-mid thousands per run, several runs</td>
+<td>Justified only for design-search loops or no-browser environments</td>
+</tr>
+<tr>
+<td><strong>Per-site fine-tune</strong></td>
+<td>The site "in the weights", no context needed</td>
+<td>This site's perturbation samples</td>
+<td>Cheap per run</td>
+<td>Not worth it: weights go stale every commit; retrieval is fresh at capture time</td>
+</tr>
+</tbody>
+</table></div>
+<p>Dominant cost in the second option is engineering, not GPUs: the capture harness, the state matrix, the
+serialization format, and the eval suite are a small team for a few months. Training compute is a rounding error
+next to that.</p>
+<h5>7.4 Where the three named models fit in the two-tier design</h5>
+<ul>
+<li><strong>WebDreamer</strong> contributes the method (imagine in language, then verify) and the evidence that the fast tier can
+  be a small fine-tune. Its architecture is the template for the <em>fast</em> tier, not the expensive one.</li>
+<li><strong>Beyond DOM</strong> is the template for the never-rendered case. In practice a warm browser rendering a fragment in a
+  few hundred milliseconds usually beats it; it wins only when a browser is unavailable or throughput must be
+  extreme.</li>
+<li><strong>MobileDreamer</strong> drops out once scripting is excluded. It is the expensive tier the day JavaScript enters scope.</li>
+<li>The actual role of an expensive frontier model offline is <strong>labeling perception</strong>: writing scene summaries and
+  judging crops for qualities that have no formula. Formulas label everything else for free.</li>
+</ul>
+<h4>8. Where training genuinely pays</h4>
+<ol>
+<li><strong>Design-search loops.</strong> An agent doing beam search over thousands of style variants wants a millisecond
+   predictor, not a hundred-millisecond render.</li>
+<li><strong>No-browser environments.</strong> Edge, offline, or restricted sandboxes.</li>
+<li><strong>Perceptual judgment.</strong> "Looks cluttered", "hierarchy is off": no formula exists, so a learned judge is the only
+   option.</li>
+<li><strong>State transitions</strong> once scripting is in scope: predicting what the page looks like after the user opens the
+   menu, without executing the app.</li>
+</ol>
+<h4>9. What stays hard</h4>
+<ul>
+<li><strong>JavaScript state</strong> is the hardest of the three domains. Every state cannot be captured. Humans cope by
+  remembering representative states; agents need state catalogs (stories, routes, fixtures) and harnesses to reach
+  them. This is where the world model eventually matters.</li>
+<li><strong>Provenance through JavaScript.</strong> Dynamic class strings, CSS-in-JS, styles computed from props blur the
+  code-to-style edge. Perturbation learning helps. Build-time-static systems (Tailwind, vanilla-extract, StyleX,
+  Panda) make styles knowable statically, which means those codebases are literally more imaginable. Nobody is
+  making that argument yet.</li>
+<li><strong>Text measurement outside a browser</strong> needs real font metrics: cache from captures, or read font files
+  (opentype.js class tooling).</li>
+<li><strong>Cross-browser.</strong> The snapshot is Chromium. Safari and Firefox differences remain a residual for real rendering.</li>
+<li><strong>Perception beyond formulas.</strong> Contrast, overflow, tap-target size, and z-order occlusion are computable.
+  Aesthetics need a model on a crop.</li>
+</ul>
+<h4>10. Recommendation</h4>
+<p>Build the capture, index, and oracle with <strong>no training</strong> and a hosted small model reading scene cards. That
+delivers the blue-on-black case exactly, fast, and cheap, per site, in about a week of work. Log every query and
+every verification disagreement. After a few thousand real queries the interpretation fine-tune dataset exists for
+free, and the disagreement log shows whether the never-rendered case is common enough to justify the distilled
+render-delta model. Expectation: it is not, because tokens change far more often than the components that
+consume them.</p>
+<p>One-sentence version: give the agent a visual REPL whose outputs are stored structurally, indexed by code, and
+never thrown away, and the imagination problem mostly dissolves into a retrieval problem. That memory layer is the
+general product, and it does not exist as a standalone thing.</p>
+<h4>11. If GitHub shipped it: what to charge, and where the value lands</h4>
+<p>Added 2026-09-17. Prices are as listed on that date and move; every figure is order-of-magnitude.</p>
+<p>This would not be a product. It is a <em>check</em> inside two things GitHub already sells: Copilot code review, which
+since 1 June 2026 is metered in AI Credits (1 credit = $0.01, token-priced at API rates) plus GitHub Actions
+minutes, and Agentic Workflows, which are read-only by default and take exactly the shape of a check. The capture
+in §5.1 is a side effect of CI that GitHub already runs for the customer.</p>
+<h5>11.1 Cost to serve, per pull request that touches UI</h5>
+<p>Using the §7 figures for the assumed site (about 100 routes, 8 state variants), recapturing only what the diff touches.</p>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Mechanism</th>
+<th>Cost per check</th>
+<th>Who pays today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capture</td>
+<td>Warm Chrome inside the Actions job; one CDP snapshot per touched route and state, typically 1 to 10 routes</td>
+<td>1 to 3 Actions minutes, $0.01 to $0.03 at the $0.008 Linux minute</td>
+<td>Customer, as minutes</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Structured snapshot, gzipped, about 2 MB per route-state; keep the last N commits</td>
+<td>Negligible at N = 20; retention is the only cost that grows</td>
+<td>GitHub or customer</td>
+</tr>
+<tr>
+<td>Oracle, tiers A and B</td>
+<td>Contrast, visibility, border, partial layout: formulas and a fast layout engine, no model</td>
+<td>Milliseconds of CPU, effectively zero</td>
+<td>GitHub</td>
+</tr>
+<tr>
+<td>Interpretation</td>
+<td>Small model reads a scene card of about a thousand tokens</td>
+<td>A fraction of a cent, under 1 credit</td>
+<td>Customer, as credits</td>
+</tr>
+<tr>
+<td>Perceptual judgment, tier D</td>
+<td>Vision model on a crop, only when asked</td>
+<td>1 to 5 credits</td>
+<td>Customer, as credits</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: roughly <strong>$0.02 to $0.10 per check</strong>, most of it Actions minutes the customer is already paying. The loop it
+replaces, rebuild, boot, full-page screenshot, vision read, costs about 3 to 8 minutes plus 5 to 20 credits,
+<strong>$0.10 to $0.30 per verification</strong>, and an agent repeats it per iteration. The check is cheaper than one turn of
+the thing it prevents.</p>
+<h5>11.2 What to charge: three shapes</h5>
+<div class="tw"><table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>Price</th>
+<th>Precedent</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Metered in credits</strong></td>
+<td>1 to 5 credits ($0.01 to $0.05) per check; Actions minutes billed as now</td>
+<td>Copilot code review since June 2026: credits plus minutes</td>
+<td>The default. Fits the billing model; margin is fine because tiers A and B cost nothing to run</td>
+</tr>
+<tr>
+<td><strong>B. Bundled into Business and Enterprise</strong></td>
+<td>No marginal charge; part of code review</td>
+<td>Completions and Next Edit Suggestions, kept free on every paid plan as the on-ramp</td>
+<td>Right for adoption. The check is cheap to serve and its value to GitHub is retention and differentiation, not revenue</td>
+</tr>
+<tr>
+<td><strong>C. Standalone per-capture add-on</strong></td>
+<td>$0.002 to $0.008 per capture, or tiers around $150 to $650 a month</td>
+<td>Chromatic: Starter $149 for 35K snapshots, Pro $649 for 165K, overage $0.008; volume deals $0.002 to $0.004</td>
+<td>Only if sold on its own. GitHub does not need to: the capture is a CI side effect, and Chromatic is selection, not prediction</td>
+</tr>
+</tbody>
+</table></div>
+<p>Recommendation: <strong>B for the structural check, A for the perceptual tier, and let Actions bill the capture.</strong> Worked
+example, a 200-developer organisation on Enterprise: about 2,000 pull requests a month, a fifth touching UI, so
+400 checks. That is $4 to $20 in credits and about $10 in minutes, against $7,800 a month in seats at $39. It is
+not a line item. It is a reason the seats renew.</p>
+<h5>11.3 Where the value lands</h5>
+<p>For the customer:</p>
+<ul>
+<li><strong>It replaces a loop that now costs money every time.</strong> A structural answer in milliseconds instead of $0.10 to
+  $0.30 and several minutes per verification, repeated per agent iteration. Under usage-based billing the saving is
+  on the invoice, not in a slide.</li>
+<li><strong>It catches the class of defect that otherwise reaches review or production.</strong> Contrast, overflow, tap-target
+  size, occlusion: computable, therefore exact, therefore never a false alarm of the "looks off" kind. Accessibility
+  is compliance; the European Accessibility Act has applied since June 2025, and the enterprise buyer that pays for
+  FedRAMP and data residency pays for this.</li>
+<li><strong>A finding in words, not a picture to interpret.</strong> "Primary button text drops from 21:1 to 2.4:1 on the dark
+  theme, three regions" is something a reviewer acts on; a screenshot is something a reviewer studies. It is the
+  reviewability that agent-authored pull requests need and mostly lack.</li>
+</ul>
+<p>For GitHub:</p>
+<ul>
+<li><strong>The data moat.</strong> The capture happens where the app is already built: in Actions. Neither Cursor nor Claude
+  Code owns the customer's CI. A structured scene memory per commit is data only the CI provider collects as a
+  side effect, which is Appendix A's argument at platform scale.</li>
+<li><strong>Its own margin.</strong> Agents verifying by screenshot are among the most expensive loops on the platform: vision
+  tokens and minutes, per iteration. A structural oracle answers most questions with no model call at all. Under
+  usage billing that is cost GitHub does not incur and credits the customer does not burn, which is what a
+  "near-term margin headwind" needs.</li>
+<li><strong>It fits the trust model.</strong> It is a check, not a write. It drops into Agentic Workflows without touching the
+  read-only-by-default, allowlisted-writes posture.</li>
+<li><strong>Scale.</strong> 43 million pull requests merge a month. If a tenth touch UI in a repository with CI, that is four
+  million checks a month of a kind no competitor can run, each one making Copilot code review say something the
+  others cannot.</li>
+</ul>
+<h5>11.4 What it would take</h5>
+<p>The capture step as a first-party Action; a snapshot store keyed by commit; the provenance index of §5.2; the tier
+A and B oracle; the scene-card interpreter as a Copilot model. As §7.3 says, the compute is a rounding error and
+the engineering is the cost: a small team for a couple of quarters. The first shippable slice, tier A only, colour
+tokens and contrast, is a few weeks, because the browser is the free oracle and colour never moves layout.</p>
+<h4>Appendix A. Sorb tie-in (studio-specific; skip for the general argument)</h4>
+<ul>
+<li><code>sorb-seed/src/capture.js</code> already walks a Storybook story root with <code>getComputedStyle</code> and
+  <code>getBoundingClientRect</code>, recording background fills, text color, font size, weight, radius, shadow, flex layout,
+  and geometry per node. Missing for this use: effective background composited through transparent ancestors, and
+  token provenance per property. Both are additions to that walker, not new infrastructure.</li>
+<li>Existing spec hooks: <code>spec/sorb/ideas.md</code> lists a "no-apply blast-radius what-if simulator" as a Verify check and
+  a Wave-2 contrast fixer; <code>spec/sorb/ai-feature-set-strategy.md</code> lists an "AI a11y / contrast fixer" verified
+  against live values; <code>spec/sorb/plugin-paid-features-brainstorm.md</code> lists WCAG contrast on semantic pairs.</li>
+<li>Product shape: the designer changes a token in Figma and, before pushing a preview, Canopy reports "text on the
+  primary button drops from 21:1 to 2.4:1 on the dark surface, fails AA" with the affected components listed. The
+  agent gets the same JSON. First feature that makes the bridge predictive rather than a mirror; the snapshot is
+  data only Sorb has because only Sorb captured the real app.</li>
+</ul>
+<h4>Sources</h4>
+<ul>
+<li>WebDreamer: <a href="https://arxiv.org/abs/2411.06559" target="_blank" rel="noopener">https://arxiv.org/abs/2411.06559</a> and <a href="https://github.com/OSU-NLP-Group/WebDreamer" target="_blank" rel="noopener">https://github.com/OSU-NLP-Group/WebDreamer</a></li>
+<li>World-model-augmented web agents with action correction (2026 follow-up): <a href="https://arxiv.org/pdf/2602.15384" target="_blank" rel="noopener">https://arxiv.org/pdf/2602.15384</a></li>
+<li>Beyond DOM, layout structure from source without rendering: <a href="https://doi.org/10.3390/ai6090228" target="_blank" rel="noopener">https://doi.org/10.3390/ai6090228</a></li>
+<li>MobileDreamer, generative sketch world model for GUI agents: <a href="https://arxiv.org/pdf/2601.04035" target="_blank" rel="noopener">https://arxiv.org/pdf/2601.04035</a></li>
+<li>Chromatic TurboSnap: <a href="https://www.chromatic.com/docs/turbosnap/" target="_blank" rel="noopener">https://www.chromatic.com/docs/turbosnap/</a> and <a href="https://www.chromatic.com/docs/turbosnap-for-monorepos/" target="_blank" rel="noopener">https://www.chromatic.com/docs/turbosnap-for-monorepos/</a></li>
+<li>stylelint-color-contrast: <a href="https://github.com/1000ch/stylelint-color-contrast" target="_blank" rel="noopener">https://github.com/1000ch/stylelint-color-contrast</a></li>
+<li>stylelint contrast rule proposal and its limitation: <a href="https://github.com/stylelint/stylelint/issues/786" target="_blank" rel="noopener">https://github.com/stylelint/stylelint/issues/786</a></li>
+<li>Design token architecture 2026 (token-aware regression framing): <a href="https://timgraf.com/ui/design-token-architecture-2026-the-strategic-blueprint-for-scalable-design-systems/" target="_blank" rel="noopener">https://timgraf.com/ui/design-token-architecture-2026-the-strategic-blueprint-for-scalable-design-systems/</a></li>
+<li>Design2Code benchmark: <a href="https://www.emergentmind.com/topics/design2code-benchmark" target="_blank" rel="noopener">https://www.emergentmind.com/topics/design2code-benchmark</a></li>
+<li>Multimodal LLMs for code survey (VisRefiner, UICopilot, ArtifactsBench): <a href="https://github.com/xjywhu/Awesome-Multimodal-LLM-for-Code" target="_blank" rel="noopener">https://github.com/xjywhu/Awesome-Multimodal-LLM-for-Code</a></li>
+<li>GitHub Copilot usage-based billing, 1 June 2026 (1 AI Credit = $0.01; code review draws Actions minutes): <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank" rel="noopener">https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/</a></li>
+<li>GitHub Copilot plans and pricing: <a href="https://github.com/features/copilot/plans" target="_blank" rel="noopener">https://github.com/features/copilot/plans</a></li>
+<li>Chromatic plans and overage pricing (via Argos comparison): <a href="https://argos-ci.com/blog/visual-testing-pricing" target="_blank" rel="noopener">https://argos-ci.com/blog/visual-testing-pricing</a></li>
+</ul>
+<h4>Caveats</h4>
+<ul>
+<li>All cost and time figures are order-of-magnitude engineering estimates made on 2026-09-16, not measured runs
+  and not vendor quotes. GPU-hour and API prices move; recompute before budgeting.</li>
+<li>Prior-art coverage is from web searches on the same date plus the author's knowledge. Absence of evidence that
+  someone ships this is not proof; a focused patent and startup scan would be the next step before betting on it.</li>
+</ul>
+            </div>
+          </details>
+        </li>
         <li><b>Accessibility as a workflow, not an audit.</b> Can it be checked as the work is made,
-          so the web gets easier to use as a side effect of building it?</li>
+          so the web gets easier to use as a side effect of building it?
+          <span class="why"><i>Why it is worth researching.</i> Agents now generate interface at a scale no audit
+          can follow, and the buyers who pay for FedRAMP and data residency pay for accessibility too
+          &mdash; it is compliance, not polish. A read-only workflow that checks each change as it lands is
+          the shape GitHub&rsquo;s own Agentic Workflows already take.</span></li>
+        <li><b>Workflows that keep learning.</b> A workflow is set up once and left alone. Can it be
+          tuned from its own history at setup, and keep improving as the system around it changes?
+          <span class="why"><i>Why it is worth researching.</i> Actions runs about a billion minutes a week and
+          almost every workflow is written once and never revisited. One that reads its own run history
+          &mdash; cost, latency, what failed &mdash; and proposes its next version is the missing feedback
+          loop; the correction flywheel in the triage tutorial is the measured start.</span></li>
+        <li><b>Adoption at the moment of need.</b> Inside a running system, can an agent notice a
+          practice or a piece of business value that already exists elsewhere in the company, and
+          offer it at the point where someone is most likely to take it?
+          <span class="why"><i>Why it is worth researching.</i> Four in five new developers take Copilot in their
+          first week because it is offered where they already are. The same mechanic can carry a
+          team&rsquo;s practices and hard-won fixes to the person about to need them &mdash; the delivery
+          system is the product.</span></li>
+        <li><b>The diagram, in motion.</b> System diagrams work, and some people learn by watching
+          rather than reading. Can an agent build a cheap animation that explains a system &mdash; the
+          same walkthrough as the diagram, played rather than read?
+          <span class="why"><i>Why it is worth researching.</i> Thirty-six million developers joined GitHub last
+          year, and most of the code they will touch was written by someone else. Understanding a system
+          you did not write is the bottleneck agents make worse, and an explanation you can watch is
+          cheaper to make than it has ever been.</span></li>
       </ul>
 
     </main>
