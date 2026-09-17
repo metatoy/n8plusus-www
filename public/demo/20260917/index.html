@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="robots" content="noindex,nofollow,noarchive" />
 <title>GitHub Next · 17 Sep 2026 — demo index — Nathan O'Brien</title>
-<meta name="description" content="Jumping-off links for the GitHub Next conversation: the live harness, the pull requests it opened, the tutorial, and the engine." />
+<meta name="description" content="Four projects and the links that open them: the live harness, the pull requests it opened, the tutorial, and the engine." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -43,16 +43,34 @@
 
   /* Organised by project rather than by tab order: a project is the unit he will ask about, and
      its links belong under it instead of scattered across a numbered list. */
-  /* Why the ladder exists, sat between what it is and what to open — the order a person says it
-     out loud. Unnumbered on purpose: three faces of one problem, not a sequence, and numbering
-     would claim an order that is not there. */
-  /* Real markers, so `display:grid` is out: a grid item is not a list item and Safari and Firefox
-     both drop its ::marker. Block list, margin between items instead of a gap. */
-  .prob{list-style:disc;margin:11px 0 0;padding:0 0 0 21px}
-  .prob li{font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:66ch;margin:0 0 12px}
-  .prob li:last-child{margin-bottom:0}
-  .prob li::marker{color:var(--green-ink)}
-  .prob b{font-weight:600;color:var(--ink)}
+  /* Why the ladder exists: each problem beside the mechanism that answers it. A list said only
+     what was wrong and left the reader to find the answer in the lede; the second column is the
+     answer, and it names something on the screens above so it can be checked. Row headers, not
+     cells, so a screen reader announces the problem before its answer. */
+  /* A real sub-heading, not an eyebrow: the table under it is the argument of the section, and a
+     11px mono label was the quietest thing on the page sitting above the loudest. */
+  .sub{margin:32px 0 0;font-size:17px;font-weight:700;line-height:1.25;color:var(--ink);
+    letter-spacing:-.005em}
+  /* The idea bank: questions, so they read as questions — a bold handle to scan by, then the
+     open question in full. Disc markers in the page's green, same as every checkable fact. */
+  .bank-lede{margin:8px 0 0;font-size:14px;line-height:1.55;color:var(--muted);max-width:66ch}
+  .bank{list-style:disc;margin:14px 0 0;padding:0 0 0 21px}
+  .bank li{font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:66ch;margin:0 0 12px}
+  .bank li:last-child{margin-bottom:0}
+  .bank li::marker{color:var(--green-ink)}
+  .bank b{font-weight:600;color:var(--ink)}
+  .solve{margin:12px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
+  .solve th,.solve td{text-align:left;padding:10px 18px 11px 0;border-top:1px solid var(--line);
+    vertical-align:top;line-height:1.55}
+  .solve thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);font-weight:500;border-top:0;padding:0 18px 8px 0}
+  .solve tbody th{font-weight:400;color:#3f3a34;width:47%}
+  .solve td{color:#3f3a34;padding-right:0}
+  .solve b{font-weight:600;color:var(--ink)}
+  /* The measured line under each answer. Mono and green like every other checkable fact on the
+     page (.u, .meta-line), so it reads as a number rather than as more prose. */
+  .solve .ev{display:block;margin-top:8px;font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    line-height:1.55;color:var(--green-ink)}
 
   /* Each project opens on a band of --band, the same stripe the portfolio pages put behind a
      breakout figure. It replaces the hairline that used to divide the sections: on a page that is
@@ -95,7 +113,7 @@
   <div class="wrap">
     <main id="project">
       <header class="phead">
-        <span class="private">Private · for a conversation on 17 Sep 2026</span>
+        <span class="private">Prepared for GitHub Next · 17 Sep 2026</span>
         <p class="mono meta-line">GitHub Next · demo index</p>
         <h1>Four projects, and the links that open them</h1>
         <p class="lede">A framework where AI-built work earns autonomy through gated fidelity rungs.
@@ -114,26 +132,20 @@
           <b>A person decides every step that cannot be taken back.</b> The vessel is a poker app that
           really exists.</p>
 
-        <p class="kicker">What I was trying to solve</p>
-        <ul class="prob">
-          <li><b>More ideas than judgment.</b> AI made exploring ten directions cheap and choosing
-            between them no easier. The problem is not generating more, it is finding the right one
-            and growing confidence in it a step at a time &mdash; instead of discovering at the pull
-            request that the whole thing was pointed the wrong way.</li>
-          <li><b>One funnel, for people and for agents.</b> Both need somewhere to put an idea, and it
-            has to be grounded in what the company, the team and the project already said they were
-            for. Ungrounded, the cheapest thing to produce is work nobody asked for.</li>
-          <li><b>A known price and a predictable floor.</b> Every step should cost a knowable amount
-            and return work of a quality you can plan around. Output that is sometimes excellent,
-            sometimes wrong, and never the same price is not something a team can build on.</li>
-        </ul>
-
         <table class="links">
           <tr>
             <th>Build</th>
             <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">The visitor door</a>
               <span class="u">harness.n8plusus.com/build/</span></td>
-            <td class="n">Type a change and watch it climb. The operator console is behind a sign-in.</td>
+            <td class="n">Type a change and watch it climb. No account &mdash; a name and the shared passcode.</td>
+          </tr>
+          <tr>
+            <th>Preview</th>
+            <td><a href="https://pocket-stage.n8plusus.com/game/rail" target="_blank" rel="noopener">What it last built</a>
+              <span class="u">pocket-stage.n8plusus.com/game/rail</span></td>
+            <td class="n">The staged app &mdash; the poker table the ladder builds against, with every
+              built feature behind a flag that is off. A merge changes this site; it does not change
+              what a player sees until a person flips the flag.</td>
           </tr>
           <tr>
             <th>Finished</th>
@@ -153,12 +165,64 @@
               server. The README opens with the four-minute walkthrough.</td>
           </tr>
           <tr>
+            <th>Settings</th>
+            <td><a href="https://harness.n8plusus.com/workbench/" target="_blank" rel="noopener">The operator console</a>
+              <span class="u">harness.n8plusus.com/workbench/</span></td>
+            <td class="n">Behind a sign-in; the nine screens in the case study&rsquo;s second carousel
+              show what is behind it. The decisions waiting on a person, every run and what it
+              produced, and the policy they are all judged against, read live from one file. <b>The one screen that can change that file opens a pull
+              request</b> &mdash; nothing here is poked live.</td>
+          </tr>
+          <tr>
             <th>Presentation</th>
             <td><a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a>
               <span class="u">n8plusus.com/portfolio/fidelity-ladder.html</span></td>
             <td class="n">The same run as a 15-step carousel, the operator console as a second one,
               plus the architecture of the box it runs on. Or the <a href="https://www.youtube.com/watch?v=pOtpyE2U8Dg" target="_blank" rel="noopener">narrated walkthrough</a>, four minutes.</td>
           </tr>
+        </table>
+
+        <h3 class="sub">What I was trying to solve</h3>
+        <table class="solve">
+          <thead>
+            <tr><th scope="col">The problem</th><th scope="col">What the ladder does about it</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><b>More ideas than judgment.</b> AI made exploring ten directions cheap and
+                choosing between them no easier. The failure mode is discovering at the pull request
+                that the whole thing was pointed the wrong way.</th>
+              <td><b>The rungs.</b> Work climbs spec &rarr; drawings &rarr; a clickable throwaway &rarr;
+                code. Each step is a cheaper place to be wrong than the next, and a person judges the
+                direction at every one before the next is paid for.
+                <span class="ev">13 of 14 wrong directions caught at or before the step where they were
+                knowable &middot; false-advance 7&ndash;14% across five clean runs, 27 seeds, 3 vessels
+                &middot; false-catch 7.7%, so good work is left alone</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><b>One funnel, for people and for agents.</b> Both need somewhere to put an
+                idea, and it has to be grounded in what the company, the team and the project already
+                said they were for. Ungrounded, the cheapest thing to produce is work nobody asked
+                for.</th>
+              <td><b>The ANCHOR and its gate.</b> One file says what this is for. Every idea is
+                admitted against it &mdash; typed by a person or proposed by the feeder, same gate
+                &mdash; and its constraints only tighten as they cascade down to a vessel and a run.
+                <span class="ev">18 ideas through one door in a night &middot; 12 pull requests opened
+                &middot; 0 merged by the system &middot; $105.97 of a $250 cap</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><b>A known price and a predictable floor.</b> Output that is sometimes
+                excellent, sometimes wrong, and never the same price is not something a team can
+                build on.</th>
+              <td><b>A cost on every step.</b> Each shows what it spent, a ceiling parks the work
+                visibly instead of creeping, and a verifier re-runs the tests rather than taking the
+                agent&rsquo;s word. The rate at which a wrong direction slips past a gate is measured
+                and published with its bounds.
+                <span class="ev">$7.23 from typed sentence to merged pull request, 8 files (#12)
+                &middot; 18 runs at under $6 each &middot; ceiling $36 a run, and it parks rather than
+                creeps</span></td>
+            </tr>
+          </tbody>
         </table>
 
       </section>
@@ -204,7 +268,7 @@
       <section class="proj">
         <div class="proj-h">
           <h2>The Nudge</h2>
-          <span class="badge" style="color:#8a5a00;border-color:#dcc088">told, not shown</span>
+          <span class="badge" style="color:#8a5a00;border-color:#dcc088">concept, not public</span>
         </div>
         <p class="lede2">A read-only agent that offered a turnkey pattern at the moment an editor was
           most likely to take it: <b>detect &rarr; recommend &rarr; draft the wiring &rarr; validate over
@@ -219,11 +283,11 @@
               that held it back &mdash; which was the right call.</td>
           </tr>
           <tr>
-            <th>No demo</th>
+            <th>Not public</th>
             <td><span class="no">nothing to open, on purpose</span></td>
-            <td class="n">The original is BuzzFeed&rsquo;s &mdash; its code, routes and ticket. It gets
-              described with my hands, never put on a screen. The triage tutorial above is the
-              provenance-neutral rebuild of the neighbouring agent, which is why that one can be opened.</td>
+            <td class="n">The original is BuzzFeed&rsquo;s &mdash; its code, routes and ticket stay
+              theirs, so there is nothing here to open. The triage tutorial above is the
+              provenance-neutral rebuild of the neighbouring agent, which is why that one can be.</td>
           </tr>
         </table>
       </section>
@@ -231,11 +295,11 @@
       <section class="proj">
         <div class="proj-h">
           <h2>Sorb</h2>
-          <span class="badge" style="color:#6f6b62;border-color:#cdc7b8">reserve &mdash; if the design seam comes up</span>
+          <span class="badge" style="color:#6f6b62;border-color:#cdc7b8">design system manager &middot; live</span>
         </div>
         <p class="lede2">A Figma-to-React token bridge: a designer&rsquo;s change previews live in the
-          running app before anything merges. Evidence for the same seam the ladder works on, one layer
-          lower down. Not a pitch.</p>
+          running app before anything merges. The same seam the ladder works on, one layer lower
+          down &mdash; here as evidence of the pattern rather than as a pitch.</p>
         <table class="links">
           <tr>
             <th>Try it</th>
@@ -259,17 +323,35 @@
         </table>
       </section>
 
-      <p class="kicker">If there is time</p>
+      <p class="kicker">Also worth opening</p>
       <ul class="rest">
-        <li><a href="https://pocket-stage.n8plusus.com/" target="_blank" rel="noopener">What it last built</a>
-          <span>— the staged app; the features are behind flags that are off</span></li>
         <li><a href="https://n8plusus.com/portfolio/">The rest of the work</a>
           <span>— design systems, publishing platforms, a shipped iOS game</span></li>
         <li><a href="https://n8plusus.com/resume/resume.pdf">Résumé (PDF)</a></li>
       </ul>
 
-      <p class="soon-note mono" style="margin-top:34px">Nothing on this page is staged. Every link
-        goes to the running thing, and the pull requests were opened by the system, not by me.</p>
+      <h3 class="sub"><span aria-hidden="true">💡</span> Idea bank</h3>
+      <p class="bank-lede">Open questions, none of them built. The ones I would want to work on next.</p>
+      <ul class="bank">
+        <li><b>Adoption at the moment of need.</b> Inside a running system, can an agent notice a
+          practice or a piece of business value that already exists elsewhere in the company, and
+          offer it at the point where someone is most likely to take it?</li>
+        <li><b>A co-pilot that learns the person.</b> People think, work and write code differently.
+          Can an assistant learn one person&rsquo;s way of working well enough to strengthen it, and
+          fill the gaps where it is thin &mdash; rather than pulling everyone toward the same average?</li>
+        <li><b>The diagram, in motion.</b> System diagrams work, and some people learn by watching
+          rather than reading. Can an agent build a cheap animation that explains a system &mdash; the
+          same walkthrough as the diagram, played rather than read?</li>
+        <li><b>Workflows that keep learning.</b> A workflow is set up once and left alone. Can it be
+          tuned from its own history at setup, and keep improving as the system around it changes?</li>
+        <li><b>Picture the result before building it.</b> Change a token from white to blue today and
+          nothing warns you that a button with a black background just lost its contrast &mdash; the
+          agent has to build the project, boot a headless browser, take a screenshot and read it. Can
+          it flag that before any of that happens?</li>
+        <li><b>Accessibility as a workflow, not an audit.</b> Can it be checked as the work is made,
+          so the web gets easier to use as a side effect of building it?</li>
+      </ul>
+
     </main>
     <footer>
       <a href="/portfolio/">all work</a> · <a href="https://n8plusus.com">n8plusus.com</a>
