@@ -133,6 +133,64 @@
   /* The link column needs a floor or the monospace URLs break mid-word. */
   .links td:first-of-type{min-width:246px}
   .links .n{color:var(--muted)}
+
+  /* ── Phone ───────────────────────────────────────────────────────────────────────────────────
+     Everything below is inside the query: the desktop page is byte-identical to what it was.
+     The page is four link tables and two argument tables, and a three-column table in a 346px
+     box is a column of one-word ribbons — measured at 390px, the page overflowed by 95px. So
+     every table stops being a table here and becomes stacked blocks, with the column headings
+     re-attached to each cell as labels so a stacked row still says which half you are reading. */
+  @media (max-width:640px){
+    .wrap{padding-left:18px;padding-right:18px}
+    .phead h1{font-size:27px;line-height:1.15}
+    .lede{font-size:16px}
+
+    /* the project band keeps its bleed, narrowed to the smaller gutter */
+    .proj-h{padding:10px 12px;margin:0 -12px 2px;gap:8px}
+    .proj h2{font-size:19px}
+    .proj .badge{font-size:10px;padding:2px 8px}
+
+    /* link tables → stacked blocks: label, then the link, then the note */
+    .links,.links tbody,.links tr,.links th,.links td{display:block;width:auto}
+    .links tr{border-top:1px solid var(--line);padding:13px 0 3px}
+    .links tr:first-child{border-top:0;padding-top:4px}
+    .links th,.links td{border-top:0;padding:0 0 7px;white-space:normal}
+    .links th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+      text-transform:uppercase;color:var(--muted);font-weight:500;padding-bottom:5px}
+    .links td:first-of-type{min-width:0}
+    .links td:last-child{padding-bottom:2px}
+    /* 24px minimum target, which is what AA asks of a link that is not inside a sentence */
+    .links td:first-of-type a{display:inline-block;padding:4px 0}
+    .links .u{margin-top:1px}
+
+    /* problem → answer: stacked, each half labelled, the answer marked as the reply */
+    .solve,.solve tbody,.solve tr,.solve th,.solve td{display:block;width:auto}
+    .solve thead{display:none}
+    .solve tr{border-top:1px solid var(--line);padding:14px 0 2px}
+    .solve tr:first-child{border-top:0}
+    .solve tbody th,.solve td{border-top:0;padding:0;text-align:left}
+    /* `.solve tbody th` (0,1,2) outranks the group selector above, so the 47% desktop column
+       width survives into the stack unless it is beaten at its own specificity. */
+    .solve tbody th{width:auto;margin:0 0 11px}
+    .solve td{border-left:2px solid #cfe0a8;padding-left:12px}
+    .solve tbody th::before,.solve td::before{display:block;margin:0 0 3px;
+      font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.09em;
+      text-transform:uppercase;color:var(--muted);font-weight:500}
+    .solve tbody th::before{content:"The problem"}
+    .solve td::before{content:"What the ladder does about it";color:var(--green-ink)}
+    .solve .ev{font-size:11px;line-height:1.5}
+
+    /* the folded report: narrower padding, and its own tables stay scrollable */
+    .report{padding:14px 14px 4px}
+    .report p,.report ul,.report ol{max-width:none}
+    .report table{font-size:12px}
+    .report pre{font-size:11px;padding:10px 12px}
+    .rep-title{font-size:16px}
+    .more summary{padding:4px 0}
+
+    .bank li,.prob li{max-width:none}
+    .rest li{font-size:13.5px}
+  }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
