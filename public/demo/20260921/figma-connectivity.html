@@ -151,7 +151,42 @@
     <ul>
       <li>A file in the repo, per component, that says which Figma component it is and how its props map. The CLI publishes the mapping to Figma. Dev Mode and the MCP server then show real code for a frame instead of a guess.</li>
       <li>Supports React, SwiftUI, Compose and HTML style targets. For a Cocos runtime the same idea applies through a custom mapping in the pack, since Code Connect will not know the engine.</li>
-      <li><b>Why it matters here:</b> it is the mechanism behind the diagram's line "a frame names a component that exists." Without it, the contract is a document. With it, the contract is a lookup.</li>
+      <li><b>Why it matters here:</b> it is the published way to get the diagram's line "a frame names a component that exists." It is not the only way. The sample reaches the same lookup from component keys alone, which needs no publish and no Code Connect files, so the sample does not use it. See the next section.</li>
+      <li><b>What it buys over a key map:</b> a designer sees real code in Dev Mode, and prop level mapping rather than component level. What it costs is a file per component in the repo and a CLI publish step that can go stale against the code beside it.</li>
+    </ul>
+  </section>
+
+  <!-- Libraries -->
+  <section>
+    <div class="bh"><h2>Libraries, and whether the sample is one</h2><span class="one">It is not, and the reason it does not need to be is the load-bearing fact.</span> <span class="chip r">read</span></div>
+    <ul>
+      <li><b>The sample file is not a published library.</b> Asked directly, Figma reports zero
+        published components, zero published component sets and zero published styles. It is one
+        file with local components in it, and nothing in it is instanced from anywhere else: every
+        component reports <code>remote: false</code>.</li>
+      <li><b>What is actually in there:</b> thirty one local components across eight variant sets,
+        which are Button, Badge, Input, Tabs, Toast, Stat, Meter and RecordRow, plus the standalone
+        ones. Zero local styles. Colour and spacing come from variables rather than from the older
+        style mechanism.</li>
+      <li><b>A component has a stable key whether or not it is published.</b> This is the fact the
+        whole pipeline rests on. The key is the component's identity across files and versions, and
+        it exists the moment the component does. So a frame can resolve to a real code component
+        with no library, no publish step, and no paid seat to do the publishing.</li>
+      <li><b>Which endpoint you read decides whether you see that.</b> <code>/v1/files/:key</code>
+        returns every local component with its key. <code>/v1/files/:key/components</code> returns
+        only <i>published</i> ones, and on an unpublished file it returns an empty list and a 200,
+        which looks exactly like a file with no components in it. Reading the wrong one is a silent
+        failure, not an error.</li>
+      <li><b>What publishing would buy:</b> reuse of the components in other files, update
+        notifications to files that subscribe, library analytics, and a nicer Dev Mode story
+        alongside Code Connect. None of that changes what the pipeline can do.</li>
+      <li><b>What it costs:</b> a publish step somebody has to remember, a plan that permits
+        publishing, and a second place where the truth can go stale. The sample is one file, so it
+        buys nothing and pays all of it.</li>
+      <li><b>Where the answer flips:</b> a real system spanning many brands or many product files
+        <i>should</i> publish, because cross-file reuse is the entire point of a library and is the
+        thing the sample does not need. The architecture does not change when you do. The key map
+        is read the same way, from the same endpoint, and keeps working.</li>
     </ul>
   </section>
 
@@ -186,6 +221,7 @@
       <li><b>Webhooks are hints.</b> Delayed, sometimes batched, occasionally missed. Verify the passcode, dedupe on version id, read the real state with REST, and keep a poll on the version endpoint.</li>
       <li><b>File-scoped hooks or nothing.</b> A team-scoped hook on a hundred designers is a firehose with no filter.</li>
       <li><b>Rate limits are per token and per plan.</b> Cache the tree by version id. Re-read on events, not on a timer.</li>
+      <li><b>An unpublished library looks like an empty one.</b> <code>/v1/files/:key/components</code> lists only published components, so on a file that was never published it returns an empty list with a 200. Read <code>/v1/files/:key</code> instead, where every local component appears with its key. The wrong endpoint fails silently and looks like a file with nothing in it.</li>
       <li><b>Tokens are secrets.</b> A personal access token reads every file its owner can see. The agent's token lives in the server's secret store, never in the worktree the agent runs in, which is the diagram's "no secrets" line.</li>
     </ul>
   </section>
