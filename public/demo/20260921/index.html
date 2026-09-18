@@ -30,10 +30,6 @@
   .rest span{color:var(--muted)}
   .kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.07em;
     text-transform:uppercase;color:var(--muted);margin:34px 0 0}
-  /* A real sub-heading, not an eyebrow: the table under it is the argument of the section, and a
-     11px mono label was the quietest thing on the page sitting above the loudest. */
-  .sub{margin:32px 0 0;font-size:17px;font-weight:700;line-height:1.25;color:var(--ink);
-    letter-spacing:-.005em}
   /* Each project opens on a band of --band, the same stripe the portfolio pages put behind a
      breakout figure. It replaces the hairline that used to divide the sections: on a page that is
      four tables in a row, a rule is easy to scroll past and a filled header is not. The negative
@@ -185,12 +181,13 @@
         <table class="links">
           <tr>
             <th>The product</th>
-            <td><a href="https://nhunsaker.github.io/figma-design-system-sample/app/" target="_blank" rel="noopener">The running app</a>
-              <span class="u">nhunsaker.github.io/&hellip;/app/</span></td>
-            <td class="n">Start here. A player record built entirely from the pack. Open
-              <b>Drills</b>, then load the same page with <code>?weak-spot=true</code> and open
-              Drills again. A merged, deployed, switched-off feature turns on for one browser.
-              Merging is not releasing.</td>
+            <td><a href="https://nhunsaker.github.io/figma-design-system-sample/app/?weak-spot=true" target="_blank" rel="noopener">The running app</a>
+              <span class="u">nhunsaker.github.io/&hellip;/app/?weak-spot=true</span></td>
+            <td class="n">Start here. A player record built entirely from the pack. <b>Open the
+              Drills tab</b>, where the link above has switched a feature on for your browser and
+              nobody else&rsquo;s. Drop the <code>?weak-spot=true</code> and the card is gone, because
+              that is what everyone else sees. It is merged and deployed either way. Merging is not
+              releasing.</td>
           </tr>
           <tr>
             <th>The components</th>
@@ -226,13 +223,6 @@
               which is why a webhook has to be translated and why no API can mark a frame ready.</td>
           </tr>
         </table>
-
-        <h3 class="sub">The one thing to notice</h3>
-        <p class="lede2">Sixteen colour pairings are declared in the pack and computed from each
-          brand at build time. A brand whose palette fails one does not compile. It caught me: my
-          own border colour was 2.52 to 1 against white in both brands, and I did not find that in
-          review. <b>An illegal palette is a broken build, not an accessibility finding six months
-          later.</b></p>
       </section>
 
       <!-- ────────────────────────────────────────────────────────────────── -->
@@ -286,13 +276,6 @@
               and their caveats are written down.</td>
           </tr>
         </table>
-
-        <h3 class="sub">The number, with its caveat attached</h3>
-        <p class="lede2">About <b>ten percent</b> false-advance, seven to fourteen across five clean
-          runs, twenty seven seeds and three products. Thirteen of fourteen deliberately wrong
-          directions were caught at or before the step where they were knowable. <b>The labels were
-          a second pass by one author, not an independent co-labeller</b>, and that caveat travels
-          with the number everywhere it is quoted.</p>
       </section>
 
       <!-- ────────────────────────────────────────────────────────────────── -->
@@ -350,12 +333,6 @@
         <li><a href="https://n8plusus.com/resume/resume.pdf">Resume</a>
           <span>: two pages.</span></li>
       </ul>
-
-      <h3 class="sub">The line under all three</h3>
-      <p class="lede2">The agent is not asked to write good code. <b>It is asked to satisfy a
-        schema, and the schema is the design system.</b> Everything above is that sentence at a
-        different scope: what the schema says, how work is held to it, and how the values inside it
-        get from one place to another.</p>
 
     </main>
   </div>
