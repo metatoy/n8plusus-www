@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>The design-to-code seam &middot; 21 Sep 2026 &middot; demo index &middot; Nathan O'Brien</title>
+<meta name="description" content="Three systems that work the same seam between design and code, at three different heights: a design system that compiles, a ladder that gates an agent, and a token bridge." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portfolio/project.css?v=20260915a" />
+<style>
+  /* /demo/20260921/ - beside 20260803, 20260909 and 20260917, same grammar as the last of those:
+     a project heading, one paragraph saying what it is, then a table where every row is a link and
+     the sentence you say while it loads.
+
+     What is different here is the ordering argument. The last index was four unrelated projects.
+     These three are one idea at three heights, so they are ordered smallest-scope first and the
+     lede says why. Read top to bottom it goes: the contract, the process that runs on it, the
+     plumbing underneath. Any other order makes it a list of things I built. */
+  .wrap{max-width:820px}
+  .private{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:#8a5a00;background:#fbf1dc;border:1px solid #efd9a8;
+    border-radius:6px;padding:3px 9px;display:inline-block;margin-bottom:14px}
+  .rest{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:9px}
+  .rest li{font-size:14px;line-height:1.5}
+  .rest a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .rest a:hover{text-decoration:underline}
+  .rest span{color:var(--muted)}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--muted);margin:34px 0 0}
+  /* A real sub-heading, not an eyebrow: the table under it is the argument of the section, and a
+     11px mono label was the quietest thing on the page sitting above the loudest. */
+  .sub{margin:32px 0 0;font-size:17px;font-weight:700;line-height:1.25;color:var(--ink);
+    letter-spacing:-.005em}
+  /* Each project opens on a band of --band, the same stripe the portfolio pages put behind a
+     breakout figure. It replaces the hairline that used to divide the sections: on a page that is
+     four tables in a row, a rule is easy to scroll past and a filled header is not. The negative
+     side margin is what keeps the heading's left edge on the same line as the prose under it. */
+  .proj{padding:6px 0 4px;margin-top:32px}
+  .proj:first-of-type{margin-top:24px}
+  .proj-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;background:var(--band);
+    border-radius:8px;padding:11px 15px;margin:0 -15px 2px}
+  .proj h2{margin:0;font-size:21px;font-weight:700;line-height:1.2}
+  .proj .badge{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--green-ink);background:rgba(255,255,255,.55);
+    border:1px solid #bcd292;border-radius:999px;padding:2px 9px}
+  .proj .lede2{margin:10px 0 0;font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:66ch}
+  .proj .lede2 b{font-weight:600;color:var(--ink)}
+  .links{margin:14px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
+  .links th,.links td{text-align:left;padding:7px 18px 7px 0;border-top:1px solid var(--line);
+    vertical-align:baseline}
+  .links tr:first-child th,.links tr:first-child td{border-top:0}
+  .links th{font-weight:600;color:var(--ink);white-space:nowrap;width:1%}
+  .links a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .links a:hover{text-decoration:underline}
+  .links .u{display:block;font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    color:var(--muted);font-weight:400;margin-top:2px;overflow-wrap:anywhere}
+  /* The link column needs a floor or the monospace URLs break mid-word. */
+  .links td:first-of-type{min-width:246px}
+  .links .n{color:var(--muted)}
+  /* Guest login: rust reads as "act on this" and is distinct from the green link
+     colour. 5.79:1 on --paper, 6.66:1 on --card, 5.15:1 on --band — AA on all three. */
+  .links .cred{color:#a4380f;font-weight:700}
+  .links .cred code{font-family:"JetBrains Mono",monospace;font-size:12.5px;
+    color:inherit;font-weight:700}
+  /* ── Phone ───────────────────────────────────────────────────────────────────────────────────
+     Everything below is inside the query: the desktop page is byte-identical to what it was.
+     The page is four link tables and two argument tables, and a three-column table in a 346px
+     box is a column of one-word ribbons — measured at 390px, the page overflowed by 95px. So
+     every table stops being a table here and becomes stacked blocks, with the column headings
+     re-attached to each cell as labels so a stacked row still says which half you are reading. */
+  @media (max-width:640px){
+    .wrap{padding-left:18px;padding-right:18px}
+    .phead h1{font-size:27px;line-height:1.15}
+    .lede{font-size:16px}
+
+    /* the project band keeps its bleed, narrowed to the smaller gutter */
+    .proj-h{padding:10px 12px;margin:0 -12px 2px;gap:8px}
+    .proj h2{font-size:19px}
+    .proj .badge{font-size:10px;padding:2px 8px}
+
+    /* link tables → stacked blocks: label, then the link, then the note */
+    .links,.links tbody,.links tr,.links th,.links td{display:block;width:auto}
+    .links tr{border-top:1px solid var(--line);padding:13px 0 3px}
+    .links tr:first-child{border-top:0;padding-top:4px}
+    .links th,.links td{border-top:0;padding:0 0 7px;white-space:normal}
+    .links th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+      text-transform:uppercase;color:var(--muted);font-weight:500;padding-bottom:5px}
+    .links td:first-of-type{min-width:0}
+    .links td:last-child{padding-bottom:2px}
+    /* 24px minimum target, which is what AA asks of a link that is not inside a sentence */
+    .links td:first-of-type a{display:inline-block;padding:4px 0}
+    .links .u{margin-top:1px}
+
+    
+    /* the folded report: narrower padding, and its own tables stay scrollable */
+
+    .rest li{font-size:13.5px}
+  }
+  /* The three-height table. Not a .links table: this one is an argument rather than a set of
+     destinations, so it gets row headers and a middle column that names the mechanism. */
+  .heights{margin:16px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
+  .heights th,.heights td{text-align:left;padding:9px 16px 9px 0;border-top:1px solid var(--line);
+    vertical-align:top;line-height:1.55}
+  .heights thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);font-weight:500;border-top:0;padding-top:0}
+  .heights tbody th{font-weight:600;color:var(--ink);width:26%}
+  .heights td:last-child{color:var(--muted);padding-right:0}
+  .heights b{font-weight:600;color:var(--ink)}
+  .heights .who{color:var(--green-ink);font-weight:600}
+
+  @media (max-width:640px){
+    .heights,.heights thead,.heights tbody,.heights tr,.heights th,.heights td{display:block;width:auto}
+    .heights thead{display:none}
+    .heights tr{border-top:1px solid var(--line);padding:13px 0 4px}
+    .heights tr:first-child{border-top:0}
+    .heights tbody th,.heights td{border-top:0;padding:0 0 7px}
+    /* `.heights tbody th` is (0,1,2) and beats the 26% above, which would otherwise survive the stack. */
+    .heights tbody th{width:auto}
+    .heights td{border-left:2px solid #cfe0a8;padding-left:12px}
+  }
+</style>
+</head>
+<body>
+  <div class="bar"><div class="inner">
+    <span class="bl">
+      <a class="barhome" href="/" aria-label="N8+US home">N8+US</a>
+      <a class="barback" href="/portfolio/">&larr; all work</a>
+    </span>
+  </div></div>
+  <div class="wrap">
+    <main id="project">
+      <header class="phead">
+        <span class="private">Demo index &middot; 21 Sep 2026</span>
+        <p class="mono meta-line">Three systems, one seam</p>
+        <h1>The seam between design and code, at three heights</h1>
+        <p class="lede">These are not three projects. They are one argument made three times, at
+          different scopes, and the order below is the argument. A design system that a compiler
+          enforces. A process that lets an agent build against it and stops at a person. The
+          plumbing that carries a token from a designer&rsquo;s hands into a running app. Every link
+          opens something that is actually running.</p>
+      </header>
+
+      <table class="heights">
+        <thead>
+          <tr><th scope="col">Height</th><th scope="col">What it settles</th><th scope="col">Who it is for</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">The contract</th>
+            <td>What a component <b>is</b>, which tokens exist, and what the system refuses to
+              build. Enforced by a build that fails, not by review.</td>
+            <td><span class="who">Design systems</span>: the sample below</td>
+          </tr>
+          <tr>
+            <th scope="row">The process</th>
+            <td>How work gets from an intent to a merged pull request, and where a person has to
+              decide. Fidelity is earned stage by stage.</td>
+            <td><span class="who">Delivery</span>: the ladder</td>
+          </tr>
+          <tr>
+            <th scope="row">The plumbing</th>
+            <td>How a token actually travels: a designer changes a value and the running app takes
+              it, before anything merges.</td>
+            <td><span class="who">Tooling</span>: Sorb</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj">
+        <div class="proj-h">
+          <h2>The Figma flow</h2>
+          <span class="badge">live &middot; smallest of the three</span>
+        </div>
+        <p class="lede2">A designer marks a frame ready for development in Figma. Nobody runs
+          anything. A few minutes later there is a pull request, and a person decides.
+          <b>The interesting part is not the integration, it is the design system underneath it.</b>
+          A pack that is the agent&rsquo;s entire vocabulary, and a build that refuses a design the
+          system cannot express.</p>
+
+        <table class="links">
+          <tr>
+            <th>The product</th>
+            <td><a href="https://nhunsaker.github.io/figma-design-system-sample/app/" target="_blank" rel="noopener">The running app</a>
+              <span class="u">nhunsaker.github.io/&hellip;/app/</span></td>
+            <td class="n">Start here. A player record built entirely from the pack. Open
+              <b>Drills</b>, then load the same page with <code>?weak-spot=true</code> and open
+              Drills again. A merged, deployed, switched-off feature turns on for one browser.
+              Merging is not releasing.</td>
+          </tr>
+          <tr>
+            <th>The components</th>
+            <td><a href="https://nhunsaker.github.io/figma-design-system-sample/" target="_blank" rel="noopener">Storybook</a>
+              <span class="u">eleven components, two brands</span></td>
+            <td class="n">Two brands are two modes of one variable collection, not two collections.
+              Switch brand and nothing else changes, because there is only one set of names.</td>
+          </tr>
+          <tr>
+            <th>The design</th>
+            <td><a href="https://www.figma.com/design/IDVXk0yZaJ1CQvIZn14AkA/figma-design-system-sample?node-id=0-1" target="_blank" rel="noopener">The Figma file</a>
+              <span class="u">public &middot; five pages</span></td>
+            <td class="n">Variables for both brands as modes of one collection, and three request
+              frames built only from instances rather than drawn. <b>How this works</b> is the page
+              worth reading. The third frame asks for a chart the system does not have, on
+              purpose.</td>
+          </tr>
+          <tr>
+            <th>The contract</th>
+            <td><a href="https://github.com/nhunsaker/figma-design-system-sample" target="_blank" rel="noopener">nhunsaker/figma-design-system-sample</a>
+              <span class="u">public &middot; the whole thing</span></td>
+            <td class="n">Read <code>design-system/pack.json</code> first. Eleven components, three
+              token tiers, and six refusals, <b>five of which are machine-checked and the sixth says
+              so in the file</b>. Forty nine semantic custom properties per brand and seventy four
+              component ones. Primitives are never emitted at all, so nothing can reach past the
+              semantic layer even if it tries.</td>
+          </tr>
+          <tr>
+            <th>Reference</th>
+            <td><a href="figma-connectivity.html">What Figma&rsquo;s APIs can and cannot do</a>
+              <span class="u">the constraints this was built around</span></td>
+            <td class="n">Written before the code. It says plainly which things are impossible,
+              which is why a webhook has to be translated and why no API can mark a frame ready.</td>
+          </tr>
+        </table>
+
+        <h3 class="sub">The one thing to notice</h3>
+        <p class="lede2">Sixteen colour pairings are declared in the pack and computed from each
+          brand at build time. A brand whose palette fails one does not compile. It caught me: my
+          own border colour was 2.52 to 1 against white in both brands, and I did not find that in
+          review. <b>An illegal palette is a broken build, not an accessibility finding six months
+          later.</b></p>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj">
+        <div class="proj-h">
+          <h2>Fidelity Ladder System</h2>
+          <span class="badge">live &middot; the process around it</span>
+        </div>
+        <p class="lede2">The same seam, one level up. A sentence typed into a web page becomes a
+          written spec, then drawings in a real Figma file, then something clickable, then real
+          code, then a flagged pull request. <b>A person decides every step that cannot be taken
+          back.</b> The subject is a poker app that really exists.</p>
+
+        <table class="links">
+          <tr>
+            <th>Try it</th>
+            <td><a href="https://harness.n8plusus.com/build/" target="_blank" rel="noopener">The visitor door</a>
+              <span class="u">harness.n8plusus.com/build/</span></td>
+            <td class="n">Type a change and watch it climb. No account, just a name and the shared
+              passcode. <b class="cred">Any user name, password <code>gu3st</code>.</b></td>
+          </tr>
+          <tr>
+            <th>What it built</th>
+            <td><a href="https://pocket-stage.n8plusus.com/game/rail" target="_blank" rel="noopener">The staged app</a>
+              <span class="u">pocket-stage.n8plusus.com/game/rail</span></td>
+            <td class="n">Every built feature is behind a flag that is off. A merge changes this
+              site. It does not change what a player sees until a person flips the flag. Same rule
+              as the sample above, which is not a coincidence.</td>
+          </tr>
+          <tr>
+            <th>The evidence</th>
+            <td><a href="https://github.com/metatoy/fls-harness-demo/pull/26" target="_blank" rel="noopener">Pull request #26</a>
+              <span class="u">fls-harness-demo/pull/26</span></td>
+            <td class="n">336 lines across 6 files, written as three commits. The project&rsquo;s own
+              tests re-run against it rather than being believed.</td>
+          </tr>
+          <tr>
+            <th>The system</th>
+            <td><a href="https://github.com/nhunsaker/fidelity-ladder-system" target="_blank" rel="noopener">nhunsaker/fidelity-ladder-system</a>
+              <span class="u">the open framework &middot; also on PyPI</span></td>
+            <td class="n">The mechanisms are open. The policy and the running instance are not,
+              which is the split that keeps the framework usable by somebody whose rules differ
+              from mine.</td>
+          </tr>
+          <tr>
+            <th>The long version</th>
+            <td><a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a>
+              <span class="u">with a 15-step carousel of one run</span></td>
+            <td class="n">The fallback if a live run is not convenient, and the place the numbers
+              and their caveats are written down.</td>
+          </tr>
+        </table>
+
+        <h3 class="sub">The number, with its caveat attached</h3>
+        <p class="lede2">About <b>ten percent</b> false-advance, seven to fourteen across five clean
+          runs, twenty seven seeds and three products. Thirteen of fourteen deliberately wrong
+          directions were caught at or before the step where they were knowable. <b>The labels were
+          a second pass by one author, not an independent co-labeller</b>, and that caveat travels
+          with the number everywhere it is quoted.</p>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj">
+        <div class="proj-h">
+          <h2>Sorb</h2>
+          <span class="badge" style="color:#6f6b62;border-color:#cdc7b8">live &middot; the plumbing underneath</span>
+        </div>
+        <p class="lede2">The layer below both. A Figma-to-React token bridge: a designer&rsquo;s change
+          previews in the running app <b>before anything merges</b>. Where the sample above proves a
+          design system can be a contract, this is the machinery that carries the values across, as
+          a product rather than a demonstration.</p>
+
+        <table class="links">
+          <tr>
+            <th>Try it</th>
+            <td><a href="https://try.sorbcloud.com" target="_blank" rel="noopener">try.sorbcloud.com</a>
+              <span class="u">the guided tour, no account</span></td>
+            <td class="n">Change a token, watch the running app take it. Two minutes.</td>
+          </tr>
+          <tr>
+            <th>On npm</th>
+            <td><a href="https://www.npmjs.com/package/@sorb/leaf" target="_blank" rel="noopener">@sorb/leaf, the React SDK</a>
+              <span class="u">core 0.3.0 &middot; leaf 0.5.1 &middot; juice 0.3.0 &middot; seed 0.5.1</span></td>
+            <td class="n">Four packages, published. Tokens ride as CSS custom properties with
+              fallbacks, so a preview cannot break an app that is not listening.</td>
+          </tr>
+          <tr>
+            <th>For agents</th>
+            <td><a href="https://github.com/metatoy/sorb-tap" target="_blank" rel="noopener">metatoy/sorb-tap</a>
+              <span class="u">an MCP server for design tokens</span></td>
+            <td class="n">Point an agent at a DTCG file and it can trace a colour back through its
+              real alias chain instead of guessing. MIT, read-only by design.
+              <b>Not on npm yet.</b> The repo is the thing.</td>
+          </tr>
+          <tr>
+            <th>The long version</th>
+            <td><a href="https://n8plusus.com/portfolio/sorb.html">The case study</a>
+              <span class="u">what it is and who it is for</span></td>
+            <td class="n">Including the part where the hard problem turned out to be naming rather
+              than transport.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <p class="kicker">If there is time for one more thing</p>
+      <ul class="rest">
+        <li><a href="figma-connectivity.html">Figma connectivity reference</a>
+          <span>: what the APIs can and cannot do, written before the code was.</span></li>
+        <li><a href="https://n8plusus.com/portfolio/" >The rest of the work</a>
+          <span>: case studies rather than running systems.</span></li>
+        <li><a href="https://n8plusus.com/resume/resume.pdf">Resume</a>
+          <span>: two pages.</span></li>
+      </ul>
+
+      <h3 class="sub">The line under all three</h3>
+      <p class="lede2">The agent is not asked to write good code. <b>It is asked to satisfy a
+        schema, and the schema is the design system.</b> Everything above is that sentence at a
+        different scope: what the schema says, how work is held to it, and how the values inside it
+        get from one place to another.</p>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Figma Connectivity</title>
+<meta name="robots" content="noindex,nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--paper:#f1efe8;--ink:#231f20;--text:#2a2622;--muted:#6f6b62;--line:#e2ddcf;--band:#e7e2d5;--green:#8dc63f;--green-ink:#46701e;
+    --amber:#8a5a00;--amber-bg:#fbf1dc;--amber-line:#e6cf9a;--red:#8a2e1f;--red-bg:#f8e6e1;--red-line:#e7bfb4;--card:#fff}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#1b1a17;--ink:#f1efe8;--text:#d9d5cb;--muted:#9a958a;--line:#37342e;--band:#26241f;
+    --green-ink:#a9d45f;--amber:#e0b66a;--amber-bg:#2e2716;--amber-line:#5a4a22;--red:#e59a86;--red-bg:#30201b;--red-line:#5e3a30;--card:#222019}}
+  :root[data-theme="dark"]{--paper:#1b1a17;--ink:#f1efe8;--text:#d9d5cb;--muted:#9a958a;--line:#37342e;--band:#26241f;
+    --green-ink:#a9d45f;--amber:#e0b66a;--amber-bg:#2e2716;--amber-line:#5a4a22;--red:#e59a86;--red-bg:#30201b;--red-line:#5e3a30;--card:#222019}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:var(--green-ink);text-decoration:none}a:hover{text-decoration:underline}a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+  .wrap{max-width:900px;margin:0 auto;padding-block:36px 72px;padding-inline:22px}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);margin:0 0 10px}
+  h1{font-size:32px;line-height:1.1;margin:0 0 12px;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+  .lede{font-size:16.5px;max-width:68ch;margin:0 0 6px}.lede b{color:var(--ink);font-weight:600}
+  .note{font-size:14px;color:var(--muted);max-width:68ch;margin:0}
+  section{margin:34px 0 0}
+  .bh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;background:var(--band);border-radius:8px;padding:11px 15px;margin:0 -15px 12px}
+  .bh h2{margin:0;font-size:20px;font-weight:700;color:var(--ink)}
+  .bh .one{margin-left:auto;font-size:13px;color:var(--muted);font-style:italic;max-width:48ch}
+  p{margin:0 0 10px;max-width:70ch}p b,li b,td b{font-weight:600;color:var(--ink)}
+  ul{margin:0 0 10px;padding-left:19px;max-width:72ch}li{margin:0 0 7px}li::marker{color:var(--green-ink)}
+  code{font-family:"JetBrains Mono",monospace;font-size:12.5px;background:var(--band);padding:1px 5px;border-radius:4px;color:var(--ink)}
+  .tw{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:6px 0 12px}
+  th,td{text-align:left;padding:8px 14px 8px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.45}
+  thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:500;border-top:0;padding-top:0}
+  tbody th{font-weight:600;color:var(--ink);width:19%}
+  .chip{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:1px 7px;margin-left:4px;vertical-align:1px}
+  .r{color:var(--green-ink);border:1px solid var(--green)}.w{color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-line)}.t{color:var(--red);background:var(--red-bg);border:1px solid var(--red-line)}
+  .yes{color:var(--green-ink);font-weight:600}.no{color:var(--muted)}.part{color:var(--amber);font-weight:600}
+  .callout{border-left:3px solid var(--amber-line);background:var(--amber-bg);border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:13.5px;max-width:72ch}.callout b{color:var(--amber)}
+  .srcs{columns:2;column-gap:28px;font-size:12.5px;padding-left:18px}@media (max-width:640px){.srcs{columns:1}}
+  .srcs li{break-inside:avoid;margin:0 0 4px}
+  @media (max-width:640px){.wrap{padding-inline:18px}h1{font-size:26px}.bh{margin:0 -12px 10px;padding:10px 12px}
+    table,tbody,tr,th,td{display:block;width:auto}thead{display:none}tr{border-top:1px solid var(--line);padding:10px 0 2px}tr:first-child{border-top:0}
+    th,td{border-top:0;padding:0 0 6px}tbody th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:500}}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Reference · what Figma's APIs can and cannot do · 17 Sep 2026</p>
+    <h1>Figma Connectivity</h1>
+    <p class="lede">Every way a system can <b>read</b> from Figma, <b>write</b> into it, and be <b>triggered</b> by it, with the seat or plan each one needs. Written against the system diagram for the session, but the map is general.</p>
+    <p class="note">Chips mark what a layer can do: <span class="chip r">read</span> <span class="chip w">write</span> <span class="chip t">trigger</span>. Plan and seat notes are as of September 2026 and move. Check before you promise one in a room.</p>
+  </header>
+
+  <!-- the map -->
+  <section>
+    <div class="bh"><h2>The map</h2><span class="one">Six layers. Two of them can write. Two can wake your system up.</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Layer</th><th>Read</th><th>Write</th><th>Trigger</th><th>Runs where</th><th>Needs</th></tr></thead>
+      <tbody>
+        <tr><th>REST API</th><td class="yes">files, nodes, images, components, styles, comments, versions, variables</td><td class="part">comments, dev resources, variables, webhooks. Not nodes or frames</td><td class="no">no, it is polled</td><td>your server</td><td>a token or OAuth. Variables need Enterprise</td></tr>
+        <tr><th>Webhooks v2</th><td class="no">payload only: keys, ids, labels</td><td class="no">none</td><td class="yes">six events, including ready for dev</td><td>Figma calls your URL</td><td>a team on a paid plan. Scoped to team, project or file</td></tr>
+        <tr><th>Plugin API</th><td class="yes">the whole open document</td><td class="yes">anything: frames, variables, styles, components</td><td class="part">only while a person runs it</td><td>inside the editor, a user session</td><td>a file open in Figma. Never headless</td></tr>
+        <tr><th>MCP server</th><td class="yes">design context, screenshots, variables, Code Connect map, FigJam</td><td class="yes">frames, components, variables, diagrams, since Feb 2026</td><td class="no">none</td><td>remote at mcp.figma.com, or local in the desktop app</td><td>any seat to read. A Full seat to write</td></tr>
+        <tr><th>Code Connect</th><td class="yes">which code component a Figma component is</td><td class="part">publish the mapping from your repo</td><td class="no">none</td><td>your CI, surfaced in Dev Mode and MCP</td><td>a Dev or Full seat to see it</td></tr>
+        <tr><th>Dev Mode and apps</th><td class="yes">ready-for-dev status, dev resources, Storybook, Jira and GitHub links</td><td class="part">links and status via the apps</td><td class="part">status change fires the webhook</td><td>Figma, Jira, GitHub, Storybook</td><td>Dev or Full seat</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout"><b>The sentence for the room.</b> Read from anywhere, write only from inside a session, and let Figma tell you when to start. REST reads. The plugin and the MCP server write. Webhooks are the only thing that knocks on your door.</div>
+  </section>
+
+  <!-- in this system -->
+  <section>
+    <div class="bh"><h2>In this system</h2><span class="one">Each edge on the diagram, and the mechanism that carries it.</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Edge on the diagram</th><th>Mechanism</th><th>Why that one</th></tr></thead>
+      <tbody>
+        <tr><th>Trigger: marked ready for dev</th><td>Webhook <code>DEV_MODE_STATUS_UPDATE</code>, scoped to the file or project</td><td>The one event that means a person decided. Carries the file key and the node. Read the frame with REST or MCP on receipt.</td></tr>
+        <tr><th>Trigger: a comment</th><td>Webhook <code>FILE_COMMENT</code>, filtered for an @mention or a keyword</td><td>A comment is a command channel that designers already use. Reply with the REST comments endpoint so the thread closes where it opened.</td></tr>
+        <tr><th>Trigger: tokens changed</th><td>Webhook <code>LIBRARY_PUBLISH</code>, payload includes the changed variables</td><td>Publishing a library is the moment tokens become real. Rebuild the pack, run the contrast check, open the PR.</td></tr>
+        <tr><th>Trigger: an issue or ticket</th><td>GitHub or Jira webhook into the same API</td><td>Not Figma at all, and the system should not care. One entry point, four doors.</td></tr>
+        <tr><th>Agent reads the design</th><td>MCP <code>get_design_context</code>, <code>get_variable_defs</code>, <code>get_screenshot</code>, or REST <code>GET /files/:key/nodes</code></td><td>MCP returns design-system-aware code and the variables behind it. REST returns the raw tree, better for diffing and for anything that runs without an agent.</td></tr>
+        <tr><th>Agent writes frames</th><td>MCP <code>use_figma</code> on the remote server, or a plugin</td><td>REST cannot create a node. Writing is a session activity by design, which is the guardrail: an agent writes as a seat, in a file, visibly.</td></tr>
+        <tr><th>A frame names a component that exists</th><td>Code Connect map, published from the repo, read through MCP <code>get_code_connect_map</code></td><td>The binding the whole contract rests on. Without it the agent guesses a component name. With it, it looks one up.</td></tr>
+        <tr><th>Verify: contrast, visual</th><td>REST variables and image export, or the captured Storybook story</td><td>Colour checks need the resolved token, not the frame. Visual checks need a render, and Storybook is cheaper than Figma for that.</td></tr>
+        <tr><th>Write back: status and links</th><td>REST dev resources, the Jira and GitHub apps, a comment</td><td>The designer sees the PR link and the stage URL on the frame they marked ready. The loop closes in Figma, not in Slack.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- REST -->
+  <section>
+    <div class="bh"><h2>REST API</h2><span class="one">Read almost everything. Write a short, specific list.</span> <span class="chip r">read</span><span class="chip w">write</span></div>
+    <ul>
+      <li><b>Reads:</b> a file and its full node tree, individual nodes, rendered images of nodes at a scale you choose, published components and styles, comments, version history, projects and files in a team, local and published variables, library analytics, dev resources.</li>
+      <li><b>Writes:</b> comments and replies, dev resources (links attached to a node), webhooks, and variables. <b>Variables writes are Enterprise only</b>, and since November 2025 include extended collections: a child collection that overrides a parent's values, which is the per-brand mechanism for seventeen brands on one system.</li>
+      <li><b>Cannot:</b> create or move nodes, frames, or components. There is no "draw this" endpoint. Anything that changes the canvas goes through a plugin or the MCP server.</li>
+      <li><b>Auth:</b> a personal access token for your own account, or OAuth 2 with scopes (<code>file_content:read</code>, <code>file_comments:write</code>, <code>file_variables:read</code> and so on) when the system acts for other people. Rate limits are per token and per plan. Cache the file tree by version id and re-fetch on a webhook rather than on a timer.</li>
+      <li><b>Where it sits:</b> your server. It is the only Figma surface that runs with nobody logged in, which makes it the read path for everything automated.</li>
+    </ul>
+  </section>
+
+  <!-- Webhooks -->
+  <section>
+    <div class="bh"><h2>Webhooks v2</h2><span class="one">The only way Figma starts something in your system.</span> <span class="chip t">trigger</span></div>
+    <div class="tw"><table>
+      <thead><tr><th>Event</th><th>Fires when</th><th>What you get</th><th>Use it for</th></tr></thead>
+      <tbody>
+        <tr><th><code>DEV_MODE_STATUS_UPDATE</code></th><td>a layer's Dev Mode status changes, including marked ready for development</td><td>file key, node id, the new status</td><td>the trigger for a build</td></tr>
+        <tr><th><code>LIBRARY_PUBLISH</code></th><td>a library is published</td><td>file key, description, the variables that changed</td><td>token pipeline, pack rebuild, contrast check</td></tr>
+        <tr><th><code>FILE_COMMENT</code></th><td>a comment is added</td><td>file key, comment text, comment id, mentions</td><td>a command channel, and the reply channel</td></tr>
+        <tr><th><code>FILE_VERSION_UPDATE</code></th><td>a named version is created</td><td>file key, version id, label</td><td>a deliberate checkpoint, safer than every save</td></tr>
+        <tr><th><code>FILE_UPDATE</code></th><td>the file is saved to history</td><td>file key, filename, timestamp</td><td>invalidate a cache. Too chatty to build on</td></tr>
+        <tr><th><code>FILE_DELETE</code></th><td>a file is deleted</td><td>file key, filename</td><td>housekeeping</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>Scope:</b> a webhook is attached to a team, a project, or a single file. Project and file scope arrived in 2025 and they are the ones to use: a team-wide hook on a hundred-designer org is a firehose.</li>
+      <li><b>Verify the sender:</b> every delivery carries the passcode you set when you created the hook. Check it before you do anything, the same way you check the HMAC on a GitHub webhook.</li>
+      <li><b>Assume best effort:</b> deliveries can be delayed, batched, or missed after a burst of saves. Treat the event as a hint, dedupe by file key plus version id, and read the current state with REST before acting. Keep a polling fallback on the version endpoint for the day a hook goes quiet.</li>
+      <li><b>Needs:</b> the file has to live in a team on a paid plan, and the token that creates the hook needs the webhooks scope.</li>
+    </ul>
+  </section>
+
+  <!-- Plugin API -->
+  <section>
+    <div class="bh"><h2>Plugin API</h2><span class="one">Full read and write, but only with a person in the file.</span> <span class="chip r">read</span><span class="chip w">write</span></div>
+    <ul>
+      <li>JavaScript in a sandbox inside the editor with the whole document in reach: read any node, create frames and components, set variables and styles, bind tokens, export images. FigJam has its own node set (stickies, connectors, shapes) through the same API, and widgets for things that live on the board.</li>
+      <li><b>Network:</b> a plugin can call your server, but only hosts listed in its manifest. That is how a plugin becomes a trigger: a button in the plugin posts to your API with the selection's node ids.</li>
+      <li><b>Dev Mode plugins</b> run in the inspect panel and can generate code for the selected node, which is where a design-system-aware codegen lives if you want it inside Figma rather than in the IDE.</li>
+      <li><b>Cannot run headless.</b> No session, no plugin. Anything you need to happen with nobody in the file has to be REST for reads and the MCP server for writes.</li>
+      <li><b>Needs:</b> a file open in Figma, and an editor seat for writes. Private plugins need an org or team plan to distribute.</li>
+    </ul>
+  </section>
+
+  <!-- MCP -->
+  <section>
+    <div class="bh"><h2>MCP server</h2><span class="one">The agent's door, both directions.</span> <span class="chip r">read</span><span class="chip w">write</span></div>
+    <ul>
+      <li><b>Two servers:</b> the <b>remote</b> one at <code>mcp.figma.com</code>, reached over OAuth from any MCP client, on every seat and plan. And the <b>local</b> Dev Mode server inside the desktop app, which sees your current selection. The remote one is what a server-side agent uses.</li>
+      <li><b>Reads:</b> <code>get_design_context</code> (code plus the design-system components and variables behind a node), <code>get_screenshot</code>, <code>get_metadata</code> (the tree, cheaply), <code>get_variable_defs</code>, <code>get_code_connect_map</code>, <code>search_design_system</code>, and <code>get_figjam</code> for boards.</li>
+      <li><b>Writes, since February 2026:</b> <code>use_figma</code> runs Plugin API JavaScript against the file, so an agent can create frames, components, variables and auto layout that are real Figma structure, not pictures. <code>generate_figma_design</code> captures a web page into a frame, <code>generate_diagram</code> draws Mermaid into FigJam, <code>create_new_file</code> starts a file, and assets upload and download.</li>
+      <li><b>Needs:</b> any seat to read. <b>A Full seat to write.</b> A Dev seat is read only. Writes happen as that seat, in that file, visibly in version history, which is the audit trail you want anyway.</li>
+      <li><b>In the diagram</b> this is the MCP layer: the tools the agent calls and the surface a designer prompts through. One layer, two users.</li>
+    </ul>
+  </section>
+
+  <!-- Code Connect -->
+  <section>
+    <div class="bh"><h2>Code Connect</h2><span class="one">The binding between a Figma component and the code component.</span> <span class="chip r">read</span><span class="chip w">write</span></div>
+    <ul>
+      <li>A file in the repo, per component, that says which Figma component it is and how its props map. The CLI publishes the mapping to Figma. Dev Mode and the MCP server then show real code for a frame instead of a guess.</li>
+      <li>Supports React, SwiftUI, Compose and HTML style targets. For a Cocos runtime the same idea applies through a custom mapping in the pack, since Code Connect will not know the engine.</li>
+      <li><b>Why it matters here:</b> it is the mechanism behind the diagram's line "a frame names a component that exists." Without it, the contract is a document. With it, the contract is a lookup.</li>
+    </ul>
+  </section>
+
+  <!-- Dev Mode + integrations -->
+  <section>
+    <div class="bh"><h2>Dev Mode and the apps</h2><span class="one">Where designers and developers already meet, and where status lives.</span> <span class="chip r">read</span><span class="chip w">write</span><span class="chip t">trigger</span></div>
+    <ul>
+      <li><b>Ready for development</b> is a status on a layer, set by a person. It is both the human handoff and the machine trigger, because the webhook fires on it.</li>
+      <li><b>Dev resources</b> are links pinned to a node: a Storybook story, a Jira ticket, a GitHub PR, a stage URL. Writable by REST, so the system can pin the pull request to the frame it came from.</li>
+      <li><b>The Jira app</b> attaches designs to issues and mirrors status. <b>the GitHub app</b> shows design previews on pull requests. <b>Storybook</b> embeds live stories next to the frame. None of these is a build mechanism. All of them are how the loop closes for a person.</li>
+      <li><b>The VS Code extension</b> puts Dev Mode in the editor. Useful for a developer. Not part of the automated path.</li>
+    </ul>
+  </section>
+
+  <!-- Variables -->
+  <section>
+    <div class="bh"><h2>Variables and tokens</h2><span class="one">The one layer where the plan you are on decides the architecture.</span></div>
+    <ul>
+      <li><b>Every plan:</b> a plugin can read and write variables in the open file, and can export them as DTCG JSON. That is enough for a pipeline that a designer runs on purpose.</li>
+      <li><b>Enterprise:</b> the REST variables endpoints read and write without a session, and extended collections give you a parent system with per-brand overrides while keeping one source of truth. This is the seventeen-brand answer, and it is gated by plan.</li>
+      <li><b>The publish event</b> is the same on both: <code>LIBRARY_PUBLISH</code> tells you the tokens changed, with the variables in the payload. Compile per runtime from there: CSS custom properties for the web codebases, engine values for Cocos.</li>
+      <li><b>Direction of truth:</b> decide it once. Either Figma variables are the source and the repo compiles from them, or a token file in the repo is the source and a plugin pushes to Figma. Both work. Two sources do not.</li>
+    </ul>
+  </section>
+
+  <!-- gotchas -->
+  <section>
+    <div class="bh"><h2>What will bite</h2><span class="one">The constraints that shape the design, in the order they usually come up.</span></div>
+    <ul>
+      <li><b>Nothing draws without a session.</b> REST cannot create a frame. The plugin needs a person. The MCP server writes as a seat. So "the agent writes wireframes" always means a Full seat that the agent acts as, and that seat's name is on the version history.</li>
+      <li><b>Variables writes are Enterprise only.</b> If the org is not, the token pipeline runs through a plugin a designer triggers, or the repo is the source of truth and Figma is a mirror.</li>
+      <li><b>Webhooks are hints.</b> Delayed, sometimes batched, occasionally missed. Verify the passcode, dedupe on version id, read the real state with REST, and keep a poll on the version endpoint.</li>
+      <li><b>File-scoped hooks or nothing.</b> A team-scoped hook on a hundred designers is a firehose with no filter.</li>
+      <li><b>Rate limits are per token and per plan.</b> Cache the tree by version id. Re-read on events, not on a timer.</li>
+      <li><b>Tokens are secrets.</b> A personal access token reads every file its owner can see. The agent's token lives in the server's secret store, never in the worktree the agent runs in, which is the diagram's "no secrets" line.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="bh"><h2>Sources</h2><span class="one">Official docs first. The rest are corroboration.</span></div>
+    <ol class="srcs">
+      <li><a href="https://developers.figma.com/docs/rest-api/webhooks-types">Figma: webhook event types</a></li>
+      <li><a href="https://developers.figma.com/docs/rest-api/changelog/">Figma: REST API changelog</a></li>
+      <li><a href="https://github.com/figma/rest-api-spec">Figma: REST API OpenAPI spec</a></li>
+      <li><a href="https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/">Figma: MCP server tools and prompts</a></li>
+      <li><a href="https://developers.figma.com/docs/figma-mcp-server/write-to-canvas">Figma: MCP write to canvas</a></li>
+      <li><a href="https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Figma-MCP-server">Figma Learn: guide to the MCP server</a></li>
+      <li><a href="https://github.com/figma/mcp-server-guide">Figma: MCP server guide (GitHub)</a></li>
+      <li><a href="https://github.com/mcp/com.figma.mcp/mcp">MCP Registry: Figma</a></li>
+      <li><a href="https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma">Figma Learn: variables</a></li>
+      <li><a href="https://www.hooksbase.com/guides/receive-figma-webhooks">Hooksbase: receiving Figma webhooks</a></li>
+      <li><a href="https://growthmethod.com/figma-mcp-server/">Growth Method: MCP read vs write, 2026</a></li>
+      <li><a href="https://forum.figma.com/ask-the-community-7/fetch-published-variables-via-rest-api-26489">Figma forum: published variables via REST</a></li>
+    </ol>
+  </section>
+</div>
