@@ -99,6 +99,7 @@
   <li><a href="#agents">AI tooling and agents</a></li>
   <li><a href="#code">Production frontend code</a></li>
   <li><a href="#architecture">Architecture</a></li>
+  <li><a href="#security">Security and credentials</a></li>
   <li><a href="#guardrails">Guardrails</a></li>
   <li><a href="#validation">Validation</a></li>
   <li><a href="#operating">Operating model</a></li>
@@ -231,6 +232,46 @@ the pack governs every stage: the vocabulary the agent may use and the schema th
 <tr><th>Service to GitHub</th><td>Fine-grained token, one repository</td><td>Blast radius of a leak is one repository</td></tr>
 <tr><th>The agent</th><td>A GitHub-minted per-run token, nothing else</td><td>Holds no design credential and no long-lived secret</td></tr>
 </tbody></table></div>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="security">
+<div class="bh"><h2>Security and credentials</h2><span class="one">Three boxes, and only the middle one holds a key. That is literally true, not a figure of speech.</span></div>
+
+<p>The boundary table in <a href="#architecture">Architecture</a> says how the parts authenticate to each other. This section says what each part <b>holds</b>, and what it would cost if that were taken.</p>
+
+<h3>What the translator holds</h3>
+<p>Five values. Two are configuration and not secret: the one file key it serves, and the repository it writes to. Three are secrets, and they are the only credentials in the system that matter.</p>
+<div class="tw"><table>
+<thead><tr><th>Secret</th><th>What it can do</th><th>What a leak costs</th></tr></thead>
+<tbody>
+<tr><th>Figma token</th><td>Read the one file, pin dev resources, leave comments</td><td>Cannot create or change a node, because REST cannot. The worst it can do is leave a link and a comment</td></tr>
+<tr><th>GitHub token</th><td>Open issues, comment, assign</td><td>Fine-grained and scoped to one repository</td></tr>
+<tr><th>Webhook passcode</th><td>Prove a delivery came from Figma</td><td>Someone could make the service read the one file it already serves and open an issue. Not another file</td></tr>
+</tbody></table></div>
+
+<h3>Two custodians, and the difference is real</h3>
+<p>The Python service reads all three from the operating system keychain at start-up and holds them in memory. The Worker has no keychain, so the same three are encrypted bindings held by Cloudflare. Same values, different custodian. That is a different security posture rather than a smaller one: whoever can reach the Cloudflare account can reach the credentials, and that is the only difference between the two runtimes a reader cannot reverse later without rotating tokens.</p>
+<p><b>There is no environment file in this project and there should never be one.</b> Only non-secret values come from the environment. Anything damaging to leak comes from a custodian.</p>
+
+<h3>What the agent holds</h3>
+<p>Nothing that matters. It runs on GitHub with a token GitHub mints for that single run, scoped to that run and expiring with it. It holds no Figma credential of any kind and no long-lived secret. It sees what the issue carries and nothing more. No model credential lives in the repository either, because the agent is GitHub's.</p>
+<p>The write-back door holds no shared secret at all. The workflow proves who it is with a short-lived token verified against GitHub's published keys, so there is no long-lived credential in repository secrets for every current and future workflow to read.</p>
+
+<div class="claim"><b>Authorisation never trusts the request about its own entitlements.</b> The service decides which file it serves; the payload does not get a vote. A delivery naming a different file is refused with a 403 before anything is read. That single rule is why a stolen passcode is a nuisance rather than a breach.</div>
+
+<h3>Injection is assumed, not prevented</h3>
+<p>You cannot require the absence of an attack. What you can require is that a successful one buys nothing. The agent's authority is fixed by what it holds, not by what it is told, so content it reads can make it try something and not succeed at anything it could not already do. It cannot reach Figma, cannot merge, cannot touch the design system or the checks, and cannot approve its own work.</p>
+<p>That is structural rather than prompted. Guardrails written into a prompt are guardrails the thing being guarded can read.</p>
+
+<h3>The gates a person holds, as a security property</h3>
+<ul>
+  <li><b>Before an agent's code runs.</b> GitHub holds workflow runs on bot-authored pull requests until someone with write access approves them. Without that, an agent able to write to the workflows directory could author one and have it execute with whatever permissions the repository grants.</li>
+  <li><b>Before anything merges.</b> Branch protection requires the checks and one approving review. Workflow permissions are read-only and Actions cannot approve reviews, so a run cannot approve the work that produced it.</li>
+  <li><b>Before anything ships.</b> The flag, turned on by a person, outside the pipeline.</li>
+</ul>
+
+<div class="honest"><b>Rotation is manual.</b> Nothing expires the Figma token or the webhook passcode on a schedule, and nothing detects a leak. The procedure to rotate is four ordered steps and it is written down, but a person has to decide to run it. At this size that is an acceptable gap and it is named rather than hidden.</div>
 </section>
 
 <!-- ───────────────────────────────────────────── -->
