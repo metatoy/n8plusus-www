@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>The Simple System, Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* Sits beside system-builder.html and interface-decisions.md. Same palette, same two faces, so
+     the folder reads as one set of notes rather than three tools. Everything here is a claim about
+     a system that exists and was run; where something is design rather than evidence, it says so. */
+  :root{
+    --ink:#231f20; --paper:#f1efe8; --card:#ffffff;
+    --text:#2a2622; --muted:#6f6b62; --line:#e2ddcf; --band:#e7e2d5;
+    --green:#8dc63f; --green-ink:#46701e; --rust:#a4380f; --blue:#1d4ed8;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ink:#f1efe8; --paper:#1b1918; --card:#241f1e;
+      --text:#e8e3da; --muted:#9a9389; --line:#3a3431; --band:#2d2826;
+      --green:#a6d95f; --green-ink:#a6d95f; --rust:#e8804f; --blue:#8fb0ff;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f1efe8; --paper:#1b1918; --card:#241f1e;
+    --text:#e8e3da; --muted:#9a9389; --line:#3a3431; --band:#2d2826;
+    --green:#a6d95f; --green-ink:#a6d95f; --rust:#e8804f; --blue:#8fb0ff;
+  }
+  html{background:var(--paper)}
+  body{margin:0;background:var(--paper);color:var(--text);font:16px/1.6 var(--sans);
+    padding-block:28px 72px;padding-inline:20px}
+  main{max-width:860px;margin:0 auto}
+  .eyebrow{font:600 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green-ink);margin:0 0 8px}
+  h1{font-size:34px;line-height:1.12;letter-spacing:-.01em;margin:0 0 14px;color:var(--ink);text-wrap:balance}
+  .lede{font-size:18px;line-height:1.55;color:var(--text);max-width:66ch;margin:0 0 10px}
+  .note{font-size:14px;color:var(--muted);max-width:66ch;margin:0 0 30px}
+  nav{margin:0 0 34px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+  nav ol{margin:0;padding-left:20px;columns:2;column-gap:28px;font-size:14px}
+  nav li{break-inside:avoid;margin:0 0 4px}
+  nav a{color:var(--green-ink);text-decoration:none}
+  nav a:hover{text-decoration:underline}
+  section{margin:0 0 40px;padding-top:6px}
+  .bh{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:10px 14px;margin:0 -14px 14px;
+    background:var(--band);border-radius:10px}
+  .bh h2{margin:0;font-size:21px;line-height:1.2;color:var(--ink)}
+  .bh .one{font-size:13.5px;color:var(--muted);font-style:italic;max-width:56ch}
+  h3{font-size:16px;margin:22px 0 6px;color:var(--ink)}
+  p{max-width:70ch;margin:0 0 12px}
+  ul{max-width:70ch;padding-left:20px;margin:0 0 12px}
+  li{margin:0 0 6px}
+  li::marker{color:var(--green-ink)}
+  b{color:var(--ink);font-weight:600}
+  code{font:12.5px var(--mono);background:var(--band);padding:1px 5px;border-radius:4px}
+  pre{font:12.5px/1.5 var(--mono);background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;overflow-x:auto;margin:10px 0 14px}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0 16px}
+  .tw{overflow-x:auto}
+  th,td{text-align:left;padding:8px 12px 8px 0;border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+  thead th{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-top:0;padding-top:0}
+  tbody th{font-weight:600;color:var(--ink);width:26%}
+  td:last-child{padding-right:0}
+  .claim{border-left:3px solid var(--green);padding:8px 14px;margin:14px 0;background:var(--card);border-radius:0 8px 8px 0;max-width:70ch}
+  .claim b{color:var(--green-ink)}
+  .honest{border-left:3px solid var(--rust);padding:8px 14px;margin:14px 0;background:var(--card);border-radius:0 8px 8px 0;max-width:70ch}
+  .honest b{color:var(--rust)}
+  .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .diagram{font:12.5px/1.45 var(--mono);white-space:pre;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:16px 18px;overflow-x:auto;margin:12px 0 16px;color:var(--text)}
+  .diagram .z{color:var(--green-ink);font-weight:700}
+  .diagram .k{color:var(--rust);font-weight:700}
+  @media (max-width:640px){
+    nav ol{columns:1}
+    h1{font-size:27px}
+    .bh{margin:0 0 14px}
+    tbody th{width:auto}
+  }
+</style>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+</head>
+<body>
+<main>
+
+<p class="eyebrow">Reference · the sample system, area by area</p>
+<h1>The simple system, explained</h1>
+<p class="lede">A designer marks a frame ready. One small service reads it and opens a request. An agent builds against a schema, checks refuse what the schema forbids, a person approves, and the result is pinned back onto the frame. Everything below is that sentence, taken one area at a time.</p>
+<p class="note">Every figure here was measured on the running system, not estimated. Where something is a design rather than a thing that has been run, it says so in a red block. Vocabulary throughout: spec, wireframe, preview, build, ship.</p>
+
+<nav aria-label="Sections">
+<ol>
+  <li><a href="#figma">Figma and the design system</a></li>
+  <li><a href="#components">The component library</a></li>
+  <li><a href="#agents">AI tooling and agents</a></li>
+  <li><a href="#code">Production frontend code</a></li>
+  <li><a href="#architecture">Architecture</a></li>
+  <li><a href="#guardrails">Guardrails</a></li>
+  <li><a href="#validation">Validation</a></li>
+  <li><a href="#operating">Operating model</a></li>
+  <li><a href="#brands">Many brands from one system</a></li>
+  <li><a href="#cocos">Cocos as an output, versus the web</a></li>
+</ol>
+</nav>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="figma">
+<div class="bh"><h2>Figma and the design system</h2><span class="one">The file is the trigger and the reference. It is not the source of truth for values.</span></div>
+
+<p>The Figma file has five pages: a cover, how this works, foundations, components, and requests. The foundations page holds variables for two brands, Harbor and Ember, as <b>two modes of one collection</b> rather than two collections. The components page holds the components as real Figma components with variants. The requests page holds three frames built only from instances of those components, never drawn by hand, and one of them deliberately asks for a component the system does not have.</p>
+
+<h3>Where truth lives</h3>
+<p>The source of truth for token values is four JSON files in the repository: primitives, component-tier tokens, and one semantic file per brand. The build reads only those and makes zero calls to Figma. The Figma variables are a copy made once to match. If the file were deleted the repository would compile identically.</p>
+<p>This is stated rather than buried because it decides who wins when the two disagree, and the honest answer today is the repository, silently. At one designer and one developer that is fine. At seventeen brands it is the first thing to fix, and the fix is a plugin that pushes the repository's tokens into Figma, because REST cannot write variables below the Enterprise plan.</p>
+
+<h3>What Figma is asked for, and what it cannot do</h3>
+<div class="tw"><table>
+<thead><tr><th>Need</th><th>Mechanism</th><th>Constraint that shaped it</th></tr></thead>
+<tbody>
+<tr><th>Start a run</th><td>A webhook on <code>DEV_MODE_STATUS_UPDATE</code>, file-scoped</td><td>A webhook can post to an address and cannot set an Authorization header, so something must translate before GitHub will accept a write</td></tr>
+<tr><th>Read a frame</th><td>REST, the nodes endpoint at depth 8</td><td>REST reads everything and cannot create or change a node, so this credential cannot damage a design</td></tr>
+<tr><th>Know what a frame is made of</th><td>Component keys, synced from the file into the pack</td><td>A component has a stable key whether or not it is published, which is why there is no library and no publish step</td></tr>
+<tr><th>An image for the issue</th><td>REST image export, per node</td><td>Temporary URL, so the frame link is the durable reference</td></tr>
+<tr><th>Write the outcome back</th><td>REST dev resources and comments</td><td>The only writes Figma allows. Setting a frame to completed stays a person's click</td></tr>
+</tbody></table></div>
+
+<div class="claim"><b>Not a published library.</b> Asked directly, Figma reports zero published components, sets or styles. Thirty one local components across eight variant sets, all with stable keys. The trap next to that: the published-components endpoint returns an empty list with a 200 on an unpublished file, which looks exactly like a file with nothing in it.</div>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="components">
+<div class="bh"><h2>The component library</h2><span class="one">Twelve components, three token tiers, and a build that refuses a design the system cannot express.</span></div>
+
+<p>The library is small on purpose: DesignSystem, Button, Badge, Card, Input, Tabs, Toast, Stack, Stat, Meter, RecordRow, and Missing. Each lives in <code>src/components</code> with a stylesheet, stories and tests, and each has an entry in the pack naming its purpose, its props and its Figma counterpart. Underneath sits a vendor library, wired through runtime custom properties so a brand change re-skins it without a rebuild. The vendor may be imported in that one directory and nowhere else, which is checked.</p>
+
+<h3>Three tiers, and the tier rule is enforced by the compiler</h3>
+<div class="tw"><table>
+<thead><tr><th>Tier</th><th>May reference</th><th>Emitted as</th><th>Count</th></tr></thead>
+<tbody>
+<tr><th>Primitive</th><td>nothing, literals only</td><td><b>never emitted</b></td><td class="num">93 in source</td></tr>
+<tr><th>Semantic</th><td>primitives only</td><td>custom properties, one block per brand</td><td class="num">49 per brand</td></tr>
+<tr><th>Component</th><td>semantic only, never a literal</td><td>custom properties, declared on the brand selectors</td><td class="num">84</td></tr>
+</tbody></table></div>
+
+<p>Primitives are never emitted as custom properties. So nothing downstream can reach past the semantic layer, not because a rule says so but because the names do not exist in the output. A grep of the brand stylesheet for a primitive name returns zero, and that is the proof rather than the policy.</p>
+
+<h3>The contrast gate</h3>
+<p>Sixteen colour pairings are declared in the pack, twelve for text and four for structure. The build computes each from every brand at compile time, thirty two checks per build, and refuses to compile a brand that fails its floor: 4.5 to 1 for text, 3 to 1 for structure. An illegal palette is a broken build rather than an accessibility finding six months later. It caught its author: a border colour at 2.52 to 1 against white in both brands, not found in review, found by the build naming the token and the ratio.</p>
+
+<h3>Missing, the twelfth component</h3>
+<p>A placeholder for any component the pack cannot build. It reserves the exact footprint the design allotted, names the component, says why it is not there, and carries the full sentence as its accessible name. It is a real member of the pack, which is what lets the contract check accept it. It asserts nothing about <i>why</i> a component is missing, which is the point: an unmapped instance is equally a new component, a new variant of an existing one, an instance from another library, or a rename. A placeholder is true in every case, so no classifier is needed.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="agents">
+<div class="bh"><h2>AI tooling and agents</h2><span class="one">The agent is not asked to write good code. It is asked to satisfy a schema, and the schema is the design system.</span></div>
+
+<p>The coding agent is GitHub's, assigned to the issue by the translating service. No model credential lives in the repository. The agent runs on GitHub with its own per-run token, minted by GitHub and scoped to that run, and holds no design credential of any kind. It sees what the issue carries and nothing more.</p>
+
+<h3>What the issue carries</h3>
+<ul>
+  <li>An idempotency marker in the body, so a redelivered webhook finds the first issue instead of opening a second. No database.</li>
+  <li>A link to the frame and a temporary image of it.</li>
+  <li><b>What the frame is made of:</b> mapped components by pack name, unmapped ones by their Figma name with their measured size.</li>
+  <li><b>How the frame is arranged:</b> an outline in document order. Instances are opaque, a laid-out frame becomes a level and says which way it runs, a plain group is transparent, and three identical siblings collapse to one line.</li>
+  <li><b>The words in the frame</b>, to be used exactly, because copy is a design decision. Text inside an unmapped component is excluded, because it belongs to something that will not be built.</li>
+  <li>Acceptance: matches the frame, only pack components, a story, tests pass, behind a flag set to false.</li>
+  <li>For an unmapped component: use <code>Missing</code> with the name and size, build the rest normally, say so under Left undone.</li>
+</ul>
+
+<div class="claim"><b>The arrangement outline exists because of a real run.</b> The first two runs put a placeholder above the figures the design puts below them, and nothing in the issue said otherwise. The component list was a sorted set, so every trace of position was thrown away before the issue was written. The tree was already walked in order; the ordering was being discarded.</div>
+
+<h3>What happens on a miss</h3>
+<p>The third request frame asks for a chart the pack does not have. On the first run the agent built the heading and the figures and left a hole with a stray line of orphaned copy. On the second, told to use the placeholder and given the size, it wrote <code>&lt;Missing name="Sparkline" width={672} height={80} /&gt;</code> and explained it under Left undone. Naming a sanctioned way to comply changed what it did. That is the finding, and it came from running it.</p>
+
+<h3>Cost, measured against a real bill</h3>
+<div class="tw"><table>
+<thead><tr><th>Model</th><th>Per run</th><th>96,000 runs a month</th></tr></thead>
+<tbody>
+<tr><th>GPT-5.6 Luna, light</th><td class="num">$0.13</td><td class="num">$12,480</td></tr>
+<tr><th>GPT-5.6 Sol, light</th><td class="num">$0.66</td><td class="num">$63,360</td></tr>
+<tr><th>GPT-5.6 Sol, heavy</th><td class="num">$1.90</td><td class="num">$182,400</td></tr>
+</tbody></table></div>
+<p>Ninety six thousand is a hundred designers producing one every ten minutes for a month, a stress ceiling rather than a forecast. The model bill is never the constraint. At ten minutes a review, keeping up with that volume needs a hundred people reading diffs full time, which is roughly twenty times the token cost. Review capacity is the currency the system runs on.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="code">
+<div class="bh"><h2>Production frontend code</h2><span class="one">Merging is not releasing. Every change lands with its flag off.</span></div>
+
+<p>The application is a small React page built entirely from pack components, deployed to GitHub Pages from <code>main</code> alongside Storybook. Every change an agent lands arrives behind a flag in <code>src/flags.ts</code> set to false, in every environment. A merge moves code without shipping a feature. One query parameter turns a feature on for one browser and nobody else, so a reviewer can see a change live without anyone else seeing it.</p>
+
+<h3>What a merged change looks like</h3>
+<p>A branch, a draft pull request with a body that fills five required sections, a flag that exists and is off, a story for the new state, tests for flag-off and flag-on, and the project's own checks re-run against it rather than believed. On merge, the pull request is pinned back onto the frame as a dev resource, and a comment says the change is behind a flag that is off, so nothing has changed for anyone yet.</p>
+
+<div class="honest"><b>What the pipeline cannot carry.</b> The contract can only express what a designer built as an instance. A container drawn as a styled frame rather than a Card instance is invisible to the bridge, so the agent gets the image and no structured signal that a surface was wanted. The fix is not code. It is a rule for the design file: containers are Card instances, rows are Stack instances. The same discipline the code side already enforces, applied to the Figma side.</div>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="architecture">
+<div class="bh"><h2>Architecture</h2><span class="one">Three boxes, and only the middle one holds a key.</span></div>
+
+<div class="diagram"><span class="z">DESIGN</span>                        <span class="z">THE TRANSLATOR</span>                    <span class="z">WHERE CODE LIVES</span>
+a frame marked ready   ──▶   reads the frame            ──▶   issue, labelled and assigned
+                             opens the request                agent builds on a branch
+                             <span class="k">holds the only Figma key</span>         checks refuse what the pack forbids
+                                                              a person approves
+frame gets the link    ◀──   pins it back                ◀──   merged, flag off, Pages deploys
+
+the pack governs every stage: the vocabulary the agent may use and the schema the checks judge against</div>
+
+<h3>The translator, and why it exists at all</h3>
+<p>A Figma webhook can post to an address and cannot set an Authorization header. GitHub will not accept a write without one. So something has to receive the first and issue the second. That is the entire job. It is stateless, with no database, cache or session. Idempotency rides on a marker in the issue body. It has three routes: a health check and two one-way doors that only two specific senders may use.</p>
+<p>It is not an API. Nobody queries it and it returns nothing to anyone. It is a webhook-to-API translator, which is what the directory is called, and naming it that makes someone ask why translation is necessary, which has a one-sentence answer.</p>
+
+<h3>It exists twice, held to one spec</h3>
+<p>A Python service for a machine you control, where every credential stays in the operating system keychain. And a Cloudflare Worker with nothing to operate, where the credentials leave your machine for a third party's configuration. Both are held to <code>contract/</code>: a behaviour table of thirteen cases, and golden files for the issue body diffed byte for byte in both suites, because the body is the entire contract with the agent and two wordings would be two behaviours. Changing one word in one runtime fails tests in both.</p>
+
+<h3>Where the credentials live, one answer per boundary</h3>
+<div class="tw"><table>
+<thead><tr><th>Boundary</th><th>Mechanism</th><th>Why that one</th></tr></thead>
+<tbody>
+<tr><th>Figma to the service</th><td>A passcode in the body, compared in constant time</td><td>A webhook cannot set headers</td></tr>
+<tr><th>The payload's target</th><td>File key must match the one the service serves</td><td>Authorisation, not authentication. A stolen passcode still cannot read another file</td></tr>
+<tr><th>Actions to the service</th><td>Short-lived OIDC token verified against GitHub's keys</td><td>No long-lived secret in the repository for every workflow to read</td></tr>
+<tr><th>Service to Figma</th><td>A token with only the scopes it uses</td><td>Can leave a link and a comment, cannot change a node</td></tr>
+<tr><th>Service to GitHub</th><td>Fine-grained token, one repository</td><td>Blast radius of a leak is one repository</td></tr>
+<tr><th>The agent</th><td>A GitHub-minted per-run token, nothing else</td><td>Holds no design credential and no long-lived secret</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="guardrails">
+<div class="bh"><h2>Guardrails</h2><span class="one">Structural, not prompted. If you are prompting the guardrails at the agent, the fox is in the henhouse.</span></div>
+
+<p>The pack names six refusals and, for each, which check enforces it. Five are machine-checked. The sixth says so.</p>
+<div class="tw"><table>
+<thead><tr><th>Refusal</th><th>Enforced by</th><th>What it refuses</th></tr></thead>
+<tbody>
+<tr><th>raw-value</th><td>contract check</td><td>Any hex, rgb or hsl colour, any px, rem or em length, any duration, in a stylesheet or styled block. Any <code>var(--ds-*)</code> the pack does not declare</td></tr>
+<tr><th>outside-pack</th><td>contract check</td><td>The vendor imported outside its one directory. Anything in <code>src/components</code> the pack does not list. A component stylesheet anywhere else. A pack component with no story or no test</td></tr>
+<tr><th>accent-spread</th><td>contract check</td><td>The accent used directly rather than through a component token</td></tr>
+<tr><th>brand-fork</th><td>the build</td><td>A brand that sets a component-tier token, or omits a semantic one another brand declares</td></tr>
+<tr><th>motion-unguarded</th><td>contract check</td><td>An animation with no reduced-motion guard</td></tr>
+<tr><th>colour-alone</th><td><b>review</b></td><td>A state carried by colour alone. Needs a person, and the pack says so rather than pretending</td></tr>
+</tbody></table></div>
+
+<h3>The gates a person holds</h3>
+<ul>
+  <li><b>Before an agent's code runs at all.</b> GitHub holds workflow runs on bot-authored pull requests until someone with write access approves them. Without that, an agent that can write to the workflows directory could author one and have it execute.</li>
+  <li><b>Before anything merges.</b> Branch protection requires three checks and one approving review. Workflow permissions are read-only and Actions cannot approve reviews, so an agent's run cannot approve its own work.</li>
+  <li><b>Before anything ships.</b> The flag. Turning it on is a separate act, by a person, outside the pipeline.</li>
+</ul>
+
+<div class="claim"><b>The fence is not a wall, and the pack says so.</b> The contract check stops the accident and the shortcut. Somebody determined could still style a component in the page shell. That is the right amount of enforcement for a design system, because the alternative is a build nobody can work in, and the token rules still apply to every line of that stylesheet.</div>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="validation">
+<div class="bh"><h2>Validation</h2><span class="one">A check that did not run is never reported as one that passed.</span></div>
+
+<p>Three checks, each owning a different file, wired so a pull request cannot merge unless all three pass and a person approves.</p>
+
+<h3>The build checks the token files</h3>
+<p>Tier direction, brand parity, name collisions, accent purity, the contrast floor, dangling references and cycles. In CI it runs with <code>--check</code>, which fails if the committed generated output differs from what the source produces. A stale pack is a failed build.</p>
+
+<h3>The contract check checks the source against the pack</h3>
+<p>Every refusal in the table above. It exits 0 for pass, 1 when the code is wrong, and 2 when the check could not run. CI fails on both 1 and 2. That last rule is the one to say out loud.</p>
+
+<h3>The pull request check checks the body</h3>
+<p>Five required sections, a frame link that names a node, a flag that exists in the flag module, and a Left undone that says something. It reads the body live from the API at the moment it runs rather than from the event snapshot, because an agent opens a draft with a work-in-progress checklist and writes the real description later. Drafts are exempt, because a draft is a statement that the work is not finished.</p>
+
+<h3>The tests, and what they are for</h3>
+<div class="tw"><table>
+<thead><tr><th>Suite</th><th>Count</th><th>What it proves</th></tr></thead>
+<tbody>
+<tr><th>Application</th><td class="num">106</td><td>Components, accessibility, and the checks themselves: every rule has a test that breaks the repository on purpose and asserts the refusal</td></tr>
+<tr><th>Worker</th><td class="num">26</td><td>Run in workerd, the runtime the deployed Worker uses, against the shared contract and golden files</td></tr>
+<tr><th>Python service</th><td class="num">42</td><td>The same contract and goldens, so the two runtimes cannot drift</td></tr>
+</tbody></table></div>
+
+<div class="honest"><b>What green tests did not catch, three times.</b> A deployed Worker that threw on every real webhook, because every test injected a fake fetch and the default was never exercised, and the failure only exists on the real edge. Every component in the deployed Storybook rendering unstyled, because the component tier was declared on the root and the brand class sat on a div, and no check looked at selectors. And a placeholder above the figures the design puts below, because the issue described contents and never composition. Each was found by looking at the running thing. The decisions file already said so.</div>
+
+<h3>The visual check is advisory</h3>
+<p>A story screenshot compared against the Figma export, commenting on the pull request rather than blocking it, until its false-positive rate on real pull requests earns otherwise. Unbuilt, and named as such.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="operating">
+<div class="bh"><h2>Operating model</h2><span class="one">One human gate, not five. Gates are how you give people more autonomy, not less.</span></div>
+
+<h3>Who does what</h3>
+<div class="tw"><table>
+<thead><tr><th>Person</th><th>Does</th><th>Never does</th></tr></thead>
+<tbody>
+<tr><th>Designer</th><td>Marks a frame ready. Iterates on the prototype and marks it ready again. Sets a frame to completed</td><td>Runs anything. Touches code</td></tr>
+<tr><th>Developer</th><td>Approves the workflow run, reviews the pull request, approves or requests changes, turns a flag on</td><td>Merges an agent's work without reading it. Edits the design system to make a request fit</td></tr>
+<tr><th>The agent</th><td>Builds on a branch against the pack, opens a draft, says what it left undone</td><td>Touches the design system or the checks. Merges. Holds a design credential</td></tr>
+<tr><th>The service</th><td>Translates one event into one request and writes the outcome back</td><td>Decides anything</td></tr>
+</tbody></table></div>
+
+<h3>Why one gate</h3>
+<p>A wrong direction is discovered at the pull request, the most expensive place to discover it. That is accepted because tasks are small, scoped to one frame, with the design attached to the issue, so a wrong direction is cheap to throw away. More gates would be building the interesting system rather than the smallest one that works. The evidence for more gates exists elsewhere: across five clean runs, twenty seven seeds and three products, roughly one in ten agent steps advanced in a wrong direction, and thirteen of fourteen deliberately wrong directions were caught at or before the step where they were knowable. The labels were a second pass by one author, not an independent co-labeller.</p>
+
+<h3>The one decision that makes it staffable</h3>
+<p>Designers review the prototype and revise it before a developer sees it, so handoff becomes closer to a code review. The scarce resource was never the model. It was developer attention.</p>
+<div class="tw"><table>
+<thead><tr><th>If</th><th>Dev reviews a day</th><th>Dev reviewers needed</th></tr></thead>
+<tbody>
+<tr><th>Developers absorb two to three rounds</th><td class="num">~12,000</td><td class="num">250</td></tr>
+<tr><th>Designers iterate, developers see one round</th><td class="num">4,800</td><td class="num">100</td></tr>
+<tr><th>Designers iterate and only promote some</th><td class="num">~1,600</td><td class="num"><b>33</b></td></tr>
+</tbody></table></div>
+<p>This spends tokens to buy back attention, and tokens are three orders of magnitude cheaper. It creates two requirements: a preview per run a designer can open without a developer, and revision as something a designer can trigger. The frame is the input, so revising the frame and marking it ready again is the loop.</p>
+
+<h3>What a miss means for the organisation</h3>
+<p>A component the system cannot build produces a visible, labelled placeholder and a named gap. Needing it often is a request to grow the system, not a reason to work around it. That is the difference between a design system and a suggestion, and it is worth saying out loud.</p>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="brands">
+<div class="bh"><h2>Many brands from one system</h2><span class="one">Brands are modes of one collection, not seventeen collections. There is only one set of names.</span></div>
+
+<h3>How the simple system knows a brand</h3>
+<p>A brand is one semantic token file. Harbor and Ember each declare the same 49 names with their own values, and the build refuses to compile if their key sets differ by even one. The generated stylesheet has one block per brand, <code>.brand-harbor</code> and <code>.brand-ember</code>, each redefining the same custom properties. Selecting a brand is putting one class on the root element. Nothing else changes, because there is nothing else to change.</p>
+<p>Of the 49 semantic tokens, 17 differ between the two brands. The other 32 are shared: spacing, radii, type scale, line heights, motion. That ratio is the honest measure of how different two brands actually are, and it is usually smaller than the brand teams believe.</p>
+
+<h3>How a brand cannot fork a component</h3>
+<p>The component tier is compiled once for every brand, because every value in it is a reference into the semantic tier and never a literal. A brand file that tries to set a component-tier token fails the build with a named error. So Button's padding, radius and colours resolve from whatever the brand says the semantic values are, and no brand can give Button a different shape. That is the proof that seventeen brands stay one system: the component tier is one file and the build will not let a brand touch it.</p>
+
+<div class="claim"><b>Where the component tier is declared decides whether nesting works.</b> A custom property resolves where it is declared. Declared on the root, the component tier resolved once against whatever brand was on the root and inherited that everywhere, so a nested brand switch changed the semantic tokens and left every component token on the outer brand's values. Declared on the brand selectors instead, a nested <code>.brand-ember</code> inside a Harbor page now correctly turns the primary button purple. Found on the deployed Storybook, where every component rendered unstyled; fixed; and a check now fails if either dependent tier goes back to the root.</div>
+
+<h3>Per-brand guarantees</h3>
+<ul>
+  <li>The contrast floor is computed <b>per brand</b>. Sixteen pairings, thirty two checks. A brand whose palette fails one does not compile.</li>
+  <li>The accent may not equal any status colour, per brand, so a warning can never look like an action.</li>
+  <li>A brand that omits a token another brand declares fails parity. Every brand answers every question.</li>
+</ul>
+
+<h3>Scaling from two to seventeen</h3>
+<p>Adding a brand is adding one semantic file and one line in the build's brand list. Nothing in the component tier, the components, the checks, the bridge or the agent changes, because none of them know how many brands there are. What does change is the shape of the brand question: at seventeen, most will be palettes over a shared structure, and the parity rule will surface which ones are genuinely different. Figma's answer at that scale is variable modes or, on Enterprise, extended collections with a parent system and per-brand overrides. The repository's answer is the same file layout, seventeen deep.</p>
+
+<div class="honest"><b>Not yet built:</b> a check that the pack's declared props match the code. Add a variant in code without updating the pack and the build stays green, so the agent is told a narrower vocabulary than exists. Named as the next thing to close.</div>
+</section>
+
+<!-- ───────────────────────────────────────────── -->
+<section id="cocos">
+<div class="bh"><h2>Cocos as an output, versus the web</h2><span class="one">Tokens are values, not CSS. The pack names components and rules, not implementations. Both survive the crossing. The cascade does not.</span></div>
+
+<div class="honest"><b>This section is design, not evidence.</b> The sample targets the web. Nothing here has been run against Cocos Creator. What follows is what transfers, what does not, and what would have to be built, stated so it can be checked rather than believed.</div>
+
+<h3>What Cocos is, for this purpose</h3>
+<p>Cocos Creator is a TypeScript game engine with its own scene graph and UI nodes. There is no DOM, no stylesheet and no cascade. Colour is a value on a node, spacing is a number on a layout component, type is a font asset and a size. Some teams run Cocos with web components inside it, which means two paths exist side by side: native Cocos UI, and web-rendered surfaces embedded in it.</p>
+
+<h3>What transfers unchanged</h3>
+<div class="tw"><table>
+<thead><tr><th>Layer</th><th>On the web</th><th>On Cocos</th><th>Changes?</th></tr></thead>
+<tbody>
+<tr><th>Token source files</th><td>four JSON files</td><td>the same four files</td><td><b>No</b></td></tr>
+<tr><th>Tier rules and contrast gate</th><td>enforced by the build</td><td>enforced by the same build</td><td><b>No</b></td></tr>
+<tr><th>Brands</th><td>one semantic file each</td><td>the same files</td><td><b>No</b></td></tr>
+<tr><th>The pack</th><td>components, rules, refusals</td><td>the same document, plus a Cocos import path per component</td><td>One field</td></tr>
+<tr><th>The bridge, the issue, the agent</th><td>frame in, request out</td><td>identical. None of it knows the runtime</td><td><b>No</b></td></tr>
+<tr><th>Semantic tier output</th><td>CSS custom properties per brand</td><td>a generated TypeScript module of typed constants per brand</td><td><b>New emitter</b></td></tr>
+<tr><th>Component tier output</th><td>custom properties on the brand selectors</td><td>the same constants, resolved at generation time</td><td><b>New emitter</b></td></tr>
+<tr><th>Components</th><td>React, twelve of them</td><td>Cocos prefabs or scripts, twelve of them, same names and props</td><td><b>Written per runtime</b></td></tr>
+<tr><th>Contract check</th><td>greps CSS and styled blocks</td><td>would grep TypeScript for literal colours and numbers where a token exists</td><td><b>Rewritten rules, same refusals</b></td></tr>
+</tbody></table></div>
+
+<h3>The one real difference: no cascade</h3>
+<p>On the web, a component token is a <code>var()</code> that resolves at use time against whatever brand class is above it in the tree. A nested brand works because inheritance does it for free. Cocos has no inheritance of that kind. A colour is set on a node and stays set. So on Cocos the component tier is <b>resolved at generation time</b>: the emitter produces, per brand, a module where every component token is already a concrete value. Switching brand is swapping which module is loaded, or reading from a brand-keyed table at runtime. Nested brands do not exist as a concept, which is fine, because a game screen is one brand.</p>
+<p>Everything the web gets from the cascade for free, Cocos gets from the generator instead. That is more code in the build and less magic at runtime, and for a game engine that is the right trade.</p>
+
+<h3>The web components inside Cocos</h3>
+<p>Those are the easy path. They are web surfaces, so they take the same CSS custom properties the rest of the web does, with the brand class on their root. The only question is which brand class, and the Cocos host knows, because it loaded that brand's module. One system, two emitters, and the embedded web surfaces are simply the first emitter used from inside the second.</p>
+
+<h3>What the agent would be told</h3>
+<p>The issue does not change. It names components by pack name and words by copy, neither of which is runtime-specific. What changes is the pack's import field for each component and the acceptance line, which would name the Cocos test command instead of the web one. The agent reads the pack and builds against whichever runtime that pack describes. A frame does not know or care whether it becomes React or a Cocos prefab.</p>
+
+<h3>What would have to be built, in order</h3>
+<ol>
+  <li>A Cocos emitter in the build: semantic tier as typed constants per brand, component tier resolved. A day.</li>
+  <li>A Cocos version of the contract check: literal colours and lengths where a token exists, components outside the pack. The refusal ids are the same. Two days.</li>
+  <li>Twelve components as prefabs or scripts, with the same names and props the pack declares. This is the real cost and it is the same cost any second runtime pays.</li>
+  <li>A second import path per component in the pack, and a runtime field on the request so the bridge knows which acceptance line to write.</li>
+</ol>
+
+<div class="claim"><b>The one-line version.</b> The design system is a contract about names, values and rules. The web and Cocos are two things that satisfy it. Nothing that makes seventeen brands one system depends on CSS, which is why the same seventeen files serve both.</div>
+</section>
+
+</main>
+</body>
+</html>
