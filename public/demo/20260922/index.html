@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<title>MCP servers, design systems first &middot; 22 Sep 2026 &middot; demo index &middot; Nathan O'Brien</title>
+<meta name="description" content="Five MCP servers I have built, ordered by how much they have to do with design systems, with every tool, resource and prompt named and the stack each one runs on. Then the design-system work underneath." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portfolio/project.css?v=20260915a" />
+<style>
+  /* /demo/20260922/ - same grammar as 20260921: a project band, one paragraph, then a table where
+     each row is a fact. The difference is what the rows hold. On the 21 Sep page every row was a
+     link and the sentence to say while it loads. Here the rows are inventories: the tools a server
+     exposes, its resources, its prompts, the stack under it. So the middle column carries chips
+     rather than links, and the counts in the summary table at the top are the argument. */
+  .wrap{max-width:860px}
+  .private{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:#8a5a00;background:#fbf1dc;border:1px solid #efd9a8;
+    border-radius:6px;padding:3px 9px;display:inline-block;margin-bottom:14px}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--muted);margin:34px 0 0}
+  .proj{padding:6px 0 4px;margin-top:32px}
+  .proj:first-of-type{margin-top:24px}
+  .proj-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;background:var(--band);
+    border-radius:8px;padding:11px 15px;margin:0 -15px 2px}
+  .proj h2{margin:0;font-size:21px;font-weight:700;line-height:1.2}
+  .proj .badge{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--green-ink);background:rgba(255,255,255,.55);
+    border:1px solid #bcd292;border-radius:999px;padding:2px 9px}
+  .proj .lede2{margin:10px 0 0;font-size:14.5px;line-height:1.6;color:#3f3a34;max-width:66ch}
+  .proj .lede2 b{font-weight:600;color:var(--ink)}
+  .links{margin:14px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
+  .links th,.links td{text-align:left;padding:8px 18px 8px 0;border-top:1px solid var(--line);
+    vertical-align:baseline;line-height:1.55}
+  .links tr:first-child th,.links tr:first-child td{border-top:0}
+  .links th{font-weight:600;color:var(--ink);white-space:nowrap;width:1%}
+  .links a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .links a:hover{text-decoration:underline}
+  .links .u{display:block;font-family:"JetBrains Mono",monospace;font-size:11.5px;
+    color:var(--muted);font-weight:400;margin-top:2px;overflow-wrap:anywhere}
+  .links .n{color:var(--muted)}
+  .links td:last-child{padding-right:0}
+  /* Tool names are chips. Monospace, tight, wrapping as a run of words rather than a list, so a
+     server with twelve tools reads as one line of vocabulary instead of a column. A gated write
+     gets a rust edge, the same rust the 21 Sep page used for "act on this". */
+  .chips{display:flex;flex-wrap:wrap;gap:5px 6px;margin:0}
+  .chips code{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--ink);
+    background:var(--card);border:1px solid var(--line);border-radius:5px;padding:2px 7px;
+    white-space:nowrap}
+  .chips code.w{border-color:#e0b39b;color:#a4380f}
+  .chips code.uri{white-space:normal;overflow-wrap:anywhere}
+  .legend{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);margin:6px 0 0}
+  .legend code{color:#a4380f;border:1px solid #e0b39b;border-radius:5px;padding:0 5px}
+  .none{color:var(--muted);font-style:italic}
+  /* The summary table. Row headers are the servers, the middle columns are counts, the last
+     column says why it sits where it does in the order. */
+  .sum{margin:16px 0 0;border-collapse:collapse;font-size:13.5px;width:100%}
+  .sum th,.sum td{text-align:left;padding:9px 14px 9px 0;border-top:1px solid var(--line);
+    vertical-align:top;line-height:1.5}
+  .sum thead th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--muted);font-weight:500;border-top:0;padding-top:0}
+  .sum tbody th{font-weight:600;color:var(--ink);white-space:nowrap}
+  .sum tbody th a{color:var(--green-ink);text-decoration:none}
+  .sum tbody th a:hover{text-decoration:underline}
+  .sum td.c{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .sum td:last-child{color:var(--muted);padding-right:0}
+  .sum b{font-weight:600;color:var(--ink)}
+  .sumwrap{overflow-x:auto}
+  .rest{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:9px}
+  .rest li{font-size:14px;line-height:1.5}
+  .rest a{color:var(--green-ink);text-decoration:none;font-weight:600}
+  .rest a:hover{text-decoration:underline}
+  .rest span{color:var(--muted)}
+  @media (max-width:640px){
+    .wrap{padding-left:18px;padding-right:18px}
+    .phead h1{font-size:27px;line-height:1.15}
+    .lede{font-size:16px}
+    .proj-h{padding:10px 12px;margin:0 -12px 2px;gap:8px}
+    .proj h2{font-size:19px}
+    .proj .badge{font-size:10px;padding:2px 8px}
+    .links,.links tbody,.links tr,.links th,.links td{display:block;width:auto}
+    .links tr{border-top:1px solid var(--line);padding:13px 0 3px}
+    .links tr:first-child{border-top:0;padding-top:4px}
+    .links th,.links td{border-top:0;padding:0 0 7px;white-space:normal}
+    .links th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.09em;
+      text-transform:uppercase;color:var(--muted);font-weight:500;padding-bottom:5px}
+    .links td:last-child{padding-bottom:2px}
+    .sum{font-size:13px}
+    .sum th,.sum td{padding:8px 10px 8px 0}
+    .sum tbody th{white-space:normal}
+    .rest li{font-size:13.5px}
+  }
+</style>
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ2Q9HVPTZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FJ2Q9HVPTZ');</script>
+</head>
+<body>
+  <div class="bar"><div class="inner">
+    <span class="bl">
+      <a class="barhome" href="/" aria-label="N8+US home">N8+US</a>
+      <a class="barback" href="/portfolio/">&larr; all work</a>
+    </span>
+  </div></div>
+  <div class="wrap">
+    <main id="project">
+      <header class="phead">
+        <span class="private">Demo index &middot; 22 Sep 2026</span>
+        <p class="mono meta-line">Five servers, one protocol</p>
+        <h1>MCP servers I have built, design systems first</h1>
+        <p class="lede">Five Model Context Protocol servers, ordered by how much they have to do
+          with design systems. Three of them give an agent a design system to read: which tokens
+          exist, where a colour comes from, which components bind it. One puts an agent inside a
+          gated delivery process. One is a studio knowledge base behind OAuth. Every tool, resource
+          and prompt is named below, with the stack each server runs on, and under that the
+          design-system work they sit on.</p>
+      </header>
+
+      <div class="sumwrap">
+      <table class="sum">
+        <thead>
+          <tr><th scope="col">Server</th><th scope="col">Tools</th><th scope="col">Resources</th><th scope="col">Prompts</th><th scope="col">Transport</th><th scope="col">Why it is here</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><a href="#tap">@sorb/tap</a></th>
+            <td class="c">6</td><td class="c">1</td><td class="c">0</td>
+            <td>stdio</td>
+            <td>The open one. Read a design system, nothing else. <b>MIT, public.</b></td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="#sorb-mcp">sorb-mcp</a></th>
+            <td class="c">12 + 22</td><td class="c">9</td><td class="c">6</td>
+            <td>stdio, streamable HTTP</td>
+            <td>The full one. Reads, gated writes, workflow prompts, an a11y skill.</td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="#juice">sorb mcp</a></th>
+            <td class="c">10</td><td class="c">0</td><td class="c">0</td>
+            <td>stdio, HTTP/SSE</td>
+            <td>The first one, inside the bridge CLI. sorb-mcp is its port.</td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="#ladder">ladder-mcp</a></th>
+            <td class="c">8</td><td class="c">0</td><td class="c">0</td>
+            <td>stdio</td>
+            <td>Not a design system. An agent operating a gated process it cannot bypass.</td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="#kb">knowledgebase</a></th>
+            <td class="c">4</td><td class="c">0</td><td class="c">0</td>
+            <td>HTTP, OAuth 2.1</td>
+            <td>Not a design system. RAG over the studio corpus, scope-gated.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="legend">In the tool lists, <code>rust</code> marks a write that is gated: it proposes, a person or an entitlement decides.</p>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj" id="tap">
+        <div class="proj-h">
+          <h2>@sorb/tap</h2>
+          <span class="badge">open source &middot; MIT &middot; read-only</span>
+        </div>
+        <p class="lede2">Point an agent at a DTCG token file, a Sorb project, or a running Sorb
+          bridge, and it can answer <b>&ldquo;where does this button colour come from?&rdquo;</b>
+          with the real alias chain and the components that use it, instead of guessing from a
+          CSS file. Read-only by design, so there is nothing it can break. The smallest of the
+          five and the one meant for other people.</p>
+        <table class="links">
+          <tr>
+            <th>Tools</th>
+            <td>
+              <p class="chips"><code>list_tokens</code><code>get_token</code><code>resolve_token</code><code>list_components</code><code>get_component_bindings</code><code>find_token_usage</code></p>
+            </td>
+            <td class="n">Six, all reads. Ids are dot paths or the CSS variable form, either works.
+              The three component tools need capture artifacts or a bridge; in bare-DTCG mode they
+              say so rather than returning silent emptiness, so the agent knows what would unlock
+              them.</td>
+          </tr>
+          <tr>
+            <th>Resources</th>
+            <td><p class="chips"><code class="uri">sorb-tap://tokens</code></p></td>
+            <td class="n">One. The full resolved token map as JSON, for clients that prefer a
+              resource read to a tool call.</td>
+          </tr>
+          <tr>
+            <th>Prompts</th>
+            <td><span class="none">none</span></td>
+            <td class="n">Deliberately. It is a source of facts, not a workflow.</td>
+          </tr>
+          <tr>
+            <th>Stack</th>
+            <td>Node 20 &middot; <code>@modelcontextprotocol/sdk</code> low-level <code>Server</code>, not the zod one &middot; plain JSON Schema tool defs &middot; a DTCG parser with alias resolution &middot; esbuild &middot; 17 tests on <code>node:test</code></td>
+            <td class="n">One runtime dependency beyond the SDK, which is the point of a package
+              you ask someone else to install.</td>
+          </tr>
+          <tr>
+            <th>Where</th>
+            <td><a href="https://github.com/metatoy/sorb-tap" target="_blank" rel="noopener">metatoy/sorb-tap</a>
+              <span class="u">public &middot; not on npm yet, the repo is the thing</span></td>
+            <td class="n"><code>claude mcp add sorb-tap -- npx -y @sorb/tap --tokens tokens.json</code>
+              once it is published. Until then, clone and run.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj" id="sorb-mcp">
+        <div class="proj-h">
+          <h2>sorb-mcp</h2>
+          <span class="badge">Python &middot; FastMCP &middot; reads, gated writes, prompts</span>
+        </div>
+        <p class="lede2">The full Sorb server. The same seven reads as the bridge CLI, three
+          writes that are <b>proposals rather than changes</b>, nothing lands without a reviewed
+          pull request or a running preview, plus resources, six workflow prompts and an
+          accessibility skill. Local mode reads the app&rsquo;s precomputed <code>.sorb/</code>
+          map with no account and no network. Hosted mode authenticates API keys against Postgres
+          and enforces the write gate per tenant.</p>
+        <table class="links">
+          <tr>
+            <th>Tools</th>
+            <td>
+              <p class="chips"><code>list_tokens</code><code>get_token</code><code>resolve_value</code><code>list_components</code><code>get_component_bindings</code><code>find_token_usages</code><code>find_components_by_token</code><code class="w">propose_token_change</code><code class="w">rebind_component</code><code class="w">open_pr</code><code>emit_stylex</code><code>emit_mode_stylesheet</code></p>
+            </td>
+            <td class="n">Twelve in the core set: seven reads always available, three gated writes
+              that need a write-scoped key and a Team or Enterprise plan, two emitters that
+              compile the token map to a StyleX file or a mode stylesheet.</td>
+          </tr>
+          <tr>
+            <th>Cloud tools</th>
+            <td>
+              <p class="chips"><code>explain_blast_radius</code><code>explain_drift</code><code>scan_accessibility</code><code>suggest_renames</code><code>generate_reskin</code><code>list_token_sets</code><code>get_head</code><code>list_versions</code><code>get_version</code><code>diff_versions</code><code class="w">publish_version</code><code class="w">rollback_version</code><code class="w">apply_a11y_fixes</code><code class="w">apply_renames</code><code class="w">apply_dark_variant</code><code>list_projects</code><code class="w">create_project</code><code>get_project_status</code><code class="w">onboard_project</code><code class="w">snapshot_live</code><code>get_connection</code><code class="w">publish_tokens</code></p>
+            </td>
+            <td class="n">Twenty-two more behind <code>SORB_CLOUD_TOOLS=1</code>. The five marked
+              AI return proposals with a narrative; the versioned token-set tools diff and roll
+              back; every apply is gated. Most need a sorb-cloud change to go live and the repo
+              says which, in <code>docs/BLOCKERS.md</code>.</td>
+          </tr>
+          <tr>
+            <th>Resources</th>
+            <td>
+              <p class="chips"><code class="uri">sorb://project/{id}/tokens/head</code><code class="uri">sorb://project/{id}/components</code><code class="uri">sorb://project/{id}/components/{name}</code><code class="uri">sorb://project/{id}/blast/{tokenId}</code><code class="uri">sorb://project/{id}/stylesheet</code><code class="uri">sorb://project/{id}/status</code><code class="uri">sorb://project/{id}/tokens/versions</code><code class="uri">sorb://set/{id}/version/{n}</code><code class="uri">sorb://set/{id}/diff/{base}..{target}</code></p>
+            </td>
+            <td class="n">Nine templates. The first six are local reads, the last three are the
+              hosted token-set API. <code>blast</code> is the one people ask about: change this
+              token and here is everything downstream.</td>
+          </tr>
+          <tr>
+            <th>Prompts</th>
+            <td>
+              <p class="chips"><code>create_dark_mode</code><code>check_accessibility</code><code>rename_audit</code><code>explain_token</code><code>drift_report</code><code>onboard_project</code></p>
+            </td>
+            <td class="n">Six workflows, each a sequence of the tools above with the human
+              decision named in the middle. <code>create_dark_mode</code> generates a
+              contrast-verified variant, has you review it, applies the sibling set, opens a PR.
+              Consents and payments stay human.</td>
+          </tr>
+          <tr>
+            <th>Skill</th>
+            <td><code>sorb-a11y</code><span class="u">skills/sorb-a11y/</span></td>
+            <td class="n">The accessibility judgment layer, with a bundled Playwright and axe-core
+              full-page audit. A skill rather than a tool because the hard part is knowing which
+              finding matters, not running the scanner.</td>
+          </tr>
+          <tr>
+            <th>Stack</th>
+            <td>Python 3.11+ &middot; FastMCP 2 &middot; stdio and streamable HTTP &middot; static Bearer keys (<code>sorb_sk_</code> / <code>sorb_pk_</code>) checked against Postgres &middot; tenant isolation and an entitlement gate on every write call &middot; device pairing to get a scoped key without pasting secrets</td>
+            <td class="n">Ported from the JS server so it could take FastMCP&rsquo;s auth, prompt
+              and resource ecosystem. Parity with the JS surface is the contract.</td>
+          </tr>
+          <tr>
+            <th>Where</th>
+            <td>private repo<span class="u">sorb-mcp &middot; part of Sorb</span></td>
+            <td class="n">The product server. <a href="https://n8plusus.com/portfolio/sorb.html">The case study</a> covers the rest of Sorb.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj" id="juice">
+        <div class="proj-h">
+          <h2>sorb mcp, inside @sorb/juice</h2>
+          <span class="badge">the first one &middot; on npm</span>
+        </div>
+        <p class="lede2">The original Sorb MCP server, a subcommand of the bridge CLI. It exposes
+          the running app&rsquo;s resolved tokens and component bindings to any MCP client, and it
+          is where the <b>read tools always, write tools only when entitled</b> rule was first
+          built: in hosted mode a read-only session never even sees the write tools in the list,
+          and every call is re-checked at the gate. sorb-mcp above is this surface, ported.</p>
+        <table class="links">
+          <tr>
+            <th>Tools</th>
+            <td>
+              <p class="chips"><code>list_tokens</code><code>get_token</code><code>resolve_value</code><code>list_components</code><code>get_component_bindings</code><code>find_token_usages</code><code>find_components_by_token</code><code class="w">propose_token_change</code><code class="w">rebind_component</code><code class="w">open_pr</code></p>
+            </td>
+            <td class="n">Ten. Seven reads, three gated writes. A proposed token change previews
+              on a live bridge; <code>open_pr</code> needs GitHub credentials it never holds
+              itself.</td>
+          </tr>
+          <tr>
+            <th>Resources</th>
+            <td><span class="none">none</span></td>
+            <td class="n">Tools only. Resources and prompts were the reason for the Python port.</td>
+          </tr>
+          <tr>
+            <th>Prompts</th>
+            <td><span class="none">none</span></td>
+            <td class="n">Same.</td>
+          </tr>
+          <tr>
+            <th>Stack</th>
+            <td>Node 20 &middot; <code>@modelcontextprotocol/sdk</code> low-level <code>Server</code> &middot; one registration shared by the stdio path and the hosted HTTP/SSE path so the surface cannot drift between modes &middot; Hono for the hosted transport &middot; Postgres and Redis behind the bridge</td>
+            <td class="n">JavaScript only, JSDoc types, esbuild. The whole Sorb JS side follows the
+              same rule.</td>
+          </tr>
+          <tr>
+            <th>Where</th>
+            <td><a href="https://github.com/metatoy/sorb-juice" target="_blank" rel="noopener">metatoy/sorb-juice</a>
+              <span class="u">public &middot; npm @sorb/juice 0.3.0 &middot; run <code>sorb mcp</code></span></td>
+            <td class="n">Part of the four published packages: core, seed, leaf, juice.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj" id="ladder">
+        <div class="proj-h">
+          <h2>ladder-mcp, the Fidelity Ladder</h2>
+          <span class="badge">an agent inside the gate &middot; on PyPI</span>
+        </div>
+        <p class="lede2">The ladder is a delivery process where a request climbs from spec to
+          wireframe to preview to build to a merged pull request, and a person approves each
+          rung. This server lets an agent operate that process, <b>under the same governance</b>.
+          A tool may request an advance or file an idea; it can never admit itself, advance
+          itself, or promote to production without a named approver. Those refusals are the
+          thesis, and the code returns them rather than raising.</p>
+        <table class="links">
+          <tr>
+            <th>Tools</th>
+            <td>
+              <p class="chips"><code>ladder_wall</code><code>ladder_expedition</code><code>ladder_autonomy</code><code>ladder_lessons</code><code class="w">ladder_file_idea</code><code class="w">ladder_request_advance</code><code class="w">ladder_promote</code><code class="w">studio_trigger_brainstorm</code></p>
+            </td>
+            <td class="n">Eight. Four reads: every expedition on the wall, one expedition&rsquo;s
+              state and artifacts, the calibration readout with per-rung agreement and cost per
+              verdict, and the durable lessons from descents. Three gate-enforced writes.
+              One private studio tool that runs a brainstorm and files ideas through the standard
+              door without admitting them.</td>
+          </tr>
+          <tr>
+            <th>Resources</th>
+            <td><span class="none">none</span></td>
+            <td class="n">The reads are tools because they compute: the autonomy readout is a
+              calibration report built from the ledger, not a file.</td>
+          </tr>
+          <tr>
+            <th>Prompts</th>
+            <td><span class="none">none</span></td>
+            <td class="n"></td>
+          </tr>
+          <tr>
+            <th>Stack</th>
+            <td>Python 3.11+ &middot; FastMCP 2 as an optional extra, <code>pip install 'fidelity-ladder[mcp]'</code> &middot; pydantic 2 &middot; the ladder engine underneath: an expedition store, an anchor file that names the allowed altitudes, a calibration report, a flag store for the promote step</td>
+            <td class="n">The harness that runs the ladder for real is FastAPI and Temporal; this
+              server sits beside it and speaks only through the engine&rsquo;s own gates.</td>
+          </tr>
+          <tr>
+            <th>Where</th>
+            <td><a href="https://github.com/nhunsaker/fidelity-ladder-system" target="_blank" rel="noopener">nhunsaker/fidelity-ladder-system</a>
+              <span class="u">public &middot; PyPI fidelity-ladder 0.9.0 &middot; engine/src/fls/ladder_mcp.py</span></td>
+            <td class="n"><a href="https://harness.n8plusus.com/walkthrough/" target="_blank" rel="noopener">The walkthrough</a> shows the process the server operates.
+              <a href="https://n8plusus.com/portfolio/fidelity-ladder.html">The case study</a> has the numbers.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <section class="proj" id="kb">
+        <div class="proj-h">
+          <h2>Knowledgebase MCP</h2>
+          <span class="badge">RAG over HTTP &middot; OAuth 2.1</span>
+        </div>
+        <p class="lede2">The studio knowledge base, a corpus of specs, decisions and daily digests
+          in Postgres, exposed to agents over MCP. The interesting part is not the retrieval, it
+          is the door: <b>MCP over HTTP as an OAuth 2.1 resource server</b>, with the RFC 9728
+          discovery document, RFC 8707 resource binding, and a <code>kb.read</code> scope checked
+          on every call. Built as one FastAPI route wrapping the whole tool surface, so the auth
+          contract is testable in one place.</p>
+        <table class="links">
+          <tr>
+            <th>Tools</th>
+            <td><p class="chips"><code>kb_search</code><code>kb_get_summary</code><code>kb_get_document</code><code>kb_digest</code></p></td>
+            <td class="n">Four reads. Search the corpus, get a document&rsquo;s summary, get the
+              document, get a day&rsquo;s digest. No writes; ingestion is a separate collector
+              process, not something an agent can trigger.</td>
+          </tr>
+          <tr>
+            <th>Resources</th>
+            <td><span class="none">none</span></td>
+            <td class="n"></td>
+          </tr>
+          <tr>
+            <th>Prompts</th>
+            <td><span class="none">none</span></td>
+            <td class="n"></td>
+          </tr>
+          <tr>
+            <th>Stack</th>
+            <td>Python &middot; FastAPI and uvicorn &middot; <code>mcp</code> SDK 1.2+ for the protocol types &middot; PyJWT and cryptography for the resource-server side &middot; asyncpg on Postgres with pgvector &middot; collectors on feedparser, trafilatura and APScheduler &middot; testcontainers for the database tests</td>
+            <td class="n">Retrieval is keyword and vector fused with reciprocal rank fusion when an
+              embedding key is present, keyword only when it is not, and the score signature
+              tells you which.</td>
+          </tr>
+          <tr>
+            <th>Where</th>
+            <td>private<span class="u">knowledgebase/kb_retrieval/mcp.py</span></td>
+            <td class="n">Studio infrastructure. Shown here for the OAuth boundary, which is the
+              part that transfers.</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- ────────────────────────────────────────────────────────────────── -->
+
+      <p class="kicker">The design-system work underneath</p>
+      <ul class="rest">
+        <li><a href="https://n8plusus.com/portfolio/sorb.html">Sorb</a>
+          <span>: the Figma-to-React token bridge the first three servers read from. Edit a token in Figma, preview it live in a running app before you merge. Four packages on npm and a Figma plugin.</span></li>
+        <li><a href="https://n8plusus.com/portfolio/foundation-ui.html">Foundation UI</a>
+          <span>: the design system that held at BuzzFeed. A legacy-framework migration, a foundation on the Bootstrap base I shaped, and a component library serving 79 projects, solid enough to build on for four years.</span></li>
+        <li><a href="/demo/20260921/">The Figma flow</a>
+          <span>: a design system that compiles. Eleven components, three token tiers, six refusals, and an agent whose whole vocabulary is the pack. Storybook, the public Figma file, and the repo are all linked from there.</span></li>
+        <li><a href="https://try.sorbcloud.com/" target="_blank" rel="noopener">try.sorbcloud.com</a>
+          <span>: Sorb running, no account needed.</span></li>
+      </ul>
+
+      <p class="kicker">If there is time for one more thing</p>
+      <ul class="rest">
+        <li><a href="https://n8plusus.com/portfolio/">The rest of the work</a>
+          <span>: case studies rather than running systems.</span></li>
+        <li><a href="https://n8plusus.com/resume/resume.pdf">Resume</a>
+          <span>: two pages.</span></li>
+      </ul>
+
+    </main>
+  </div>
+</body>
+</html>
