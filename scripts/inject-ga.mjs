@@ -1,5 +1,6 @@
-// Inject the GA4 tag into every static HTML page under public/ that doesn't have it.
-// Idempotent: skips files that already carry the measurement ID, and files with no <head>.
+// Inject the analytics tags (GA4, Umami — see ga.mjs TAGS) into every static HTML page under
+// public/ that is missing one. Idempotent: adds only the tags whose ID the file doesn't already
+// carry, and skips files with no <head>.
 //
 // Run:  node scripts/inject-ga.mjs          (report only — lists what would change)
 //       node scripts/inject-ga.mjs --write  (apply)
@@ -22,7 +23,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const PUB = join(ROOT, "public");
 
-import { GA_ID, GA_SNIPPET } from "./ga.mjs";
+import { TAGS } from "./ga.mjs";
 
 // Deploy targets of artifacts sourced from another repo: byte-identical or the guard fails.
 const NO_TOUCH = [join(PUB, "portfolio", "walkthroughs", "fls")];
@@ -58,14 +59,16 @@ const skipped = [];
 for (const file of walk(PUB).sort()) {
   const html = readFileSync(file, "utf8");
   const rel = relative(ROOT, file);
-  if (html.includes(GA_ID)) continue; // already tagged
+  const missing = TAGS.filter((t) => !html.includes(t.id));
+  if (!missing.length) continue; // already tagged
   const at = insertionPoint(html);
   if (at === -1) {
     skipped.push([rel, "no <head> and no leading meta/title to anchor to"]);
     continue;
   }
   changed.push(rel);
-  if (write) writeFileSync(file, html.slice(0, at) + GA_SNIPPET + html.slice(at));
+  const snippet = missing.map((t) => t.snippet).join("");
+  if (write) writeFileSync(file, html.slice(0, at) + snippet + html.slice(at));
 }
 
 for (const rel of changed) console.log(`${write ? "tagged " : "would tag"}  ${rel}`);

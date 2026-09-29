@@ -16,7 +16,7 @@ import { createRequire } from "node:module";
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { GA_SNIPPET } from "./scripts/ga.mjs";
+import { GA_SNIPPET, UMAMI_SNIPPET } from "./scripts/ga.mjs";
 
 const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -64,7 +64,7 @@ const page = (p) => {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/portfolio/project.css?v=${V}" />
-${GA_SNIPPET}</head>
+${GA_SNIPPET}${UMAMI_SNIPPET}</head>
 <body>
   <div class="bar"><div class="inner">
     <span class="bl">
