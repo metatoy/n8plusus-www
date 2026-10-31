@@ -7,10 +7,12 @@ export const GA_SNIPPET = `<!-- Google Analytics (GA4) -->
 `;
 
 // Self-hosted Umami on the Coolify box (stats.n8plusus.com). data-domains keeps local dev
-// and preview hosts out of the numbers.
+// and preview hosts out of the numbers. data-before-send drops automated browsers
+// (navigator.webdriver), e.g. the Microsoft link scanner that renders shared links from Azure.
 export const UMAMI_ID = "1ffbf343-e2b5-41ec-be9c-f723ec2a0121";
 export const UMAMI_SNIPPET = `<!-- Umami (stats.n8plusus.com) -->
-<script defer src="https://stats.n8plusus.com/script.js" data-website-id="${UMAMI_ID}" data-domains="n8plusus.com,www.n8plusus.com"></script>
+<script>function umamiBeforeSend(t,p){return navigator.webdriver?null:p}</script>
+<script defer src="https://stats.n8plusus.com/script.js" data-website-id="${UMAMI_ID}" data-domains="n8plusus.com,www.n8plusus.com" data-before-send="umamiBeforeSend"></script>
 `;
 
 // Every tag a page should carry, keyed by the string that proves it is already there.
