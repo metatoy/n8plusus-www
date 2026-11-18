@@ -27,7 +27,7 @@ require(join(PUB, "assets", "patterns", "n8-patterns.js"));
 const _mod = require(join(PUB, "portfolio", "portfolio-templates.js"));
 const PF = _mod && _mod.projectInnerHTML ? _mod : globalThis.PF;
 
-const V = "20261117b"; // asset cache-bust; bump when css/js change
+const V = "20261117c"; // asset cache-bust; bump when css/js change
 const ORIGIN = "https://n8plusus.com"; // canonical host (non-www), consistent with the homepage
 const data = JSON.parse(readFileSync(join(PUB, "portfolio", "portfolio.json"), "utf8"));
 

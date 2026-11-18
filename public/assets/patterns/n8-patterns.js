@@ -161,26 +161,68 @@
     for (j = 0; j < rows; j++) for (i = 0; i < cols; i++) {
       var type = pickW(r, TERM_TYPES), c = pickW(r, TERM_COLS), v = Math.floor(r() * 4), x = i * s, y = j * s;
       if (type === "empty") { if (r() < 0.35) out += plus(x, y, s * 0.14, Math.max(1, sw / 3), "dim"); continue; }
-      var cc = CORNER[v], t = "";
-      switch (type) {
-        case "arc": t = ring(cc[0] * s, cc[1] * s, s, c, sw); break;
-        case "arcs": t = ring(cc[0] * s, cc[1] * s, s, c, sw) + ring(cc[0] * s, cc[1] * s, s * 0.7, c, sw) + ring(cc[0] * s, cc[1] * s, s * 0.4, c, sw); break;
-        case "eight": t = ring(s / 2, s / 2 - s * 0.17, s * 0.17, c, sw) + ring(s / 2, s / 2 + s * 0.17, s * 0.17, c, sw); break;
-        case "ring": t = ring(s / 2, s / 2, s * 0.32, c, sw) + circ(s / 2, s / 2, s * 0.06, c); break;
-        case "plus": t = plus(s / 2, s / 2, s * 0.4, sw, c); break;
-        case "diag": t = path(v % 2 ? "M0 0L" + s + " " + s : "M" + s + " 0L0 " + s, c, sw); break;
-        case "dots": for (var a = 0; a < 4; a++) for (var b = 0; b < 4; b++) t += circ(a * s / 4 + s / 8, b * s / 4 + s / 8, Math.max(0.8, s * 0.02), c); break;
-        case "u": t = path("M" + n(s * 0.25) + " " + n(s * 0.2) + "V" + n(s * 0.5) + "A" + n(s * 0.25) + " " + n(s * 0.25) + " 0 0 0 " + n(s * 0.75) + " " + n(s * 0.5) + "V" + n(s * 0.2), c, sw); break;
-        case "solid": t = rect(0, 0, s, s, "green") + plus(s / 2, s / 2, s * 0.46, s * 0.12, "ink"); break;
-        case "full": t = circ(s / 2, s / 2, s * 0.1, "green"); break;
-      }
+      var t = termMotif(type, s, c, v, sw);
       out += '<g transform="translate(' + x + " " + y + ')" clip-path="url(#' + id + 'c)">' + t + "</g>";
     }
     return svgOpen(w, h, "terminal", o.label) + "<defs>" + defs + "</defs>" + out + "</svg>";
   }
 
+  // One Terminal motif in local tile coordinates (no randomness: callers pick type/colour/variant).
+  function termMotif(type, s, c, v, sw) {
+    var cc = CORNER[v], t = "";
+    switch (type) {
+      case "arc": t = ring(cc[0] * s, cc[1] * s, s, c, sw); break;
+      case "arcs": t = ring(cc[0] * s, cc[1] * s, s, c, sw) + ring(cc[0] * s, cc[1] * s, s * 0.7, c, sw) + ring(cc[0] * s, cc[1] * s, s * 0.4, c, sw); break;
+      case "eight": t = ring(s / 2, s / 2 - s * 0.17, s * 0.17, c, sw) + ring(s / 2, s / 2 + s * 0.17, s * 0.17, c, sw); break;
+      case "ring": t = ring(s / 2, s / 2, s * 0.32, c, sw) + circ(s / 2, s / 2, s * 0.06, c); break;
+      case "plus": t = plus(s / 2, s / 2, s * 0.4, sw, c); break;
+      case "diag": t = path(v % 2 ? "M0 0L" + s + " " + s : "M" + s + " 0L0 " + s, c, sw); break;
+      case "dots": for (var a = 0; a < 4; a++) for (var b = 0; b < 4; b++) t += circ(a * s / 4 + s / 8, b * s / 4 + s / 8, Math.max(0.8, s * 0.02), c); break;
+      case "u": t = path("M" + n(s * 0.25) + " " + n(s * 0.2) + "V" + n(s * 0.5) + "A" + n(s * 0.25) + " " + n(s * 0.25) + " 0 0 0 " + n(s * 0.75) + " " + n(s * 0.5) + "V" + n(s * 0.2), c, sw); break;
+      case "solid": t = rect(0, 0, s, s, "green") + plus(s / 2, s / 2, s * 0.46, s * 0.12, "ink"); break;
+      case "full": t = circ(s / 2, s / 2, s * 0.1, "green"); break;
+    }
+    return t;
+  }
+
+  // ---------------------------------------------------------------- Field
+  // A tile field for a layout that has its own grid (the homepage hero). Tiles are a fixed size `s`
+  // on a lattice anchored at x0 (a page content edge), so they line up with the content around
+  // them. Each tile is drawn from its own seed (seed + track + column + row), so a resize only
+  // adds or removes tiles at the edges; nothing that stays on screen reshuffles.
+  //   o.w, o.h   canvas size in px (drawn 1:1, no scaling)
+  //   o.s        tile size in px          o.x0   x of column 0 (columns run negative to the left)
+  //   o.at(c, r) → "design" | "engineering" | null (null = leave the cell empty, e.g. a text block)
+  function field(o) {
+    var s = o.s, w = o.w, h = o.h, x0 = o.x0 || 0, seed = o.seed == null ? "field" : o.seed;
+    var sw = o.sw || Math.max(1.25, s * 0.045);
+    var c0 = -Math.ceil(x0 / s), c1 = Math.ceil((w - x0) / s), rows = Math.ceil(h / s);
+    var id = "n8f" + hash([seed, n(s), n(x0), w, h].join("|")).toString(36) + "-";
+    var out = "", rules = "";
+    for (var r = 0; r < rows; r++) for (var c = c0; c < c1; c++) {
+      var track = o.at(c, r);
+      if (!track) continue;
+      var x = n(x0 + c * s), y = n(r * s), rr = rng(seed + "|" + track + "|" + c + "|" + r), t;
+      if (track === "design") {
+        var bg = pickW(rr, GLYPH_PAL), fg = pickW(rr, GLYPH_PAL), k = 0;
+        while (fg === bg && k++ < 12) fg = pickW(rr, GLYPH_PAL);
+        var fg2 = pickW(rr, GLYPH_PAL); k = 0;
+        while (fg2 === fg && k++ < 12) fg2 = pickW(rr, GLYPH_PAL);
+        t = rect(0, 0, s, s, bg) + glyphTile(pickW(rr, GLYPH_TYPES), s, fg, fg2, bg, Math.floor(rr() * 4));
+      } else {
+        var type = pickW(rr, TERM_TYPES), col = pickW(rr, TERM_COLS), v = Math.floor(rr() * 4);
+        t = rect(0, 0, s, s, "ink") + (type === "empty" ? (rr() < 0.35 ? plus(0, 0, s * 0.14, Math.max(1, sw / 3), "dim") : "") : termMotif(type, s, col, v, sw));
+        rules += "M" + n(x0 + (c + 1) * s) + " " + y + "v" + n(s) + "M" + x + " " + n((r + 1) * s) + "h" + n(s);
+      }
+      out += '<g transform="translate(' + x + " " + y + ')" clip-path="url(#' + id + 'c)">' + t + "</g>";
+    }
+    if (rules) out += '<path d="' + rules + '" fill="none" stroke-width="1" class="s-green rule"/>';
+    return '<svg xmlns="http://www.w3.org/2000/svg" class="n8p n8p--field" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + " " + h +
+      '" aria-hidden="true" focusable="false"><defs><clipPath id="' + id + 'c"><rect width="' + n(s) + '" height="' + n(s) + '"/></clipPath></defs>' + out + "</svg>";
+  }
+
   // Convenience: the right pattern for a track. "design" → Glyph Tiles, anything else → Terminal.
   function forTrack(track, o) { return track === "design" ? glyph(o) : terminal(o); }
 
-  return { glyph: glyph, terminal: terminal, forTrack: forTrack, hash: hash };
+  return { glyph: glyph, terminal: terminal, field: field, forTrack: forTrack, hash: hash };
 });

@@ -155,9 +155,10 @@
   // /assets/patterns/n8-patterns.js (global N8P), seeded by slug, so each project gets its own
   // arrangement and the static build stays deterministic. Without N8P the art is simply omitted.
   const TRACKS = ["design", "engineering"];
+  // Track names are always written in full: "Design Technology" and "Software Engineering".
   const TRACK_META = {
-    design: { label: "Design", work: "Design work", sub: "Design technologist: design systems, UI engineering and UX, from tokens to the Figma-to-code bridge." },
-    engineering: { label: "Engineering", work: "Engineering work", sub: "Software engineer: agentic systems, platforms and pipelines, measured and shipped." },
+    design: { label: "Design Technology", work: "Design Technology", sub: "Design systems, UI engineering and UX, from tokens to the Figma-to-code bridge." },
+    engineering: { label: "Software Engineering", work: "Software Engineering", sub: "Agentic systems, platforms and pipelines, measured and shipped." },
   };
   const N8P = () => (typeof globalThis !== "undefined" && globalThis.N8P) || (typeof self !== "undefined" && self.N8P) || null;
   const tracksOf = (p) => {
@@ -248,7 +249,10 @@
     let html = trackNav(track);
     if (track) {
       const seen = {};
-      const ordered = selected.concat(more, (data.projects || []).filter((p) => p.status !== "placeholder")).filter((p) => (seen[p.slug] ? false : (seen[p.slug] = true)));
+      // meta.index.trackOrder[track] leads (e.g. the projects that best show the engineering side),
+      // then the curated order: selected, more, the rest.
+      const lead = pick((idx.trackOrder || {})[track]);
+      const ordered = lead.concat(selected, more, (data.projects || []).filter((p) => p.status !== "placeholder")).filter((p) => (seen[p.slug] ? false : (seen[p.slug] = true)));
       const list = ordered.filter((p) => tracksOf(p).indexOf(track) !== -1);
       return html + shelf(TRACK_META[track].work, `${TRACK_META[track].sub} · ${list.length} projects`, gridOf(list));
     }

@@ -83,6 +83,10 @@
       ]
     },
     "index": {
+      "trackOrder": {
+        "design": ["ai-enablement-design-systems", "sorb", "foundation-ui", "fidelity-ladder"],
+        "engineering": ["ai-support-triage", "image-publishing", "agentic-migration"]
+      },
       "selected": [
         "fidelity-ladder",
         "sorb",
@@ -92,6 +96,7 @@
         "ai-support-triage"
       ],
       "more": [
+        "ai-enablement-design-systems",
         "pubhub",
         "agentic-migration",
         "metatoy-studio",
@@ -431,6 +436,172 @@
             {
               "name": "Honest guardrails",
               "applied": "Held the copy to what the product actually does, never claiming an enforced merge gate when verify is a check-then-merge habit."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ai-enablement-design-systems",
+      "tracks": [
+        "design"
+      ],
+      "video": "https://youtu.be/V6waqPbh88w",
+      "era": "metatoy",
+      "featured": false,
+      "status": "in-progress",
+      "title": "AI Enablement for Design Systems",
+      "year": "2026",
+      "role": "Design technologist (contract)",
+      "client": "Enterprise design system",
+      "skills": [
+        "MCP servers",
+        "agent harnesses",
+        "evals",
+        "JSON Schema",
+        "component contracts",
+        "Angular",
+        "Storybook",
+        "Chromatic",
+        "Figma API",
+        "Kiro",
+        "Figma Code Connect",
+        "Scout"
+      ],
+      "summary": "Making an enterprise design system something coding agents can read, generate from and be measured against.",
+      "description": "Coding agents write UI that looks right and misuses the design system. I'm building the layer that fixes that: a schema and a contract per component, skills that draft contracts and generate Angular components from them, a Figma matrix that Chromatic can test, an MCP server that serves it all to agents, and the evals and guard rails that keep people in charge.",
+      "roleTypes": [
+        "solo",
+        "design-ux"
+      ],
+      "skillTags": [
+        "ai-agents",
+        "generative-ai",
+        "design-systems",
+        "frontend"
+      ],
+      "sections": [
+        {
+          "title": "The problem",
+          "body": "Coding agents produce output that **looks right and misuses the design system**: a token value that doesn't exist, a prop the component never had, the wrong component, an answer that was true a version ago.\n\nThe cause is upstream. Figma, the component code, Storybook and the docs each describe the same components separately, and people keep them in sync by hand. An agent reading prose has to guess.\n\nThis is current client work, so the client, its people and its code stay off this page. What follows is the approach."
+        },
+        {
+          "title": "How it fits together",
+          "body": "Figma stays the source of truth. Between Figma and the code sits a machine-readable layer: a **contract** for every component. Agents draft and generate; people review and approve.\n\n- **Figma → contract:** an agent skill drafts the contract from the Figma component set, its documentation and the existing code.\n- **Contract → component:** a second skill generates the Angular component, its tests and its Storybook stories from an approved contract.\n- **Contract → Code Connect:** the same contract generates Code Connect files, so Figma's developer view shows each component's real code.\n- **Contract → agents:** an MCP server that follows the contracts' rules gives coding agents in the apps that use the design system deeper knowledge of its components.\n- **Apps → Scout → people:** [Scout](https://github.com/scoutui/scout), an open-source tool I contribute to, scans those apps for adoption and component usage. That data goes to the people who decide what to improve next.\n- **Checks at every arrow:** validators compare Figma to contract and contract to code, and visual tests compare the built component to Figma.\n\nf![The general shape: agents draft and generate, people approve, evals measure every step :: Diagram. Figma feeds an agent-drafted contract; people approve it; an agent generates the Angular component, tests and Storybook stories, plus Code Connect files that link the code back to Figma; Chromatic snapshots one story per Figma cell. An MCP server that follows the contracts' rules gives coding agents in consuming apps deeper knowledge of the components. Scout scans those apps for adoption and usage, and that data feeds people, who keep improving the workflow and have the final say on correctness. A Kiro harness enforces the rules, and promptfoo evals measure the work. :: wide](/portfolio/assets/ai-enablement/system-shape.svg)"
+        },
+        {
+          "title": "Schema design",
+          "body": "The schema decides what a contract can say, so it carries most of the design work. Each contract describes one component: **props, slots, parts, states, accessibility and behavior rules, the mapping to Figma properties, coverage of every variant combination, and open questions.**\n\n- **Platform-neutral core, framework adapter alongside:** the same component can be described once and implemented in more than one framework or major version.\n- **Open questions are first-class:** each carries the assumption the work proceeds on, so nothing waits, but nothing is silently decided either.\n- **Approval lives in the contract:** one design and one engineering approver, recorded, with a draft status that an agent can never move past.\n- **A baseline mode:** the same format describes components already in production, so agents get accurate answers about today's library while the next one is designed.\n- **Evolves from evidence:** when a real case doesn't fit (a state that's designed but deliberately not built, for example), the schema changes on purpose rather than the contract bending around it."
+        },
+        {
+          "title": "Contract generation",
+          "body": "Writing contracts by hand drifts, so writing them is a pipeline: **deterministic first, a model second, a person for intent.**\n\n- **Extract:** read the Figma component set through the REST API, plus the existing code, and record what can be proven.\n- **Draft:** an agent skill drafts the contract files and lists what it couldn't determine as open questions, each with an assumption. It stops at draft.\n- **Validate:** schema validation, a Figma-to-contract check, and a coverage check that every variant combination is accounted for.\n- **Review:** one generated HTML page per batch lets reviewers answer the open questions without reading JSON, then exports their answers back into the contracts."
+        },
+        {
+          "title": "Angular and Storybook generation",
+          "body": "From an approved contract, a component skill generates the **Angular component, its unit tests and its Storybook stories** to the library's own standards for API, accessibility and testing, then checks its own output and reports.\n\nA contract-to-code validator re-reads the generated component and diffs it against the contract, which doubles as the drift check once the component exists. A small set of proving components, from a divider to a button, exercises the whole path before it's used at scale."
+        },
+        {
+          "title": "A testable Figma matrix",
+          "body": "Figma shows a component as a matrix: every combination of its variant properties. I turn that matrix into **Storybook stories, one per cell**, generated from the contract's coverage data rather than written by hand.\n\nThat makes the design testable. **Chromatic** snapshots every cell on every change, so a reviewer compares the built component to Figma cell by cell, regressions are caught as visual diffs, and a combination that's designed but never built shows up as a gap instead of a surprise."
+        },
+        {
+          "title": "The MCP server",
+          "body": "A **local, read-only MCP server** that engineers and designers add to their agent host with one `init` command. It runs over stdio: no port, no URL, nothing to put through a network security review.\n\n- **Version-correct:** it finds the project, resolves the design-system version actually installed there, and answers from that version's contracts.\n- **Tools for real questions:** list, find and get a contract; find a token, its replacement, or the token for a value; example usage and usage validation.\n- **Loud failures:** a missing library or an unknown component returns an error that says what was searched and how to fix it, never a \"close\" match.\n- **Built to ship:** structured logging on stderr, tests that spawn the real server, and an npm package with a release job."
+        },
+        {
+          "title": "The harness and its guard rails",
+          "body": "The skills run inside an agent harness in **Kiro**: specs put the work in order, steering files and skills carry the guidance, and hooks enforce the rules in code an agent can't talk its way past.\n\n- **An agent never approves.** It can't move a contract past draft or write approval fields; approval is a person's act.\n- **Secrets stay secret.** API tokens are never printed or passed on a command line.\n- **Assumptions are visible.** Work continues on stated assumptions, but they stay open until an owner answers them.\n- **Small first.** Steering that points agents at the shipped theme tokens went out to teams on day one, before the larger pieces landed."
+        },
+        {
+          "title": "Evals",
+          "body": "Without a repeatable score, nobody can tell whether a new skill, prompt or model made the agent better or just different. The eval plan (**promptfoo**, local and in CI, nothing leaves the network) runs at three levels, cheapest first:\n\n- **Tool accuracy:** call the MCP tools directly, no model. Free and deterministic, on every change.\n- **Agent + MCP:** a headless agent answers real questions, each aimed at a known failure: invented tokens, wrong props, the wrong version.\n- **Generation:** the agent writes a contract or component in a sandbox with the answers removed, scored against an answer key: build, lint, hidden tests, token use, accessibility, and a round-trip check against the contract.\n\nDeterministic graders come first. An LLM judge scores prose only, and only after it agrees with human raters."
+        },
+        {
+          "title": "Enablement",
+          "body": "Tools only help if people trust them, so enablement is half the job: getting a consuming team's engineer and designer using the server early, review pages built for designers rather than for JSON, and walkthroughs that explain agent workflows to mixed rooms. The video above, on building a harness for agents in Kiro, is the format I use: one plain idea, a picture for each step, no jargon left unexplained."
+        },
+        {
+          "title": "Where it stands",
+          "body": "In progress: the MCP server's core and the generation skills are built, a set of proving components runs end to end, and the next steps are a pilot with a consuming team and a packaged release. The evals are planned, with **no results yet**; this page will say so until there are numbers."
+        }
+      ],
+      "links": [
+        {
+          "label": "Watch: a harness for agents in Kiro",
+          "url": "https://youtu.be/V6waqPbh88w"
+        }
+      ],
+      "skillsGroups": [
+        {
+          "label": "AI / Agentic",
+          "items": [
+            {
+              "name": "MCP server",
+              "applied": "Local, read-only, version-correct server that serves contracts and token and usage answers to coding agents."
+            },
+            {
+              "name": "Agent skills",
+              "applied": "Skills that draft contracts from Figma and generate Angular components from approved contracts."
+            },
+            {
+              "name": "Harness & guard rails",
+              "applied": "Specs, steering, skills and hooks in Kiro; agents never approve, secrets never leak."
+            },
+            {
+              "name": "Evals",
+              "applied": "Three-level promptfoo plan with deterministic graders first and a calibrated judge for prose only."
+            }
+          ]
+        },
+        {
+          "label": "Design systems",
+          "items": [
+            {
+              "name": "Schema design",
+              "applied": "Contract schema with a neutral core, framework adapters, open questions, approvals and baselines."
+            },
+            {
+              "name": "Contract generation",
+              "applied": "Extract, draft, validate, review: deterministic first, a model second, a person for intent."
+            },
+            {
+              "name": "Figma matrix testing",
+              "applied": "One Storybook story per Figma variant cell, snapshotted in Chromatic."
+            },
+            {
+              "name": "Code Connect",
+              "applied": "Generated from each contract, so Figma's developer view shows the real component code."
+            },
+            {
+              "name": "Adoption measurement",
+              "applied": "Scout scans consuming apps for component usage; the data steers what people improve next."
+            }
+          ]
+        },
+        {
+          "label": "Frontend",
+          "items": [
+            {
+              "name": "Angular",
+              "applied": "Generated components, tests and stories to the library's API and accessibility standards."
+            },
+            {
+              "name": "Storybook & Chromatic",
+              "applied": "Stories generated from contract coverage; visual diffs against Figma on every change."
+            }
+          ]
+        },
+        {
+          "label": "Enablement",
+          "items": [
+            {
+              "name": "Adoption",
+              "applied": "One init command, early pilot users, steering handed out before the rest shipped."
+            },
+            {
+              "name": "Review UX",
+              "applied": "HTML review pages so designers answer open questions without reading JSON."
             }
           ]
         }
