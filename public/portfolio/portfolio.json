@@ -443,16 +443,18 @@
     },
     {
       "slug": "ai-enablement-design-systems",
+      "thumb": "/portfolio/assets/ai-enablement/ai-enablement-thumb.jpg",
       "tracks": [
         "design"
       ],
       "video": "https://youtu.be/V6waqPbh88w",
+      "videoBefore": "Enablement",
       "era": "metatoy",
       "featured": false,
       "status": "in-progress",
       "title": "AI Enablement for Design Systems",
       "year": "2026",
-      "role": "Design technologist (contract)",
+      "role": "Design technologist",
       "client": "Enterprise design system",
       "skills": [
         "MCP servers",
@@ -519,19 +521,14 @@
         },
         {
           "title": "Enablement",
-          "body": "Tools only help if people trust them, so enablement is half the job: getting a consuming team's engineer and designer using the server early, review pages built for designers rather than for JSON, and walkthroughs that explain agent workflows to mixed rooms. The video above, on building a harness for agents in Kiro, is the format I use: one plain idea, a picture for each step, no jargon left unexplained."
+          "body": "Tools only help if people trust them, so enablement is half the job: getting a consuming team's engineer and designer using the server early, review pages built for designers rather than for JSON, and walkthroughs that explain agent workflows to mixed rooms. The video above, on building a harness for agents in Kiro, is the format I use: one plain idea, a picture for each step, no jargon left unexplained.\n\n[Watch on YouTube ↗](https://youtu.be/V6waqPbh88w)"
         },
         {
-          "title": "Where it stands",
-          "body": "In progress: the MCP server's core and the generation skills are built, a set of proving components runs end to end, and the next steps are a pilot with a consuming team and a packaged release. The evals are planned, with **no results yet**; this page will say so until there are numbers."
+          "title": "Scout",
+          "body": "[Scout](https://github.com/scoutui/scout) is an **open-source adoption dashboard for design-system teams** (MIT). Its CLI scans a React, Vue or Angular repository and records every component the code uses, where, and with which props; the dashboard collects those scans across repos, so a team can see adoption at a glance, plan migrations and retirements, and watch each one through. Scans can run in CI on every merge, so the picture stays current.\n\nIn this workflow, that usage data is what tells people which components matter most and where the system is being misused, and so what to improve next.\n\n**What I added: Angular support, 13 merged pull requests.**\n\n- **Finding components in templates:** the CLI reads Angular templates and records the components they use, including components that come from installed Angular libraries.\n- **Directives:** attribute directives are counted where a template writes them, selectors that require an attribute's value match correctly, and a native HTML attribute never makes a directive the owner of an element.\n- **Real-world library shapes:** reading a library's typings next to its JavaScript, indexing libraries listed only in a shared const array, following const arrays of imports into a template's scope, and counting a component exported under two names once.\n- **Groundwork:** the scan format accepts any framework name, and the reference graph treats template dialects as one concept, so the next framework is easier to add.\n- **Kept honest:** a consumer CI job that scans ng-matero, a real Angular app on Angular Material, on every change.\n\nIn review: a filter on the component list that shows components with declared props nobody passes.\n\n[Scout on GitHub ↗](https://github.com/scoutui/scout) · [My pull requests ↗](https://github.com/scoutui/scout/pulls?q=is%3Apr+author%3Anhunsaker)"
         }
       ],
-      "links": [
-        {
-          "label": "Watch: a harness for agents in Kiro",
-          "url": "https://youtu.be/V6waqPbh88w"
-        }
-      ],
+      "links": [],
       "skillsGroups": [
         {
           "label": "AI / Agentic",

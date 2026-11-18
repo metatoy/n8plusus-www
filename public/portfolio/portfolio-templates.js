@@ -291,8 +291,11 @@
       : "";
     const secArr = (p.sections || []).map(renderSection);
     if (wtHtml) {
+      // `videoBefore: "<section title>"` places the player directly above that section;
+      // otherwise it goes right after "What I built" (or first, if there is none).
+      const bi = p.videoBefore ? (p.sections || []).findIndex((s) => (s.title || "").toLowerCase() === String(p.videoBefore).toLowerCase()) : -1;
       const wi = (p.sections || []).findIndex((s) => /what i built/i.test(s.title || ""));
-      secArr.splice((wi >= 0 ? wi : -1) + 1, 0, wtHtml);
+      secArr.splice(bi >= 0 ? bi : (wi >= 0 ? wi : -1) + 1, 0, wtHtml);
     }
     const sections = secArr.join("");
     const body = p.body ? `<div class="body">${md(p.body)}</div>` : "";
