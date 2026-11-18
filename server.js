@@ -38,6 +38,16 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 app.get('/health', (_req, res) => res.status(200).send('ok'));
 
+// Short resume links: /design and /engineering open the portfolio filtered to that track.
+// 302 (not 301) so the target can change later without browsers caching the old one.
+for (const track of ['design', 'engineering']) {
+  app.get([`/${track}`, `/${track}/`], (req, res) => {
+    const extra = new URLSearchParams(req.query);
+    extra.set('track', track);
+    res.redirect(302, `/portfolio/?${extra.toString()}`);
+  });
+}
+
 // Minted by the page's JS when the visitor first touches the form; required by POST /api/contact.
 // A client that doesn't run JS (every spam POST we've logged) can't get one.
 app.get('/api/contact-token', (req, res) => {
