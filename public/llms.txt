@@ -5,7 +5,6 @@
 ## Key pages
 - [Home](https://n8plusus.com/): who Nathan is and what N8+US does.
 - [Portfolio](https://n8plusus.com/portfolio/): selected work, one page per project.
-- [Résumé (PDF)](https://n8plusus.com/resume/resume.pdf): full professional history.
 
 ## Selected work
 - [Sorb](https://n8plusus.com/portfolio/sorb.html): a Figma-to-React design-token bridge.

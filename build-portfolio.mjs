@@ -21,10 +21,13 @@ import { GA_SNIPPET, UMAMI_SNIPPET } from "./scripts/ga.mjs";
 const require = createRequire(import.meta.url);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PUB = join(__dirname, "public");
+// Track patterns (Glyph Tiles / Terminal). Loaded first: it sets globalThis.N8P, which the
+// templates use to bake each project's band into its page as static SVG.
+require(join(PUB, "assets", "patterns", "n8-patterns.js"));
 const _mod = require(join(PUB, "portfolio", "portfolio-templates.js"));
 const PF = _mod && _mod.projectInnerHTML ? _mod : globalThis.PF;
 
-const V = "20260915a"; // asset cache-bust; bump when css/js change
+const V = "20261117b"; // asset cache-bust; bump when css/js change
 const ORIGIN = "https://n8plusus.com"; // canonical host (non-www), consistent with the homepage
 const data = JSON.parse(readFileSync(join(PUB, "portfolio", "portfolio.json"), "utf8"));
 
@@ -64,6 +67,7 @@ const page = (p) => {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/portfolio/project.css?v=${V}" />
+<link rel="stylesheet" href="/assets/patterns/n8-patterns.css?v=${V}" />
 ${GA_SNIPPET}${UMAMI_SNIPPET}</head>
 <body>
   <div class="bar"><div class="inner">
@@ -73,9 +77,9 @@ ${GA_SNIPPET}${UMAMI_SNIPPET}</head>
     </span>
     <span class="hlinks">
       <a class="hlink" href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#linkedin-logo"></use></svg>LinkedIn</a>
-      <a class="hlink solid" href="/resume/resume.pdf" download><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#file-arrow-down"></use></svg>Résumé (PDF)</a>
     </span>
   </div></div>
+  ${PF.trackBand(p)}
   <div class="wrap">
     <main id="project">${PF.projectInnerHTML(p)}</main>
     <footer>

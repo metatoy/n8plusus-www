@@ -147,15 +147,70 @@
     return `<div class="subsec"><h2>${esc(sec.title)}</h2>${md(sec.body)}</div>`;
   }
 
+  // ---- tracks ----
+  // The site has two tracks: "design" (design technologist: design systems, UI, UX) and
+  // "engineering" (software engineer: agents, platforms, pipelines). `tracks` in portfolio.json
+  // lists one or both; a project tagged with both appears on both track pages, and its band and
+  // card strip are half Glyph Tiles, half Terminal. The art comes from
+  // /assets/patterns/n8-patterns.js (global N8P), seeded by slug, so each project gets its own
+  // arrangement and the static build stays deterministic. Without N8P the art is simply omitted.
+  const TRACKS = ["design", "engineering"];
+  const TRACK_META = {
+    design: { label: "Design", work: "Design work", sub: "Design technologist: design systems, UI engineering and UX, from tokens to the Figma-to-code bridge." },
+    engineering: { label: "Engineering", work: "Engineering work", sub: "Software engineer: agentic systems, platforms and pipelines, measured and shipped." },
+  };
+  const N8P = () => (typeof globalThis !== "undefined" && globalThis.N8P) || (typeof self !== "undefined" && self.N8P) || null;
+  const tracksOf = (p) => {
+    const raw = !p ? [] : Array.isArray(p.tracks) ? p.tracks : p.track ? [p.track] : [];
+    const t = TRACKS.filter((x) => raw.indexOf(x) !== -1);
+    return t.length ? t : ["engineering"];
+  };
+  const isTrack = (t) => TRACKS.indexOf(t) !== -1;
+
+  // One <span> per track, side by side; each half gets its own seed so the two halves differ.
+  function trackArt(p, o) {
+    const P = N8P();
+    if (!P) return "";
+    const ts = tracksOf(p);
+    const half = ts.length > 1;
+    return ts
+      .map((t) => {
+        const opts = Object.assign({}, o, { seed: half ? p.slug + ":" + t : p.slug, label: t }, half ? { cols: Math.ceil(o.cols / 2) } : {});
+        return `<span class="track-half track-half--${t}">${P.forTrack(t, opts)}</span>`;
+      })
+      .join("");
+  }
+
+  function trackBand(p) {
+    const art = trackArt(p, { s: 80, cols: 18, rows: 2 });
+    return art ? `<div class="track-band track-band--${tracksOf(p).join("-")}" aria-hidden="true">${art}</div>` : "";
+  }
+
+  function cardStrip(p) {
+    const art = trackArt(p, { s: 24, cols: 16, rows: 1, sw: 1.4 });
+    return art ? `<span class="card-track" aria-hidden="true">${art}</span>` : "";
+  }
+
+  function trackLine(p) {
+    const ts = tracksOf(p);
+    return `<p class="mono track-line">${ts.map((t) => `<a class="tl tl--${t}" href="/portfolio/?track=${t}">${TRACK_META[t].label}</a>`).join("")}</p>`;
+  }
+
+  function trackNav(active) {
+    const item = (href, label, on) => `<a class="pill${on ? " active" : ""}" href="${href}"${on ? ' aria-current="page"' : ""}>${label}</a>`;
+    return `<nav class="tracknav" aria-label="Filter work by track">${item("/portfolio/", "All work", !isTrack(active))}${TRACKS.map((t) => item(`/portfolio/?track=${t}`, TRACK_META[t].label, active === t)).join("")}</nav>`;
+  }
+
   // ---- index cards + shelves ----
   function cardHTML(p) {
     const skills = (p.skills || []).slice(0, 6).map((s) => `<span class="chip">${esc(s)}</span>`).join("");
     const more = (p.skills || []).length > 6 ? `<span class="chip more">+${p.skills.length - 6}</span>` : "";
     const ph = p.status === "placeholder" ? '<span class="soon">archive coming</span>' : "";
+    const strip = cardStrip(p);
     const thumb = p.thumb
-      ? `<div class="card-thumb"><img loading="lazy" src="${esc(p.thumb)}" alt="${esc(p.title)}" /></div>`
-      : `<div class="card-thumb card-thumb--none"><span class="mono">${esc(p.client)}</span></div>`;
-    return `<a class="card" href="${projectUrl(p.slug)}">
+      ? `<div class="card-thumb"><img loading="lazy" src="${esc(p.thumb)}" alt="${esc(p.title)}" />${strip}</div>`
+      : `<div class="card-thumb card-thumb--none"><span class="mono">${esc(p.client)}</span>${strip}</div>`;
+    return `<a class="card ${tracksOf(p).map((t) => "card--" + t).join(" ")}" href="${projectUrl(p.slug)}">
       ${thumb}
       <div class="card-body">
         <div class="card-top"><span class="yr mono">${esc(p.year)}</span>${ph}</div>
@@ -167,7 +222,10 @@
     </a>`;
   }
 
-  function indexInnerHTML(data) {
+  // opts.track = "design" | "engineering" renders that track's page: every project tagged with it
+  // (curated order first: selected, then more, then the rest that aren't placeholders).
+  function indexInnerHTML(data, opts) {
+    const track = opts && isTrack(opts.track) ? opts.track : null;
     const gridOf = (arr) => `<div class="grid">${arr.map(cardHTML).join("")}</div>`;
     const shelf = (title, sub, inner) =>
       `<section class="shelf"><div class="shelf-h"><h2>${esc(title)}</h2>${sub ? `<span class="shelf-sub">${esc(sub)}</span>` : ""}</div>${inner}</section>`;
@@ -187,7 +245,13 @@
           })
           .join("")}</div>`
       : "";
-    let html = "";
+    let html = trackNav(track);
+    if (track) {
+      const seen = {};
+      const ordered = selected.concat(more, (data.projects || []).filter((p) => p.status !== "placeholder")).filter((p) => (seen[p.slug] ? false : (seen[p.slug] = true)));
+      const list = ordered.filter((p) => tracksOf(p).indexOf(track) !== -1);
+      return html + shelf(TRACK_META[track].work, `${TRACK_META[track].sub} · ${list.length} projects`, gridOf(list));
+    }
     if (selected.length) html += shelf("Selected work", "", gridOf(selected));
     if (prod.length) html += shelf("In production", "Live and verifiable — go poke at it", prodStrip);
     if (more.length) html += shelf("More", "", gridOf(more));
@@ -248,6 +312,7 @@
       : "";
     return `
       <header class="phead">
+        ${trackLine(p)}
         <p class="mono meta-line">${esc(p.year)} · ${esc(p.client)} · ${esc(p.role)}</p>
         <h1>${esc(p.title)}</h1>
         <p class="lede">${esc(p.description || p.summary)}</p>
@@ -257,5 +322,5 @@
       ${sections}${body}${gallery}${skillsSec}`;
   }
 
-  return { esc, fmt, md, mediaBlock, renderSection, cardHTML, indexInnerHTML, projectMeta, projectInnerHTML, projectUrl };
+  return { esc, fmt, md, mediaBlock, renderSection, cardHTML, indexInnerHTML, projectMeta, projectInnerHTML, projectUrl, trackBand, tracksOf, trackNav, TRACK_META };
 });

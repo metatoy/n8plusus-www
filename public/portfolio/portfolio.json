@@ -153,6 +153,7 @@
   "projects": [
     {
       "slug": "fidelity-ladder",
+      "tracks": ["design", "engineering"],
       "walkthrough": "/portfolio/walkthroughs/fls/index.html?embed",
       "era": "metatoy",
       "featured": true,
@@ -231,6 +232,7 @@
     },
     {
       "slug": "sorb",
+      "tracks": ["design", "engineering"],
       "walkthrough": "/portfolio/walkthroughs/sorb.html",
       "thumb": "/portfolio/assets/sorb/sorb-thumb.png",
       "era": "metatoy",
@@ -436,6 +438,7 @@
     },
     {
       "slug": "foundation-ui",
+      "tracks": ["design"],
       "thumb": "/portfolio/assets/foundation-ui/foundation-ui-thumb.png",
       "era": "buzzfeed",
       "featured": true,
@@ -491,6 +494,7 @@
     },
     {
       "slug": "ai-support-triage",
+      "tracks": ["engineering"],
       "walkthrough": "/portfolio/walkthroughs/ai-triage.html",
       "thumb": "/portfolio/assets/ai-triage/triage-thumb-slack.jpg",
       "era": "buzzfeed",
@@ -626,6 +630,7 @@
     },
     {
       "slug": "callout",
+      "tracks": ["design", "engineering"],
       "walkthrough": "/portfolio/walkthroughs/callout.html",
       "thumb": "/portfolio/assets/callout/callout-live-thumb.png",
       "era": "buzzfeed",
@@ -792,6 +797,7 @@
     },
     {
       "slug": "pubhub",
+      "tracks": ["design", "engineering"],
       "thumb": "/portfolio/assets/pubhub/pubhub-thumb.jpg",
       "era": "buzzfeed",
       "featured": true,
@@ -896,6 +902,7 @@
     },
     {
       "slug": "image-publishing",
+      "tracks": ["design", "engineering"],
       "thumb": "/portfolio/assets/image-publishing/card-thumb.png",
       "era": "buzzfeed",
       "featured": false,
@@ -987,6 +994,7 @@
     },
     {
       "slug": "agentic-migration",
+      "tracks": ["engineering"],
       "walkthrough": "/portfolio/walkthroughs/migration.html",
       "thumb": "/portfolio/assets/agentic-migration/migration-thumb.jpg",
       "era": "buzzfeed",
@@ -1149,6 +1157,7 @@
     },
     {
       "slug": "metatoy-studio",
+      "tracks": ["engineering"],
       "walkthrough": "/portfolio/walkthroughs/studio.html",
       "thumb": "/portfolio/assets/metatoy-studio/studio-thumb.jpg",
       "era": "metatoy",
@@ -1356,6 +1365,7 @@
     },
     {
       "slug": "woords",
+      "tracks": ["design"],
       "thumb": "/portfolio/assets/woords/card-thumb-phone.png",
       "era": "metatoy",
       "featured": true,
@@ -1462,6 +1472,7 @@
     },
     {
       "slug": "tattletown",
+      "tracks": ["engineering"],
       "thumb": "/portfolio/assets/tattletown/card-thumb-phone.png",
       "era": "metatoy",
       "featured": false,
@@ -1554,6 +1565,7 @@
     },
     {
       "slug": "agosto",
+      "tracks": ["engineering"],
       "era": "agency",
       "featured": false,
       "status": "placeholder",
@@ -1578,6 +1590,7 @@
     },
     {
       "slug": "best-buy",
+      "tracks": ["engineering"],
       "era": "agency",
       "featured": false,
       "status": "placeholder",
@@ -1604,6 +1617,7 @@
     },
     {
       "slug": "bswing",
+      "tracks": ["engineering"],
       "era": "agency",
       "featured": false,
       "status": "placeholder",
@@ -1628,6 +1642,7 @@
     },
     {
       "slug": "schematic-target-nav",
+      "tracks": ["design"],
       "era": "agency",
       "featured": false,
       "status": "placeholder",
@@ -1654,6 +1669,7 @@
     },
     {
       "slug": "olson-bauer-stick-id",
+      "tracks": ["design"],
       "era": "agency",
       "featured": false,
       "status": "placeholder",

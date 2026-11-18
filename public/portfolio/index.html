@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/patterns/n8-patterns.css?v=20261117a" />
 <style>
   :root{
     --ink:#231f20; --paper:#f1efe8; --card:#ffffff;
@@ -80,6 +81,15 @@
   .card:hover{border-color:var(--green-ink);transform:translateY(-2px);box-shadow:0 6px 18px rgba(35,31,32,.08)}
   .card-thumb{aspect-ratio:16/9;background:#f4f2ea;border-bottom:1px solid var(--line);overflow:hidden}
   .card-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease}
+  /* track strip: Glyph Tiles (design) / Terminal (engineering) along the thumbnail's bottom edge */
+  .card-thumb{position:relative}
+  .card-track{position:absolute;left:0;right:0;bottom:0;height:24px;display:block;pointer-events:none}
+  .card-track{display:flex}
+  .card-track .track-half{flex:1;min-width:0;display:block;height:100%}
+  .card-track svg{display:block;width:100%;height:100%}
+  /* track pages: All work · Design · Engineering (a project tagged with both is on both) */
+  .tracknav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px}
+  .tracknav .pill{text-decoration:none}
   .card:hover .card-thumb img{transform:scale(1.03)}
   .card-thumb--none{display:flex;align-items:center;justify-content:center;background:var(--ink)}
   .card-thumb--none span{color:var(--green);font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
@@ -112,7 +122,6 @@
         <span class="brand"><a class="wordmark" href="/" aria-label="Home">N8+US:</a> <span class="ident"><b>Nathan Hunsaker O'Brien:</b> Design Engineer · AI-Native / Agentic Systems</span></span>
         <span class="hlinks">
           <a class="hlink" href="https://linkedin.com/in/nathanhunsaker" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#linkedin-logo"></use></svg>LinkedIn</a>
-          <a class="hlink solid" href="/resume/resume.pdf" download><svg class="ico" aria-hidden="true"><use href="/portfolio/icons.svg#file-arrow-down"></use></svg>Résumé (PDF)</a>
         </span>
       </div>
     </div>
@@ -121,8 +130,9 @@
     <div id="portfolio"></div>
     <footer><a href="https://n8plusus.com">n8plusus.com</a></footer>
   </main>
-  <script src="/portfolio/portfolio-templates.js?v=20260810b"></script>
-  <script src="/portfolio/portfolio-render.js?v=20260810b"></script>
+  <script src="/assets/patterns/n8-patterns.js?v=20261117a"></script>
+  <script src="/portfolio/portfolio-templates.js?v=20261117b"></script>
+  <script src="/portfolio/portfolio-render.js?v=20261117b"></script>
   <script>renderIndex("portfolio");</script>
 </body>
 </html>

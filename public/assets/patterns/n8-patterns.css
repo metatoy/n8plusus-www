@@ -1,0 +1,18 @@
+/* n8+us geometric patterns: colour classes for the SVG from n8-patterns.js.
+   Values are the site tokens (public/index.html :root); kept as pattern-scoped custom
+   properties so a page can retune one band without touching the art. */
+.n8p{
+  --n8p-ink:#231f20; --n8p-green:#8dc63f; --n8p-dim:#5f8a2a;
+  --n8p-paper:#f1efe8; --n8p-card:#e8e2d2; --n8p-gray:#333132;
+  display:block;width:100%;height:100%;
+}
+/* Dark theme: Glyph Tiles turns into its "Night" variant: the paper and card grounds go dark,
+   green carries the shapes. Terminal is ink in both themes. */
+[data-theme="dark"] .n8p--glyph{--n8p-paper:#1a1718;--n8p-card:#333132;}
+.n8p .f-ink{fill:var(--n8p-ink)}   .n8p .s-ink{stroke:var(--n8p-ink)}
+.n8p .f-green{fill:var(--n8p-green)} .n8p .s-green{stroke:var(--n8p-green)}
+.n8p .f-dim{fill:var(--n8p-dim)}   .n8p .s-dim{stroke:var(--n8p-dim)}
+.n8p .f-paper{fill:var(--n8p-paper)} .n8p .s-paper{stroke:var(--n8p-paper)}
+.n8p .f-card{fill:var(--n8p-card)} .n8p .s-card{stroke:var(--n8p-card)}
+.n8p .f-gray{fill:var(--n8p-gray)} .n8p .s-gray{stroke:var(--n8p-gray)}
+.n8p .rule{stroke-opacity:.12}

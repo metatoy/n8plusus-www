@@ -122,9 +122,13 @@
   };
 
   // client-render the curated index
+  // /portfolio/?track=design | engineering renders that track's page (see indexInnerHTML).
   window.renderIndex = async function (mountId) {
     const data = await load();
-    document.getElementById(mountId).innerHTML = PF.indexInnerHTML(data);
+    const track = new URLSearchParams(location.search).get("track");
+    const meta = PF.TRACK_META && PF.TRACK_META[track];
+    if (meta) document.title = `${meta.work} — Nathan O'Brien`;
+    document.getElementById(mountId).innerHTML = PF.indexInnerHTML(data, { track: meta ? track : null });
   };
 
   // legacy client-render of a project by ?slug= (kept for safety; project.html now redirects)

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Scout">
+  <!-- Scout's compass-needle mark (scoutui/scout, apps/web-app/src/app/icon.svg, MIT) on a dark tile -->
+  <rect width="32" height="32" rx="8" fill="#18191c"/>
+  <g transform="translate(2 2) scale(1.75)">
+    <path d="M8 1.4 L10 8 L8 8 L6 8 Z" fill="#f2f3f7"/>
+    <path d="M8 14.6 L6 8 L8 8 L10 8 Z" fill="none" stroke="#f2f3f7" stroke-width="0.9" stroke-linejoin="round"/>
+  </g>
+</svg>
