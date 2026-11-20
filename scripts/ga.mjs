@@ -11,7 +11,7 @@ export const GA_SNIPPET = `<!-- Google Analytics (GA4) -->
 // automated and impossible browsers and holds each pageview until the visitor interacts.
 export const UMAMI_ID = "1ffbf343-e2b5-41ec-be9c-f723ec2a0121";
 export const UMAMI_SNIPPET = `<!-- Umami (stats.n8plusus.com) -->
-<script src="/assets/umami-guard.js?v=20261119"></script>
+<script src="/assets/umami-guard.js?v=20261120"></script>
 <script defer src="https://stats.n8plusus.com/script.js" data-website-id="${UMAMI_ID}" data-domains="n8plusus.com,www.n8plusus.com" data-before-send="umamiBeforeSend"></script>
 `;
 
